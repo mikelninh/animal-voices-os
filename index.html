@@ -2,30 +2,28 @@
 <html lang="de">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#fafbf8">
-  <meta name="referrer" content="no-referrer">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="apple-touch-icon" href="./characters/kiki.webp">
+  <meta name="theme-color" content="#fafbf8"><meta name="referrer" content="no-referrer">
+  <meta name="application-name" content="Animal Voices">
+  <meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icons/icon-192.png">
   <meta name="description" content="Animal Voices – Antworten mit Herz, Fakten mit Quellen. Für Tiere. Mit Menschen.">
   <meta property="og:title" content="Animal Voices · Gute Gespräche beginnen hier">
   <meta property="og:description" content="Kommentare verstehen, Quellen prüfen, empathisch antworten. Für Tiere. Mit Menschen.">
-  <title>Animal Voices v0.8 · Dein Instagram-Begleiter</title>
+  <title>Animal Voices · Fakten mit Herz</title>
   <link rel="stylesheet" href="./styles.css">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='15' fill='%231d4937'/%3E%3Ctext x='24' y='34' text-anchor='middle' font-size='28' fill='%23fff'%3E%E2%99%A5%3C/text%3E%3C/svg%3E">
 </head>
 <body>
 <div class="site-shell">
   <header class="site-header">
-    <a class="brand" href="#dialog" data-go="dialog" aria-label="Animal Voices Startseite"><span class="brand-icon">✳</span><span>animal voices<span class="beta">BETA 0.8</span></span></a>
+    <a class="brand" href="#dialog" data-go="dialog" aria-label="Animal Voices Startseite"><span class="brand-icon">✳</span><span>animal voices<span class="beta">BETA 0.9</span></span></a>
     <nav aria-label="Hauptnavigation" class="primary-nav">
       <button data-route="dialog" aria-current="page">Dialog</button>
       <button data-route="library">Wissen</button>
       <button data-route="content">Content</button>
       <button data-route="impact">Wirkung</button>
     </nav>
-    <div class="nav-helper"><button type="button" class="install-button" id="install" hidden>↧ App installieren</button><span class="nav-ethos"><span class="little-heart">♥</span> For animals. With humans.</span></div>
+    <span class="nav-ethos"><span class="little-heart">♥</span> For animals. With humans.</span>
   </header>
 
   <main id="main">
@@ -43,62 +41,60 @@
       </div>
 
       <div class="journey" aria-label="Der Ablauf in drei Schritten">
-        <div class="journey-item" id="journey-one"><span class="journey-number">1</span><span>Kommentar erfassen</span></div>
+        <div class="journey-item" id="journey-one"><span class="journey-number">1</span><span>Kommentar verstehen</span></div>
         <span class="journey-arrow" aria-hidden="true">→</span>
-        <div class="journey-item" id="journey-two"><span class="journey-number">2</span><span>Handlung wählen</span></div>
+        <div class="journey-item" id="journey-two"><span class="journey-number">2</span><span>Fakten & Antwort</span></div>
         <span class="journey-arrow" aria-hidden="true">→</span>
-        <div class="journey-item" id="journey-three"><span class="journey-number">3</span><span>Prüfen & antworten</span></div>
+        <div class="journey-item" id="journey-three"><span class="journey-number">3</span><span>Prüfen & verwenden</span></div>
       </div>
 
+      <section class="share-status" id="share-banner" hidden aria-live="polite"><div><strong>📲 Aus Instagram oder einer anderen App geteilt</strong><p id="share-message">Wir haben den geteilten Inhalt vorbereitet.</p></div><button class="button button-plain" id="dismiss-share" aria-label="Hinweis schliessen">×</button></section>
+      <section class="companion-helper"><div><span class="helper-icon">↗</span><div><strong>Direkt aus Instagram starten</strong><p>Auf Android als App installieren und beim Teilen „Animal Voices“ wählen. Sonst Kommentar einfach hier einfügen.</p></div></div><button id="install-info" class="button button-secondary" type="button">So geht’s</button></section>
       <section class="composer" aria-labelledby="question-heading">
         <div class="composer-top"><div><span class="section-kicker">DEIN STARTPUNKT</span><h2 id="question-heading">Was wurde gesagt?</h2></div><span class="step-tag">Schritt 1 von 3</span></div>
-        <div class="pwa-share-banner" id="share-banner" hidden aria-live="polite">
-          <span class="share-symbol" aria-hidden="true">↗</span>
-          <div><strong>Aus dem Teilen-Menü übernommen</strong><p id="share-message">Bitte bestätige zuerst, was wirklich der Kommentar ist.</p><div id="share-preview" class="share-preview" hidden></div>
-          <button type="button" id="use-shared-text" class="text-action" hidden>Text als Kommentar übernehmen ↗</button></div>
-        </div>
-        <label class="form-label" for="comment">Kommentar oder Frage <span class="hint">Ohne Namen und Nutzernamen</span></label>
-        <textarea id="comment" rows="4" maxlength="1800" placeholder="Füge den genauen Kommentar ein …&#10;Zum Beispiel: „Vegane Männer sind doch schwach.“"></textarea>
-        <div class="quick-input"><button id="paste-clipboard" type="button" class="button button-paste">▣ Aus Zwischenablage einfügen</button><span>Oder über „Teilen“ auf Android direkt hier öffnen.</span></div>
-        <div class="source-field"><label class="form-label" for="source-url">Beitragslink <span class="hint">Optional · Kein Kommentarabruf</span></label><input id="source-url" type="url" inputmode="url" autocomplete="off" placeholder="https://www.instagram.com/p/…" maxlength="600"><p>Ein Beitragslink enthält den Kommentar nicht automatisch. Wir lesen keine fremden Kommentare aus.</p></div>
-        <div class="composer-foot"><div class="example-tray"><span class="example-label">Zum Ausprobieren</span><div id="sample-chips" class="example-chips"></div></div><button id="analyze" class="button button-primary">Was ist sinnvoll? <span aria-hidden="true">↗</span></button></div>
-        <div class="safety-line"><span aria-hidden="true">◎</span> Die Analyse erfolgt im Browser. Bei Android-GET-Freigaben durchläuft der geteilte Text zuvor die URL: bitte keine sensiblen Daten teilen.</div>
-        <details class="pwa-instructions"><summary>So funktioniert das Teilen von Instagram</summary><p>Auf unterstützten Android-Browsern: App installieren → in Instagram „Teilen“ → Animal Voices auswählen. Instagram gibt häufig nur den Beitragslink weiter. Dann den eigentlichen Kommentar separat kopieren und hier einfügen. Auf iPhone/Desktop funktioniert Kopieren & Einfügen.</p></details>
-      </section>
-
-      <section class="triage-panel" id="triage-panel" hidden aria-labelledby="triage-heading">
-        <div class="triage-header"><div><span class="section-kicker">SCHRITT 2 · DER KLÜGERE WEG</span><h2 id="triage-heading">Was lohnt sich hier?</h2></div><span class="triage-confidence" id="triage-confidence">Orientierung, kein Urteil</span></div>
-        <div class="triage-recommendation"><div class="recommendation-icon" id="recommendation-icon">💬</div><div><span class="recommendation-label">UNSERE EMPFEHLUNG</span><strong id="triage-recommendation">Sachlich antworten</strong><p id="triage-reason"></p></div></div>
-        <div class="action-choices" role="group" aria-label="Mögliche nächste Handlungen">
-          <button type="button" data-action="reply" class="action-choice"><span class="action-emoji">💬</span><span><strong>Antworten</strong><small>Mit Quellen</small></span></button>
-          <button type="button" data-action="report" class="action-choice"><span class="action-emoji">🚩</span><span><strong>Melden</strong><small>Bei Regelverstoß</small></span></button>
-          <button type="button" data-action="ignore" class="action-choice"><span class="action-emoji">🌿</span><span><strong>Ignorieren</strong><small>Keine Energie verlieren</small></span></button>
-          <button type="button" data-action="save" class="action-choice"><span class="action-emoji">✧</span><span><strong>Merken</strong><small>Für einen Post</small></span></button>
-        </div>
-        <div id="action-outcome" class="action-outcome" hidden aria-live="polite"></div>
+        <div class="form-label">1 · Kommentartext <span class="hint">Keine Nutzernamen / persönlichen Daten</span></div>
+        <label class="sr-only" for="comment">Kommentar oder Frage</label>
+        <textarea id="comment" rows="4" maxlength="1800" placeholder="Füge hier einen Kommentar oder eine Frage ein …&#10;Zum Beispiel: „Vegane Männer sind doch schwach.“"></textarea>
+        <div class="source-input"><label for="post-url">Beitragslink (optional, nur Instagram)</label><input id="post-url" type="url" inputmode="url" autocomplete="off" placeholder="https://www.instagram.com/p/…"><span class="hint">Ein Link enthält nicht automatisch den Kommentartext. Wir lesen keine fremden Accounts aus.</span></div>
+        <div class="context-clarifier"><label for="context-type">Kontext <span class="muted-inline">· optional, aber wichtig</span></label><select id="context-type" aria-describedby="context-hint"><option value="auto">Animal Voices schlägt eine Einordnung vor</option><option value="question">Das ist eine ehrliche Frage</option><option value="claim">Diese Person behauptet das selbst</option><option value="quote">Das ist nur ein Zitat / eine Widerlegung</option><option value="irony">Ironie oder Sarkasmus</option></select><small id="context-hint">Du kennst die Diskussion am besten. Unsere Einschätzung kann falsch sein.</small></div>
+        <div class="composer-foot"><div class="example-tray"><span class="example-label">Zum Ausprobieren</span><div id="sample-chips" class="example-chips"></div></div><button id="analyze" class="button button-primary">Handlung wählen <span aria-hidden="true">↗</span></button></div>
+        <div class="safety-line"><span aria-hidden="true">◎</span> Persönliche Daten entfernen. Manuell eingefügter Text bleibt in diesem Browser. Bei installiertem Android-Share-Target bleibt der geteilte Text im Gerätespeicher. Keine Screenshots, Profile oder privaten Nachrichten teilen.</div>
       </section>
 
       <div id="result-area" hidden>
+        <section class="result-card triage-result" id="triage-card" aria-labelledby="triage-title">
+          <div class="card-head"><div><span class="section-kicker">SCHRITT 2 · ENTSCHEIDUNG</span><h2 id="triage-title">Was hilft jetzt wirklich?</h2></div><span id="triage-status" class="status-pill">Einschätzung</span></div>
+          <p class="tiny-intro" id="triage-reason"></p>
+          <div class="analysis-basis" id="analysis-basis" aria-live="polite"></div>
+          <div class="action-grid" id="action-grid" role="group" aria-label="Deine nächste Handlung">
+            <button class="action-choice" type="button" data-action="reply" aria-pressed="false"><span class="action-emoji">💬</span><strong>Antworten</strong><small>Fakten & Mitgefühl</small></button>
+            <button class="action-choice" type="button" data-action="report" aria-pressed="false"><span class="action-emoji">🚩</span><strong>Melden</strong><small>Bei möglichem Verstoss</small></button>
+            <button class="action-choice" type="button" data-action="ignore" aria-pressed="false"><span class="action-emoji">🌿</span><strong>Ignorieren</strong><small>Ragebait keine Bühne geben</small></button>
+            <button class="action-choice" type="button" data-action="save" aria-pressed="false"><span class="action-emoji">✦</span><strong>Als Idee merken</strong><small>Später Content machen</small></button>
+          </div>
+          <div id="action-feedback" class="action-feedback" role="status" aria-live="polite"></div>
+        </section>
         <section class="result-card" id="evidence-card" aria-labelledby="evidence-title">
-          <div class="card-head"><div><span class="section-kicker">SCHRITT 2 · WISSEN</span><h2 id="evidence-title">Was sagen die Belege?</h2></div><span id="analysis-status" class="status-pill">Quellen prüfen</span></div>
+          <div class="card-head"><div><span class="section-kicker">WISSEN · NUR BEI ANTWORT</span><h2 id="evidence-title">Was sagen die Belege?</h2></div><span id="analysis-status" class="status-pill">Quellen prüfen</span></div>
           <div id="evidence-body" aria-live="polite"></div>
         </section>
         <section class="result-card" id="reply-card" aria-labelledby="reply-title" hidden>
           <div class="card-head"><div><span class="section-kicker">SCHRITT 3 · DIALOG</span><h2 id="reply-title">So könnten wir antworten.</h2></div><span class="friendly-label">Mit Liebe, nicht mit Lautstärke. ♡</span></div>
-          <p class="tiny-intro">Wähle die passende Stimme. Der Faktenkern bleibt gleich, der Ton verändert sich.</p>
+          <p class="tiny-intro">Wähle Ton und Länge. Die Quellen und die Einschränkungen bleiben dieselben.</p>
+          <div class="length-toggle" role="group" aria-label="Länge der Antwort"><button id="reply-short" type="button" aria-pressed="true">Kurz · Instagram</button><button id="reply-long" type="button" aria-pressed="false">Ausführlich</button></div>
           <div class="persona-picker" role="group" aria-label="Tierfigur als Sprecher wählen">
             <button class="persona-option" data-persona="momo" aria-pressed="true"><img src="./characters/momo.webp" alt="" width="44" height="44"><span><strong>Momo</strong><small>Wissenschaft</small></span></button>
             <button class="persona-option" data-persona="kiki" aria-pressed="false"><img src="./characters/kiki.webp" alt="" width="44" height="44"><span><strong>Kiki</strong><small>Mitgefühl</small></span></button>
             <button class="persona-option" data-persona="bao" aria-pressed="false"><img src="./characters/bao.webp" alt="" width="44" height="44"><span><strong>Bao</strong><small>Humor</small></span></button>
           </div>
-          <div class="reply-toolbar"><span>Antwortlänge</span><div class="length-switch" role="group" aria-label="Antwortlänge wählen"><button type="button" data-length="short" aria-pressed="true">Kurz · Instagram</button><button type="button" data-length="full" aria-pressed="false">Mit Kontext</button></div></div>
           <label class="form-label" for="reply">Dein Antwortentwurf <span class="hint">Kannst du frei bearbeiten</span></label>
           <textarea id="reply" rows="7" maxlength="2500"></textarea>
+          <details class="optional-ai"><summary>✨ Optional: KI-Zweitentwurf mit Gegenprüfung <span class="beta-small">nur nach Freigabe</span></summary><p>Nur wenn ein sicherer KI-Worker eingerichtet ist. Zwei getrennte Modellschritte entwerfen und prüfen den Text. Das ersetzt weder die Originalstudie noch deine persönliche Freigabe.</p><label for="ai-editor-code">Privater Editor-Code</label><input type="password" id="ai-editor-code" autocomplete="off" placeholder="Code aus deiner privaten Konfiguration"><label class="approval-checkbox"><input type="checkbox" id="ai-consent">Ich möchte diesen von mir anonymisierten Kommentar ausdrücklich an den KI-Anbieter senden.</label><button class="button button-secondary" type="button" id="ai-draft">Neuen KI-Entwurf anfragen</button><p id="ai-status" role="status">Ohne sicher konfigurierte Server-Zugangsdaten deaktiviert. Redaktionelle Vorlagen funktionieren offline.</p></details>
           <div class="approval-box"><div class="approval-head"><span class="circle-check">✓</span><div><strong>Vor dem Verwenden kurz prüfen</strong><p>Stimmen Kontext, Quellen und Ton? Die letzte Entscheidung bleibt bei dir.</p></div></div>
-            <div class="approval-rows"><label for="reviewer">Dein Kürzel <input id="reviewer" placeholder="z. B. AV" maxlength="70"></label><label class="approval-checkbox"><input type="checkbox" id="review-check"><span>Ich habe Text, Quellen und Einschränkungen geprüft.</span></label></div>
+            <div class="approval-rows"><label class="approval-checkbox"><input type="checkbox" id="source-check"><span>Ich habe mindestens eine Originalquelle geöffnet und die Belegstelle kontrolliert.</span></label><label for="reviewer">Dein Kürzel <input id="reviewer" placeholder="z. B. AV" maxlength="70"></label><label class="approval-checkbox"><input type="checkbox" id="review-check"><span>Ich habe Text, Quellen und Einschränkungen geprüft.</span></label></div>
             <div class="approval-actions"><button class="button button-secondary" id="approve" disabled>Antwort freigeben</button><button class="button button-primary" id="copy" disabled>Antwort & Quellen kopieren <span aria-hidden="true">↗</span></button></div>
             <p class="approval-note" id="approval-status" role="status">Noch nicht freigegeben. Es wird nichts automatisch veröffentlicht.</p>
-            <div class="after-approval" id="after-approval" hidden><p>Nach dem Kopieren: Füge die Antwort selbst bei Instagram ein. Wenn du wirklich geantwortet hast, kannst du das hier freiwillig notieren.</p><div class="after-approval-buttons"><a class="button button-secondary" id="back-to-post" target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/">Instagram öffnen ↗</a><button type="button" id="mark-posted" class="button button-secondary">Ich habe selbst geantwortet ✓</button></div><span id="posted-note" class="hint">Nur deine Selbstauskunft – kein verifizierter Post.</span></div>
+            <div id="after-copy" class="after-copy" hidden><p>Fertig kopiert? Wechsle zurück zu Instagram und veröffentliche selbst, falls du möchtest.</p><div class="button-row"><a id="back-instagram" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" class="button button-secondary">Zurück zu Instagram ↗</a><button id="mark-posted" type="button" class="button button-plain">Ich habe selbst gepostet ✓</button></div><small id="posted-status">Ein kopierter Entwurf ist nicht automatisch veröffentlicht.</small></div>
           </div>
         </section>
       </div>
@@ -122,12 +118,14 @@
       <div class="content-grid"><div class="content-controls"><h2>Deine Idee</h2><label for="content-topic">Thema</label><select id="content-topic"></select><label for="content-persona">Erzählstimme</label><select id="content-persona"><option value="momo">🐮 Momo – Wissen</option><option value="kiki">🐔 Kiki – Mitgefühl</option><option value="bao">🐷 Bao – Genuss & Humor</option></select><label for="content-format">Format</label><select id="content-format"><option value="reel">Reel · 30 Sekunden</option><option value="carousel">Karussell · 5 Slides</option><option value="story">Instagram Story · 3 Frames</option></select><label for="content-hook">Perspektive</label><select id="content-hook"><option value="humor">Humorvoll</option><option value="fact">Faktenbasiert</option><option value="heart">Berührend</option></select><button id="generate" class="button button-primary">Entwurf erstellen <span>↗</span></button></div><div class="content-preview"><div class="preview-top"><span class="section-kicker">VORSCHAU</span><span class="status-pill" id="content-status">Noch kein Entwurf</span></div><pre id="script">Wähle links ein Thema und ein Format. Dein erster Entwurf beginnt mit einer guten Frage – und endet mit einer Einladung zum Nachdenken.</pre><button id="copy-script" class="button button-secondary" disabled>Entwurf mit Quellen kopieren</button></div></div>
     </section>
 
-    <section class="view" id="view-impact"><div class="page-intro"><span class="section-kicker">IMPACT & LEARNING</span><h1>Gute Absichten.<br><em>Ehrliche Messung.</em></h1><p>Wir zeigen, was wir tatsächlich getan haben – und behaupten keine Wirkung, die wir noch nicht nachweisen können.</p></div><div class="impact-grid"><div class="impact-stat"><strong id="impact-cases">0</strong><span>Fälle in diesem Browser</span></div><div class="impact-stat"><strong id="impact-approved">0</strong><span>Manuell freigegebene Entwürfe</span></div><div class="impact-stat"><strong>0</strong><span>Extern validierte Dialogwirkungen</span></div></div><div class="impact-notes"><div><h2>Was zählt wirklich?</h2><p><strong>Qualität:</strong> Wie korrekt und sorgfältig waren die Antworten? <strong>Dialog:</strong> Haben Menschen freiwillig nachgefragt? <strong>Veränderung:</strong> Gibt es nachvollziehbare Belege statt schöner Behauptungen?</p><div class="button-row"><button id="export" class="button button-secondary">Lokales Protokoll exportieren</button><button id="clear" class="button button-plain">Alle lokalen Fälle löschen</button></div></div><div class="impact-audit"><h3>Deine letzten Entwürfe</h3><div id="records" class="record-list">Noch keine Fälle. Probiere den Dialog aus.</div></div></div></section>
+    <section class="view" id="view-impact"><div class="page-intro"><span class="section-kicker">IMPACT & LEARNING</span><h1>Gute Absichten.<br><em>Ehrliche Messung.</em></h1><p>Wir zeigen, was wir tatsächlich getan haben – und behaupten keine Wirkung, die wir noch nicht nachweisen können.</p></div><div class="impact-grid"><div class="impact-stat"><strong id="impact-cases">0</strong><span>Fälle in diesem Browser</span></div><div class="impact-stat"><strong id="impact-approved">0</strong><span>Manuell freigegebene Entwürfe</span></div><div class="impact-stat"><strong id="impact-posted">0</strong><span>Selbst als gepostet markiert (kein Wirkungsnachweis)</span></div><div class="impact-stat"><strong id="impact-ideas">0</strong><span>Anonymisierte Content-Ideen</span></div><div class="impact-stat"><strong>0</strong><span>Extern validierte Dialogwirkungen</span></div></div><section class="idea-board" aria-labelledby="idea-board-title"><div class="idea-heading"><span class="section-kicker">AUS ECHTEN FRAGEN LERNEN</span><h2 id="idea-board-title">Wiederkehrende Content-Ideen</h2><p>Nur deine lokal gespeicherten, bereinigten Ideen – keine erfundenen Social-Media-Trends.</p></div><div id="idea-clusters" class="idea-clusters"><p>Noch keine gemerkten Fragen.</p></div></section>
+        <div class="impact-notes"><div><h2>Was zählt wirklich?</h2><p><strong>Qualität:</strong> Wie korrekt und sorgfältig waren die Antworten? <strong>Dialog:</strong> Haben Menschen freiwillig nachgefragt? <strong>Veränderung:</strong> Gibt es nachvollziehbare Belege statt schöner Behauptungen?</p><div class="button-row"><button id="export" class="button button-secondary">Lokales Protokoll exportieren</button><button id="clear" class="button button-plain">Alle lokalen Fälle löschen</button></div></div><div class="impact-audit"><h3>Deine letzten Entwürfe</h3><div id="records" class="record-list">Noch keine Fälle. Probiere den Dialog aus.</div></div></div></section>
   </main>
-  <footer class="page-footer"><span>Animal Voices © 2026 · For animals. With humans. ♡</span><span>Mobile Companion v0.8 · Lokale Entscheidungen · Keine Live-Faktenprüfung · Kein Auto-Posting.</span></footer>
+  <footer class="page-footer"><span>Animal Voices © 2026 · For animals. With humans. ♡</span><span>Quellengebundene Entwürfe · Redaktionelle Quellen · keine Live-Verifikation · Kein Auto-Posting.</span></footer>
   <nav class="mobile-nav" aria-label="Navigation auf Mobilgeräten"><button data-route="dialog">Dialog</button><button data-route="library">Wissen</button><button data-route="content">Content</button><button data-route="impact">Wirkung</button></nav>
 </div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
-<script src="./data.js"></script><script src="./companion-core.js"></script><script src="./companion-rules.js"></script><script src="./app.js"></script><script src="./companion.js"></script>
+<dialog id="install-dialog" class="install-dialog"><form method="dialog"><div class="card-head"><h2>Animal Voices aufs Handy ♡</h2><button class="button button-plain" value="close" aria-label="Schliessen">✕</button></div><p><strong>Android (Chrome):</strong> Browser-Menü ⋮ → „App installieren“ oder „Zum Startbildschirm hinzufügen“. Danach kannst du bei unterstützten Share-Menüs „Animal Voices“ auswählen.</p><p><strong>iPhone (Safari):</strong> Teilen → „Zum Home-Bildschirm“. Direkte PWA-Share-Targets sind hier nicht allgemein verfügbar – nutze Kopieren/Einfügen.</p><p>Instagram teilt möglicherweise nur den Beitragslink. Den Kommentartext bitte dann selbst einfügen. Kein Zugriff auf dein Instagram-Konto.</p><button class="button button-primary" value="close">Verstanden</button></form></dialog>
+<script src="./data.js"></script><script src="./triage.js"></script><script src="./engine.js"></script><script src="./app.js"></script>
 </body>
 </html>
