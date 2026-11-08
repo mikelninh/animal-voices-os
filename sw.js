@@ -1,6 +1,6 @@
 /* Offline shell only: never store or cache comment text or share query parameters. */
 const CACHE='av-companion-v08-1';
-const FILES=['/','/index.html','/styles.css','/data.js','/companion-core.js','/app.js','/companion.js','/manifest.webmanifest','/characters/app-icon.svg','/characters/trio.webp','/characters/momo.webp','/characters/kiki.webp','/characters/bao.webp'];
+const FILES=['/','/index.html','/styles.css','/data.js','/companion-core.js','/app.js','/companion.js','/manifest.webmanifest','/characters/app-icon.svg','/characters/icon-192.png','/characters/icon-512.png','/characters/trio.webp','/characters/momo.webp','/characters/kiki.webp','/characters/bao.webp'];
 self.addEventListener('install', event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES)));self.skipWaiting();});
 self.addEventListener('activate', event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))));self.clients.claim();});
 self.addEventListener('fetch',event=>{

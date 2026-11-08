@@ -16,6 +16,10 @@ test('PWA is installable-capable and registers text/url share target',()=>{
  assert.equal(manifest.display,'standalone');assert.equal(manifest.share_target.method,'GET');
  assert.equal(manifest.share_target.params.text,'text');assert.equal(manifest.share_target.params.url,'url');
  assert.ok(fs.existsSync(path.join(root,'characters/app-icon.svg')));
+ assert.ok(fs.existsSync(path.join(root,'characters/icon-192.png')));
+ assert.ok(fs.existsSync(path.join(root,'characters/icon-512.png')));
+ assert.ok(manifest.icons.some(x=>x.sizes==='192x192'&&x.type==='image/png'));
+ assert.ok(manifest.icons.some(x=>x.sizes==='512x512'&&x.type==='image/png'));
  assert.ok(manifest.icons.some(x=>x.purpose==='maskable'));
  assert.match(html,/rel="manifest"/);assert.match(companion,/serviceWorker\.register/);
 });
