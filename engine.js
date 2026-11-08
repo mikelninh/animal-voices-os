@@ -48,6 +48,7 @@
    if(/\b(free followers|buy followers|crypto prize|krypto gewinn|dm for profit|gewinn versprochen)\b/.test(s))return {kind:'spam',note:'Möglicher Spam oder Betrugsversuch. Gegebenenfalls über Instagram melden.',block:true};
    if(explicit==='quote')return {kind:'quote',note:'Als Zitat markiert – nicht dem Verfasser als eigene Überzeugung zuordnen.',block:true};
    if(explicit==='irony')return {kind:'irony',note:'Ironie oder Sarkasmus. Erst die tatsächliche Aussage im Originalkontext klären.',block:true};
+   if(explicit==='skeptic')return {kind:'skeptic',note:'Als skeptischer Einwand markiert. Zuerst die Sorge anerkennen, dann eine passende Quelle nennen.',block:false};
    if(explicit==='question')return {kind:'question',note:'Als echte Frage eingeordnet. Bei der Antwort behutsam formulieren.',block:false};
    if(/[?？]\s*$/.test(s)||/^(warum|wieso|wie |was |ist es|stimmt es|gibt es|kann man|aber warum|what|why|is it|can ).{6,}/.test(s))return {kind:'question',note:'Könnte eine ehrliche Frage sein. Verständnis vor Widerlegung.',block:false};
    return {kind:'claim',note:'Vermutlich eine Tatsachenbehauptung. Diese Einschätzung ist nicht sicher.',block:false};
