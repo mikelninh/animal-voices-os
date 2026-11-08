@@ -24,5 +24,5 @@ test('Valid comment reveals triage and cache update busts stale mobile app JS',(
  assert.match(app,/\$\('result-area'\)\.hidden=false/);
  assert.match(app,/\$\('triage-card'\)\.scrollIntoView\(\{behavior:'auto'/);
  assert.match(html,/app\.js\?v=0\.9\.4/);
- assert.match(sw,/animal-voices-v094-shell-2/);
+ assert.match(sw,/animal-voices-v095-shell-1/);
 });
