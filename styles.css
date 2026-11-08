@@ -177,3 +177,6 @@ main{min-height:60vh}.view{display:none;animation:fade .3s ease both}.view.activ
 .approval-helper{font-size:11px;color:#668270;margin:3px 0 0 28px}
 #review-check:disabled+span{opacity:.7}
 @media(max-width:760px){.voice-details{margin:2px 0 14px}.voice-details>summary{padding:10px 0}.voice-details .persona-picker{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* v0.9.4: quiet invitation to independent answer quality testing */
+.lab-invite{display:flex;align-items:center;gap:14px;max-width:1000px;margin:20px auto 0;border:1px solid #e4ece0;background:#f3f8ef;border-radius:16px;padding:15px 18px}.lab-invite-icon{flex:none;color:#2e7249;background:#e4f2dc;border-radius:10px;width:35px;height:35px;display:grid;place-items:center;font-size:19px}.lab-invite div{flex:1}.lab-invite strong{color:#315b3e;font-size:13px}.lab-invite p{font-size:11px;color:#788e79;margin:3px 0 0}.lab-invite-link{white-space:nowrap;color:#2f7247;font-size:11px;font-weight:800;text-decoration:none}.lab-invite-link:hover{text-decoration:underline}@media(max-width:600px){.lab-invite{flex-wrap:wrap}.lab-invite-link{margin-left:48px}}
