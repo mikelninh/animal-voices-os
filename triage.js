@@ -69,7 +69,7 @@
     },
     "crop": {
       "momo": "Stimmt: Auch Pflanzenanbau kann Tieren schaden. Wie viele Tiere dabei sterben, lässt sich schwer verlässlich zählen. Zugleich beansprucht Tierhaltung global sehr viel Fläche. Wir sollten beide Probleme ernst nehmen und die gesamte Landwirtschaft verbessern.",
-      "kiki": "Ja. Auch die Tiere auf den Feldern zählen. ❤️ Wie viele bei der Ernte sterben, wissen wir nicht zuverlässig – und ich möchte ihr Leid nicht kleinreden. Die entscheidende Frage für mich ist: Wie können wir vermeidbares Leid *überall* reduzieren?",
+      "kiki": "Ja. Auch die Tiere auf den Feldern zählen. ❤️ Wie viele bei der Ernte sterben, wissen wir nicht zuverlässig – und ich möchte ihr Leid nicht kleinreden. Die entscheidende Frage für mich ist: Wie können wir vermeidbares Leid überall reduzieren?",
       "bao": "Stimmt, auch beim Pflanzenanbau können Tiere sterben. Eine perfekte Null-Leid-Ernährung gibt's nicht. Aber das ist für mich kein Grund, auf Verbesserungen zu verzichten – weder beim Essen noch in der Landwirtschaft. 🌱"
     },
     "nature": {
