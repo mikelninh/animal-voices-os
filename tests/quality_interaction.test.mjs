@@ -41,7 +41,7 @@ test('Response Lab renders old/new variants and never starts with fabricated res
  assert.ok(m.get('text-a').textContent.length>80);
  assert.ok(m.get('text-b').textContent.length>80);
  assert.notEqual(m.get('text-a').textContent,m.get('text-b').textContent);
- assert.equal(m.get('test-count').textContent,'0');
+ assert.equal(String(m.get('test-count').textContent),'0');
  assert.equal(m.get('new-share').textContent,'–');
  assert.equal(m.get('save').disabled,true);
 });
