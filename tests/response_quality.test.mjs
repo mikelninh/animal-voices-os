@@ -60,9 +60,18 @@ test('No fabricated trial results or user data collection',()=>{
 });
 test('Response lab is accessible and versioned in PWA',()=>{
   assert.match(main,/href="\/quality\.html"/);
-  assert.match(sw,/animal-voices-v094-shell-1/);
+  assert.match(sw,/animal-voices-v094-shell-2/);
   for(const p of ['/quality.html','/quality.css','/quality.js'])assert.ok(sw.includes(p));
   assert.match(css,/@media\(max-width:560px\)/);
   assert.match(css,/prefers-reduced-motion/);
   assert.match(html,/aria-live="polite"/);
+});
+
+test('Versioned scripts plus network-first critical assets avoid duplicate A/B comparisons from stale PWA',()=>{
+ assert.match(html,/triage\.js\?v=0\.9\.4\.1/);
+ assert.match(html,/quality\.js\?v=0\.9\.4\.1/);
+ assert.match(sw,/network-first/);
+ assert.match(sw,/fetch\(req\)/);
+ assert.match(quality,/function distinctVersions/);
+ assert.match(quality,/if\(!distinctVersions\(\)\)announceStale/);
 });
