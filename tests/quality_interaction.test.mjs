@@ -11,7 +11,7 @@ const context={window:{}};
 vm.runInNewContext(fs.readFileSync(path.join(root,'data.js'),'utf8'),context);
 const triage=require('../triage.js');
 
-function mountQuality(){
+function mountQuality(overrideReply){
   const elements=new Map(),cache=new Map();
   const make=id=>{
     if(elements.has(id))return elements.get(id);
@@ -31,7 +31,7 @@ function mountQuality(){
   };
   const store=new Map();
   const localStorage={getItem:k=>store.get(k)||null,setItem:(k,v)=>store.set(k,String(v))};
-  const sandbox={window:{AV_DATA:context.window.AV_DATA,AV_TRIAGE:triage,scrollTo:()=>{}},document:doc,localStorage,console,Math,Date,Array,Number,String,Object,RegExp,
+  const sandbox={window:{AV_DATA:context.window.AV_DATA,AV_TRIAGE:overrideReply?{...triage,reply:overrideReply}:triage,scrollTo:()=>{}},document:doc,localStorage,console,Math,Date,Array,Number,String,Object,RegExp,
     confirm:()=>true,Blob:class Blob{},URL:{createObjectURL:()=>'/blob',revokeObjectURL:()=>{}},setTimeout:()=>0};
   vm.runInNewContext(fs.readFileSync(path.join(root,'quality.js'),'utf8'),sandbox);
   return {get:make,store};
@@ -74,4 +74,19 @@ test('Critical flags force a fail and full rubric ratings are only calculated fr
  assert.equal(record.critical,true);
  assert.equal(record.sourceChecked,true);
  assert.equal(record.grades.accuracy,5);
+});
+
+test('Cached stale reply module cannot create false blinded A/B comparison',()=>{
+ const m=mountQuality((topic,persona,form)=>{
+   const base=triage.SHORT[topic.id]||'';
+   return persona==='kiki'?'Danke für die Frage. 💚 '+base:persona==='bao'?'Kurzer Reality-Check aus Baos Küche: 😄 '+base:base;
+ });
+ assert.equal(m.get('text-a').textContent,m.get('text-b').textContent);
+ assert.equal(m.get('save').disabled,true);
+ assert.equal(m.get('vote-a').disabled,true);
+ m.get('vote-a').fire('click');
+ assert.equal(m.get('save').disabled,true);
+ m.get('save').fire('click');
+ assert.equal(m.store.has('avos_quality_reviews_v094'),false);
+ assert.match(m.get('feedback').textContent,/identisch/);
 });
