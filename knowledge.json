@@ -1,0 +1,438 @@
+{
+  "updated": "2026-11-08",
+  "sources": [
+    {
+      "id": "dge24",
+      "name": "DGE · Neubewertung veganer Ernährung",
+      "year": "2024",
+      "kind": "Fachgesellschaft",
+      "url": "https://www.dge.de/wissenschaft/stellungnahmen-und-positionspapiere/positionen/neubewertung-der-position-zu-veganer-ernaehrung/",
+      "note": "Gut geplante vegane Ernährung kann für gesunde Erwachsene gesundheitsfördernd sein; B12 und weitere Nährstoffe beachten.",
+      "quote": "Eine vegane Ernährung ist als äußerst umweltfreundlich anzusehen"
+    },
+    {
+      "id": "dgefaq",
+      "name": "DGE · Fragen zur veganen Ernährung",
+      "year": "2024",
+      "kind": "Fachgesellschaft",
+      "url": "https://www.dge.de/gesunde-ernaehrung/faq/faqs-vegane-ernaehrung",
+      "note": "Vitamin B12 muss bei veganer Ernährung ergänzt werden; besondere Lebensphasen gesondert betrachten.",
+      "quote": "Eine ausreichende Vitamin-B12-Versorgung ist nach derzeitigem Kenntnisstand ... nur durch die Einnahme von Nährstoffpräparaten möglich."
+    },
+    {
+      "id": "strength",
+      "name": "Pflanzenbasierte Ernährung und Muskelkraft",
+      "year": "2025",
+      "kind": "Meta-Analyse randomisierter Studien",
+      "url": "https://doi.org/10.1186/s40798-025-00852-7",
+      "note": "Acht RCTs (188 Teilnehmende); keine signifikanten Unterschiede in untersuchten Kraftmaßen; begrenzte Evidenz.",
+      "quote": "no significant differences between PBDs and omnivorous diets"
+    },
+    {
+      "id": "hevia",
+      "name": "Hevia-Larraín et al. · Protein und Krafttraining",
+      "year": "2021",
+      "kind": "Randomisierte Studie",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/33599941/",
+      "note": "38 junge Männer, zwölf Wochen Training, vergleichbare Proteinzufuhr: ähnliche Kraft- und Muskelzuwächse.",
+      "quote": "no between-group differences for any of the variables"
+    },
+    {
+      "id": "soy",
+      "name": "Reed et al. · Soja und Hormone bei Männern",
+      "year": "2021",
+      "kind": "Meta-Analyse klinischer Studien",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/33383165/",
+      "note": "41 klinische Studien; keine signifikanten Veränderungen untersuchter Sexualhormon-Marker.",
+      "quote": "no significant effects of soy protein or isoflavone intake"
+    },
+    {
+      "id": "soyclimate",
+      "name": "Our World in Data · Drivers of Deforestation",
+      "year": "2021",
+      "kind": "Datenauswertung",
+      "url": "https://ourworldindata.org/drivers-of-deforestation",
+      "note": "Historische globale Sojaverwendung: großer Anteil für Tierfutter; nicht der Beleg für konkrete Lieferketten.",
+      "quote": "More than three-quarters (77%) of global soy is fed to livestock"
+    },
+    {
+      "id": "land",
+      "name": "Our World in Data · Land use of diets",
+      "year": "2021",
+      "kind": "Globales Modell",
+      "url": "https://ourworldindata.org/land-use-diets",
+      "note": "Modellierte große Flächeneinsparungen in einem vollständig pflanzlichen globalen Ernährungsszenario; kein gemessener Effekt eines einzelnen Lebensstils.",
+      "quote": "we would reduce global land use for agriculture by 75%"
+    },
+    {
+      "id": "crop",
+      "name": "Fischer & Lamey · Field Deaths in Plant Agriculture",
+      "year": "2018",
+      "kind": "Wissenschaftlicher Fachbeitrag",
+      "url": "https://agris.fao.org/search/en/providers/122535/records/65de5e227c7033e84beab3bb",
+      "note": "Pflanzenanbau kann Tiere töten; Opferzahlen und Methoden sind schwer zuverlässig zu vergleichen.",
+      "quote": "We know that animals are harmed in plant production."
+    },
+    {
+      "id": "eu",
+      "name": "Europäische Union · Artikel 13 AEUV",
+      "year": "2016",
+      "kind": "Rechtsquelle",
+      "url": "https://eur-lex.europa.eu/eli/treaty/tfeu_2016/art_13/oj/deu",
+      "note": "Tiere werden rechtlich als fühlende Wesen anerkannt; daraus folgt nicht automatisch eine einzelne persönliche Ethik.",
+      "quote": "als fühlende Wesen"
+    },
+    {
+      "id": "efsa",
+      "name": "EFSA · Welfare of pigs during transport",
+      "year": "2022",
+      "kind": "Wissenschaftliche Risikobewertung",
+      "url": "https://www.efsa.europa.eu/en/plain-language-summary/welfare-pigs-during-transport",
+      "note": "EFSA beschreibt Belastungen wie Angst, Schmerz und Frustration bei Schweinen beim Transport.",
+      "quote": "negative affective states"
+    },
+    {
+      "id": "efsaFarm",
+      "name": "EFSA · Welfare of pigs on farm",
+      "year": "2023",
+      "kind": "Wissenschaftliche Risikobewertung",
+      "url": "https://www.efsa.europa.eu/en/infographics/welfare-pigs-farm",
+      "note": "Bewertungen zu Tierwohlrisiken in Haltungssystemen; nicht auf jeden einzelnen Betrieb zu übertragen.",
+      "quote": "the use of cages should be avoided"
+    }
+  ],
+  "cases": [
+    {
+      "id": "strength",
+      "category": "Ernährung & Sport",
+      "title": "„Vegane Männer sind schwach.“",
+      "short": "Kraft & Männlichkeit",
+      "keywords": [
+        "schwach",
+        "kraft",
+        "muskeln",
+        "muskelaufbau",
+        "fitness",
+        "soyboy",
+        "strength",
+        "weak",
+        "protein training"
+      ],
+      "fact": "Die bisher untersuchten randomisierten Studien zeigen bei vergleichbaren Bedingungen keine signifikanten Unterschiede in der Muskelkraft zwischen pflanzenbasierten und omnivoren Ernährungsformen.",
+      "limit": "Die Meta-Analyse umfasst nur acht Studien (188 Personen); individuelle Trainings- und Ernährungsqualität bleiben relevant.",
+      "sources": [
+        "strength",
+        "hevia"
+      ],
+      "voices": {
+        "momo": "Die Behauptung ist zu pauschal. Eine Meta-Analyse randomisierter Studien fand keine signifikanten Kraftunterschiede zwischen pflanzenbasierter und omnivorer Ernährung. Wichtig sind Training, ausreichende Energie und Protein. Die Datenlage ist noch begrenzt – aber „vegan = schwach“ hält ihr nicht stand. 💪",
+        "kiki": "Stärke hat viele Seiten – und körperliche Kraft ist messbar. Die Studien, die wir dazu haben, finden unter vergleichbaren Bedingungen keine signifikanten Kraftnachteile durch pflanzenbasierte Ernährung. Vielleicht passen Muskelkraft und Mitgefühl sogar ziemlich gut zusammen. 💚",
+        "bao": "Schwach? Mein Seitan möchte Einspruch einlegen. 😄 Aber ernsthaft: Eine Meta-Analyse fand keinen signifikanten Kraftnachteil pflanzenbasierter Ernährung unter vergleichbaren Bedingungen. Training und Ernährung zählen – nicht das Steak auf dem Teller."
+      }
+    },
+    {
+      "id": "b12",
+      "category": "Ernährung & Sport",
+      "title": "„Wer B12 braucht, kann nicht gesund vegan leben.“",
+      "short": "Vitamin B12",
+      "keywords": [
+        "b12",
+        "vitamin",
+        "supplement",
+        "nährstoff",
+        "supplements"
+      ],
+      "fact": "Vitamin B12 muss bei veganer Ernährung zuverlässig supplementiert werden. Daraus folgt nicht, dass eine gut geplante vegane Ernährung für gesunde Erwachsene grundsätzlich ungesund ist.",
+      "limit": "Für Schwangerschaft, Kindheit und weitere sensible Lebensphasen sind besondere Überlegungen und fachliche Begleitung wichtig.",
+      "sources": [
+        "dgefaq",
+        "dge24"
+      ],
+      "voices": {
+        "momo": "Bei B12 hast du einen wichtigen Punkt: Vegan lebende Menschen müssen es zuverlässig supplementieren. Die DGE erklärt zugleich, dass eine gut geplante vegane Ernährung für gesunde Erwachsene gesundheitsfördernd sein kann. Beides ist wahr – und beides gehört zu einer ehrlichen Antwort.",
+        "kiki": "Gute Frage! 💚 B12 ist kein Detail, das wir kleinreden wollen: Es muss ergänzt werden. Gleichzeitig ist eine sorgfältig geplante vegane Ernährung für gesunde Erwachsene möglich. Wir dürfen neugierig bleiben, ohne Probleme zu verschweigen.",
+        "bao": "B12? Ja, bitte supplementieren. Keine Tricks, kein Zauber-Tofu. 😄 Die DGE hält eine gut geplante vegane Ernährung für gesunde Erwachsene dennoch für möglich und potenziell gesundheitsfördernd. Ehrlich essen ist mein Lieblingsrezept."
+      }
+    },
+    {
+      "id": "protein",
+      "category": "Ernährung & Sport",
+      "title": "„Ohne Fleisch bekommt man nicht genug Protein.“",
+      "short": "Proteinbedarf",
+      "keywords": [
+        "protein",
+        "eiweiß",
+        "eiweiss",
+        "amino",
+        "muskel",
+        "proteinquelle"
+      ],
+      "fact": "Mit geeigneten pflanzlichen Lebensmitteln kann der Proteinbedarf gedeckt werden. Entscheidend sind Gesamtzufuhr, Energieversorgung und Lebensmittelauswahl.",
+      "limit": "Besondere Bedarfe und gesundheitliche Situationen erfordern individuelle Planung; die Studie zu Training ist nicht für alle Menschen repräsentativ.",
+      "sources": [
+        "dgefaq",
+        "hevia"
+      ],
+      "voices": {
+        "momo": "Protein kann auch aus Hülsenfrüchten, Tofu, Tempeh und Seitan kommen. Entscheidend sind Menge, Vielfalt und Bedarf. In einer Trainingsstudie erreichten Männer mit pflanzlichen und omnivoren Proteinquellen vergleichbare Kraft- und Muskelzuwächse, wenn die Proteinzufuhr ähnlich war.",
+        "kiki": "Gute Ernährung ist wichtig – das gilt für alle. Zum Glück kann Protein auch aus Pflanzen kommen. Bei besonderen Bedürfnissen lohnt sich ein individueller Blick. Mir gefällt die Möglichkeit, gut für uns und zugleich mitfühlender zu essen. 💚",
+        "bao": "Tofu, Bohnen, Linsen, Seitan: Meine Protein-Crew ist ziemlich gross. 😄 Und nein, das ist kein Ersatz für gutes Training und ausreichend Essen. Aber Fleisch ist nicht die einzige Proteinquelle."
+      }
+    },
+    {
+      "id": "soy",
+      "category": "Ernährung & Sport",
+      "title": "„Soja zerstört den Testosteronspiegel.“",
+      "short": "Soja & Hormone",
+      "keywords": [
+        "soja",
+        "soy",
+        "hormone",
+        "testosteron",
+        "östrogen",
+        "estrogen",
+        "isoflavone"
+      ],
+      "fact": "Eine Meta-Analyse klinischer Studien fand keine signifikanten Veränderungen der untersuchten männlichen Sexualhormone durch Soja oder Isoflavone.",
+      "limit": "Die Befunde gelten für untersuchte Hormonmarker; nicht für jede denkbare Gesundheitsfrage oder Extremdosierung.",
+      "sources": [
+        "soy"
+      ],
+      "voices": {
+        "momo": "Die Soja-Hormonbehauptung ist wissenschaftlich gut überprüfbar. Eine Meta-Analyse von 41 klinischen Studien fand keine signifikanten Veränderungen der untersuchten männlichen Sexualhormone durch Soja oder Isoflavone. Das sagt etwas über diese Marker aus – nicht über jede erdenkliche Wirkung.",
+        "kiki": "Das höre ich oft, aber die untersuchten Hormondaten stützen diese pauschale Behauptung nicht. Es lohnt sich, die ursprüngliche Studie anzuschauen, statt einander mit Schlagworten abzustempeln. 💚",
+        "bao": "Mein Tofu wurde so oft für Testosteronprobleme verantwortlich gemacht, dass er schon einen Anwalt sucht. 😄 In einer Meta-Analyse von 41 klinischen Studien zeigten sich keine signifikanten Effekte auf die untersuchten Hormone."
+      }
+    },
+    {
+      "id": "crop",
+      "category": "Ethik & Tiere",
+      "title": "„Bei der Ernte sterben auch Tiere.“",
+      "short": "Erntetode",
+      "keywords": [
+        "ernte",
+        "mäuse",
+        "mice",
+        "feldtiere",
+        "erntetod",
+        "harvest",
+        "pestizid"
+      ],
+      "fact": "Auch Pflanzenbau kann Tiere verletzen oder töten. Genaue Zahlen sind schwer zu ermitteln; globale Modelle zeigen zugleich, dass Tierhaltung sehr viel landwirtschaftliche Fläche beansprucht.",
+      "limit": "Keine scheinpräzisen Zahlen über getötete Tiere; vermeide pauschale Kausalbehauptungen.",
+      "sources": [
+        "crop",
+        "land"
+      ],
+      "voices": {
+        "momo": "Ja, auch Pflanzenanbau verursacht Tierleid. Die Zahlen dazu sind allerdings mit grossen Unsicherheiten verbunden. Globale Landnutzungsmodelle legen nahe, dass ein stärker pflanzliches Ernährungssystem deutlich weniger Fläche benötigen könnte. Wir sollten beides ernst nehmen.",
+        "kiki": "Danke, dass du auch an die Tiere auf den Feldern denkst. ❤️ Ihr Leben zählt. Für mich ist Veganismus kein Versprechen völliger Schadensfreiheit – sondern die Entscheidung, vermeidbares Leid zu reduzieren und bessere Landwirtschaft zu unterstützen.",
+        "bao": "Stimmt – auch auf Feldern kann Tieren Schaden entstehen. Eine einfache Null-Leid-Formel habe ich leider nicht. Aber wir können Lebensmittel und Landwirtschaft so wählen und verbessern, dass weniger Leid entsteht."
+      }
+    },
+    {
+      "id": "nature",
+      "category": "Ethik & Tiere",
+      "title": "„Tiere fressen auch andere Tiere.“",
+      "short": "Natur & Moral",
+      "keywords": [
+        "natur",
+        "nahrungskette",
+        "tiger",
+        "löwe",
+        "tier frisst",
+        "omnivor",
+        "nature"
+      ],
+      "fact": "Das Verhalten wildlebender Tiere begründet für sich allein keine moralische Pflicht für Menschen. Ernährungsfragen und Wertefragen sind getrennt zu betrachten.",
+      "limit": "Nicht behaupten, Menschen seien von Natur aus reine Pflanzenfresser. Moralische Argumente klar als Wertediskussion kennzeichnen.",
+      "sources": [
+        "eu",
+        "dge24"
+      ],
+      "voices": {
+        "momo": "Ja, manche Tiere fressen andere Tiere. Daraus ergibt sich aber keine eindeutige Vorschrift für menschliche Entscheidungen. Wir können die Ernährungsfrage wissenschaftlich und die moralische Frage offen diskutieren.",
+        "kiki": "In der Natur geschieht vieles, das wir als Menschen nicht nachahmen müssen. Vielleicht ist die interessantere Frage: Welche Möglichkeiten haben wir, wenn wir Leid vermeiden können? 🐥",
+        "bao": "Wenn mich jemand mit einem Löwen vergleicht, fühle ich mich kurz sehr geschmeichelt. 🦁 Aber wir können unsere Gerichte bewusst wählen. Wollen wir schauen, welche davon lecker UND tierfreundlicher sind?"
+      }
+    },
+    {
+      "id": "forest",
+      "category": "Umwelt",
+      "title": "„Für Tofu wird der Regenwald abgeholzt.“",
+      "short": "Soja & Regenwald",
+      "keywords": [
+        "regenwald",
+        "amazonas",
+        "abholzung",
+        "deforestation",
+        "sojaanbau",
+        "tofu"
+      ],
+      "fact": "Sojaanbau kann zur Entwaldung beitragen. Historische globale Auswertungen zeigen jedoch, dass der überwiegende Teil des Sojas als Tierfutter genutzt wurde.",
+      "limit": "Die häufig genannte 77-%-Zahl bezieht sich auf einen bestimmten historischen Datenstand; Herkunft einzelner Produkte bleibt gesondert zu prüfen.",
+      "sources": [
+        "soyclimate"
+      ],
+      "voices": {
+        "momo": "Soja kann tatsächlich mit Entwaldung zusammenhängen. Wichtig ist aber die Verwendung: Historische globale Daten zeigen, dass der Grossteil als Tierfutter genutzt wurde – nicht für Tofu. Für konkrete Produkte muss man die Lieferkette anschauen.",
+        "kiki": "Regenwälder schützen ist mir genauso wichtig wie Tiere schützen. 🌳 Deshalb sollten wir genau hinschauen, wofür Soja angebaut wird: In globalen Daten geht der grösste Teil an Tierfutter.",
+        "bao": "Tofu vor Gericht, wieder einmal. 😅 Ja, Sojaanbau kann Entwaldung verursachen. Aber die globale Hauptverwendung war historisch Tierfutter. Schauen wir lieber auf die tatsächlichen Lieferketten."
+      }
+    },
+    {
+      "id": "climate",
+      "category": "Umwelt",
+      "title": "„Vegan bringt für die Umwelt überhaupt nichts.“",
+      "short": "Klima & Flächennutzung",
+      "keywords": [
+        "umwelt",
+        "klima",
+        "co2",
+        "emission",
+        "planet",
+        "landnutzung",
+        "klimawandel"
+      ],
+      "fact": "Ernährungsmodelle zeigen, dass eine stärker pflanzliche Ernährung die landwirtschaftliche Flächennutzung und viele Umweltbelastungen reduzieren kann.",
+      "limit": "Globale Szenarien sind keine Belege für die Wirkung eines einzelnen Menschen; Auswirkungen variieren zwischen Produkten.",
+      "sources": [
+        "dge24",
+        "land"
+      ],
+      "voices": {
+        "momo": "Pauschal stimmt das nicht. In globalen Modellen kann eine stärker pflanzliche Ernährung die benötigte Agrarfläche stark reduzieren. Das ist ein Szenario – kein individueller CO₂-Beleg. Bei konkreten Produkten lohnt sich die genauere Bilanz.",
+        "kiki": "Was wir essen, hat Folgen für Lebensräume und Tiere. Das macht keine einzelne Mahlzeit zur Weltrettung. Aber viele bewusste Veränderungen können zusammen einen Unterschied machen. 🌱",
+        "bao": "Ob mein Frühstück den Planeten allein rettet? Wohl kaum. 😄 Aber pflanzenbetonte Ernährung kann laut Modellen viel weniger Agrarfläche beanspruchen. Und mit leckerem Essen fällt der Anfang leichter."
+      }
+    },
+    {
+      "id": "sentience",
+      "category": "Ethik & Tiere",
+      "title": "„Nutztiere fühlen doch nichts.“",
+      "short": "Tiere als Individuen",
+      "keywords": [
+        "schwein",
+        "tiere fühlen",
+        "fühlen nichts",
+        "schmerzen",
+        "tierleid",
+        "sentience",
+        "pain",
+        "gefühle"
+      ],
+      "fact": "Die EU erkennt Tiere als fühlende Wesen an. Die EFSA dokumentiert konkrete Tierwohlbelastungen, etwa Schmerzen, Furcht oder Frustration bei Schweinen.",
+      "limit": "Keine Übertragung sämtlicher menschlicher Gefühle auf alle Tiere; Unterschiede zwischen Individuen und Haltungsbedingungen anerkennen.",
+      "sources": [
+        "eu",
+        "efsa",
+        "efsaFarm"
+      ],
+      "voices": {
+        "momo": "Tiere werden im EU-Recht ausdrücklich als fühlende Wesen anerkannt. Die EFSA beschreibt bei Schweinen Belastungen wie Schmerz, Furcht und Frustration. Ihre Empfindungsfähigkeit ist keine blosse Vermutung.",
+        "kiki": "Hinter jedem Tier steht ein eigenes Leben. Dass Tiere Schmerzen und andere Belastungen erleben können, ist wissenschaftlich gut begründet. Vielleicht beginnt Mitgefühl genau damit, sie als Individuen zu sehen. ❤️",
+        "bao": "Schweine können Schmerz, Furcht und Frustration erleben – das beschreibt die EFSA. Deshalb ist ‚fühlen doch nichts‘ keine sachliche Beschreibung. Und ja, ich habe auch Gefühle, wenn mein Essen anbrennt. 🐷"
+      }
+    },
+    {
+      "id": "taste",
+      "category": "Alltag",
+      "title": "„Fleisch schmeckt mir eben.“",
+      "short": "Geschmack & Genuss",
+      "keywords": [
+        "schmeckt",
+        "geschmack",
+        "lecker",
+        "genuss",
+        "taste",
+        "liebe fleisch"
+      ],
+      "fact": "Geschmack ist subjektiv. Aus einer Vorliebe folgt keine wissenschaftliche Aussage darüber, was Tiere fühlen.",
+      "limit": "Vorlieben nicht moralisch herabsetzen. Ohne individuelle Kenntnis keine Behauptungen über die Person.",
+      "sources": [
+        "eu"
+      ],
+      "voices": {
+        "momo": "Geschmack ist sehr persönlich. Ich möchte dir den Genuss gar nicht absprechen. Die Frage, die mich zusätzlich interessiert: Können wir leckere Alternativen finden, die weniger Tierleid verursachen?",
+        "kiki": "Verstehe ich. Essen hat mit Erinnerungen, Familie und Freude zu tun. ❤️ Vielleicht dürfen beide Gedanken gleichzeitig existieren: Ich liebe diesen Geschmack – und das Tier hinter dem Essen hatte ein eigenes Leben.",
+        "bao": "Deal: Du wählst dein Lieblingsgericht, ich mache eine pflanzliche Version. Du darfst gnadenlos ehrlich sein. Mein Seitan hält einiges aus. 😄"
+      }
+    },
+    {
+      "id": "cost",
+      "category": "Alltag",
+      "title": "„Vegan ist viel zu teuer.“",
+      "short": "Kosten & Alltag",
+      "keywords": [
+        "teuer",
+        "kosten",
+        "geld",
+        "budget",
+        "expensive",
+        "afford",
+        "preis"
+      ],
+      "fact": "Preise hängen von Ort, Einkommen, Produkten und Verfügbarkeit ab. Pauschale Preisvergleiche ohne aktuelle, lokale Daten sind unzuverlässig.",
+      "limit": "Ohne aktuelle Preisquelle keine quantitativen Aussagen; individuelle finanzielle Hindernisse ernst nehmen.",
+      "sources": [],
+      "voices": {
+        "momo": "Das kann sich je nach Wohnort und Produkten wirklich so anfühlen. Ohne lokale Preise wäre jede pauschale Behauptung unseriös. Gern schauen wir uns konkrete günstige Grundzutaten gemeinsam an.",
+        "kiki": "Essen muss für Menschen bezahlbar bleiben. Wenn Alternativen zu teuer oder nicht verfügbar sind, ist das ein echtes Problem – kein persönliches Versagen.",
+        "bao": "Teure Spezialprodukte? Müssen nicht sein. Ich fange gern mit Linsen, Bohnen und Haferflocken an. Lass uns mit deinem echten Einkaufsbudget kochen. 💚"
+      }
+    },
+    {
+      "id": "children",
+      "category": "Gesundheit",
+      "title": "„Vegane Ernährung ist für Babys immer sicher.“",
+      "short": "Kinder & Schwangerschaft",
+      "keywords": [
+        "babys",
+        "baby",
+        "schwanger",
+        "kinder",
+        "säugling",
+        "schwangerschaft",
+        "stillen",
+        "pregnan"
+      ],
+      "fact": "Für Kinder, Schwangere und Stillende ist eine sorgfältige fachliche Einschätzung notwendig; die DGE formuliert differenzierte Hinweise statt pauschaler Sicherheitsversprechen.",
+      "limit": "Keine individuelle Gesundheitsberatung oder Supplementierungspläne für sensible Gruppen durch ein Kommentar-Tool.",
+      "sources": [
+        "dge24",
+        "dgefaq"
+      ],
+      "voices": {
+        "momo": "Für Babys, Kinder und Schwangere ist eine pauschale Aussage nicht angemessen. Die DGE weist auf eine besonders sorgfältige Nährstoffversorgung hin. Hier gehören individuelle Fragen in qualifizierte fachliche Beratung.",
+        "kiki": "Gerade bei Kindern sollten wir besonders achtsam sein. Es geht nicht um Lagerdenken, sondern um ihre gute Versorgung. Eine qualifizierte Ernährungsfachkraft kann individuell helfen.",
+        "bao": "Bei Kindern machen wir keine Ernährungsexperimente per Kommentarspalte. 💚 Die Versorgung gehört sorgfältig geplant und fachlich begleitet."
+      }
+    }
+  ],
+  "examples": [
+    {
+      "text": "Vegane Männer sind schwach und bauen keine Muskeln auf.",
+      "topic": "strength"
+    },
+    {
+      "text": "Ohne Fleisch bekommt man doch gar nicht genug Eiweiß.",
+      "topic": "protein"
+    },
+    {
+      "text": "Was ist mit Vitamin B12? Das muss man doch supplementieren.",
+      "topic": "b12"
+    },
+    {
+      "text": "Für Tofu wird der Regenwald abgeholzt!",
+      "topic": "forest"
+    },
+    {
+      "text": "Beim Ernten sterben doch auch Mäuse.",
+      "topic": "crop"
+    },
+    {
+      "text": "Ich liebe Fleisch, weil es mir einfach schmeckt.",
+      "topic": "taste"
+    }
+  ]
+}
