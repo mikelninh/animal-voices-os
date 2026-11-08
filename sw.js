@@ -2,8 +2,8 @@
  * Text from the Android share sheet is written to IndexedDB on the device,
  * NOT to a backend and NOT into a URL query string. No binary file uploads.
  */
-const VERSION='animal-voices-v093-shell-1';
-const SHELL=['/','/index.html','/styles.css','/app.js','/triage.js','/engine.js','/data.js','/manifest.webmanifest','/characters/trio.webp','/characters/momo.webp','/characters/kiki.webp','/characters/bao.webp','/icons/icon-192.png','/icons/icon-512.png'];
+const VERSION='animal-voices-v094-shell-1';
+const SHELL=['/quality.html','/quality.css','/quality.js','/','/index.html','/styles.css','/app.js','/triage.js','/engine.js','/data.js','/manifest.webmanifest','/characters/trio.webp','/characters/momo.webp','/characters/kiki.webp','/characters/bao.webp','/icons/icon-192.png','/icons/icon-512.png'];
 const DB='animal-voices-inbox-v09';
 function openInbox(){return new Promise((resolve,reject)=>{
  const req=indexedDB.open(DB,1);req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains('items'))req.result.createObjectStore('items')};
