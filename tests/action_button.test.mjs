@@ -23,6 +23,6 @@ test('Valid comment reveals triage and cache update busts stale mobile app JS',(
  assert.match(app,/composerProblem\('Der Beitragslink ist ungültig/);
  assert.match(app,/\$\('result-area'\)\.hidden=false/);
  assert.match(app,/\$\('triage-card'\)\.scrollIntoView\(\{behavior:'auto'/);
- assert.match(html,/app\.js\?v=0\.9\.1/);
- assert.match(sw,/animal-voices-v09-shell-3/);
+ assert.match(html,/app\.js\?v=0\.9\.2/);
+ assert.match(sw,/animal-voices-v092-shell-1/);
 });
