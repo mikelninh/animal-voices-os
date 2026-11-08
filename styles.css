@@ -48,3 +48,17 @@ main{min-height:60vh}.view{display:none;animation:fade .3s ease both}.view.activ
 @media(max-width:720px){.idea-clusters{grid-template-columns:1fr}.idea-board{padding:18px;margin:15px 0}.context-clarifier{padding:11px 12px}}
 
 .optional-ai{margin:16px 0;padding:15px 18px;border:1px solid #e5eee0;border-radius:15px;background:#f9fbf6;color:#4a6a55}.optional-ai summary{cursor:pointer;font-size:12px;font-weight:800;color:#32523f;list-style-position:inside}.optional-ai p{font-size:11px;line-height:1.65;color:#748675;margin:10px 0}.optional-ai label{display:block;font-size:11px;font-weight:750;color:#536a5a;margin:10px 0 5px}.optional-ai input[type=password]{width:100%;max-width:360px;border:1px solid #dce8d7;border-radius:9px;padding:11px 13px;background:white;font-size:12px}.optional-ai .approval-checkbox{display:flex;align-items:flex-start;gap:7px;font-weight:500}.optional-ai .button{margin-top:11px}.beta-small{font-size:10px;font-weight:600;color:#8e9c8c;margin-left:4px}
+
+/* v0.9 mobile polish: show the first useful action without a screen of scrolling. */
+@media(max-width:650px){
+  .dialog-hero{margin-bottom:10px}
+  .dialog-hero h1{font-size:clamp(29px,8vw,34px);line-height:1.12}
+  .dialog-hero p{line-height:1.55}
+  .hero-art.hero-photo{height:118px;max-width:380px;margin:5px auto 0}
+  .journey{display:none}
+  .companion-helper{padding:10px 12px;margin:10px 0 13px;gap:7px}
+  .companion-helper .helper-icon,.companion-helper p{display:none}
+  .companion-helper strong{font-size:12px}
+  .companion-helper .button{font-size:11px;padding:9px 11px}
+  .composer{margin-top:0}
+}
