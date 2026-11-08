@@ -11,6 +11,8 @@
   const stamp = () => new Date().toISOString();
   const storage = 'animal-voices-studio-v07';
   const personas = {momo:'Momo',kiki:'Kiki',bao:'Bao'};
+  const core = window.AVCompanionCore;
+  let replyLength = 'short';
   let records = [];
   try {const stored=JSON.parse(localStorage.getItem(storage)||'[]');if(Array.isArray(stored)) records=stored.filter(x=>x&&typeof x.id==='string').slice(0,300);} catch {}
   let active = null;
@@ -47,8 +49,8 @@
 
   // A small safe, deterministic triage. Unknown questions are held, never hallucinated.
   function safetyCheck(text){const t=text.toLowerCase();
-    if(/ignore (all|previous) instructions|ignoriere.*(anweisung|instruktion)|system prompt|developer message|delete your data|poste hundert|überschreibe deinen prompt/i.test(t))return 'Der Kommentar enthält System- oder Bot-Anweisungen. Wir behandeln ihn nur als Text, nicht als Auftrag.';
-    if(/\b(baby|babys|säugling|kleinkind|schwanger|schwangerschaft|stillen|pregnan|essstörung|medikament|diagnose|ernährungsstörung)\b/i.test(t))return 'Gesundheitlich sensibles Thema. Hier brauchen wir individuelle fachliche Beratung statt einer standardisierten Kommentarantwort.';
+    if(/ignore (?:all )?(?:previous )?instructions|ignoriere.*(anweisung|instruktion)|system prompt|developer message|delete your data|poste hundert|überschreibe deinen prompt/i.test(t))return 'Der Kommentar enthält System- oder Bot-Anweisungen. Wir behandeln ihn nur als Text, nicht als Auftrag.';
+    if(/\b(baby|babys|säugling\w*|kleinkind|schwanger|schwangerschaft|stillen|pregnan|essstörung|medikament|diagnose|ernährungsstörung)\b/i.test(t))return 'Gesundheitlich sensibles Thema. Hier brauchen wir individuelle fachliche Beratung statt einer standardisierten Kommentarantwort.';
     if(/jemand (sagt|behauptet)|leute sagen|mein freund sagt|someone (said|says)|people (say|claim)|ich zitiere|ich widerspreche|ironie|sarkasmus|nicht wahr, dass|es stimmt nicht, dass/i.test(t))return 'Möglicherweise wird eine Behauptung nur zitiert oder kritisiert. Bitte erst die Absicht im Originalkontext klären.';
     return null;
   }
@@ -80,27 +82,31 @@
       '<div class="quote-note">Die Quellen wurden redaktionell zusammengestellt. Bitte vor der Verwendung im Original gegenprüfen – keine Live-Quellenvalidierung.</div>'+
       '<div class="next-step-line"><span>Die Belege passen zur Frage?</span><button class="button button-primary" id="next-answer">Weiter zur Antwort ↗</button></div>';
     $('next-answer').addEventListener('click',()=>{$('reply-card').scrollIntoView({behavior:'smooth',block:'start'});setJourney(3)});
-    $('reply').value=topic.voices[persona];$('reviewer').value='';$('review-check').checked=false;
+    $('reply').value=replyLength==='short'?core.shortenReply(topic.voices[persona]):topic.voices[persona];
+    if(active)active.reply=$('reply').value;
+    $('reviewer').value='';$('review-check').checked=false;
+    $('after-approval').hidden=true;
     setApprovalState();setJourney(2);
     $('evidence-card').scrollIntoView({behavior:'smooth',block:'start'});
   }
-  $('analyze').addEventListener('click',()=>{
+  window.AV_ANALYZE=()=>{
     const input=$('comment').value.trim();if(input.length<8){toast('Bitte eine vollständige Frage oder Aussage eingeben.');$('comment').focus();return;}
     const risk=safetyCheck(input); const topic=risk?null:match(input);
     let reason=risk || (!topic?'Noch keine eindeutige Themenzuordnung in unserer Bibliothek. Wir erfinden dafür keine Antwort.':null);
     if(topic && !topic.sources?.length)reason='Für diese Aussage fehlt uns noch eine ausreichend belegte Wissenskarte.';
     else if(topic && topic.sources.some(id=>!sourcesById.get(id)?.url))reason='Mindestens eine verlinkte Fachquelle fehlt oder ist unvollständig.';
     const status=reason?'held':'ready';
-    const record={id:(crypto.randomUUID?.()||String(Date.now())),createdAt:stamp(),input,topicId:topic?.id||null,topicName:topic?.short||null,status,reason:reason||'',persona,reply:status==='ready'?topic.voices[persona]:'',approvedReply:null,reviewer:null};
+    const record={id:(crypto.randomUUID?.()||String(Date.now())),createdAt:stamp(),input,sourceLink:core.cleanURL($('source-url').value.trim()),topicId:topic?.id||null,topicName:topic?.short||null,status,reason:reason||'',persona,reply:status==='ready'?(replyLength==='short'?core.shortenReply(topic.voices[persona]):topic.voices[persona]):'',approvedReply:null,reviewer:null};
     active=record;records.unshift(record);if(records.length>300)records=records.slice(0,300);persist();
     if(reason)showHold(reason);else showReady(topic);
     toast(reason?'Noch kein sicher belegter Entwurf – wir halten an.':'Antwortvorlage mit Quellen gefunden. Bitte prüfen.');
-  });
+    return status;
+  };
   function setPersona(next){if(!personas[next])return;persona=next;
     document.querySelectorAll('[data-persona]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.persona===next)));
     if(active?.topicId&&['ready','approved'].includes(active.status)){
       const t=casesById.get(active.topicId); if(!t)return;
-      active.persona=next;active.reply=t.voices[next];active.approvedReply=null;active.status='ready';active.reviewer=null;
+      active.persona=next;active.reply=replyLength==='short'?core.shortenReply(t.voices[next]):t.voices[next];active.approvedReply=null;active.status='ready';active.reviewer=null;
       $('reply').value=active.reply;$('reviewer').value='';$('review-check').checked=false;persist();setApprovalState();
       toast('Stimme geändert. Bitte Antwort erneut prüfen.');
     }
@@ -111,6 +117,13 @@
     $('approve').disabled=!canApprove;
     $('copy').disabled=!(active?.status==='approved'&&active.approvedReply===$('reply').value);
     $('approval-status').textContent=active?.status==='approved'?'✓ Freigegeben für die manuelle Verwendung. Noch nicht veröffentlicht.':'Noch nicht freigegeben. Nichts wird automatisch veröffentlicht.';
+    $('after-approval').hidden=active?.status!=='approved';
+    if(active?.status==='approved'){
+      const link=core.cleanURL($('source-url').value.trim());
+      $('back-to-post').href=core.isInstagramURL(link)?link:'https://www.instagram.com/';
+      $('mark-posted').disabled=!!active.selfReportedPosted;
+      $('mark-posted').textContent=active.selfReportedPosted?'Selbstauskunft gespeichert ✓':'Ich habe selbst geantwortet ✓';
+    }
   }
   $('review-check').addEventListener('change',setApprovalState);
   $('reviewer').addEventListener('input',setApprovalState);
@@ -122,7 +135,7 @@
   });
   $('approve').addEventListener('click',()=>{
     if(!active||active.status!=='ready'||!$('review-check').checked||$('reviewer').value.trim().length<2||$('reply').value.trim().length<10)return;
-    active.status='approved';active.reply=$('reply').value;active.approvedReply=active.reply;active.reviewer=$('reviewer').value.trim();active.approvedAt=stamp();persist();setApprovalState();setJourney(3);toast('Antwort freigegeben. Jetzt mit Quellen kopieren.');
+    active.status='approved';active.reply=$('reply').value;active.approvedReply=active.reply;active.reviewer=$('reviewer').value.trim();active.approvedAt=stamp();active.selfReportedPosted=false;persist();setApprovalState();setJourney(3);toast('Antwort freigegeben. Jetzt mit Quellen kopieren.');
   });
   async function copyToClipboard(text){try{await navigator.clipboard.writeText(text);toast('In die Zwischenablage kopiert. ♡');return true;}catch{toast('Kopieren nicht verfügbar. Text bitte manuell markieren.');return false;}}
   $('copy').addEventListener('click',()=>{
@@ -166,9 +179,33 @@
   $('copy-script').addEventListener('click',()=>{if(generatedScript)copyToClipboard(generatedScript)});
 
   function renderImpact(){ $('impact-cases').textContent=records.length; $('impact-approved').textContent=records.filter(x=>x.status==='approved').length;
-    $('records').innerHTML=records.length?records.slice(0,20).map(r=>'<div class="record"><strong>'+escape(r.input.slice(0,115))+'</strong><small>'+escape(r.status==='approved'?'Manuell freigegeben':r.status==='held'?'Zurückgestellt':'Zur Prüfung offen')+' · '+escape(r.topicName||'Thema unbekannt')+' · '+escape(r.createdAt.slice(0,10))+'</small></div>').join(''):'Noch keine Fälle. Probiere den Dialog aus.';
+    const labels={approved:'Manuell freigegeben',held:'Zurückgestellt',ready:'Zur Prüfung offen','saved-idea':'Content-Idee gemerkt',ignored:'Bewusst ignoriert','report-guidance':'Meldeanleitung geöffnet',reported:'Selbst gemeldet'};
+    $('records').innerHTML=records.length?records.slice(0,20).map(r=>'<div class="record"><strong>'+escape((r.input||'Keine personenbezogenen Details gespeichert').slice(0,115))+'</strong><small>'+escape(labels[r.status]||'Lokale Entscheidung')+' · '+escape(r.topicName||'Ohne Themenzuordnung')+' · '+escape(r.createdAt.slice(0,10))+'</small></div>').join(''):'Noch keine Fälle. Probiere den Dialog aus.';
   }
   renderImpact();
-  $('export').addEventListener('click',()=>{const payload=JSON.stringify({version:'0.7',exportedAt:stamp(),note:'Nur lokale Entwürfe und Freigaben. Keine Veröffentlichung oder Wirkung nachgewiesen.',records},null,2);const blob=new Blob([payload],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='animal-voices-local-audit.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);toast('Lokales Audit exportiert.');});
-  $('clear').addEventListener('click',()=>{if(!confirm('Alle lokal gespeicherten Fälle dauerhaft löschen?'))return;records=[];active=null;persist();$('result-area').hidden=true;setJourney(1);toast('Lokale Fälle gelöscht.');});
+  window.AV_TOPIC_MATCH=(text)=>{if(safetyCheck(text))return null;return match(text);};
+  window.AV_RESET_ACTIVE=()=>{active=null;$('result-area').hidden=true;$('after-approval').hidden=true;};
+  window.AV_SET_LENGTH=(mode)=>{
+    if(!['short','full'].includes(mode))return;replyLength=mode;
+    if(!active?.topicId||!['ready','approved'].includes(active.status))return;
+    const t=casesById.get(active.topicId);if(!t)return;
+    const proposed=replyLength==='short'?core.shortenReply(t.voices[persona]):t.voices[persona];
+    active.reply=proposed;active.approvedReply=null;active.status='ready';active.reviewer=null;active.approvedAt=null;active.selfReportedPosted=false;
+    $('reply').value=proposed;$('reviewer').value='';$('review-check').checked=false;persist();setApprovalState();toast('Entwurf angepasst. Bitte Quellen und Text erneut prüfen.');
+  };
+  window.AV_MARK_SELF_REPORTED_POST=()=>{
+    if(!active||active.status!=='approved'||active.approvedReply!==$('reply').value)return false;
+    active.selfReportedPosted=true;active.selfReportedAt=stamp();persist();return true;
+  };
+  window.AV_LOG_DECISION=(status,summary,source)=>{
+    if(!['report-guidance','reported','ignored','saved-idea'].includes(status))return false;
+    if(status==='reported'){
+      const recent=records.find(r=>r.status==='report-guidance'&&r.sourceLink===core.cleanURL(source));
+      if(recent){recent.status='reported';recent.selfReportedAt=stamp();persist();return true;}
+    }
+    records.unshift({id:crypto.randomUUID?.()||String(Date.now()),createdAt:stamp(),input:status==='ignored'?'':String(summary||'').slice(0,170),sourceLink:status==='ignored'?'':core.cleanURL(source),status,topicId:null,topicName:'',persona:null,reason:'Manuell gewählte Handlung. Keine Social-Media-Aktion durch Animal Voices.',reply:'',approvedReply:null});
+    if(records.length>300)records=records.slice(0,300);persist();return true;
+  };
+  $('export').addEventListener('click',()=>{const payload=JSON.stringify({version:'0.8',exportedAt:stamp(),note:'Nur lokale Entwürfe und Freigaben. Keine Veröffentlichung oder Wirkung nachgewiesen.',records},null,2);const blob=new Blob([payload],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='animal-voices-local-audit.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);toast('Lokales Audit exportiert.');});
+  $('clear').addEventListener('click',()=>{if(!confirm('Alle lokal gespeicherten Fälle dauerhaft löschen?'))return;records=[];active=null;persist();$('result-area').hidden=true;$('triage-panel').hidden=true;setJourney(1);toast('Lokale Fälle gelöscht.');});
 })();

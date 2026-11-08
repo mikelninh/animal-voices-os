@@ -1,0 +1,23 @@
+{
+  "id": "/",
+  "name": "Animal Voices – Für Tiere. Mit Menschen.",
+  "short_name": "Animal Voices",
+  "description": "Ein freundlicher Instagram-Begleiter: Kommentar einfügen, sinnvoll reagieren, Quellen prüfen.",
+  "lang": "de",
+  "start_url": "/#dialog",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fafbf8",
+  "theme_color": "#1d4937",
+  "icons": [
+    {"src": "/characters/app-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any"},
+    {"src": "/characters/app-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable"},
+    {"src": "/characters/kiki.webp", "sizes": "220x220", "type": "image/webp", "purpose": "any"}
+  ],
+  "share_target": {
+    "action": "/?shared=1",
+    "method": "GET",
+    "params": {"title": "title", "text": "text", "url": "url"}
+  }
+}

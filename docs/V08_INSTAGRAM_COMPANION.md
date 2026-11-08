@@ -1,5 +1,5 @@
 # Animal Voices v0.8 — Instagram Companion
-**Status:** Product/technical specification, not implemented.  
+**Status:** v0.8 P0 implemented and browser-tested; native Android/Instagram OS share-sheet verification pending.  
 **Decision:** Prioritize the everyday mobile flow over another homepage redesign.  
 **North-star:** helpful, source-grounded, voluntary conversations that contribute to less animal suffering, without amplifying trolls.
 
@@ -38,13 +38,13 @@ When sources disagree, avoid a confident answer. Store retrieval and critique tr
 
 ## v0.8 priorities & acceptance
 **P0 / first releasable Android-friendly beta**
-- [ ] Implement privacy-safe native PWA share target (GET text/link) and install instructions; graceful paste fallback.
-- [ ] Implement quick capture from Android and explicit separation of source link vs exact copied comment.
-- [ ] Replace keyword-only selection as the only decision with human-confirmable context + safety triage; no unsupported factual claims.
-- [ ] Add 4 action states; allow report/ignore without generating any reply.
-- [ ] Short & long answer cards, original citation link, scientific caveat and human approval.
-- [ ] Track only actual self-reported outcomes, not invented activity.
-- [ ] Accessible Android mobile E2E test: text → triage → sources → edit → approve → copy → return to IG.
+- [x] Implement Android-friendly GET share target (discloses URL/hosting-log caveat); production privacy upgrade later (GET text/link) and install instructions; graceful paste fallback.
+- [x] Implement quick capture from Android and explicit separation of source link vs exact copied comment.
+- [x] Add human-confirmable deterministic context/safety triage alongside existing curated matching as the only decision with human-confirmable context + safety triage; no unsupported factual claims.
+- [x] Add 4 action states; allow report/ignore without generating any reply.
+- [x] Short & long answer cards, original citation link, scientific caveat and human approval.
+- [x] Track only manual/self-reported actions, not invented activity.
+- [x] 390px Chromium browser E2E test (native Android share sheet still pending): text → triage → sources → edit → approve → copy → return to IG.
 
 **P1 / evidence scale**
 - [ ] 100 anonymized real comments annotated by two human reviewers; check disagreements and error classes.

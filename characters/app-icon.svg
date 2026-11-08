@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Animal Voices Icon">
+  <rect width="512" height="512" rx="130" fill="#1d4937"/>
+  <circle cx="256" cy="256" r="188" fill="#315c42"/>
+  <path d="M256 355c-33-29-108-77-108-137 0-31 24-54 54-54 22 0 42 13 54 31 12-18 32-31 54-31 30 0 54 23 54 54 0 60-75 108-108 137Z" fill="#f1f7dc"/>
+  <circle cx="156" cy="130" r="20" fill="#dcebc2" opacity=".85"/>
+  <circle cx="358" cy="130" r="20" fill="#dcebc2" opacity=".85"/>
+  <path d="M130 354c25 23 55 32 91 36m161-36c-25 23-55 32-91 36" fill="none" stroke="#a1cc99" stroke-width="13" stroke-linecap="round"/>
+</svg>
