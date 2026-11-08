@@ -62,3 +62,11 @@ main{min-height:60vh}.view{display:none;animation:fade .3s ease both}.view.activ
   .companion-helper .button{font-size:11px;padding:9px 11px}
   .composer{margin-top:0}
 }
+
+/* v0.9.1: clear, in-context action feedback on mobile and desktop */
+[hidden]{display:none!important}
+.composer-feedback{margin-top:15px;background:#fff7ea;border:1px solid #e7cf9e;border-radius:14px;padding:15px 18px;color:#6f4c24;display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.composer-feedback strong{font-weight:800;font-size:13px;flex-basis:100%}
+.composer-feedback p{color:#755d39;font-size:12px;flex:1 1 220px;line-height:1.5}
+.composer-feedback .button{min-height:36px;padding:9px 12px;font-size:11px}
+#comment[aria-invalid="true"],#post-url[aria-invalid="true"]{border-color:#d0a25a!important;box-shadow:0 0 0 3px #ffedcf!important}
