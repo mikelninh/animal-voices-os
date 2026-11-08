@@ -16,7 +16,7 @@
 <body>
 <div class="site-shell">
   <header class="site-header">
-    <a class="brand" href="#dialog" data-go="dialog" aria-label="Animal Voices Startseite"><span class="brand-icon">✳</span><span>animal voices<span class="beta">BETA 0.9</span></span></a>
+    <a class="brand" href="#dialog" data-go="dialog" aria-label="Animal Voices Startseite"><span class="brand-icon">✳</span><span>animal voices<span class="beta">BETA 0.9.2</span></span></a>
     <nav aria-label="Hauptnavigation" class="primary-nav">
       <button data-route="dialog" aria-current="page">Dialog</button>
       <button data-route="library">Wissen</button>
@@ -31,8 +31,8 @@
       <div class="dialog-hero">
         <div class="hero-copy">
           <div class="eyebrow"><span class="tiny-sun">✴</span> A LITTLE KINDER, EVERY DAY</div>
-          <h1>Gute Gespräche<br>beginnen mit <em>Zuhören.</em></h1>
-          <p>Du bringst die Frage. Wir bringen Fakten, Quellen und eine liebevolle Antwort – mit einem Hauch Humor.</p>
+          <h1>Eine gute Antwort.<br><em>Weniger Aufwand.</em></h1>
+          <p>Kommentar rein. Wir helfen dir, die richtige Reaktion und eine belegte, freundliche Antwort zu finden.</p>
           <div class="hero-trust"><span class="trust-dot"></span> Für Tiere. Mit Menschen. <span class="hero-trust-separator">·</span> Kein automatisches Posten</div>
         </div>
         <div class="hero-art hero-photo" aria-label="Unsere drei freundlichen Tierfiguren: Kuh, Henne mit rotem Kamm und Schwein">
@@ -40,7 +40,7 @@
         </div>
       </div>
 
-      <div class="journey" aria-label="Der Ablauf in drei Schritten">
+      <div class="journey" aria-label="Der Ablauf in drei Schritten" hidden>
         <div class="journey-item" id="journey-one"><span class="journey-number">1</span><span>Kommentar verstehen</span></div>
         <span class="journey-arrow" aria-hidden="true">→</span>
         <div class="journey-item" id="journey-two"><span class="journey-number">2</span><span>Fakten & Antwort</span></div>
@@ -49,43 +49,43 @@
       </div>
 
       <section class="share-status" id="share-banner" hidden aria-live="polite"><div><strong>📲 Aus Instagram oder einer anderen App geteilt</strong><p id="share-message">Wir haben den geteilten Inhalt vorbereitet.</p></div><button class="button button-plain" id="dismiss-share" aria-label="Hinweis schliessen">×</button></section>
-      <section class="companion-helper"><div><span class="helper-icon">↗</span><div><strong>Direkt aus Instagram starten</strong><p>Auf Android als App installieren und beim Teilen „Animal Voices“ wählen. Sonst Kommentar einfach hier einfügen.</p></div></div><button id="install-info" class="button button-secondary" type="button">So geht’s</button></section>
+      <section class="companion-helper" aria-label="Instagram teilen"><div><span class="helper-icon">↗</span><div><strong>Direkt aus Instagram starten</strong><p>Auf Android als App installieren und beim Teilen „Animal Voices“ wählen. Sonst Kommentar einfach hier einfügen.</p></div></div><button id="install-info" class="button button-secondary" type="button">So geht’s</button></section>
       <section class="composer" aria-labelledby="question-heading">
-        <div class="composer-top"><div><span class="section-kicker">DEIN STARTPUNKT</span><h2 id="question-heading">Was wurde gesagt?</h2></div><span class="step-tag">Schritt 1 von 3</span></div>
-        <div class="form-label">1 · Kommentartext <span class="hint">Keine Nutzernamen / persönlichen Daten</span></div>
+        <div class="composer-top"><div><span class="section-kicker">DEIN STARTPUNKT</span><h2 id="question-heading">Welchen Kommentar hast du gesehen?</h2></div><span class="step-tag">1 Schritt zum Vorschlag</span></div>
+        <div class="form-label">Kommentar <span class="hint">Ohne Nutzernamen oder private Daten</span></div>
         <label class="sr-only" for="comment">Kommentar oder Frage</label>
-        <textarea id="comment" rows="4" maxlength="1800" aria-describedby="composer-feedback" placeholder="Füge hier einen Kommentar oder eine Frage ein …&#10;Zum Beispiel: „Vegane Männer sind doch schwach.“"></textarea>
-        <div class="source-input"><label for="post-url">Beitragslink (optional, nur Instagram)</label><input id="post-url" type="url" inputmode="url" autocomplete="off" placeholder="https://www.instagram.com/p/…"><span class="hint">Ein Link enthält nicht automatisch den Kommentartext. Wir lesen keine fremden Accounts aus.</span></div>
-        <div class="context-clarifier"><label for="context-type">Kontext <span class="muted-inline">· optional, aber wichtig</span></label><select id="context-type" aria-describedby="context-hint"><option value="auto">Animal Voices schlägt eine Einordnung vor</option><option value="question">Das ist eine ehrliche Frage</option><option value="claim">Diese Person behauptet das selbst</option><option value="quote">Das ist nur ein Zitat / eine Widerlegung</option><option value="irony">Ironie oder Sarkasmus</option></select><small id="context-hint">Du kennst die Diskussion am besten. Unsere Einschätzung kann falsch sein.</small></div>
-        <div class="composer-foot"><div class="example-tray"><span class="example-label">Zum Ausprobieren</span><div id="sample-chips" class="example-chips"></div></div><button id="analyze" class="button button-primary">Handlung wählen <span aria-hidden="true">↗</span></button></div>
+        <textarea id="comment" rows="3" maxlength="1800" aria-describedby="composer-feedback" placeholder="Füge hier einen Kommentar oder eine Frage ein …&#10;Zum Beispiel: „Vegane Männer sind doch schwach.“"></textarea>
+        <details class="advanced-context" id="advanced-context"><summary>Optional: Beitragslink und Kontext angeben <span aria-hidden="true">⌄</span></summary><div class="source-input"><label for="post-url">Beitragslink (optional, nur Instagram)</label><input id="post-url" type="url" inputmode="url" autocomplete="off" placeholder="https://www.instagram.com/p/…"><span class="hint">Ein Link enthält nicht automatisch den Kommentartext. Wir lesen keine fremden Accounts aus.</span></div>
+        <div class="context-clarifier"><label for="context-type">Kontext <span class="muted-inline">· optional, aber wichtig</span></label><select id="context-type" aria-describedby="context-hint"><option value="auto">Animal Voices schlägt eine Einordnung vor</option><option value="question">Das ist eine ehrliche Frage</option><option value="claim">Diese Person behauptet das selbst</option><option value="quote">Das ist nur ein Zitat / eine Widerlegung</option><option value="irony">Ironie oder Sarkasmus</option></select><small id="context-hint">Du kennst die Diskussion am besten. Unsere Einschätzung kann falsch sein.</small></div></details>
+        <div class="composer-foot"><div class="example-tray"><span class="example-label">Zum Ausprobieren</span><div id="sample-chips" class="example-chips"></div></div><button id="analyze" type="button" class="button button-primary">Antwort finden <span aria-hidden="true">↗</span></button></div>
         <div id="composer-feedback" class="composer-feedback" role="alert" aria-live="assertive" hidden>
           <strong id="composer-feedback-title">Noch ein kleiner Schritt ♡</strong>
           <p id="composer-feedback-message">Bitte zuerst einen Kommentar eingeben.</p>
           <button id="composer-try-example" type="button" class="button button-secondary">Beispiel laden ↗</button>
         </div>
-        <div class="safety-line"><span aria-hidden="true">◎</span> Persönliche Daten entfernen. Manuell eingefügter Text bleibt in diesem Browser. Bei installiertem Android-Share-Target bleibt der geteilte Text im Gerätespeicher. Keine Screenshots, Profile oder privaten Nachrichten teilen.</div>
+        <details class="privacy-details"><summary>♡ Privatsphäre & wie deine Daten verwendet werden</summary><p>Bitte keine Namen, Profile oder privaten Nachrichten eingeben. Das normale Dialogstudio speichert anonymisierte Fälle nur in deinem Browser. Auf unterstützten Android-Geräten wird geteilter Text lokal im Gerätespeicher empfangen. Es werden keine Kommentare automatisch veröffentlicht.</p></details>
       </section>
 
       <div id="result-area" hidden>
         <section class="result-card triage-result" id="triage-card" aria-labelledby="triage-title">
-          <div class="card-head"><div><span class="section-kicker">SCHRITT 2 · ENTSCHEIDUNG</span><h2 id="triage-title">Was hilft jetzt wirklich?</h2></div><span id="triage-status" class="status-pill">Einschätzung</span></div>
+          <div class="card-head"><div><span class="section-kicker">UNSER VORSCHLAG</span><h2 id="triage-title">Was hilft jetzt wirklich?</h2></div><span id="triage-status" class="status-pill">Einschätzung</span></div>
           <p class="tiny-intro" id="triage-reason"></p>
-          <div class="analysis-basis" id="analysis-basis" aria-live="polite"></div>
-          <div class="action-grid" id="action-grid" role="group" aria-label="Deine nächste Handlung">
+          <details class="analysis-details"><summary>Warum empfehlen wir das?</summary><div class="analysis-basis" id="analysis-basis" aria-live="polite"></div></details>
+          <details class="alternative-actions" id="alternative-actions"><summary>Anders reagieren · Melden, Ignorieren oder Merken</summary><div class="action-grid" id="action-grid" role="group" aria-label="Deine nächste Handlung">
             <button class="action-choice" type="button" data-action="reply" aria-pressed="false"><span class="action-emoji">💬</span><strong>Antworten</strong><small>Fakten & Mitgefühl</small></button>
             <button class="action-choice" type="button" data-action="report" aria-pressed="false"><span class="action-emoji">🚩</span><strong>Melden</strong><small>Bei möglichem Verstoss</small></button>
             <button class="action-choice" type="button" data-action="ignore" aria-pressed="false"><span class="action-emoji">🌿</span><strong>Ignorieren</strong><small>Ragebait keine Bühne geben</small></button>
             <button class="action-choice" type="button" data-action="save" aria-pressed="false"><span class="action-emoji">✦</span><strong>Als Idee merken</strong><small>Später Content machen</small></button>
           </div>
-          <div id="action-feedback" class="action-feedback" role="status" aria-live="polite"></div>
+          </details><div id="action-feedback" class="action-feedback" role="status" aria-live="polite"></div>
         </section>
         <section class="result-card" id="evidence-card" aria-labelledby="evidence-title">
           <div class="card-head"><div><span class="section-kicker">WISSEN · NUR BEI ANTWORT</span><h2 id="evidence-title">Was sagen die Belege?</h2></div><span id="analysis-status" class="status-pill">Quellen prüfen</span></div>
           <div id="evidence-body" aria-live="polite"></div>
         </section>
         <section class="result-card" id="reply-card" aria-labelledby="reply-title" hidden>
-          <div class="card-head"><div><span class="section-kicker">SCHRITT 3 · DIALOG</span><h2 id="reply-title">So könnten wir antworten.</h2></div><span class="friendly-label">Mit Liebe, nicht mit Lautstärke. ♡</span></div>
-          <p class="tiny-intro">Wähle Ton und Länge. Die Quellen und die Einschränkungen bleiben dieselben.</p>
+          <div class="card-head"><div><span class="section-kicker">DEIN ANTWORTENTWURF</span><h2 id="reply-title">Das könntest du antworten. ♡</h2></div><span class="friendly-label">Mit Liebe, nicht mit Lautstärke. ♡</span></div>
+          <p class="tiny-intro">Vorläufiger Entwurf. Ändere ihn so, dass er wirklich zu dir passt.</p>
           <div class="length-toggle" role="group" aria-label="Länge der Antwort"><button id="reply-short" type="button" aria-pressed="true">Kurz · Instagram</button><button id="reply-long" type="button" aria-pressed="false">Ausführlich</button></div>
           <div class="persona-picker" role="group" aria-label="Tierfigur als Sprecher wählen">
             <button class="persona-option" data-persona="momo" aria-pressed="true"><img src="./characters/momo.webp" alt="" width="44" height="44"><span><strong>Momo</strong><small>Wissenschaft</small></span></button>
@@ -93,11 +93,11 @@
             <button class="persona-option" data-persona="bao" aria-pressed="false"><img src="./characters/bao.webp" alt="" width="44" height="44"><span><strong>Bao</strong><small>Humor</small></span></button>
           </div>
           <label class="form-label" for="reply">Dein Antwortentwurf <span class="hint">Kannst du frei bearbeiten</span></label>
-          <textarea id="reply" rows="7" maxlength="2500"></textarea>
+          <textarea id="reply" rows="5" maxlength="2500"></textarea><div id="inline-proof" class="inline-proof" aria-live="polite"></div>
           <details class="optional-ai"><summary>✨ Optional: KI-Zweitentwurf mit Gegenprüfung <span class="beta-small">nur nach Freigabe</span></summary><p>Nur wenn ein sicherer KI-Worker eingerichtet ist. Zwei getrennte Modellschritte entwerfen und prüfen den Text. Das ersetzt weder die Originalstudie noch deine persönliche Freigabe.</p><label for="ai-editor-code">Privater Editor-Code</label><input type="password" id="ai-editor-code" autocomplete="off" placeholder="Code aus deiner privaten Konfiguration"><label class="approval-checkbox"><input type="checkbox" id="ai-consent">Ich möchte diesen von mir anonymisierten Kommentar ausdrücklich an den KI-Anbieter senden.</label><button class="button button-secondary" type="button" id="ai-draft">Neuen KI-Entwurf anfragen</button><p id="ai-status" role="status">Ohne sicher konfigurierte Server-Zugangsdaten deaktiviert. Redaktionelle Vorlagen funktionieren offline.</p></details>
           <div class="approval-box"><div class="approval-head"><span class="circle-check">✓</span><div><strong>Vor dem Verwenden kurz prüfen</strong><p>Stimmen Kontext, Quellen und Ton? Die letzte Entscheidung bleibt bei dir.</p></div></div>
-            <div class="approval-rows"><label class="approval-checkbox"><input type="checkbox" id="source-check"><span>Ich habe mindestens eine Originalquelle geöffnet und die Belegstelle kontrolliert.</span></label><label for="reviewer">Dein Kürzel <input id="reviewer" placeholder="z. B. AV" maxlength="70"></label><label class="approval-checkbox"><input type="checkbox" id="review-check"><span>Ich habe Text, Quellen und Einschränkungen geprüft.</span></label></div>
-            <div class="approval-actions"><button class="button button-secondary" id="approve" disabled>Antwort freigeben</button><button class="button button-primary" id="copy" disabled>Antwort & Quellen kopieren <span aria-hidden="true">↗</span></button></div>
+            <div class="approval-rows"><label class="approval-checkbox"><input type="checkbox" id="source-check"><span>Ich habe mindestens eine Originalquelle geöffnet und die Belegstelle kontrolliert.</span></label><label for="reviewer">Dein Kürzel <input id="reviewer" placeholder="Einmalig eingeben, z. B. AV" maxlength="70" autocomplete="off"></label><label class="approval-checkbox"><input type="checkbox" id="review-check"><span>Ich habe Text, Quellen und Einschränkungen geprüft.</span></label></div>
+            <div class="approval-actions"><button class="button button-primary" id="approve" disabled>Prüfen & kopieren ♡</button><button class="button button-secondary" id="copy" disabled hidden>Erneut kopieren ↗</button></div>
             <p class="approval-note" id="approval-status" role="status">Noch nicht freigegeben. Es wird nichts automatisch veröffentlicht.</p>
             <div id="after-copy" class="after-copy" hidden><p>Fertig kopiert? Wechsle zurück zu Instagram und veröffentliche selbst, falls du möchtest.</p><div class="button-row"><a id="back-instagram" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" class="button button-secondary">Zurück zu Instagram ↗</a><button id="mark-posted" type="button" class="button button-plain">Ich habe selbst gepostet ✓</button></div><small id="posted-status">Ein kopierter Entwurf ist nicht automatisch veröffentlicht.</small></div>
           </div>
@@ -131,6 +131,6 @@
 </div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 <dialog id="install-dialog" class="install-dialog"><form method="dialog"><div class="card-head"><h2>Animal Voices aufs Handy ♡</h2><button class="button button-plain" value="close" aria-label="Schliessen">✕</button></div><p><strong>Android (Chrome):</strong> Browser-Menü ⋮ → „App installieren“ oder „Zum Startbildschirm hinzufügen“. Danach kannst du bei unterstützten Share-Menüs „Animal Voices“ auswählen.</p><p><strong>iPhone (Safari):</strong> Teilen → „Zum Home-Bildschirm“. Direkte PWA-Share-Targets sind hier nicht allgemein verfügbar – nutze Kopieren/Einfügen.</p><p>Instagram teilt möglicherweise nur den Beitragslink. Den Kommentartext bitte dann selbst einfügen. Kein Zugriff auf dein Instagram-Konto.</p><button class="button button-primary" value="close">Verstanden</button></form></dialog>
-<script src="./data.js"></script><script src="./triage.js"></script><script src="./engine.js"></script><script src="./app.js?v=0.9.1"></script>
+<script src="./data.js"></script><script src="./triage.js"></script><script src="./engine.js"></script><script src="./app.js?v=0.9.2"></script>
 </body>
 </html>
