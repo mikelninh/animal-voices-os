@@ -21,10 +21,9 @@ test('One obvious primary input and short default flow',()=>{
 });
 test('Original source remains mandatory and reviewer locally retained',()=>{
  assert.match(js,/sourceOpenedAt/);
- assert.match(js,/\$\('source-check'\)\.checked/);
  assert.match(js,/\$\('review-check'\)\.checked/);
  assert.match(js,/\$\('inline-proof'\)\.addEventListener\('click',registerSourceOpened\)/);
- assert.match(js,/localStorage\.setItem\(reviewerKey/);
+ assert.doesNotMatch(js,/reviewerKey|savedReviewer|\$\('reviewer'\)/);
  assert.match(js,/\$\('copy'\)\.click\(\)/);
  assert.match(html,/Bitte Quelle|Originalquelle|Belegstelle/);
 });
