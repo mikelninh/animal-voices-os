@@ -25,8 +25,17 @@
   let lastRecommendation = null;
   const pendingShare = T.readShared(location.search);
   const topicList = DATA.cases;
-  const reviewerKey='animal-voices-reviewer-v092';
-  let savedReviewer=(()=>{try{return (localStorage.getItem(reviewerKey)||'').slice(0,70)}catch{return ''}})();
+  function recommendedVoice(topic){
+    if(!topic) return 'momo';
+    if(['crop','nature','sentience'].includes(topic.id)||topic.category==='Ethik & Tiere') return 'kiki';
+    if(['taste','cost'].includes(topic.id)||topic.category==='Alltag') return 'bao';
+    return 'momo';
+  }
+  function voiceLabel(){return {momo:'🐮 Momo · Wissenschaft',kiki:'🐔 Kiki · Mitgefühl',bao:'🐷 Bao · Humor'}[persona];}
+  function updateVoiceSummary(){
+    const el=$('voice-summary');
+    el.innerHTML=escape(voiceLabel())+' <span>Stimme ändern ⌄</span>';
+  }
   $('result-area').insertBefore($('reply-card'),$('evidence-card'));
 
   function toast(message) {let e=$('toast');e.textContent=message;e.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>e.classList.remove('show'),3400);}
@@ -81,8 +90,8 @@
       '<button id="more-evidence" class="link-control" type="button">Alle Belege & Hintergründe anzeigen ⌄</button>';
     $('more-evidence').addEventListener('click',()=>{$('evidence-card').hidden=false;$('evidence-card').scrollIntoView({behavior:'auto',block:'nearest'});});
     active.reply=T.reply(topic,persona,replyForm);active.form=replyForm;
-    $('reply').value=active.reply;$('reviewer').value=savedReviewer;$('review-check').checked=false;$('source-check').checked=false;
-    $('after-copy').hidden=true; $('source-check').disabled=true; updateLengthButtons();
+    $('reply').value=active.reply;$('review-check').checked=false;$('review-check').disabled=true;
+    $('after-copy').hidden=true; $('voice-details').open=false; updateVoiceSummary();updateLengthButtons();
     setApprovalState();setJourney(2);
     $('reply-card').scrollIntoView({behavior:'auto',block:'start'});
   }
@@ -166,7 +175,8 @@
     const reason=decision.hold ? decision.reason : null;
     lastRecommendation={action:decision.action,reason:decision.reason,level:decision.context};
     const record={id:(crypto.randomUUID?.()||String(Date.now())),createdAt:stamp(),input,postUrl,topicId:topic?.id||null,topicName:topic?.short||null,status:'triage',action:null,recommended: lastRecommendation.action,reason:decision.reason,hold:decision.hold,context:decision.context,engine:decision.method,persona,form:replyForm,reply:'',approvedReply:null,reviewer:null,postedAt:null,copiedAt:null,sourceOpenedAt:null};
-    active=record;records.unshift(record);if(records.length>300)records=records.slice(0,300);persist();
+    active=record;if(topic&&decision.action==='reply'&&!decision.hold){persona=recommendedVoice(topic);active.persona=persona;document.querySelectorAll('[data-persona]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.persona===persona)));updateVoiceSummary();}
+    records.unshift(record);if(records.length>300)records=records.slice(0,300);persist();
     $('result-area').hidden=false;$('triage-card').hidden=false;$('evidence-card').hidden=true;$('reply-card').hidden=true;
     $('alternative-actions').open=false;
     $('triage-reason').textContent=lastRecommendation.reason;
@@ -197,7 +207,7 @@
     if(active?.topicId&&active.action==='reply'&&['ready','approved'].includes(active.status)){
       active.form=next;active.reply=T.reply(casesById.get(active.topicId),persona,next);
       active.approvedReply=null;active.approvedAt=null;active.status='ready';
-      $('reply').value=active.reply;$('review-check').checked=false;$('source-check').checked=false;$('after-copy').hidden=true;
+      $('reply').value=active.reply;$('review-check').checked=false;$('after-copy').hidden=true;
       persist();setApprovalState();
     }
   }
@@ -209,24 +219,25 @@
     if(active?.topicId&&active.action==='reply'&&['ready','approved'].includes(active.status)){
       const t=casesById.get(active.topicId); if(!t)return;
       active.persona=next;active.reply=T.reply(t,next,replyForm);active.approvedReply=null;active.status='ready';active.reviewer=null;
-      $('reply').value=active.reply;$('reviewer').value=savedReviewer;$('review-check').checked=false;$('source-check').checked=false;$('after-copy').hidden=true;persist();setApprovalState();
+      $('reply').value=active.reply;$('review-check').checked=false;$('after-copy').hidden=true;updateVoiceSummary();$('voice-details').open=false;persist();setApprovalState();
       toast('Stimme geändert. Bitte Antwort erneut prüfen.');
     }
   }
   document.querySelectorAll('[data-persona]').forEach(b=>b.addEventListener('click',()=>setPersona(b.dataset.persona)));
   function setApprovalState(){
-    const canApprove=active?.status==='ready'&&$('review-check').checked&&!!active.sourceOpenedAt&&$('source-check').checked&&$('reviewer').value.trim().length>=2&&$('reply').value.trim().length>=10;
+    const canApprove=active?.status==='ready'&&$('review-check').checked&&!!active.sourceOpenedAt&&$('reply').value.trim().length>=10;
     $('approve').disabled=!canApprove;
     $('copy').disabled=!(active?.status==='approved'&&active.approvedReply===$('reply').value);
     $('copy').hidden=$('copy').disabled;
-    $('approval-status').textContent=active?.status==='approved'?'✓ Freigegeben für die manuelle Verwendung. Noch nicht veröffentlicht.':'Noch nicht freigegeben. Bitte Quelle öffnen und persönlich prüfen.';
+    $('approval-status').textContent=active?.status==='approved'?'✓ Freigegeben und für dich kopiert – nicht automatisch gepostet.':active?.sourceOpenedAt?'Quelle geöffnet. Lies den Originalbeleg und bestätige die Prüfung oben.':'Bitte zuerst eine Originalquelle öffnen und überprüfen.';
+    $('review-helper').textContent=active?.sourceOpenedAt?'Originalquelle geöffnet. Bestätige die inhaltliche Prüfung, wenn sie wirklich abgeschlossen ist.':'1. Quelle oben öffnen · 2. Prüfen und bestätigen · 3. Kopieren';
   }
 
   // A source link must be opened before its review checkbox can be checked.
   function registerSourceOpened(event){
     const anchor=event.target.closest('a[href^="https://"]');
     if(anchor&&active?.action==='reply'&&active.topicId){
-      active.sourceOpenedAt=stamp();$('source-check').disabled=false;
+      active.sourceOpenedAt=stamp();$('review-check').disabled=false;
       persist();setApprovalState();
       toast('Quelle geöffnet. Bitte Beleg und Grenzen im Original prüfen.');
     }
@@ -235,30 +246,12 @@
   $('evidence-body').addEventListener('click',event=>{
     const anchor=event.target.closest('a[href^="https://"]');
     if(anchor&&active?.action==='reply'&&active.topicId){
-      active.sourceOpenedAt=stamp();$('source-check').disabled=false;
+      active.sourceOpenedAt=stamp();$('review-check').disabled=false;
       persist();setApprovalState();
       toast('Quelle geöffnet. Bitte den Beleg und seine Einschränkungen im Original prüfen.');
     }
   });
-  // Optional two-model writer+critic. Explicit consent, secure editor access, no keys in browser.
-  $('ai-draft').addEventListener('click',async()=>{
-    if(!active||active.action!=='reply'||!active.topicId||active.hold||active.status==='held'){
-      $('ai-status').textContent='Bitte zuerst eine belegte Frage oder Aussage im Dialog prüfen.';return;
-    }
-    if(!$('ai-consent').checked){$('ai-status').textContent='Ohne ausdrückliche Einwilligung werden keine Kommentare an einen KI-Anbieter übertragen.';return;}
-    const access=$('ai-editor-code').value.trim();if(!access){$('ai-status').textContent='Für den privaten KI-Worker ist ein Editor-Code erforderlich.';return;}
-    $('ai-draft').disabled=true;$('ai-status').textContent='KI-Writer und Faktenkritiker prüfen den Entwurf …';
-    try{
-      const resp=await fetch('/api/assist',{method:'POST',headers:{'Content-Type':'application/json','X-AVOS-Editor':access},body:JSON.stringify({text:$('comment').value.trim(),contextType:$('context-type').value,persona,consent:true})});
-      const result=await resp.json();if(!resp.ok||result.ok!==true)throw Error(result.error||'KI-Dienst nicht verfügbar.');
-      active.reply=result.reply;active.status='ready';active.approvedReply=null;active.approvedAt=null;active.reviewer=null;active.sourceOpenedAt=null;active.aiReview=true;
-      $('reply').value=result.reply;$('reviewer').value='';$('review-check').checked=false;$('source-check').checked=false;$('source-check').disabled=true;$('after-copy').hidden=true;
-      persist();setApprovalState();$('ai-status').textContent='KI-Entwurf vorbereitet; Gegenprüfung bestanden. Bitte die Originalstudie selbst öffnen und alle Angaben überprüfen.';
-    }catch(err){$('ai-status').textContent=String(err.message||err).slice(0,190)}finally{$('ai-draft').disabled=false;}
-  });
   $('review-check').addEventListener('change',setApprovalState);
-  $('source-check').addEventListener('change',setApprovalState);
-  $('reviewer').addEventListener('input',setApprovalState);
   $('reply').addEventListener('input',()=>{
     if(!active||!active.topicId)return;
     active.reply=$('reply').value;
@@ -266,9 +259,8 @@
     $('review-check').checked=false;$('after-copy').hidden=true;active.copiedAt=null;active.postedAt=null;persist();setApprovalState();
   });
   $('approve').addEventListener('click',()=>{
-    if(!active||active.status!=='ready'||!$('review-check').checked||!active.sourceOpenedAt||!$('source-check').checked||$('reviewer').value.trim().length<2||$('reply').value.trim().length<10)return;
-    active.status='approved';active.reply=$('reply').value;active.approvedReply=active.reply;active.reviewer=$('reviewer').value.trim();active.approvedAt=stamp();active.copiedAt=null;active.postedAt=null;
-    savedReviewer=active.reviewer;try{localStorage.setItem(reviewerKey,active.reviewer)}catch{}
+    if(!active||active.status!=='ready'||!$('review-check').checked||!active.sourceOpenedAt||$('reply').value.trim().length<10)return;
+    active.status='approved';active.reply=$('reply').value;active.approvedReply=active.reply;active.reviewer=null;active.reviewMethod='single-user-confirmation';active.approvedAt=stamp();active.copiedAt=null;active.postedAt=null;
     persist();setApprovalState();setJourney(3);toast('Freigegeben. Antwort mit Quellen wird kopiert.');
     $('copy').click();
   });
@@ -276,8 +268,8 @@
   $('copy').addEventListener('click',async()=>{
     if(!active||active.status!=='approved'||active.approvedReply!==$('reply').value)return;
     const topic=casesById.get(active.topicId);if(!topic)return;
-    const links=topic.sources.map(id=>sourcesById.get(id)).filter(Boolean).map(s=>s.name+' ('+s.year+'): '+s.url);
-    const copied=await copyToClipboard(active.reply+'\n\nQuellen:\n'+links.join('\n'));
+    const links=topic.sources.map(id=>sourcesById.get(id)).filter(Boolean).map(s=>'- '+s.name+' ('+s.year+')\n'+s.url);
+    const copied=await copyToClipboard(active.reply+'\n\nQuellen (Original):\n'+links.join('\n'));
     if(copied){active.copiedAt=stamp();persist();$('after-copy').hidden=false;$('back-instagram').href=T.instagramUrl(active.postUrl)||'https://www.instagram.com/';}
   });
   $('mark-posted').addEventListener('click',()=>{
