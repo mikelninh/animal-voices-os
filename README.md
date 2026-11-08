@@ -40,7 +40,7 @@ npm test
 # open http://localhost:5173
 ```
 
-The regression suite covers the current workflow and new share-target, triage and privacy decisions. `tests/browser_v08.py` provides an extended Playwright browser acceptance suite; its static-mount mode is used where local HTTP navigation is prohibited by a browser policy. It does **not** prove native Android share-sheet registration.
+The regression suite covers the current workflow and new share-target, triage and privacy decisions. `tests/browser_v08.py` provides an extended Playwright browser acceptance suite. Run `python -m pip install playwright && playwright install chromium`, then `python tests/browser_v08.py` (or set `CHROMIUM_PATH=/usr/bin/chromium` if using a system Chromium); its static-mount mode is used where local HTTP navigation is prohibited by a browser policy. It does **not** prove native Android share-sheet registration.
 
 ## Priorities after v0.8
 

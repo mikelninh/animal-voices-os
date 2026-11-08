@@ -1,12 +1,13 @@
 from playwright.sync_api import sync_playwright
 from urllib.parse import quote
 from pathlib import Path
-BASE='http://127.0.0.1:5173'
+import os
+ROOT=Path(__file__).resolve().parents[1]
 logs=[]
 def assertion(cond,msg):
  if not cond:raise AssertionError(msg)
 with sync_playwright() as p:
- browser=p.chromium.launch(headless=True,executable_path='/usr/bin/chromium',args=['--no-sandbox','--disable-dev-shm-usage'])
+ browser=p.chromium.launch(headless=True,executable_path=os.getenv('CHROMIUM_PATH') or None,args=['--no-sandbox','--disable-dev-shm-usage'])
  def test(name, fn):
   try:fn();logs.append(('PASS',name))
   except Exception as e:logs.append(('FAIL',name,str(e)[:450]))
@@ -15,7 +16,7 @@ with sync_playwright() as p:
   pg=ctx.new_page();pg.set_default_timeout(5000);return ctx,pg
  def mount(pg,share_text=None):
   import base64
-  root=Path('/mnt/data/animal-voices-v08')
+  root=ROOT
   html=(root/'index.html').read_text()
   css=(root/'styles.css').read_text()
   css=css[css.find(';')+1:] if css.startswith('@import') else css
@@ -28,11 +29,11 @@ with sync_playwright() as p:
    if file=='companion.js' and share_text is not None:
     code=code.replace('core.extractShare(window.location.search)','core.extractShare("?shared=1&text="+encodeURIComponent('+repr(share_text)+'))')
    html=html.replace('<script src="./'+file+'"></script>','<script>'+code+'</script>')
-  pg.evaluate("""
-   window.__mockStore = {};
-   Object.defineProperty(window, 'localStorage', {value:{getItem:k=>window.__mockStore[k]||null,setItem:(k,v)=>{window.__mockStore[k]=v},removeItem:k=>{delete window.__mockStore[k]}}});
-   window.history.replaceState = () => { window.__replaceCalled = true; };
-  """)
+  html=html.replace('</head>', """<script>
+    window.__mockStore = {};
+    Object.defineProperty(window, 'localStorage', {configurable:true,value:{getItem:k=>window.__mockStore[k]||null,setItem:(k,v)=>{window.__mockStore[k]=v},removeItem:k=>{delete window.__mockStore[k]}}});
+    window.history.replaceState = () => { window.__replaceCalled = true; };
+  </script></head>""")
   pg.set_content(html,wait_until='domcontentloaded',timeout=15000)
  ctx,pg=page();errors=[];pg.on('pageerror',lambda e:errors.append(str(e)))
  mount(pg)
@@ -70,7 +71,8 @@ with sync_playwright() as p:
  pg.locator('[data-action=report]').click()
  test('Report is guidance only',lambda:assertion(pg.locator('#action-outcome').is_visible() and 'Wir melden nichts automatisch' in pg.locator('#action-outcome').inner_text(),'report'))
  test('No JS runtime errors',lambda:assertion(len(errors)==0,str(errors)))
- pg.screenshot(path='/mnt/data/animal-voices-v08/preview-desktop.png',full_page=True)
+ test('Local decisions persisted to in-browser store',lambda:assertion(bool(pg.evaluate('window.__mockStore["animal-voices-studio-v07"]')),'not saved'))
+ pg.screenshot(path=str(ROOT/'preview-desktop.png'),full_page=True)
  ctx.close()
  mob,mp=page(390,844);mobile_errors=[];mp.on('pageerror',lambda e:mobile_errors.append(str(e)))
  mount(mp,share_text='https://www.instagram.com/reel/xyz/?utm_source=spamsomething')
@@ -78,7 +80,7 @@ with sync_playwright() as p:
  test('GET share query removed from history',lambda:assertion(mp.evaluate('window.__replaceCalled===true'),'privacy query removal'))
  test('Source link canonicalized',lambda:assertion(mp.locator('#source-url').input_value()=='https://www.instagram.com/reel/xyz/','canonical link'))
  test('Mobile no horizontal overflow',lambda:assertion(mp.evaluate('document.documentElement.scrollWidth<=innerWidth'),'mobile overflow '+str(mp.evaluate('document.documentElement.scrollWidth'))))
- mp.screenshot(path='/mnt/data/animal-voices-v08/preview-mobile.png',full_page=True)
+ mp.screenshot(path=str(ROOT/'preview-mobile.png'),full_page=True)
  test('Mobile JS no errors',lambda:assertion(not mobile_errors,str(mobile_errors)))
  mob.close()
  txtctx,txtpg=page(390,844)
