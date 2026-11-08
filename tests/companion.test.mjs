@@ -51,6 +51,8 @@ test('Action recommendations are cautious, not an automatic moderation verdict',
 test('Saved ideas remove @handles and URL',()=>{
  const idea=c.sanitizeIdea('Hallo @person. https://example.com/p/1 Wird Protein reichen?');
  assert.ok(!idea.includes('@person'));assert.ok(!idea.includes('https'));
+ const email=c.sanitizeIdea('Erreiche mich über private.person@example.com oder @someone');
+ assert.ok(!email.includes('private.person'));assert.ok(!email.includes('@someone'));
 });
 test('Short replies do not invent facts or truncate mid-word',()=>{
  const original='Gute Frage. Eine Studie zeigt dabei keine signifikanten Kraftnachteile unter vergleichbaren Bedingungen. Das gilt nicht automatisch für jede Ernährung und alle Menschen.';
@@ -63,6 +65,16 @@ test('Four decisions, manual approval, explicit self-reported actions',()=>{
  assert.match(app,/AV_MARK_SELF_REPORTED_POST/);assert.match(app,/approvedReply/);
  assert.match(html,/id="review-check"/);assert.match(html,/id="mark-posted"/);
  assert.doesNotMatch(companion,/graph\.facebook\.com|api\.twitter\.com|auto.post/i);
+});
+test('Human approval requires source opening, and short replies preserve evidence caveats',()=>{
+ const rules=require('../companion-rules.js');
+ assert.match(rules.short.strength,/begrenzt/i);
+ assert.match(rules.short.b12,/B12/i);
+ assert.match(html,/companion-rules\.js/);
+ assert.match(app,/sourceOpened&&/);
+ assert.match(app,/!sourceOpened/);
+ assert.match(app,/AV_COMPANION_RULES/);
+ assert.match(sw,/companion-rules\.js/);
 });
 test('Service worker has privacy-aware caching rules',()=>{
  assert.match(sw,/req\.mode==='navigate'/);assert.match(sw,/if\(req\.method!=='GET'\)/);assert.match(sw,/FILES\.includes\(u\.pathname\)/);
