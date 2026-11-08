@@ -16,7 +16,7 @@
 <body>
 <div class="site-shell">
   <header class="site-header">
-    <a class="brand" href="#dialog" data-go="dialog" aria-label="Animal Voices Startseite"><span class="brand-icon">✳</span><span>animal voices<span class="beta">BETA 0.9.4</span></span></a>
+    <a class="brand" href="#dialog" data-go="dialog" aria-label="Animal Voices Startseite"><span class="brand-icon">✳</span><span>animal voices<span class="beta">BETA 0.9.5</span></span></a>
     <nav aria-label="Hauptnavigation" class="primary-nav">
       <button data-route="dialog" aria-current="page">Dialog</button>
       <button data-route="library">Wissen</button>
@@ -56,7 +56,7 @@
         <label class="sr-only" for="comment">Kommentar oder Frage</label>
         <textarea id="comment" rows="3" maxlength="1800" aria-describedby="composer-feedback" placeholder="Füge hier einen Kommentar oder eine Frage ein …&#10;Zum Beispiel: „Vegane Männer sind doch schwach.“"></textarea>
         <details class="advanced-context" id="advanced-context"><summary>Optional: Beitragslink und Kontext angeben <span aria-hidden="true">⌄</span></summary><div class="source-input"><label for="post-url">Beitragslink (optional, nur Instagram)</label><input id="post-url" type="url" inputmode="url" autocomplete="off" placeholder="https://www.instagram.com/p/…"><span class="hint">Ein Link enthält nicht automatisch den Kommentartext. Wir lesen keine fremden Accounts aus.</span></div>
-        <div class="context-clarifier"><label for="context-type">Kontext <span class="muted-inline">· optional, aber wichtig</span></label><select id="context-type" aria-describedby="context-hint"><option value="auto">Animal Voices schlägt eine Einordnung vor</option><option value="question">Das ist eine ehrliche Frage</option><option value="claim">Diese Person behauptet das selbst</option><option value="quote">Das ist nur ein Zitat / eine Widerlegung</option><option value="irony">Ironie oder Sarkasmus</option></select><small id="context-hint">Du kennst die Diskussion am besten. Unsere Einschätzung kann falsch sein.</small></div></details>
+        <div class="context-clarifier"><label for="context-type">Kontext <span class="muted-inline">· optional, aber wichtig</span></label><select id="context-type" aria-describedby="context-hint"><option value="auto">Animal Voices schlägt eine Einordnung vor</option><option value="question">Das ist eine ehrliche Frage</option><option value="skeptic">Das ist ein skeptischer Einwand</option><option value="claim">Diese Person behauptet das selbst</option><option value="quote">Das ist nur ein Zitat / eine Widerlegung</option><option value="irony">Ironie oder Sarkasmus</option></select><small id="context-hint">Du kennst die Diskussion am besten. Unsere Einschätzung kann falsch sein.</small></div></details>
         <div class="composer-foot"><div class="example-tray"><span class="example-label">Zum Ausprobieren</span><div id="sample-chips" class="example-chips"></div></div><button id="analyze" type="button" class="button button-primary">Antwort finden <span aria-hidden="true">↗</span></button></div>
         <div id="composer-feedback" class="composer-feedback" role="alert" aria-live="assertive" hidden>
           <strong id="composer-feedback-title">Noch ein kleiner Schritt ♡</strong>
@@ -86,6 +86,15 @@
         <section class="result-card" id="reply-card" aria-labelledby="reply-title" hidden>
           <div class="card-head"><div><span class="section-kicker">DEIN ANTWORTENTWURF</span><h2 id="reply-title">Das könntest du antworten. ♡</h2></div><span class="friendly-label">Mit Liebe, nicht mit Lautstärke. ♡</span></div>
           <p class="tiny-intro">Vorläufiger Entwurf. Ändere ihn so, dass er wirklich zu dir passt.</p>
+          <div class="intent-fit">
+            <div class="intent-fit-top"><span class="intent-fit-mark" aria-hidden="true">✦</span><div><label for="reply-intent">Wie klingt der Kommentar?</label><p id="intent-explainer">Animal Voices hat eine vorläufige Einordnung gewählt. Du kennst den Kontext besser.</p></div></div>
+            <select id="reply-intent" aria-describedby="intent-explainer">
+              <option value="question">Ehrliche Frage · neugierig antworten</option>
+              <option value="skeptic">Skeptischer Einwand · Sorge ernst nehmen</option>
+              <option value="claim">Behauptung · sachlich korrigieren</option>
+            </select>
+            <p class="intent-disclaimer">Keine Analyse der Person, nur eine vorläufige Einordnung dieses Textes. Der Faktenkern bleibt gleich.</p>
+          </div>
           <div class="length-toggle" role="group" aria-label="Länge der Antwort"><button id="reply-short" type="button" aria-pressed="true">Kurz · Instagram</button><button id="reply-long" type="button" aria-pressed="false">Ausführlich</button></div>
           <details class="voice-details" id="voice-details"><summary id="voice-summary">🐮 Momo · Wissenschaft <span>Stimme ändern ⌄</span></summary><div class="persona-picker" role="group" aria-label="Stimme für diesen Entwurf ändern">
             <button class="persona-option" data-persona="momo" aria-pressed="true"><img src="./characters/momo.webp" alt="" width="44" height="44"><span><strong>Momo</strong><small>Wissenschaft</small></span></button>
@@ -93,7 +102,17 @@
             <button class="persona-option" data-persona="bao" aria-pressed="false"><img src="./characters/bao.webp" alt="" width="44" height="44"><span><strong>Bao</strong><small>Humor</small></span></button>
           </div></details>
           <label class="form-label" for="reply">Dein Antwortentwurf <span class="hint">Kannst du frei bearbeiten</span></label>
-          <textarea id="reply" rows="5" maxlength="2500"></textarea><div id="inline-proof" class="inline-proof" aria-live="polite"></div>
+          <textarea id="reply" rows="5" maxlength="2500"></textarea>
+          <details id="reply-feedback" class="reply-feedback"><summary>Antwort passt nicht? Hilf uns, besser zu werden. ↗</summary>
+            <p>Was stimmt noch nicht? Dein Feedback bleibt anonymisiert in diesem Browser.</p>
+            <div class="feedback-choices" role="group" aria-label="Antwortfeedback">
+              <button type="button" data-reply-feedback="context">Frage verfehlt</button>
+              <button type="button" data-reply-feedback="tone">Klingt belehrend</button>
+              <button type="button" data-reply-feedback="long">Zu lang</button>
+              <button type="button" data-reply-feedback="evidence">Beleg nicht überzeugend</button>
+            </div><small id="reply-feedback-result" role="status" aria-live="polite"></small>
+          </details>
+          <div id="inline-proof" class="inline-proof" aria-live="polite"></div>
           <div class="approval-box"><div class="approval-head"><span class="circle-check">✓</span><div><strong>Ein kurzer Check vor dem Kopieren</strong><p>Öffne die Originalquelle und prüfe den Text. Dann kannst du ihn direkt verwenden.</p></div></div>
             <div class="approval-rows"><label class="approval-checkbox"><input type="checkbox" id="review-check" disabled><span>Ich habe die Originalquelle sowie Antwort und Einschränkungen überprüft.</span></label><p class="approval-helper" id="review-helper">1. Quelle oben öffnen · 2. Prüfen und bestätigen · 3. Kopieren</p></div>
             <div class="approval-actions"><button class="button button-primary" id="approve" disabled>Antwort & Quellen kopieren ♡</button><button class="button button-secondary" id="copy" disabled hidden>Erneut kopieren ↗</button></div>
@@ -122,7 +141,7 @@
       <div class="content-grid"><div class="content-controls"><h2>Deine Idee</h2><label for="content-topic">Thema</label><select id="content-topic"></select><label for="content-persona">Erzählstimme</label><select id="content-persona"><option value="momo">🐮 Momo – Wissen</option><option value="kiki">🐔 Kiki – Mitgefühl</option><option value="bao">🐷 Bao – Genuss & Humor</option></select><label for="content-format">Format</label><select id="content-format"><option value="reel">Reel · 30 Sekunden</option><option value="carousel">Karussell · 5 Slides</option><option value="story">Instagram Story · 3 Frames</option></select><label for="content-hook">Perspektive</label><select id="content-hook"><option value="humor">Humorvoll</option><option value="fact">Faktenbasiert</option><option value="heart">Berührend</option></select><button id="generate" class="button button-primary">Entwurf erstellen <span>↗</span></button></div><div class="content-preview"><div class="preview-top"><span class="section-kicker">VORSCHAU</span><span class="status-pill" id="content-status">Noch kein Entwurf</span></div><pre id="script">Wähle links ein Thema und ein Format. Dein erster Entwurf beginnt mit einer guten Frage – und endet mit einer Einladung zum Nachdenken.</pre><button id="copy-script" class="button button-secondary" disabled>Entwurf mit Quellen kopieren</button></div></div>
     </section>
 
-    <section class="view" id="view-impact"><div class="page-intro"><span class="section-kicker">IMPACT & LEARNING</span><h1>Gute Absichten.<br><em>Ehrliche Messung.</em></h1><p>Wir zeigen, was wir tatsächlich getan haben – und behaupten keine Wirkung, die wir noch nicht nachweisen können.</p></div><div class="impact-grid"><div class="impact-stat"><strong id="impact-cases">0</strong><span>Fälle in diesem Browser</span></div><div class="impact-stat"><strong id="impact-approved">0</strong><span>Manuell freigegebene Entwürfe</span></div><div class="impact-stat"><strong id="impact-posted">0</strong><span>Selbst als gepostet markiert (kein Wirkungsnachweis)</span></div><div class="impact-stat"><strong id="impact-ideas">0</strong><span>Anonymisierte Content-Ideen</span></div><div class="impact-stat"><strong>0</strong><span>Extern validierte Dialogwirkungen</span></div></div><section class="idea-board" aria-labelledby="idea-board-title"><div class="idea-heading"><span class="section-kicker">AUS ECHTEN FRAGEN LERNEN</span><h2 id="idea-board-title">Wiederkehrende Content-Ideen</h2><p>Nur deine lokal gespeicherten, bereinigten Ideen – keine erfundenen Social-Media-Trends.</p></div><div id="idea-clusters" class="idea-clusters"><p>Noch keine gemerkten Fragen.</p></div></section>
+    <section class="view" id="view-impact"><div class="page-intro"><span class="section-kicker">IMPACT & LEARNING</span><h1>Gute Absichten.<br><em>Ehrliche Messung.</em></h1><p>Wir zeigen, was wir tatsächlich getan haben – und behaupten keine Wirkung, die wir noch nicht nachweisen können.</p></div><div class="impact-grid"><div class="impact-stat"><strong id="impact-cases">0</strong><span>Fälle in diesem Browser</span></div><div class="impact-stat"><strong id="impact-approved">0</strong><span>Manuell freigegebene Entwürfe</span></div><div class="impact-stat"><strong id="impact-posted">0</strong><span>Selbst als gepostet markiert (kein Wirkungsnachweis)</span></div><div class="impact-stat"><strong id="impact-ideas">0</strong><span>Anonymisierte Content-Ideen</span></div><div class="impact-stat"><strong id="impact-feedback">0</strong><span>Lokale Rückmeldungen zu Antwortentwürfen</span></div><div class="impact-stat"><strong>0</strong><span>Extern validierte Dialogwirkungen</span></div></div><section class="idea-board" aria-labelledby="idea-board-title"><div class="idea-heading"><span class="section-kicker">AUS ECHTEN FRAGEN LERNEN</span><h2 id="idea-board-title">Wiederkehrende Content-Ideen</h2><p>Nur deine lokal gespeicherten, bereinigten Ideen – keine erfundenen Social-Media-Trends.</p></div><div id="idea-clusters" class="idea-clusters"><p>Noch keine gemerkten Fragen.</p></div></section>
         <div class="impact-notes"><div><h2>Was zählt wirklich?</h2><p><strong>Qualität:</strong> Wie korrekt und sorgfältig waren die Antworten? <strong>Dialog:</strong> Haben Menschen freiwillig nachgefragt? <strong>Veränderung:</strong> Gibt es nachvollziehbare Belege statt schöner Behauptungen?</p><div class="button-row"><button id="export" class="button button-secondary">Lokales Protokoll exportieren</button><button id="clear" class="button button-plain">Alle lokalen Fälle löschen</button></div></div><div class="impact-audit"><h3>Deine letzten Entwürfe</h3><div id="records" class="record-list">Noch keine Fälle. Probiere den Dialog aus.</div></div></div></section>
   </main>
   <footer class="page-footer"><span>Animal Voices © 2026 · For animals. With humans. ♡</span><span>Quellengebundene Entwürfe · Redaktionelle Quellen · keine Live-Verifikation · Kein Auto-Posting.</span></footer>
@@ -130,6 +149,6 @@
 </div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 <dialog id="install-dialog" class="install-dialog"><form method="dialog"><div class="card-head"><h2>Animal Voices aufs Handy ♡</h2><button class="button button-plain" value="close" aria-label="Schliessen">✕</button></div><p><strong>Android (Chrome):</strong> Browser-Menü ⋮ → „App installieren“ oder „Zum Startbildschirm hinzufügen“. Danach kannst du bei unterstützten Share-Menüs „Animal Voices“ auswählen.</p><p><strong>iPhone (Safari):</strong> Teilen → „Zum Home-Bildschirm“. Direkte PWA-Share-Targets sind hier nicht allgemein verfügbar – nutze Kopieren/Einfügen.</p><p>Instagram teilt möglicherweise nur den Beitragslink. Den Kommentartext bitte dann selbst einfügen. Kein Zugriff auf dein Instagram-Konto.</p><button class="button button-primary" value="close">Verstanden</button></form></dialog>
-<script src="./data.js"></script><script src="./triage.js"></script><script src="./engine.js"></script><script src="./app.js?v=0.9.4"></script>
+<script src="./data.js"></script><script src="./triage.js"></script><script src="./engine.js?v=0.9.5"></script><script src="./context-fit.js?v=0.9.5"></script><script src="./app.js?v=0.9.5"></script>
 </body>
 </html>
