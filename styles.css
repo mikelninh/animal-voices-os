@@ -70,3 +70,99 @@ main{min-height:60vh}.view{display:none;animation:fade .3s ease both}.view.activ
 .composer-feedback p{color:#755d39;font-size:12px;flex:1 1 220px;line-height:1.5}
 .composer-feedback .button{min-height:36px;padding:9px 12px;font-size:11px}
 #comment[aria-invalid="true"],#post-url[aria-invalid="true"]{border-color:#d0a25a!important;box-shadow:0 0 0 3px #ffedcf!important}
+
+/* v0.9.2: the answer is the product. Optional details stay one tap away. */
+.journey[hidden]{display:none!important}
+.dialog-hero{padding-top:28px;margin-bottom:10px;min-height:0}
+.dialog-hero h1{font-size:clamp(29px,3.5vw,45px);line-height:1.12}
+.dialog-hero p{font-size:13px;max-width:510px}
+.hero-art.hero-photo{height:182px;max-width:450px;align-self:center}
+.companion-helper{padding:10px 14px;margin:10px auto 16px;border-radius:12px;max-width:1080px}
+.companion-helper p{display:none}
+.companion-helper .helper-icon{width:27px;height:27px;font-size:15px}
+.composer{padding:25px 30px;max-width:1080px;margin:0 auto 16px}
+.composer textarea{min-height:90px}
+.composer-top{margin-bottom:18px}
+.composer-top h2{font-size:clamp(23px,2.4vw,31px)}
+.composer-foot{margin-top:13px;align-items:center}
+.composer-foot .button-primary{font-size:13px;min-height:49px}
+.advanced-context{margin:12px 0 8px;border-radius:13px;background:#f8faf6;border:1px solid #e9eee6;padding:11px 13px}
+.advanced-context>summary,.privacy-details>summary,.analysis-details>summary,.alternative-actions>summary{cursor:pointer;color:#627769;font-size:12px;font-weight:750;list-style:none}
+.advanced-context>summary::-webkit-details-marker,.privacy-details>summary::-webkit-details-marker,.analysis-details>summary::-webkit-details-marker,.alternative-actions>summary::-webkit-details-marker{display:none}
+.advanced-context[open]>summary{padding-bottom:7px;border-bottom:1px solid #e6eee1}
+.privacy-details{margin-top:13px}.privacy-details p{font-size:11px;color:#78917d;margin-top:8px;line-height:1.6}
+#result-area{max-width:1080px;margin:0 auto 30px}
+#triage-card{padding:17px 23px;margin-bottom:12px;background:#f5faf2}
+#triage-card .card-head{margin-bottom:7px}
+#triage-card h2{font-size:19px}
+#triage-card .tiny-intro{margin:0;font-size:12px;line-height:1.5}
+#triage-card .status-pill{font-size:10px}
+.analysis-details{margin-top:8px}
+.analysis-details .analysis-basis{margin:8px 0 0;font-size:11px}
+.alternative-actions{margin-top:10px}
+.alternative-actions .action-grid{margin:11px 0 8px;gap:8px}
+.alternative-actions .action-choice{min-height:84px;padding:10px 5px;border-radius:12px}
+.alternative-actions .action-choice .action-emoji{font-size:18px}
+#action-feedback{margin-top:9px;padding:9px 12px;font-size:11px;background:transparent}
+#action-feedback p{display:inline}
+#reply-card{margin:12px 0;padding:24px 27px;border-color:#d6e5d5;box-shadow:0 13px 34px rgba(44,77,45,.055)}
+#reply-card .card-head{margin-bottom:11px}
+#reply-card h2{font-size:clamp(23px,2.6vw,31px)}
+#reply-card .tiny-intro{font-size:12px;margin-bottom:14px}
+#reply-card textarea{font-size:14px;line-height:1.65;min-height:142px}
+.inline-proof{background:#f5f9f2;border:1px solid #e0ebda;border-radius:14px;margin-top:15px;padding:14px 17px;color:#47644f}
+.inline-proof-label{color:#356644;font-size:11px;font-weight:900;letter-spacing:.035em}
+.inline-proof p{color:#708472;font-size:12px;margin:6px 0 11px;line-height:1.6}
+.inline-proof-links{display:flex;flex-wrap:wrap;gap:7px}
+.inline-proof-links a{color:#2f6b4a;background:white;border:1px solid #dce9d7;border-radius:9px;padding:8px 11px;font-size:11px;font-weight:750;text-decoration:none}
+.inline-proof-links a:hover{background:#edf5ea}
+.link-control{background:none;color:#477a55;border:0;padding:9px 0 2px;font-size:11px;font-weight:750;cursor:pointer}
+#reply-card .approval-box{margin-top:18px}
+#approve{background:#275f42;color:#fff;border-color:#275f42;min-height:46px;font-weight:800}
+#copy[hidden]{display:none!important}
+#evidence-card{margin:14px 0}
+@media(max-width:760px){
+ .dialog-hero{padding-top:19px;margin-bottom:0}
+ .dialog-hero h1{font-size:clamp(27px,7vw,34px);margin:7px 0}
+ .dialog-hero p{font-size:12px}
+ .hero-art.hero-photo{height:105px;max-width:360px;margin:5px auto 0}
+ .hero-trust{font-size:10px;margin-top:7px}
+ .composer{padding:18px;margin-top:3px}
+ .composer h2{font-size:23px}
+ .composer textarea{min-height:83px}
+ .companion-helper{margin:7px 0 12px}
+ #triage-card{padding:14px 16px}
+ #triage-card h2{font-size:18px}
+ #reply-card{padding:17px 18px}
+ #reply-card h2{font-size:23px}
+ .inline-proof{padding:12px}
+ .approval-actions .button{width:100%}
+}
+@media(max-width:480px){.hero-art.hero-photo{height:82px}.hero-copy .eyebrow{font-size:9px}.dialog-hero h1{font-size:29px}.composer-foot .button{margin-top:12px}.composer-top .step-tag{display:none}.alternative-actions .action-grid{grid-template-columns:repeat(2,1fr)}}
+/* Make the first useful action visible without scrolling on a phone. */
+@media(max-width:760px){
+ .dialog-hero{display:block;position:relative;min-height:0;padding:14px 100px 13px 0;margin-bottom:0}
+ .dialog-hero h1{font-size:clamp(25px,7vw,32px);line-height:1.12;margin:6px 0}
+ .dialog-hero p{font-size:11px;line-height:1.45;max-width:420px}
+ .dialog-hero .hero-trust{font-size:9px;line-height:1.4;margin-top:8px}
+ .hero-art.hero-photo{position:absolute;right:0;top:19px;width:93px;height:92px;min-height:0;max-width:93px;border-radius:16px;margin:0;box-shadow:0 5px 12px #223d2520;-webkit-mask-image:none;mask-image:none}
+ .art-scene{object-position:49% center;object-fit:cover}
+ .companion-helper{background:none;border:0;padding:2px 0;margin:3px 0 12px;box-shadow:none}
+ .companion-helper .helper-icon{display:none}
+ .companion-helper strong{font-size:11px}
+ .companion-helper .button{min-height:29px;padding:5px 9px;font-size:10px}
+ .composer{margin-top:0;padding:16px 18px}
+ .composer-top{margin-bottom:10px}
+ .composer h2{font-size:22px;line-height:1.22}
+ .composer textarea{min-height:75px;padding:12px 14px;font-size:13px}
+ .advanced-context{margin:9px 0 5px;padding:9px 11px}
+ .advanced-context>summary{font-size:11px}
+ .composer-foot{display:flex;flex-direction:column;align-items:stretch;gap:12px;margin-top:10px}
+ .composer-foot>.button-primary{order:-1;width:100%;margin:0;min-height:44px;font-size:13px}
+ .example-tray{order:2}
+ .example-label{font-size:10px}
+ .example-chips{gap:6px}
+ .example-chip{padding:7px 9px;font-size:10px}
+ .privacy-details{margin-top:8px}
+ .privacy-details>summary{font-size:10px}
+}
