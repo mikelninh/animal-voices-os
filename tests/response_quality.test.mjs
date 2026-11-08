@@ -68,8 +68,8 @@ test('Response lab is accessible and versioned in PWA',()=>{
 });
 
 test('Versioned scripts plus network-first critical assets avoid duplicate A/B comparisons from stale PWA',()=>{
- assert.match(html,/triage\.js\?v=0\.9\.4\.1/);
- assert.match(html,/quality\.js\?v=0\.9\.4\.1/);
+ assert.match(html,/triage\.js\?v=0\.9\.5/);
+ assert.match(html,/quality\.js\?v=0\.9\.5/);
  assert.match(sw,/network-first/);
  assert.match(sw,/fetch\(req\)/);
  assert.match(quality,/function distinctVersions/);
