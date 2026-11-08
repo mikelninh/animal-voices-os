@@ -60,7 +60,7 @@ test('No fabricated trial results or user data collection',()=>{
 });
 test('Response lab is accessible and versioned in PWA',()=>{
   assert.match(main,/href="\/quality\.html"/);
-  assert.match(sw,/animal-voices-v094-shell-2/);
+  assert.match(sw,/animal-voices-v095-shell-1/);
   for(const p of ['/quality.html','/quality.css','/quality.js'])assert.ok(sw.includes(p));
   assert.match(css,/@media\(max-width:560px\)/);
   assert.match(css,/prefers-reduced-motion/);
