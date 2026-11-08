@@ -77,7 +77,9 @@
     $('evidence-body').innerHTML='<div class="takeaway"><strong>Was wir belegen können</strong>'+escape(topic.fact)+'</div>'+
       '<div class="evidence-references">'+sourceCards(topic)+'</div>'+
       '<div class="caveat"><span class="symbol">ⓘ</span><div><strong>Was du bei der Antwort beachten solltest</strong><div style="margin-top:4px">'+escape(topic.limit)+'</div></div></div>'+
-      '<div class="quote-note">Die Quellen wurden redaktionell zusammengestellt. Bitte vor der Verwendung im Original gegenprüfen – keine Live-Quellenvalidierung.</div>';
+      '<div class="quote-note">Die Quellen wurden redaktionell zusammengestellt. Bitte vor der Verwendung im Original gegenprüfen – keine Live-Quellenvalidierung.</div>'+
+      '<div class="next-step-line"><span>Die Belege passen zur Frage?</span><button class="button button-primary" id="next-answer">Weiter zur Antwort ↗</button></div>';
+    $('next-answer').addEventListener('click',()=>{$('reply-card').scrollIntoView({behavior:'smooth',block:'start'});setJourney(3)});
     $('reply').value=topic.voices[persona];$('reviewer').value='';$('review-check').checked=false;
     setApprovalState();setJourney(2);
     $('evidence-card').scrollIntoView({behavior:'smooth',block:'start'});
