@@ -4,10 +4,8 @@
   "private": true,
   "description": "Animal Voices: source-backed, human-first conversation and content studio",
   "scripts": {
-    "prestart": "node scripts/generate-assets.cjs",
     "start": "node server.cjs",
-    "pretest": "node scripts/generate-assets.cjs",
     "test": "node --test tests/*.test.mjs",
-    "build": "node scripts/generate-assets.cjs"
+    "build": "node -e \"console.log('Static Animal Voices build: tracked assets')\""
   }
 }
