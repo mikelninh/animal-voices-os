@@ -1,52 +1,51 @@
-# Animal Voices v0.8 — Instagram Companion 🐮🐔🐷
+# Animal Voices OS v0.9 · Kindness Engine
 
-**Live:** https://animal-voices-os.vercel.app/ · **Repo:** https://github.com/mikelninh/animal-voices-os
+[**Live**](https://animal-voices-os.vercel.app/) · [GitHub](https://github.com/mikelninh/animal-voices-os) · *For animals. With humans.*
 
-*For animals. With humans.*
+An original, compassionate, privacy-first Instagram Companion for choosing when to reply, report, ignore, or turn recurring questions into stories. Curated evidence is always openable, with original links and scientific limitations. No automatic social-media posting.
 
-## What changed from v0.7
+## v0.9 — Shipped capabilities
 
-- Installable progressive web application with Web Share Target (`GET /?shared=1&text=...`) on supported Android/browser combinations. Sharing text does **not** assume it is the actual comment. The user must confirm it; link-only shares cannot be submitted as comments.
-- Fast four-way triage after pasting a comment: **Reply / Report / Ignore / Save idea**, each explained in plain language. Classification is a cautious deterministic heuristic, **not** a platform moderation decision or an AI model.
-- Reply supports **short Instagram** and **full context** formats, with existing curated sources, caveats, Momo/Kiki/Bao personas and mandatory explicit reviewer approval.
-- Report gives human-only instructions for Instagram and optional self-report. Ignore preserves privacy. Save stores de-identified ideas locally. User-posted replies are only self-reported, never falsely marked as verified.
-- Offline app shell via service worker (not offline source verification). Responsive one-handed controls and an install prompt when the browser makes one available.
-- 12 curated topic cards and 11 original research/institutional links from earlier release. **No live literature retrieval or automatic Instagram publishing.**
+- **Context and claim engine** (`engine.js`): distinguishes questions, quoted claims, negations, irony, direct claims, medical risk, harassment, possible threats and prompt injection. Multi-topic ambiguity and unknown claims are held instead of guessing. Its interpretation is a **local heuristic**, not a trained AI classification or proof of accuracy.
+- **Evidence worker**: selects among twelve curated topics and eleven institutional or research references; requires a source link and explicit scientific caveat, displays the limitation and the human editor gate.
+- **Human decision gate**: `Reply / Report / Ignore / Save idea`. Open a source and tick the editorial review to approve a sourced answer. Copy with citations only after approval. No automatic Instagram actions.
+- **Private POST Android Share Target**: on supported installed PWAs, a Service Worker receives the Android share via `POST /share`, writes one temporary, local-only record to IndexedDB, and redirects to `/?inbox=1`. The page consumes and deletes the incoming record. Unlike the older GET method, shared text is not put into the URL or sent to our hosting backend. Unsupported browsers retain copy/paste fallback. The Service Worker cannot intercept POST unless installed/activated.
+- **Content feedback loop**: groups genuinely saved, de-identified content ideas by topic, not invented trends, and opens the content studio with the selected subject.
+- **Optional AI writer + independent critic** (`api/assist.js`): an OpenAI model drafts a response from our server-side evidence, another model checks whether it is supported. Both calls require deliberate user consent, an editor access code, and `OPENAI_API_KEY`/`AVOS_EDITOR_CODE` configured on the server. **Not enabled by default**. Even after the model critic passes, original source checking and human approval remain mandatory. No live scientific search or external peer review.
+- **Honest records**: locally stored, partly de-identified audit data and voluntary self-reports. Every external impact metric remains zero until independently measured. Personal posts are not fetched or tracked.
 
-## Everyday workflow
+## Start and test
 
-1. On Android, install Animal Voices from a compatible browser. Open Instagram, use **Share → Animal Voices**, or copy and paste the exact comment. Instagram often sends only the post URL.
-2. Confirm the comment and decide what to do: Reply / Report / Ignore / Save for content.
-3. If Reply, check the evidence, choose short/long and a persona, review and approve. Copy the response **with source links** and post manually on Instagram.
-4. Optionally note that you posted. Such logs are self-reports, not actual impact measurements.
-
-**iPhone or unsupported browsers:** open the site and paste the text or use the clipboard button. The share target feature is browser- and device-dependent. We have not run a native Android Instagram→OS-share-sheet acceptance test on a real handset.
-
-### Privacy and security
-
-- All regular triage and logs run locally in the browser, with no account or database; never share names or confidential comments.
-- **Important GET-share caveat:** The incoming Android shared text is initially placed in the request URL, which can pass through infrastructure logs before JavaScript removes it from browser history. Treat shared data as public, anonymise it, and avoid private information. A future POST/service-worker approach could reduce this exposure.
-- Comments and URLs are untrusted input; links must be explicitly opened by the user. Unknown claims, quoted viewpoints and sensitive medical topics abstain, rather than hallucinating sources.
-- No scraper, bots or posting to Instagram/X. Links to Instagram are manual-navigation links.
-- A PWA icon and service worker are included. Offline cached assets are only a static shell; comments and share query strings are not cached.
-
-## Run and test
-
-Requires Node.js 22+.
+Node.js 22+ (no dependencies for the offline experience).
 
 ```bash
-npm start
 npm test
-# open http://localhost:5173
+npm start
+# http://localhost:5173
 ```
 
-The regression suite covers the current workflow and new share-target, triage and privacy decisions. `tests/browser_v08.py` provides an extended Playwright browser acceptance suite. Run `python -m pip install playwright && playwright install chromium`, then `python tests/browser_v08.py` (or set `CHROMIUM_PATH=/usr/bin/chromium` if using a system Chromium); its static-mount mode is used where local HTTP navigation is prohibited by a browser policy. It does **not** prove native Android share-sheet registration.
+GitHub Actions runs source, safety, PWA, and optional-API contract tests on each push. The test corpus includes **100 synthetic examples**; it is not an evaluation of 100 real Instagram comments. On-device Android-to-PWA sharing still needs testing with a real installed app.
 
-## Priorities after v0.8
+## Deploy and configure optional AI
 
-1. Hands-on tests on Android Chrome + Instagram and iPhone fallback.
-2. 100 anonymised real comments annotated by people; measure both false-positive correction and abstention rate.
-3. Field-verified quote-level evidence ledger and independent science reviewer; only then add server-side provider-independent AI workers.
-4. Permissioned Instagram Professional account tools for **owned** media, an authenticated approval queue and thoughtful impact research.
+1. Deploy repository root to Vercel. The public static app needs no secrets.
+2. Optionally add `OPENAI_API_KEY` and a random **16+ character** `AVOS_EDITOR_CODE` in Vercel server environment settings. You can override `AVOS_MODEL` (default `gpt-4.1-mini`). Never put API keys in source, query strings, client storage or public JavaScript.
+3. The API is off and returns 503 unless *both* secrets are set. The editor code is a temporary private-beta gate **not production user authentication**. For multi-user production, add real authentication, server-side rate limits, spending limits, privacy review and abuse monitoring.
+4. The user must explicitly check consent before sending the anonymized comment to the AI provider. The API accepts only vetted evidence topics, blocks sensitive cases, checks source IDs, runs a second critic, and holds on uncertainty.
+5. Every AI output is a **draft**, not a verified scientific claim; no Instagram post is sent automatically.
 
-**Guiding metric:** helpful, reliable conversations per editorial hour — while keeping impact claims separate from actual changes in animal-product purchases.
+### Limitations
+
+The current 12 claims and 11 links are **editorial, not independently validated**; quotes embedded in source data must not be treated as verified direct quotations until checked against the full paper. The local decision engine is conservative but neither fully reliable nor able to read unseen Instagram context. PWA share targets are Android/browser dependent, and Instagram may share a **post link without comment text**. iOS users should use copy/paste. A GET share link from the old v0.8 application is accepted only for backward compatibility and immediately cleared from the visible URL; avoid sharing sensitive data that way.
+
+### Next evidence milestone
+
+Collect 100 anonymized *real* comments with consent and two independent reviewers; quantify harmful false replies, correct abstentions, source-grounding, median time, and constructive conversations. Add externally reviewed source excerpts and dates. Study whether conversations lead to voluntary learning and practical changes. Never equate comment counts with animal lives saved.
+
+### Sources and technical references
+
+- [MDN Share Target](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Manifest/Reference/share_target)
+- [Meta Instagram API](https://www.postman.com/meta/instagram/documentation/6yqw8pt/instagram-api)
+- [OpenAI Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs)
+- [DGE vegan nutrition 2024](https://www.dge.de/wissenschaft/stellungnahmen-und-positionspapiere/positionen/neubewertung-der-position-zu-veganer-ernaehrung/)
+- [Hevia-Larraín et al. 2021](https://pubmed.ncbi.nlm.nih.gov/33599941/)
