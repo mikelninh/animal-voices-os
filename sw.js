@@ -2,7 +2,7 @@
  * Text from the Android share sheet is written to IndexedDB on the device,
  * NOT to a backend and NOT into a URL query string. No binary file uploads.
  */
-const VERSION='animal-voices-v094-shell-1';
+const VERSION='animal-voices-v094-shell-2';
 const SHELL=['/quality.html','/quality.css','/quality.js','/','/index.html','/styles.css','/app.js','/triage.js','/engine.js','/data.js','/manifest.webmanifest','/characters/trio.webp','/characters/momo.webp','/characters/kiki.webp','/characters/bao.webp','/icons/icon-192.png','/icons/icon-512.png'];
 const DB='animal-voices-inbox-v09';
 function openInbox(){return new Promise((resolve,reject)=>{
@@ -35,5 +35,16 @@ self.addEventListener('fetch',event=>{
  if(req.mode==='navigate'){
   event.respondWith(fetch(req).catch(()=>caches.match('/index.html')));return;
  }
- if(SHELL.includes(url.pathname))event.respondWith(caches.match(req).then(cached=>cached||fetch(req)));
+ // Critical scripts/styles are network-first to avoid old editorial logic in new UI.
+ // Installed PWAs keep a versioned offline fallback for network outages.
+ if(SHELL.includes(url.pathname)){
+  if(/\.(?:js|css|json)$/.test(url.pathname)){
+   event.respondWith(fetch(req).then(response=>{
+    if(response.ok){const duplicate=response.clone();event.waitUntil(caches.open(VERSION).then(c=>c.put(url.pathname,duplicate)))}
+    return response;
+   }).catch(()=>caches.match(url.pathname).then(cached=>cached||Response.error())));
+  }else{
+   event.respondWith(caches.match(req).then(cached=>cached||fetch(req)));
+  }
+ }
 });
