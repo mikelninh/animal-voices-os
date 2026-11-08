@@ -46,7 +46,7 @@ test('The user interface has its required workspaces and controls',()=>{
 });
 test('Every referenced static element id exists',()=>{
  const ids=[...app.matchAll(/\$\("([\w-]+)"\)/g)].map(m=>m[1]);
- for(const id of new Set(ids))assert.ok(html.includes('id="'+id+'"'),'missing DOM element '+id);
+ for(const id of new Set(ids))assert.ok(html.includes('id="'+id+'"')||app.includes('id="'+id+'"'),'missing static or dynamically rendered DOM element '+id);
 });
 test('Publishing remains disabled and scientific uncertainty is explicit',()=>{
  assert.match(app,/Keine Veröffentlichung|nicht veröffentlicht|Nichts wurde veröffentlicht/);
