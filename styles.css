@@ -180,3 +180,24 @@ main{min-height:60vh}.view{display:none;animation:fade .3s ease both}.view.activ
 
 /* v0.9.4: quiet invitation to independent answer quality testing */
 .lab-invite{display:flex;align-items:center;gap:14px;max-width:1000px;margin:20px auto 0;border:1px solid #e4ece0;background:#f3f8ef;border-radius:16px;padding:15px 18px}.lab-invite-icon{flex:none;color:#2e7249;background:#e4f2dc;border-radius:10px;width:35px;height:35px;display:grid;place-items:center;font-size:19px}.lab-invite div{flex:1}.lab-invite strong{color:#315b3e;font-size:13px}.lab-invite p{font-size:11px;color:#788e79;margin:3px 0 0}.lab-invite-link{white-space:nowrap;color:#2f7247;font-size:11px;font-weight:800;text-decoration:none}.lab-invite-link:hover{text-decoration:underline}@media(max-width:600px){.lab-invite{flex-wrap:wrap}.lab-invite-link{margin-left:48px}}
+
+
+/* v0.9.5 · Context Matters — one optional correction, no additional workflow step */
+.intent-fit{margin:14px 0 15px;padding:16px 18px;background:linear-gradient(132deg,#f1f7ec,#f9fbf7);border:1px solid #e1eadc;border-radius:16px}
+.intent-fit-top{display:flex;gap:11px;align-items:flex-start;margin-bottom:11px}
+.intent-fit-mark{width:30px;height:30px;flex:none;border-radius:10px;display:grid;place-items:center;background:#e1efd8;color:#417452;font-size:18px}
+.intent-fit label{display:block;color:#294e36;font-size:13px;font-weight:800;margin-bottom:3px}
+.intent-fit p{color:#718374;font-size:11px;line-height:1.55;margin:0}
+.intent-fit #reply-intent{display:block;width:100%;background:white;border:1px solid #d7e4d4;border-radius:10px;color:#294e36;padding:11px 12px;font:600 12px/1.3 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;cursor:pointer}
+.intent-fit #reply-intent:focus-visible{outline:3px solid #b1d1aa;outline-offset:2px}
+.intent-fit .intent-disclaimer{margin-top:8px;font-size:10px}
+.reply-feedback{margin:9px 0 15px;border-top:1px solid #e7eee4;padding-top:12px}
+.reply-feedback summary{font-size:11px;font-weight:750;cursor:pointer;color:#587a62;list-style:none}
+.reply-feedback summary::-webkit-details-marker{display:none}
+.reply-feedback p{font-size:11px;color:#6f8271;margin:9px 0}
+.feedback-choices{display:flex;flex-wrap:wrap;gap:6px}
+.feedback-choices button{border:1px solid #dce7da;border-radius:99px;padding:8px 10px;background:#fff;color:#476c51;cursor:pointer;font-size:11px;font-weight:700}
+.feedback-choices button:hover{background:#eaf5e6;border-color:#c3d7bd}
+.feedback-choices button:focus-visible{outline:3px solid #b1d1aa;outline-offset:2px}
+#reply-feedback-result{display:block;color:#608469;font-size:11px;margin-top:10px}
+@media(max-width:480px){.intent-fit{padding:13px 14px}.intent-fit #reply-intent{font-size:12px}.feedback-choices button{flex:1 1 auto}}
