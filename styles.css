@@ -166,3 +166,14 @@ main{min-height:60vh}.view{display:none;animation:fade .3s ease both}.view.activ
  .privacy-details{margin-top:8px}
  .privacy-details>summary{font-size:10px}
 }
+
+/* v0.9.3 · Effortless daily companion: one voice, one review action. */
+.voice-details{margin:4px 0 17px;border:1px solid #e5ede1;border-radius:13px;background:#f8fbf6;padding:0 13px}
+.voice-details>summary{cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 3px;list-style:none;font-size:13px;font-weight:800;color:#34593e}
+.voice-details>summary::-webkit-details-marker{display:none}
+.voice-details>summary span{font-weight:650;font-size:11px;color:#79917f}
+.voice-details[open]>.persona-picker{padding:0 0 13px;margin-bottom:0}
+.approval-rows{display:grid;gap:8px}
+.approval-helper{font-size:11px;color:#668270;margin:3px 0 0 28px}
+#review-check:disabled+span{opacity:.7}
+@media(max-width:760px){.voice-details{margin:2px 0 14px}.voice-details>summary{padding:10px 0}.voice-details .persona-picker{grid-template-columns:repeat(3,minmax(0,1fr))}}
