@@ -51,9 +51,9 @@ test('Short answer variants must be curated and do not invent sourced studies',(
  assert.equal(t.reply(null,'momo','short'),'');
 });
 test('Browser approval gate requires original source opened plus manual review',()=>{
- for(const id of ['triage-card','triage-reason','action-grid','reply-short','reply-long','source-check','mark-posted','post-url','after-copy'])assert.ok(html.includes('id="'+id+'"'),id);
+ for(const id of ['triage-card','triage-reason','action-grid','reply-short','reply-long','review-check','mark-posted','post-url','after-copy'])assert.ok(html.includes('id="'+id+'"'),id);
  assert.ok(app.includes('sourceOpenedAt'));
- assert.ok(app.includes('sourceOpenedAt') && app.includes('source-check')); 
+ assert.ok(app.includes('sourceOpenedAt') && app.includes("$('review-check').disabled=false")); 
  assert.ok(app.includes('approvedReply'));
  assert.ok(!app.includes('graph.facebook.com'));
  assert.ok(!app.includes('api.twitter.com'));
