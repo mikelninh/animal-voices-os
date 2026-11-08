@@ -34,7 +34,7 @@
     return {title,text:snippet,link,hasCommentText:snippet.length>=8,linkOnly:!snippet||snippet.length<8};
   }
   function sanitizeIdea(text){
-    const cleaned=String(text||'').replace(/https?:\/\/\S+/ig,'').replace(/@[\w.]+/g,'[Name entfernt]').replace(/[\w.+-]+@[\w.-]+\.[A-Z]{2,}/gi,'[E-Mail entfernt]').replace(/\b(?:\+?\d[\d\s-]{7,}\d)\b/g,'[Nummer entfernt]').trim();
+    const cleaned=String(text||'').replace(/https?:\/\/\S+/ig,'').replace(/[\w.+-]+@[\w.-]+\.[A-Z]{2,}/gi,'[E-Mail entfernt]').replace(/@[\w.]+/g,'[Name entfernt]').replace(/\b(?:\+?\d[\d\s-]{7,}\d)\b/g,'[Nummer entfernt]').trim();
     return cleaned.slice(0,170)||'Interessante Frage zu tierfreundlicher Ernährung';
   }
   function advise(text,{knownTopic=false,hasSource=false}={}){
