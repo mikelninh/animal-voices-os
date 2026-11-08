@@ -1,4 +1,24 @@
-# Animal Voices OS v0.9.3 · Effortless Daily Companion
+# Animal Voices OS v0.9.4 · Better answers, measured honestly
+
+[**Live companion**](https://animal-voices-os.vercel.app/) · [**Response Lab**](https://animal-voices-os.vercel.app/quality.html) · [GitHub](https://github.com/mikelninh/animal-voices-os)
+
+## v0.9.4 — Response Quality Engine
+
+- All 12 topics now have **36 new, voice-specific short responses** rather than the same text with three superficial openers. These remain editorial drafts, NOT peer-reviewed or live fact-checked.
+- **Response Lab:** blinded old-vs-new A/B choices, optional six-criterion ratings (weighted: evidence 25, context 20, respect 15, clarity 15, constructive 15, voice 10), hard factual/safety-error flag, local-only browser storage, anonymized CSV export.
+- A locally stored preference is NOT a representative study, verified source review, or animal-welfare impact. Missing ratings are never filled with invented scores.
+- The companion stays simple; the optional evaluation link appears below the dialogue workflow. Existing approvals and human source checking remain unchanged.
+- Research rationale: corrections improve belief accuracy but changes in downstream behavior are less certain (Porter & Wood, 2024); miscorrections can hurt trust in true information (2024 cross-country experiments); short-user corrections sometimes have only small average effects (Altay et al., 2025).
+
+### Quality acceptance
+
+**Hard gates:** No invented citations, no factual distortions, no personal attacks, no medical overreach. An entertaining answer that fails a gate is rejected regardless of preference or weighted score.
+
+**Trial protocol:** 50–100 real, anonymized comments; 2 independent reviewers per source-critical item; randomise left/right presentation; report raw per-topic votes and abstentions separately; aim to recruit 10+ blinded readers; include disagreement and adverse reactions.
+
+**Future:** Compare selected answers in controlled, consented settings to measure useful comprehension, trust and willingness to continue; never infer animals saved from likes or copied responses.
+
+## Previous release: v0.9.3
 
 [**Live**](https://animal-voices-os.vercel.app/) · [GitHub](https://github.com/mikelninh/animal-voices-os) · *For animals. With humans.*
 
