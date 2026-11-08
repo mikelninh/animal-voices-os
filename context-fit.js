@@ -156,11 +156,10 @@ const REPLIES={
 };
 function intentFrom(text,contextKind,explicit){
  if(['question','skeptic','claim'].includes(explicit))return {intent:explicit,method:'human_selected',reason:'Von dir ausgewählt; Kontext im Original überprüfen.'};
- if(contextKind==='question')return {intent:'question',method:'heuristic',reason:'Könnte eine ehrliche Frage sein.'};
- if(contextKind==='skeptic')return {intent:'skeptic',method:'heuristic',reason:'Als skeptischer Einwand eingeordnet.'};
- const s=String(text||'').toLocaleLowerCase('de');
- if(/^(aber|quatsch|blödsinn|unsinn|das glaube ich nicht|das glaub ich nicht|kann doch nicht|ist doch klar|come on|really|bullshit)\b/.test(s))
+ const s=String(text||'').toLocaleLowerCase('de').trim();
+ if(contextKind==='skeptic'||/^(aber|quatsch|blödsinn|unsinn|das glaube ich nicht|das glaub ich nicht|kann doch nicht|ist doch klar|come on|really|bullshit)\b/.test(s))
    return {intent:'skeptic',method:'heuristic',reason:'Klingt nach einem Einwand; bitte im Original prüfen.'};
+ if(contextKind==='question')return {intent:'question',method:'heuristic',reason:'Könnte eine ehrliche Frage sein.'};
  return {intent:'claim',method:'heuristic',reason:'Vorläufig als Aussage eingeordnet; kann falsch sein.'};
 }
 function compose(topic,persona,form,intent,legacy){
