@@ -1,20 +1,29 @@
-# Animal Voices OS v0.9.2 · One-Screen Companion
+# Animal Voices OS v0.9.3 · Effortless Daily Companion
 
 [**Live**](https://animal-voices-os.vercel.app/) · [GitHub](https://github.com/mikelninh/animal-voices-os) · *For animals. With humans.*
 
 An original, compassionate, privacy-first Instagram Companion for choosing when to reply, report, ignore, or turn recurring questions into stories. Curated evidence is always openable, with original links and scientific limitations. No automatic social-media posting.
 
-## v0.9.2 — One-Screen Companion
+## v0.9.3 — Easier daily use
 
-- **One primary action:** paste a comment and tap **Antwort finden**. Supported, non-sensitive topics show an editable short draft immediately; one tap on an example performs the same flow.
-- **Progressive disclosure:** optional Instagram link/context, alternative actions, longer evidence details and privacy information are tucked away until needed.
-- **Source next to draft:** scientific limitations and original links are shown on the reply card. Clicking a source does not replace the mandatory human reading/verification checkbox.
-- **Human-approved copy in one step:** **Prüfen & kopieren** documents review and attempts to copy the reply with source links. A manual retry button is available; no auto-post.
-- **Local reviewer profile:** initials reused on this device, not sent to a server.
-- **Safety unchanged:** unknown, sensitive, quoted or adversarial claims are held. Optional provider-backed AI is not publicly enabled without credentials.
-- **Quality gates:** 43 automated checks and full Playwright browser flows at 360, 390, 768 and 1440px (mocked external URL access). Native Instagram share-sheet and full-text scientific verification remain outstanding.
+- Private AI writer and editor-code field are hidden from the user-facing app until an authenticated AI service actually exists. The backend route remains feature-disabled without server keys.
+- The redundant reviewer-initials input is removed. The local audit uses a single-user approval marker; do not mistake this for multi-user identity verification.
+- One human review checkbox, unlocked only after at least one original source link was opened. Opening a link is not proof it was read; user must explicitly confirm its content before copy.
+- The system selects a character automatically: Momo for research/nutrition/environment, Kiki for ethics/animal lives, Bao for enjoyment and everyday food. An optional collapsed voice switch retains user choice for the current draft; all personas share factual claims and sources.
+- Copy sends the complete edited reply with all related original source URLs in a clearer list; no one-click auto posting.
+- Usability objective: the original short answer, source link, and review confirmation should fit a single natural mobile journey.
 
-[Why we simplified the workflow](docs/V092_SINGLE_SCREEN.md).
+## v0.9.2 — One-Screen Companion (human-first)
+
+- **One obvious action**: paste a real comment and select **Antwort finden**. Supported editorial topics immediately show the draft below a compact, explained recommendation – no repeated "Next" navigation. Example chips run the same flow in one tap.
+- **Progressive disclosure**: optional link and context, alternative actions, source details, privacy information and the unconfigured AI worker stay available without monopolising the first screen.
+- **Evidence next to the claim**: original source links and key limitations appear beside the draft, not on a separate mandatory page. Users must open an original source, personally check the passage and explicitly review the final answer before copying.
+- **One confirmed action**: **Prüfen & kopieren** records human approval and attempts the clipboard copy, retaining a separate manual retry if browser clipboard access fails.
+- **One-time local initials**: the reviewer abbreviation is remembered only in the same browser. Changing the reply revokes approval and any self-reported posting.
+- **Safety unchanged**: threats, quoted/debunked claims, minors' nutrition questions, medical advice and unsupported assertions abstain. No Instagram automation.
+- **Acceptance**: 43 automated tests and four independent Chromium viewport flows (360/390/768/1440). The browser tests verify the interface against the shipped script with outbound links mocked; no real Instagram / native Android share-sheet test yet.
+
+See [v0.9.2 product note](docs/V092_SINGLE_SCREEN.md) for design rationale and QA limitations.
 
 ## v0.9 — Core capabilities retained
 
