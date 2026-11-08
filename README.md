@@ -1,10 +1,22 @@
-# Animal Voices OS v0.9 · Kindness Engine
+# Animal Voices OS v0.9.2 · One-Screen Companion
 
 [**Live**](https://animal-voices-os.vercel.app/) · [GitHub](https://github.com/mikelninh/animal-voices-os) · *For animals. With humans.*
 
 An original, compassionate, privacy-first Instagram Companion for choosing when to reply, report, ignore, or turn recurring questions into stories. Curated evidence is always openable, with original links and scientific limitations. No automatic social-media posting.
 
-## v0.9 — Shipped capabilities
+## v0.9.2 — One-Screen Companion
+
+- **One primary action:** paste a comment and tap **Antwort finden**. Supported, non-sensitive topics show an editable short draft immediately; one tap on an example performs the same flow.
+- **Progressive disclosure:** optional Instagram link/context, alternative actions, longer evidence details and privacy information are tucked away until needed.
+- **Source next to draft:** scientific limitations and original links are shown on the reply card. Clicking a source does not replace the mandatory human reading/verification checkbox.
+- **Human-approved copy in one step:** **Prüfen & kopieren** documents review and attempts to copy the reply with source links. A manual retry button is available; no auto-post.
+- **Local reviewer profile:** initials reused on this device, not sent to a server.
+- **Safety unchanged:** unknown, sensitive, quoted or adversarial claims are held. Optional provider-backed AI is not publicly enabled without credentials.
+- **Quality gates:** 43 automated checks and full Playwright browser flows at 360, 390, 768 and 1440px (mocked external URL access). Native Instagram share-sheet and full-text scientific verification remain outstanding.
+
+[Why we simplified the workflow](docs/V092_SINGLE_SCREEN.md).
+
+## v0.9 — Core capabilities retained
 
 - **Context and claim engine** (`engine.js`): distinguishes questions, quoted claims, negations, irony, direct claims, medical risk, harassment, possible threats and prompt injection. Multi-topic ambiguity and unknown claims are held instead of guessing. Its interpretation is a **local heuristic**, not a trained AI classification or proof of accuracy.
 - **Evidence worker**: selects among twelve curated topics and eleven institutional or research references; requires a source link and explicit scientific caveat, displays the limitation and the human editor gate.
