@@ -50,7 +50,7 @@
     {t:'„Soja und Hormone?“',s:'Senkt Soja wirklich den Testosteronspiegel?'}
   ];
   $('sample-chips').innerHTML=samples.map((s,i)=>'<button type="button" class="example-chip" data-sample="'+i+'">'+escape(s.t)+'</button>').join('');
-  $('sample-chips').addEventListener('click', e=>{const b=e.target.closest('[data-sample]');if(!b)return; $('comment').value=samples[Number(b.dataset.sample)].s; $('post-url').value=''; $('comment').focus();});
+  $('sample-chips').addEventListener('click', e=>{const b=e.target.closest('[data-sample]');if(!b)return; $('comment').value=samples[Number(b.dataset.sample)].s; $('post-url').value=''; clearComposerFeedback(); $('comment').focus();});
 
   // The separate engine performs cautious context and evidence resolution.
   // Its decisions remain suggestions; it is NOT a live LLM or moderation authority.
@@ -127,10 +127,33 @@
       $('result-area').hidden=true; $('after-copy').hidden=true;persist();setJourney(1);
       toast('Kontext geändert. Bitte den Kommentar erneut prüfen.');}
   });
+  function clearComposerFeedback(){
+    $('composer-feedback').hidden=true;
+    $('comment').setAttribute('aria-invalid','false');
+    $('post-url').setAttribute('aria-invalid','false');
+  }
+  function composerProblem(message,field='comment'){
+    $('composer-feedback-message').textContent=message;
+    $('composer-feedback').hidden=false;
+    $('comment').setAttribute('aria-invalid',String(field==='comment'));
+    $('post-url').setAttribute('aria-invalid',String(field==='post-url'));
+    $(field).focus({preventScroll:true});
+    $('composer-feedback').scrollIntoView({behavior:'auto',block:'nearest'});
+  }
+  $('comment').addEventListener('input',clearComposerFeedback);
+  $('post-url').addEventListener('input',clearComposerFeedback);
+  $('composer-try-example').addEventListener('click',()=>{
+    $('comment').value=samples[0].s;
+    $('post-url').value='';
+    clearComposerFeedback();
+    $('comment').focus();
+    toast('Beispiel geladen. Jetzt „Handlung wählen“ drücken.');
+  });
   $('analyze').addEventListener('click',()=>{
     const input=$('comment').value.trim();const postUrl=T.instagramUrl($('post-url').value);
-    if(input.length<8){toast('Bitte den genauen Kommentartext einfügen – ein Link allein reicht nicht.');$('comment').focus();return;}
-    if($('post-url').value.trim()&&!postUrl){toast('Der Beitragslink muss eine gültige Instagram-URL sein.');$('post-url').focus();return;}
+    if(input.length<8){composerProblem(input.length?'Bitte den vollständigen Kommentar eingeben (mindestens acht Zeichen).':'Bitte zuerst einen Kommentar einfügen oder ein Beispiel laden. Nur mit einem Kommentar können wir eine Handlung empfehlen.');return;}
+    if($('post-url').value.trim()&&!postUrl){composerProblem('Der Beitragslink ist ungültig. Nutze einen echten Instagram-Link oder lass das Feld leer.','post-url');return;}
+    clearComposerFeedback();
     const decision=E.decide(input,topicList,sourcesById,$('context-type').value);
     const topic=decision.topic;
     const reason=decision.hold ? decision.reason : null;
@@ -148,7 +171,7 @@
     $('action-feedback').innerHTML='<p>Wähle die Handlung, die für diese Situation wirklich sinnvoll ist. Es wird nichts automatisch veröffentlicht oder gemeldet.</p>';
     document.querySelectorAll('[data-action]').forEach(b=>b.setAttribute('aria-pressed','false'));
     setJourney(2);
-    $('triage-card').scrollIntoView({behavior:'smooth',block:'start'});
+    $('triage-card').scrollIntoView({behavior:'auto',block:'start'});
     toast('Einschätzung bereit. Entscheide bewusst, ob eine Antwort sinnvoll ist.');
   });
   function updateLengthButtons(){
