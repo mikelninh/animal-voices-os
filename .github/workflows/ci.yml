@@ -18,3 +18,16 @@ jobs:
           node --check server.cjs
       - name: Run editorial and UI-contract tests
         run: npm test
+      - name: Package reviewable UI source
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: animal-voices-ui-source
+          path: |
+            index.html
+            styles.css
+            app.js
+            data.js
+            package.json
+            server.cjs
+            characters/**
