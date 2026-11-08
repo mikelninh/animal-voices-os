@@ -25,6 +25,9 @@
   let lastRecommendation = null;
   const pendingShare = T.readShared(location.search);
   const topicList = DATA.cases;
+  const reviewerKey='animal-voices-reviewer-v092';
+  let savedReviewer=(()=>{try{return (localStorage.getItem(reviewerKey)||'').slice(0,70)}catch{return ''}})();
+  $('result-area').insertBefore($('reply-card'),$('evidence-card'));
 
   function toast(message) {let e=$('toast');e.textContent=message;e.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>e.classList.remove('show'),3400);}
   function minimizedRecords(){return records.slice(0,300).map(x=>({...x,input:T.sanitizeIdea(x.input||''),postUrl:'',reply:x.status==='approved'?x.reply:'',approvedReply:x.status==='approved'?x.approvedReply:null}));}
@@ -50,7 +53,7 @@
     {t:'„Soja und Hormone?“',s:'Senkt Soja wirklich den Testosteronspiegel?'}
   ];
   $('sample-chips').innerHTML=samples.map((s,i)=>'<button type="button" class="example-chip" data-sample="'+i+'">'+escape(s.t)+'</button>').join('');
-  $('sample-chips').addEventListener('click', e=>{const b=e.target.closest('[data-sample]');if(!b)return; $('comment').value=samples[Number(b.dataset.sample)].s; $('post-url').value=''; clearComposerFeedback(); $('comment').focus();});
+  $('sample-chips').addEventListener('click', e=>{const b=e.target.closest('[data-sample]');if(!b)return; $('comment').value=samples[Number(b.dataset.sample)].s; $('post-url').value=''; clearComposerFeedback(); $('analyze').click();});
 
   // The separate engine performs cautious context and evidence resolution.
   // Its decisions remain suggestions; it is NOT a live LLM or moderation authority.
@@ -63,22 +66,25 @@
     $('evidence-body').innerHTML='<div class="caveat"><span class="symbol">◎</span><div><strong>Hier halten wir bewusst an.</strong><div style="margin-top:5px">'+escape(reason)+'</div><div style="margin-top:9px">Nächster Schritt: Frage präzisieren oder in der Wissensbibliothek nach passenden Quellen suchen.</div><button class="button button-secondary" id="open-library" style="margin-top:15px">Wissen durchsuchen ↗</button></div></div>';
     $('open-library').addEventListener('click',()=>go('library'));
     setJourney(2);
-    $('evidence-card').scrollIntoView({behavior:'smooth',block:'start'});
+    $('triage-card').scrollIntoView({behavior:'auto',block:'start'});
   }
   function showReady(topic){
-    $('result-area').hidden=false;$('evidence-card').hidden=false;$('reply-card').hidden=false;
+    $('result-area').hidden=false;$('evidence-card').hidden=true;$('reply-card').hidden=false;
     $('analysis-status').textContent='Redaktionelle Quellen';$('analysis-status').className='status-pill';
     $('evidence-body').innerHTML='<div class="takeaway"><strong>Was wir belegen können</strong>'+escape(topic.fact)+'</div>'+
       '<div class="evidence-references">'+sourceCards(topic)+'</div>'+
       '<div class="caveat"><span class="symbol">ⓘ</span><div><strong>Was du bei der Antwort beachten solltest</strong><div style="margin-top:4px">'+escape(topic.limit)+'</div></div></div>'+
       '<div class="quote-note">Die Quellen wurden redaktionell zusammengestellt. Bitte vor der Verwendung im Original gegenprüfen – keine Live-Quellenvalidierung.</div>'+
-      '<div class="next-step-line"><span>Die Belege passen zur Frage?</span><button class="button button-primary" id="next-answer">Weiter zur Antwort ↗</button></div>';
-    $('next-answer').addEventListener('click',()=>{$('reply-card').scrollIntoView({behavior:'smooth',block:'start'});setJourney(3)});
+      '<p class="quote-note">Originalquellen bitte vor dem Kopieren persönlich prüfen.</p>';
+    $('inline-proof').innerHTML='<div class="inline-proof-main"><span class="inline-proof-label">Wissenschaftlicher Beleg & Grenze</span><p>'+escape(topic.limit)+'</p></div>'+
+      '<div class="inline-proof-links">'+topic.sources.map(id=>sourcesById.get(id)).filter(Boolean).map(s=>'<a target="_blank" rel="noopener noreferrer" href="'+safeURL(s.url)+'">'+escape(s.name)+' · '+escape(s.year)+' ↗</a>').join('')+'</div>'+
+      '<button id="more-evidence" class="link-control" type="button">Alle Belege & Hintergründe anzeigen ⌄</button>';
+    $('more-evidence').addEventListener('click',()=>{$('evidence-card').hidden=false;$('evidence-card').scrollIntoView({behavior:'auto',block:'nearest'});});
     active.reply=T.reply(topic,persona,replyForm);active.form=replyForm;
-    $('reply').value=active.reply;$('reviewer').value='';$('review-check').checked=false;$('source-check').checked=false;
+    $('reply').value=active.reply;$('reviewer').value=savedReviewer;$('review-check').checked=false;$('source-check').checked=false;
     $('after-copy').hidden=true; $('source-check').disabled=true; updateLengthButtons();
     setApprovalState();setJourney(2);
-    $('evidence-card').scrollIntoView({behavior:'smooth',block:'start'});
+    $('reply-card').scrollIntoView({behavior:'auto',block:'start'});
   }
   function selectAction(action){
     if(!active||!['reply','report','ignore','save'].includes(action))return;
@@ -98,7 +104,7 @@
         $('research-first').addEventListener('click',()=>go('library'));
       }else{
         active.status='ready';
-        content=recommendation+'<strong>Gut – wir können vorsichtig antworten.</strong><p>Die Quelle ist kuratiert, aber nicht live verifiziert. Lies sie im Original und gib den Text selbst frei.</p>';
+        content=recommendation+'<strong>Wir haben eine Antwort vorbereitet. ♡</strong><p>Prüfe die Quellen und bearbeite den Text, bevor du ihn verwendest.</p>';
         fb.innerHTML=content;
         $('evidence-card').hidden=false;
         showReady(casesById.get(active.topicId));
@@ -142,12 +148,13 @@
   }
   $('comment').addEventListener('input',clearComposerFeedback);
   $('post-url').addEventListener('input',clearComposerFeedback);
+  $('post-url').addEventListener('change',()=>{if($('post-url').value.trim())$('advanced-context').open=true;});
   $('composer-try-example').addEventListener('click',()=>{
     $('comment').value=samples[0].s;
     $('post-url').value='';
     clearComposerFeedback();
     $('comment').focus();
-    toast('Beispiel geladen. Jetzt „Handlung wählen“ drücken.');
+    $('analyze').click();
   });
   $('analyze').addEventListener('click',()=>{
     const input=$('comment').value.trim();const postUrl=T.instagramUrl($('post-url').value);
@@ -161,6 +168,7 @@
     const record={id:(crypto.randomUUID?.()||String(Date.now())),createdAt:stamp(),input,postUrl,topicId:topic?.id||null,topicName:topic?.short||null,status:'triage',action:null,recommended: lastRecommendation.action,reason:decision.reason,hold:decision.hold,context:decision.context,engine:decision.method,persona,form:replyForm,reply:'',approvedReply:null,reviewer:null,postedAt:null,copiedAt:null,sourceOpenedAt:null};
     active=record;records.unshift(record);if(records.length>300)records=records.slice(0,300);persist();
     $('result-area').hidden=false;$('triage-card').hidden=false;$('evidence-card').hidden=true;$('reply-card').hidden=true;
+    $('alternative-actions').open=false;
     $('triage-reason').textContent=lastRecommendation.reason;
     $('analysis-basis').innerHTML='<strong>Kontext:</strong> '+escape(decision.context_note)+
       ' · <strong>Belege:</strong> '+escape(decision.evidence?.reason||'Unbekannt')+
@@ -171,8 +179,13 @@
     $('action-feedback').innerHTML='<p>Wähle die Handlung, die für diese Situation wirklich sinnvoll ist. Es wird nichts automatisch veröffentlicht oder gemeldet.</p>';
     document.querySelectorAll('[data-action]').forEach(b=>b.setAttribute('aria-pressed','false'));
     setJourney(2);
-    $('triage-card').scrollIntoView({behavior:'auto',block:'start'});
-    toast('Einschätzung bereit. Entscheide bewusst, ob eine Antwort sinnvoll ist.');
+    if(lastRecommendation.action==='reply'&&!active.hold&&active.topicId){
+      selectAction('reply');
+      toast('Passenden Antwortentwurf gefunden. Originalquellen bitte prüfen.');
+    }else{
+      $('triage-card').scrollIntoView({behavior:'auto',block:'start'});
+      toast('Wir empfehlen diesmal Zurückhaltung. Prüfe deine Optionen.');
+    }
   });
   function updateLengthButtons(){
     $('reply-short').setAttribute('aria-pressed',String(replyForm==='short'));
@@ -196,7 +209,7 @@
     if(active?.topicId&&active.action==='reply'&&['ready','approved'].includes(active.status)){
       const t=casesById.get(active.topicId); if(!t)return;
       active.persona=next;active.reply=T.reply(t,next,replyForm);active.approvedReply=null;active.status='ready';active.reviewer=null;
-      $('reply').value=active.reply;$('reviewer').value='';$('review-check').checked=false;$('source-check').checked=false;$('after-copy').hidden=true;persist();setApprovalState();
+      $('reply').value=active.reply;$('reviewer').value=savedReviewer;$('review-check').checked=false;$('source-check').checked=false;$('after-copy').hidden=true;persist();setApprovalState();
       toast('Stimme geändert. Bitte Antwort erneut prüfen.');
     }
   }
@@ -205,10 +218,20 @@
     const canApprove=active?.status==='ready'&&$('review-check').checked&&!!active.sourceOpenedAt&&$('source-check').checked&&$('reviewer').value.trim().length>=2&&$('reply').value.trim().length>=10;
     $('approve').disabled=!canApprove;
     $('copy').disabled=!(active?.status==='approved'&&active.approvedReply===$('reply').value);
-    $('approval-status').textContent=active?.status==='approved'?'✓ Freigegeben für die manuelle Verwendung. Noch nicht veröffentlicht.':'Noch nicht freigegeben. Nichts wird automatisch veröffentlicht.';
+    $('copy').hidden=$('copy').disabled;
+    $('approval-status').textContent=active?.status==='approved'?'✓ Freigegeben für die manuelle Verwendung. Noch nicht veröffentlicht.':'Noch nicht freigegeben. Bitte Quelle öffnen und persönlich prüfen.';
   }
 
   // A source link must be opened before its review checkbox can be checked.
+  function registerSourceOpened(event){
+    const anchor=event.target.closest('a[href^="https://"]');
+    if(anchor&&active?.action==='reply'&&active.topicId){
+      active.sourceOpenedAt=stamp();$('source-check').disabled=false;
+      persist();setApprovalState();
+      toast('Quelle geöffnet. Bitte Beleg und Grenzen im Original prüfen.');
+    }
+  }
+  $('inline-proof').addEventListener('click',registerSourceOpened);
   $('evidence-body').addEventListener('click',event=>{
     const anchor=event.target.closest('a[href^="https://"]');
     if(anchor&&active?.action==='reply'&&active.topicId){
@@ -244,7 +267,10 @@
   });
   $('approve').addEventListener('click',()=>{
     if(!active||active.status!=='ready'||!$('review-check').checked||!active.sourceOpenedAt||!$('source-check').checked||$('reviewer').value.trim().length<2||$('reply').value.trim().length<10)return;
-    active.status='approved';active.reply=$('reply').value;active.approvedReply=active.reply;active.reviewer=$('reviewer').value.trim();active.approvedAt=stamp();active.copiedAt=null;active.postedAt=null;persist();setApprovalState();setJourney(3);toast('Antwort freigegeben. Jetzt mit Quellen kopieren.');
+    active.status='approved';active.reply=$('reply').value;active.approvedReply=active.reply;active.reviewer=$('reviewer').value.trim();active.approvedAt=stamp();active.copiedAt=null;active.postedAt=null;
+    savedReviewer=active.reviewer;try{localStorage.setItem(reviewerKey,active.reviewer)}catch{}
+    persist();setApprovalState();setJourney(3);toast('Freigegeben. Antwort mit Quellen wird kopiert.');
+    $('copy').click();
   });
   async function copyToClipboard(text){try{await navigator.clipboard.writeText(text);toast('In die Zwischenablage kopiert. ♡');return true;}catch{toast('Kopieren nicht verfügbar. Text bitte manuell markieren.');return false;}}
   $('copy').addEventListener('click',async()=>{
@@ -339,6 +365,7 @@
     toast('Teilen wurde nicht gespeichert. Kopiere den Kommentar bitte manuell.');
   }
   $('dismiss-share').addEventListener('click',()=>{$('share-banner').hidden=true;});
+  if($('post-url').value.trim())$('advanced-context').open=true;
   $('install-info').addEventListener('click',()=>{$('install-dialog').showModal();});
   if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}
 })();
