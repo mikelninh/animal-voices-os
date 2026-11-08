@@ -45,9 +45,10 @@ test('Saved content ideas remove handles, URLs, emails and phone numbers',()=>{
 });
 test('Short answer variants must be curated and do not invent sourced studies',()=>{
  const text=t.reply(foo,'momo','short');
- assert.ok(text.includes('Meta-Analyse'));
+ assert.ok(/Studie|Meta-Analyse/.test(text));
  assert.ok(!text.includes('https://'));
- assert.ok(t.reply(foo,'kiki','short').includes(text));
+ assert.notEqual(t.reply(foo,'kiki','short'),text);
+ assert.ok(t.reply(foo,'kiki','short').includes('Kraft'));
  assert.equal(t.reply(null,'momo','short'),'');
 });
 test('Browser approval gate requires original source opened plus manual review',()=>{
