@@ -1,1 +1,41 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="220" height="220" viewBox="0 0 220 220"><defs><linearGradient id="b" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffeeb5"/><stop offset="1" stop-color="#eabf6e"/></linearGradient><filter id="s" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#6d4b26" flood-opacity=".14"/></filter></defs><g filter="url(#s)"><path d="M109 63 Q91 32 108 28 Q119 30 121 49 Q134 25 145 37 Q153 49 134 70" fill="#eab54c" stroke="#c89a40" stroke-width="2"/><ellipse cx="109" cy="116" rx="75" ry="72" fill="url(#b)" stroke="#d1a259" stroke-width="3"/><path d="M39 114 Q18 89 17 122 Q28 151 45 147" fill="#f2d083"/><path d="M177 117 Q202 94 202 126 Q194 152 174 150" fill="#f2d083"/><ellipse cx="80" cy="109" rx="8.2" ry="10.4" fill="#38302b"/><ellipse cx="141" cy="109" rx="8.2" ry="10.4" fill="#38302b"/><circle cx="83" cy="105" r="2.7" fill="#fff"/><circle cx="144" cy="105" r="2.7" fill="#fff"/><ellipse cx="64" cy="132" rx="13" ry="7" fill="#edae83" opacity=".6"/><ellipse cx="159" cy="132" rx="13" ry="7" fill="#edae83" opacity=".6"/><path d="M92 125 L111 143 L129 125 Z" fill="#e8893f" stroke="#bc692d" stroke-width="2"/><path d="M100 152 Q112 159 123 152" fill="none" stroke="#b66d38" stroke-linecap="round" stroke-width="2.5"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="420" viewBox="0 0 360 420" role="img" aria-labelledby="title desc"><title id="title">Kiki, eine freundliche weisse Henne</title><desc id="desc">Eine erwachsene weisse Henne mit rotem Kamm, roten Kehllappen, gelbem Schnabel, Flügeln, Schwanzfedern und orangefarbenen Füssen</desc>
+<defs>
+ <linearGradient id="feathers" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffdf5"/><stop offset=".54" stop-color="#f5f3e6"/><stop offset="1" stop-color="#d7dfcc"/></linearGradient>
+ <linearGradient id="chest" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#fffefa"/><stop offset="1" stop-color="#e0dfd4"/></linearGradient>
+ <linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ff8267"/><stop offset=".58" stop-color="#e84d45"/><stop offset="1" stop-color="#b72f3c"/></linearGradient>
+ <linearGradient id="beak" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffe78f"/><stop offset="1" stop-color="#e6a036"/></linearGradient>
+ <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="13" stdDeviation="15" flood-color="#4b664f" flood-opacity=".15"/></filter>
+</defs>
+<g filter="url(#shadow)">
+ <!-- visible curled tail feathers -->
+ <path d="M248 262 C303 185 335 192 314 253 C341 245 354 265 326 288 C341 297 329 317 294 317 L244 299Z" fill="url(#feathers)" stroke="#ccd3c5" stroke-width="3"/>
+ <path d="M275 262 Q309 229 319 235 M291 283 Q321 273 333 278" fill="none" stroke="#d1d7cd" stroke-width="5" stroke-linecap="round"/>
+ <!-- legs and three forward toes -->
+ <path d="M144 326 L138 378 M211 326 L214 378" stroke="#d98d35" stroke-width="15" stroke-linecap="round"/>
+ <path d="M137 377 Q111 381 97 393 M137 377 L137 401 M137 377 Q154 386 164 396 M213 377 Q189 381 176 393 M213 377 L213 400 M213 377 Q234 387 243 396" fill="none" stroke="#e3a04b" stroke-width="12" stroke-linecap="round"/>
+ <!-- body, rounded but recognisably hen shaped -->
+ <path d="M91 185 C63 221 71 299 113 339 C149 371 221 369 258 330 C302 287 284 201 243 180 C218 164 115 163 91 185Z" fill="url(#chest)" stroke="#d9ddd0" stroke-width="3"/>
+ <!-- wings -->
+ <path d="M90 228 C45 209 38 270 69 297 C86 309 109 303 120 285" fill="#eeeee2" stroke="#d2d8ca" stroke-width="3"/>
+ <path d="M266 224 C311 220 312 282 277 296 Q254 298 248 281" fill="#f0eee4" stroke="#d2d8ca" stroke-width="3"/>
+ <path d="M76 271 Q88 283 106 278 M271 273 Q286 281 294 264" stroke="#d4d9cd" stroke-width="4" fill="none" stroke-linecap="round"/>
+ <!-- neck and head -->
+ <path d="M104 174 C86 137 96 90 128 68 C153 47 201 47 234 65 C264 87 281 123 264 163 Q252 194 244 226 Q231 255 182 257 Q122 256 110 222Z" fill="url(#feathers)" stroke="#d3d8ce" stroke-width="3"/>
+ <!-- very clear red comb -->
+ <path d="M124 74 C102 54 109 35 126 34 C128 11 154 5 163 29 C172 -2 204 7 199 36 C230 19 239 50 214 70 Q174 93 124 74Z" fill="url(#red)" stroke="#c73a3d" stroke-width="3"/>
+ <path d="M140 54 Q153 42 160 45 M180 46 Q186 38 196 47" stroke="#ffb3a0" stroke-width="5" stroke-linecap="round" fill="none" opacity=".7"/>
+ <!-- face: two clear eyes -->
+ <ellipse cx="144" cy="139" rx="11" ry="14" fill="#30332d"/><ellipse cx="219" cy="139" rx="11" ry="14" fill="#30332d"/>
+ <circle cx="148" cy="133" r="3.5" fill="#fff"/><circle cx="223" cy="133" r="3.5" fill="#fff"/>
+ <path d="M127 116 Q142 108 158 117 M205 118 Q219 107 233 117" fill="none" stroke="#a19e8e" stroke-width="4" stroke-linecap="round"/>
+ <ellipse cx="124" cy="170" rx="15" ry="8" fill="#f6c5b8" opacity=".6"/><ellipse cx="244" cy="170" rx="15" ry="8" fill="#f6c5b8" opacity=".6"/>
+ <!-- red wattles under the beak, defining adult chicken -->
+ <path d="M165 190 Q146 228 164 231 Q185 225 186 195Z M195 195 Q197 231 217 232 Q233 221 208 191Z" fill="url(#red)" stroke="#c34743" stroke-width="2"/>
+ <!-- triangular golden beak and open smile -->
+ <path d="M157 158 Q180 146 206 158 L184 187 Q180 192 174 184Z" fill="url(#beak)" stroke="#cd923b" stroke-width="2.5"/>
+ <path d="M168 173 Q183 183 196 173 Q184 197 174 188Z" fill="#ab6545"/>
+ <!-- soft sage scarf gives her recognizable identity -->
+ <path d="M107 224 Q171 248 242 220 Q262 225 256 241 Q186 267 106 243Z" fill="#e2b850" opacity=".97"/>
+ <path d="M217 238 Q236 270 224 322 Q245 337 248 310 Q249 265 238 238Z" fill="#e9c76b" stroke="#dbb25b" stroke-width="2"/>
+</g>
+</svg>

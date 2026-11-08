@@ -1,23 +1,21 @@
-# Animal Voices Studio 🌱
+# Animal Voices v0.7 — Good conversations, good evidence
 
-**For animals. With humans.**
+[**Live app**](https://animal-voices-os.vercel.app/) · *For animals. With humans.*
 
-A calm, humane, evidence-led workspace for animal advocacy. We are for animals, not against people: factual claims deserve sources and limits; value questions deserve empathy and inspiring dialogue.
+A welcoming, high-fidelity editorial workspace for writing informed and empathetic replies to comments about animals and veganism, without blaming people.
 
-**Live:** https://animal-voices-os.vercel.app/
+## What's new in 0.7
 
-## v0.6 — High-fidelity editorial workspace
+- **One clear first action:** paste a comment, or choose a ready example. No dashboard clutter.
+- **Three transparent steps:** understand the comment → inspect the sources and draft → personally approve and copy with citations.
+- **Kiki redesigned as an unmistakable chicken:** visible red comb and wattles, defined golden beak, wings, tail and feet.
+- **Original responsive interface:** clear typography, soft gradients, elegant cards, generous whitespace, thoughtful micro-interactions.
+- **Gentle defaults:** no claims without sources, no reposting automatically, sensitive questions and possible quotations held for human review.
+- **Secondary workspaces:** searchable evidence library; social content drafts (Reel, carousel, Story); local and honest measurement.
 
-- **Overview:** mission, original character art, honest local statistics and quick access.
-- **Dialogue studio:** input a comment, identify its context, match against a curated claim, inspect sources and caveats, select Momo / Kiki / Bao, edit a reply, approve personally, copy with citations.
-- **Evidence library:** twelve curated subjects, eleven direct scientific/institutional source links, studies' caveats, keyword search and topic filters.
-- **Content studio:** source-linked Reel, carousel and Story drafts with selectable tone and mascot voice; no fabricated experimental results.
-- **Impact & learning:** private local records, approval count, exportable JSON, zero automatically posted items and zero externally verified real-world impact.
-- **Design:** responsive warm minimalism, original geometric mascot illustrations, accessible navigation and reduced-motion support.
+## Run locally
 
-### Local development
-
-Requires Node.js 22+, no NPM packages or API keys.
+Requires Node.js 22 (no dependencies):
 
 ```bash
 npm start
@@ -25,32 +23,21 @@ npm start
 npm test
 ```
 
-Or deploy this static repository using Vercel, Netlify or GitHub Pages with the repo root as the public folder.
+## Reality check
 
-### Scientific and safety rules
+- **Not yet live-LLM-agentic**: topic matching and writing are based on curated knowledge, rather than an active language-model agent swarm.
+- **Not scientifically certified**: source links are curated, not independently peer-reviewed, and must be checked before using them publicly.
+- **No Instagram/X API or auto-posting**. Only an editor can choose to copy approved drafts.
+- Browser-local records are not synced; **0 external-impact claims** until evidence is independently verified.
+- Scientific URLs are provided to readers as direct source links. Factual assertions must be checked against full original context.
 
-1. All factual source links are editorial references. Their quotes and content require verification against the original before publishing; no live literature search or external peer review is claimed.
-2. Quoted claims, medical-sensitive statements, ambiguous topics and prompt injections are held for a human rather than answered automatically.
-3. Freeform user input is treated as untrusted text. The provided response templates are tied to specific curated evidence records; manual review remains mandatory.
-4. Each published response should cite the corresponding original source and include material limitations.
-5. No Instagram/X connection, web scraping, bulk responding, shadow account automation or autonomous social posting.
-6. Browser-local records are not synced across devices. The app is a demonstrator, **not** production multi-user infrastructure.
-7. API-based LLM workers are intentionally excluded from this frontend release. Future provider connections must run server-side with authentication, rate limiting, structured provenance and human sign-off.
+## Next steps
 
-### Files
+1. Validate quoted source text and scientific claims against the originals; add expert reviewer process.
+2. Build authenticated backend with stored, dated evidence extracts, multi-model criticism and provider-independent tool interfaces.
+3. Authorised Instagram Professional own-comment ingestion, with the human approval gate always on.
+4. Real external user studies and voluntary dialogue-quality measurement.
 
-- `index.html`: five-workspace application shell
-- `styles.css`: responsive design system
-- `app.js`: client-side editorial workflow and interaction
-- `data.js`: annotated claim and source registry
-- `characters/`: original lightweight illustrations
-- `tests/editorial.test.mjs`: validation of editorial content and UI contracts
-- `.github/workflows/ci.yml`: GitHub Actions checks
+## Security
 
-### Roadmap
-
-**Next:** blind user tests with real commenters and expert source review; connect an Instagram Professional account via authorised Meta APIs to review **our own** comments; server-side evidence retrieval and traceable multi-model critiques; authenticated review queue; explicit consent and privacy controls.
-
-Our stretch goal of reducing animal-product purchasing in foodservice by 2030 is *separate* from content metrics. We never equate reach or replies with animals saved.
-
-*Open hearts. Protect animals. Keep the facts honest.*
+User comments are untrusted text. The interface escapes user-visible content and does not transmit comments to a server or LLM. Approval is invalidated when a response is edited or a persona is changed. Records are saved locally in the browser and can be cleared.
