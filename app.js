@@ -13,6 +13,13 @@
   const personas = {momo:'Momo',kiki:'Kiki',bao:'Bao'};
   const core = window.AVCompanionCore;
   let replyLength = 'short';
+  let sourceOpened=false;
+  function answerFor(t,voice){
+    if(replyLength!=='short')return t.voices[voice];
+    const authored=window.AV_COMPANION_RULES?.short?.[t.id];
+    if(!authored)return core.shortenReply(t.voices[voice]);
+    return voice==='kiki'?'Danke für die Frage. 💚 '+authored:voice==='bao'?'Ein kleiner Reality-Check aus Baos Küche: 😄 '+authored:authored;
+  }
   let records = [];
   try {const stored=JSON.parse(localStorage.getItem(storage)||'[]');if(Array.isArray(stored)) records=stored.filter(x=>x&&typeof x.id==='string').slice(0,300);} catch {}
   let active = null;
@@ -82,7 +89,9 @@
       '<div class="quote-note">Die Quellen wurden redaktionell zusammengestellt. Bitte vor der Verwendung im Original gegenprüfen – keine Live-Quellenvalidierung.</div>'+
       '<div class="next-step-line"><span>Die Belege passen zur Frage?</span><button class="button button-primary" id="next-answer">Weiter zur Antwort ↗</button></div>';
     $('next-answer').addEventListener('click',()=>{$('reply-card').scrollIntoView({behavior:'smooth',block:'start'});setJourney(3)});
-    $('reply').value=replyLength==='short'?core.shortenReply(topic.voices[persona]):topic.voices[persona];
+    sourceOpened=false;
+    const sourceNote=$('av-source-review-note');if(sourceNote)sourceNote.textContent='Öffne eine verlinkte Originalquelle und prüfe sie, bevor du die Antwort freigibst.';
+    $('reply').value=answerFor(topic,persona);
     if(active)active.reply=$('reply').value;
     $('reviewer').value='';$('review-check').checked=false;
     $('after-approval').hidden=true;
@@ -96,7 +105,7 @@
     if(topic && !topic.sources?.length)reason='Für diese Aussage fehlt uns noch eine ausreichend belegte Wissenskarte.';
     else if(topic && topic.sources.some(id=>!sourcesById.get(id)?.url))reason='Mindestens eine verlinkte Fachquelle fehlt oder ist unvollständig.';
     const status=reason?'held':'ready';
-    const record={id:(crypto.randomUUID?.()||String(Date.now())),createdAt:stamp(),input,sourceLink:core.cleanURL($('source-url').value.trim()),topicId:topic?.id||null,topicName:topic?.short||null,status,reason:reason||'',persona,reply:status==='ready'?(replyLength==='short'?core.shortenReply(topic.voices[persona]):topic.voices[persona]):'',approvedReply:null,reviewer:null};
+    const record={id:(crypto.randomUUID?.()||String(Date.now())),createdAt:stamp(),input,sourceLink:core.cleanURL($('source-url').value.trim()),topicId:topic?.id||null,topicName:topic?.short||null,status,reason:reason||'',persona,reply:status==='ready'?(answerFor(topic,persona)):'',approvedReply:null,reviewer:null};
     active=record;records.unshift(record);if(records.length>300)records=records.slice(0,300);persist();
     if(reason)showHold(reason);else showReady(topic);
     toast(reason?'Noch kein sicher belegter Entwurf – wir halten an.':'Antwortvorlage mit Quellen gefunden. Bitte prüfen.');
@@ -106,14 +115,14 @@
     document.querySelectorAll('[data-persona]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.persona===next)));
     if(active?.topicId&&['ready','approved'].includes(active.status)){
       const t=casesById.get(active.topicId); if(!t)return;
-      active.persona=next;active.reply=replyLength==='short'?core.shortenReply(t.voices[next]):t.voices[next];active.approvedReply=null;active.status='ready';active.reviewer=null;
+      active.persona=next;active.reply=answerFor(t,next);active.approvedReply=null;active.status='ready';active.reviewer=null;
       $('reply').value=active.reply;$('reviewer').value='';$('review-check').checked=false;persist();setApprovalState();
       toast('Stimme geändert. Bitte Antwort erneut prüfen.');
     }
   }
   document.querySelectorAll('[data-persona]').forEach(b=>b.addEventListener('click',()=>setPersona(b.dataset.persona)));
   function setApprovalState(){
-    const canApprove=active?.status==='ready'&&$('review-check').checked&&$('reviewer').value.trim().length>=2&&$('reply').value.trim().length>=10;
+    const canApprove=active?.status==='ready'&&sourceOpened&&$('review-check').checked&&$('reviewer').value.trim().length>=2&&$('reply').value.trim().length>=10;
     $('approve').disabled=!canApprove;
     $('copy').disabled=!(active?.status==='approved'&&active.approvedReply===$('reply').value);
     $('approval-status').textContent=active?.status==='approved'?'✓ Freigegeben für die manuelle Verwendung. Noch nicht veröffentlicht.':'Noch nicht freigegeben. Nichts wird automatisch veröffentlicht.';
@@ -125,6 +134,14 @@
       $('mark-posted').textContent=active.selfReportedPosted?'Selbstauskunft gespeichert ✓':'Ich habe selbst geantwortet ✓';
     }
   }
+  $('review-check').closest('label').insertAdjacentHTML('afterend','<p class="approval-note" id="av-source-review-note">Öffne eine Originalquelle und überprüfe sie persönlich, bevor du freigibst.</p>');
+  $('evidence-body').addEventListener('click',event=>{
+    const link=event.target.closest('a[href^="https://"]');
+    if(link && active?.status==='ready'){
+      sourceOpened=true;active.sourceOpenedAt=stamp();persist();setApprovalState();
+      $('av-source-review-note').textContent='Originalquelle geöffnet ✓ Bitte Belegstelle und Einschränkungen im Original kontrollieren.';
+    }
+  });
   $('review-check').addEventListener('change',setApprovalState);
   $('reviewer').addEventListener('input',setApprovalState);
   $('reply').addEventListener('input',()=>{
@@ -134,7 +151,7 @@
     $('review-check').checked=false;persist();setApprovalState();
   });
   $('approve').addEventListener('click',()=>{
-    if(!active||active.status!=='ready'||!$('review-check').checked||$('reviewer').value.trim().length<2||$('reply').value.trim().length<10)return;
+    if(!active||active.status!=='ready'||!sourceOpened||!$('review-check').checked||$('reviewer').value.trim().length<2||$('reply').value.trim().length<10)return;
     active.status='approved';active.reply=$('reply').value;active.approvedReply=active.reply;active.reviewer=$('reviewer').value.trim();active.approvedAt=stamp();active.selfReportedPosted=false;persist();setApprovalState();setJourney(3);toast('Antwort freigegeben. Jetzt mit Quellen kopieren.');
   });
   async function copyToClipboard(text){try{await navigator.clipboard.writeText(text);toast('In die Zwischenablage kopiert. ♡');return true;}catch{toast('Kopieren nicht verfügbar. Text bitte manuell markieren.');return false;}}
@@ -184,12 +201,12 @@
   }
   renderImpact();
   window.AV_TOPIC_MATCH=(text)=>{if(safetyCheck(text))return null;return match(text);};
-  window.AV_RESET_ACTIVE=()=>{active=null;$('result-area').hidden=true;$('after-approval').hidden=true;};
+  window.AV_RESET_ACTIVE=()=>{sourceOpened=false;active=null;$('result-area').hidden=true;$('after-approval').hidden=true;};
   window.AV_SET_LENGTH=(mode)=>{
     if(!['short','full'].includes(mode))return;replyLength=mode;
     if(!active?.topicId||!['ready','approved'].includes(active.status))return;
     const t=casesById.get(active.topicId);if(!t)return;
-    const proposed=replyLength==='short'?core.shortenReply(t.voices[persona]):t.voices[persona];
+    const proposed=answerFor(t,persona);
     active.reply=proposed;active.approvedReply=null;active.status='ready';active.reviewer=null;active.approvedAt=null;active.selfReportedPosted=false;
     $('reply').value=proposed;$('reviewer').value='';$('review-check').checked=false;persist();setApprovalState();toast('Entwurf angepasst. Bitte Quellen und Text erneut prüfen.');
   };
