@@ -1,33 +1,24 @@
-name: Editorial quality
+name: Animal Voices editorial quality
 on:
   push:
     branches: [main]
   pull_request:
 jobs:
-  review:
+  checks:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Validate JS syntax
+      - name: Validate syntax
         run: |
           node --check app.js
+          node --check engine.js
+          node --check triage.js
+          node --check sw.js
           node --check data.js
+          node --check api/assist.js
           node --check server.cjs
-      - name: Run editorial and UI-contract tests
+      - name: Test editorial claims and safety
         run: npm test
-      - name: Package reviewable UI source
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: animal-voices-ui-source
-          path: |
-            index.html
-            styles.css
-            app.js
-            data.js
-            package.json
-            server.cjs
-            characters/**
