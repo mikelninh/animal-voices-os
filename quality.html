@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="de">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f8faf6"><meta name="referrer" content="no-referrer">
+<meta name="description" content="Welche Antwort würdest du wirklich posten? Blindvergleich für respektvolle, wissenschaftlich fundierte Tierwohl-Kommunikation.">
+<title>Animal Voices · Response Lab</title><link rel="stylesheet" href="/quality.css"></head>
+<body>
+<main class="shell">
+<header class="mast"><a href="/" class="brand" aria-label="Zurück zu Animal Voices"><span class="mark">♥</span><span><b>animal voices</b><small>RESPONSE LAB</small></span></a><a href="/" class="back">← Zum Dialog</a></header>
+<div class="hero">
+  <div><span class="eyebrow">THE KINDNESS EXPERIMENT · v0.9.4</span><h1>Welche Antwort würdest<br><em>du wirklich posten?</em></h1><p>Gleiche Frage. Gleiche Quellen. Zwei unterschiedliche Antworten – ohne zu verraten, welche neu ist. Dein Urteil hilft uns, liebevoller und besser zu kommunizieren.</p></div>
+  <div class="hero-symbol" aria-hidden="true">🐮 <span>🐔</span> 🐷</div>
+</div>
+<div class="metrics" aria-label="Lokale Testergebnisse">
+  <div class="metric"><strong id="test-count">0</strong><span>Vergleiche in diesem Browser</span></div>
+  <div class="metric"><strong id="new-share">–</strong><span>Präferenz für die neue Fassung</span></div>
+  <div class="metric"><strong id="critical-count">0</strong><span>Markierte Fakten-/Sicherheitsprobleme</span></div>
+</div>
+<div class="layout">
+  <section class="panel">
+    <div class="panel-top"><span class="eyebrow">01 / EINORDNEN</span><span class="pill">Blindtest</span></div>
+    <h2>Ein Thema auswählen</h2>
+    <label for="topic">Argument oder Frage</label><select id="topic"></select>
+    <label for="voice">Erzählstimme</label><select id="voice"><option value="momo">🐮 Momo · Wissen</option><option value="kiki">🐔 Kiki · Empathie</option><option value="bao">🐷 Bao · Humor</option></select>
+    <div class="context"><span class="eyebrow">ORIGINALKONTEXT</span><p id="original"></p><div class="disclaimer">Bewerte zunächst die Antwortqualität, nicht ob du die Meinung der Figur teilst.</div></div>
+    <h3>Faktenbasis für beide Antworten</h3><p class="small" id="fact"></p>
+    <div class="caveat"><b>Wissenschaftliche Grenze</b><p id="caveat"></p></div>
+    <div class="sources"><span class="eyebrow">QUELLEN ZUM NACHPRÜFEN</span><div id="sources"></div></div>
+    <label class="check"><input id="source-checked" type="checkbox"><span>Ich habe mindestens eine Belegstelle im Original selbst überprüft.</span></label>
+    <p class="muted tiny">Nur wenn du wirklich nachgelesen hast. Ein Klick auf den Link allein bestätigt keine Quelle.</p>
+  </section>
+  <section class="panel main">
+    <div class="panel-top"><span class="eyebrow">02 / BLIND VERGLEICHEN</span><span class="pill">Kein Sieger vorab</span></div>
+    <h2>Zwei Antworten, eine Entscheidung</h2><p class="small">Welche Antwort ist korrekt, verständlich und respektvoll – und klingt wie etwas, das du selbst posten würdest?</p>
+    <div class="candidates">
+      <article class="candidate" id="card-a"><div class="candidate-head"><span>VARIANTE A</span><span class="length" id="length-a"></span></div><p id="text-a"></p><button class="vote" data-vote="a">Diese würde ich posten</button></article>
+      <article class="candidate" id="card-b"><div class="candidate-head"><span>VARIANTE B</span><span class="length" id="length-b"></span></div><p id="text-b"></p><button class="vote" data-vote="b">Diese würde ich posten</button></article>
+    </div>
+    <button class="neutral-vote" id="neither">Keine der beiden überzeugt mich</button>
+    <div id="choice" class="choice" role="status" aria-live="polite">Noch keine Variante gewählt.</div>
+    <details id="more-review"><summary>Optional: Warum hast du dich so entschieden? <span>↘</span></summary>
+    <p class="small">Bewerte die gewählte Variante oder die bessere von beiden anhand unserer sechs Kriterien. Bei einem schweren Faktenfehler bitte unten markieren.</p>
+    <div id="rubric"></div>
+    <label for="note">Was sollten wir verbessern? (optional)</label><textarea id="note" rows="3" maxlength="600" placeholder="z. B. zu belehrend, beantwortet nicht die eigentliche Frage …"></textarea>
+    <label class="check"><input id="critical" type="checkbox"><span>Ich sehe einen gravierenden Fakten-, Quellen- oder Sicherheitsfehler.</span></label>
+    </details>
+    <div class="actions"><button id="save" class="primary" disabled>Urteil speichern ♡</button><button id="next" class="secondary">Nächstes Thema →</button></div>
+    <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
+  </section>
+</div>
+<section class="method">
+  <div><span class="eyebrow">WAS WIR MESSEN</span><h2>Nicht die lauteste Antwort.<br>Die hilfreichste.</h2><p>Die Präferenz ist ein Signal für Attraktivität, kein wissenschaftlicher Wirkungsnachweis. Quellenfehler sind harte Ausschlusskriterien. Für echte Vergleichbarkeit brauchen wir mehrere unabhängige Personen und reale, anonymisierte Kommentare.</p></div>
+  <div class="method-actions"><button id="export" class="secondary">Lokale Bewertungen als CSV exportieren ↗</button><button id="clear" class="quiet">Lokale Bewertungen löschen</button><p class="tiny muted">Alle Ergebnisse bleiben ausschliesslich auf diesem Gerät. Beim Export keine persönlichen Daten mitsenden.</p></div>
+</section>
+<footer><span>For animals. With humans. ♡</span><span><a href="/">Dialog öffnen</a> · <a href="https://github.com/mikelninh/animal-voices-os">Quellcode</a></span></footer>
+</main><script src="/data.js"></script><script src="/triage.js"></script><script src="/quality.js"></script></body></html>
