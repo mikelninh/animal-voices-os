@@ -1,10 +1,11 @@
-/* Animal Voices 0.9: local evidence and context workers, human-controlled publishing. */
+/* Animal Voices 0.9.5: context-fit editorial replies, local evaluation and human-controlled publishing. */
 (() => {
   'use strict';
   const DATA = window.AV_DATA;
   const T = window.AV_TRIAGE;
   const E = window.AV_ENGINE;
-  if(!T || !E) { document.body.textContent='Der sichere Entscheidungsassistent konnte nicht geladen werden.'; return; }
+  const F = window.AV_CONTEXT_FIT;
+  if(!T || !E || !F) { document.body.textContent='Der sichere Entscheidungsassistent konnte nicht geladen werden.'; return; }
   if (!DATA?.cases?.length || !DATA?.sources?.length) { document.body.textContent = 'Die Wissensbibliothek konnte nicht geladen werden.'; return; }
   const $ = id => document.getElementById(id);
   const casesById = new Map(DATA.cases.map(t => [t.id, t]));
@@ -14,6 +15,20 @@
   const stamp = () => new Date().toISOString();
   const storage = 'animal-voices-studio-v07'; // Backward-compatible with saved v0.7 records
   let replyForm = 'short';
+  let replyIntent = 'claim';
+  const feedbackKey='animal-voices-reply-feedback-v095';
+  let answerFeedback=[];
+  try {const saved=JSON.parse(localStorage.getItem(feedbackKey)||'[]');if(Array.isArray(saved))answerFeedback=saved.filter(x=>x&&typeof x.topic==='string').slice(0,150);}catch{}
+  function saveAnswerFeedback(){
+    try{localStorage.setItem(feedbackKey,JSON.stringify(answerFeedback.slice(-150)))}catch{toast('Feedback konnte lokal nicht gespeichert werden.')}
+    if($('impact-feedback'))$('impact-feedback').textContent=String(answerFeedback.length);
+  }
+  function composeReply(topic){return F.compose(topic,persona,replyForm,replyIntent,T.reply)}
+  function updateIntentUI(){
+    $('reply-intent').value=replyIntent;
+    const labels={question:'Als Frage eingeordnet: freundlich erklären, statt vorschnell zu widersprechen.',skeptic:'Als Einwand eingeordnet: Sorge anerkennen und den Faktenkern klar erklären.',claim:'Als Behauptung eingeordnet: sachlich und respektvoll einordnen.'};
+    $('intent-explainer').textContent=(labels[replyIntent]||labels.claim)+' Die Einordnung ist ein Vorschlag, kein Urteil über die Person.';
+  }
   const personas = {momo:'Momo',kiki:'Kiki',bao:'Bao'};
   let records = [];
   try {const stored=JSON.parse(localStorage.getItem(storage)||'[]');if(Array.isArray(stored)) records=stored.filter(x=>x&&typeof x.id==='string').slice(0,300).map(x=>({...x,input:T.sanitizeIdea(x.input||''),postUrl:''}));} catch {}
@@ -89,7 +104,7 @@
       '<div class="inline-proof-links">'+topic.sources.map(id=>sourcesById.get(id)).filter(Boolean).map(s=>'<a target="_blank" rel="noopener noreferrer" href="'+safeURL(s.url)+'">'+escape(s.name)+' · '+escape(s.year)+' ↗</a>').join('')+'</div>'+
       '<button id="more-evidence" class="link-control" type="button">Alle Belege & Hintergründe anzeigen ⌄</button>';
     $('more-evidence').addEventListener('click',()=>{$('evidence-card').hidden=false;$('evidence-card').scrollIntoView({behavior:'auto',block:'nearest'});});
-    active.reply=T.reply(topic,persona,replyForm);active.form=replyForm;
+    replyIntent=active.intent||'claim';updateIntentUI();active.reply=composeReply(topic);active.form=replyForm;
     $('reply').value=active.reply;$('review-check').checked=false;$('review-check').disabled=true;
     $('after-copy').hidden=true; $('voice-details').open=false; updateVoiceSummary();updateLengthButtons();
     setApprovalState();setJourney(2);
@@ -173,8 +188,9 @@
     const decision=E.decide(input,topicList,sourcesById,$('context-type').value);
     const topic=decision.topic;
     const reason=decision.hold ? decision.reason : null;
+    const initialIntent=F.intentFrom(input,decision.context,$('context-type').value);
     lastRecommendation={action:decision.action,reason:decision.reason,level:decision.context};
-    const record={id:(crypto.randomUUID?.()||String(Date.now())),createdAt:stamp(),input,postUrl,topicId:topic?.id||null,topicName:topic?.short||null,status:'triage',action:null,recommended: lastRecommendation.action,reason:decision.reason,hold:decision.hold,context:decision.context,engine:decision.method,persona,form:replyForm,reply:'',approvedReply:null,reviewer:null,postedAt:null,copiedAt:null,sourceOpenedAt:null};
+    const record={id:(crypto.randomUUID?.()||String(Date.now())),createdAt:stamp(),input,postUrl,topicId:topic?.id||null,topicName:topic?.short||null,status:'triage',action:null,recommended: lastRecommendation.action,reason:decision.reason,hold:decision.hold,context:decision.context,intent:initialIntent.intent,intentMethod:initialIntent.method,engine:decision.method,persona,form:replyForm,reply:'',approvedReply:null,reviewer:null,postedAt:null,copiedAt:null,sourceOpenedAt:null};
     active=record;if(topic&&decision.action==='reply'&&!decision.hold){persona=recommendedVoice(topic);active.persona=persona;document.querySelectorAll('[data-persona]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.persona===persona)));updateVoiceSummary();}
     records.unshift(record);if(records.length>300)records=records.slice(0,300);persist();
     $('result-area').hidden=false;$('triage-card').hidden=false;$('evidence-card').hidden=true;$('reply-card').hidden=true;
@@ -205,12 +221,34 @@
     if(!['short','long'].includes(next))return;
     replyForm=next;updateLengthButtons();
     if(active?.topicId&&active.action==='reply'&&['ready','approved'].includes(active.status)){
-      active.form=next;active.reply=T.reply(casesById.get(active.topicId),persona,next);
+      active.form=next;active.reply=composeReply(casesById.get(active.topicId));
       active.approvedReply=null;active.approvedAt=null;active.status='ready';
       $('reply').value=active.reply;$('review-check').checked=false;$('after-copy').hidden=true;
       persist();setApprovalState();
     }
   }
+  $('reply-intent').addEventListener('change',()=>{
+    const next=$('reply-intent').value;
+    if(!['question','skeptic','claim'].includes(next)||!active?.topicId||active.action!=='reply'||active.hold)return;
+    if(next===replyIntent)return;
+    replyIntent=next;active.intent=next;active.intentMethod='human_selected';
+    active.reply=composeReply(casesById.get(active.topicId));active.approvedReply=null;active.approvedAt=null;
+    active.status='ready';active.copiedAt=null;active.postedAt=null;active.sourceOpenedAt=null;
+    $('reply').value=active.reply;$('review-check').checked=false;$('review-check').disabled=true;$('after-copy').hidden=true;
+    updateIntentUI();persist();setApprovalState();
+    toast('Antwort auf diesen Gesprächskontext angepasst. Bitte Quelle erneut prüfen.');
+  });
+  $('reply-feedback').addEventListener('click',event=>{
+    const b=event.target.closest('[data-reply-feedback]');
+    if(!b||!active?.topicId)return;
+    const allowed=['context','tone','long','evidence'];
+    if(!allowed.includes(b.dataset.replyFeedback))return;
+    answerFeedback.push({topic:active.topicId,intent:replyIntent,persona,reason:b.dataset.replyFeedback,createdAt:stamp()});
+    if(answerFeedback.length>150)answerFeedback=answerFeedback.slice(-150);
+    saveAnswerFeedback();
+    $('reply-feedback-result').textContent='Danke! ♡ Dein Hinweis ist lokal gespeichert. Wir haben keine Personendaten übertragen.';
+    toast('Danke für dein Feedback. ♡');
+  });
   $('reply-short').addEventListener('click',()=>setReplyForm('short'));
   $('reply-long').addEventListener('click',()=>setReplyForm('long'));
   updateLengthButtons();
@@ -218,7 +256,7 @@
     document.querySelectorAll('[data-persona]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.persona===next)));
     if(active?.topicId&&active.action==='reply'&&['ready','approved'].includes(active.status)){
       const t=casesById.get(active.topicId); if(!t)return;
-      active.persona=next;active.reply=T.reply(t,next,replyForm);active.approvedReply=null;active.status='ready';active.reviewer=null;
+      active.persona=next;active.reply=composeReply(t);active.approvedReply=null;active.status='ready';active.reviewer=null;
       $('reply').value=active.reply;$('review-check').checked=false;$('after-copy').hidden=true;updateVoiceSummary();$('voice-details').open=false;persist();setApprovalState();
       toast('Stimme geändert. Bitte Antwort erneut prüfen.');
     }
@@ -313,7 +351,7 @@
   $('copy-script').addEventListener('click',()=>{if(generatedScript)copyToClipboard(generatedScript)});
 
   function renderImpact(){ $('impact-cases').textContent=records.length; $('impact-approved').textContent=records.filter(x=>x.status==='approved').length;
-    $('impact-posted').textContent=records.filter(x=>!!x.postedAt).length; $('impact-ideas').textContent=records.filter(x=>x.action==='save').length;
+    $('impact-posted').textContent=records.filter(x=>!!x.postedAt).length; $('impact-ideas').textContent=records.filter(x=>x.action==='save').length; $('impact-feedback').textContent=answerFeedback.length;
     const ideas=E.groupIdeas(records);
     $('idea-clusters').innerHTML=ideas.length?ideas.slice(0,6).map(x=>'<div class="idea-item"><span class="count">'+x.count+'×</span><strong>'+escape(x.label)+'</strong><p>'+escape(x.examples[0]||'Diese Frage wurde zum späteren Recherchieren gespeichert.')+'</p><button type="button" data-idea-topic="'+escape(x.id)+'">'+(casesById.has(x.id)?'Content dazu erstellen':'Im Wissen recherchieren')+' ↗</button></div>').join(''):'<p>Noch keine gespeicherten Ideen. Wenn eine Frage oft auftaucht, merkst du sie hier für neue Reels und Faktenchecks.</p>';
     $('records').innerHTML=records.length?records.slice(0,20).map(r=>'<div class="record"><strong>'+escape((r.action==='save'?r.idea||'[anonymisierte Idee]':r.input).slice(0,115))+'</strong><small>'+escape(r.status==='approved'?'Manuell freigegeben':r.action==='save'?'Content-Idee':r.action==='ignore'?'Ignoriert':r.action==='report'?'Meldung erwogen':r.status==='held'?'Zurückgestellt':'Zur Prüfung offen')+' · '+escape(r.topicName||'Thema unbekannt')+' · '+escape(r.createdAt.slice(0,10))+'</small></div>').join(''):'Noch keine Fälle. Probiere den Dialog aus.';
@@ -324,8 +362,8 @@
     else {go('library'); $('search').focus();}
   });
   renderImpact();
-  $('export').addEventListener('click',()=>{const payload=JSON.stringify({version:'0.9',exportedAt:stamp(),note:'Anonymisierte lokale Aufzeichnungen. Keine extern überprüfte Veröffentlichung oder Wirkung.',records:minimizedRecords()},null,2);const blob=new Blob([payload],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='animal-voices-local-audit.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);toast('Lokales Audit exportiert.');});
-  $('clear').addEventListener('click',()=>{if(!confirm('Alle lokal gespeicherten Fälle dauerhaft löschen?'))return;records=[];active=null;persist();$('result-area').hidden=true;setJourney(1);toast('Lokale Fälle gelöscht.');});
+  $('export').addEventListener('click',()=>{const payload=JSON.stringify({version:'0.9.5',exportedAt:stamp(),note:'Anonymisierte lokale Aufzeichnungen. Keine extern überprüfte Veröffentlichung oder Wirkung.',records:minimizedRecords(),answerFeedback},null,2);const blob=new Blob([payload],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='animal-voices-local-audit.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);toast('Lokales Audit exportiert.');});
+  $('clear').addEventListener('click',()=>{if(!confirm('Alle lokal gespeicherten Fälle dauerhaft löschen?'))return;records=[];active=null;answerFeedback=[];saveAnswerFeedback();persist();$('result-area').hidden=true;setJourney(1);toast('Lokale Fälle und Antwortfeedback gelöscht.');});
 
   // Installed Android PWA: POST share is intercepted by the local Service Worker.
   // Shared text stays in device IndexedDB, never in a network query string.
