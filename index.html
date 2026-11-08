@@ -16,7 +16,7 @@
 <body>
 <div class="site-shell">
   <header class="site-header">
-    <a class="brand" href="#dialog" data-go="dialog" aria-label="Animal Voices Startseite"><span class="brand-icon">✳</span><span>animal voices<span class="beta">BETA 0.9.2</span></span></a>
+    <a class="brand" href="#dialog" data-go="dialog" aria-label="Animal Voices Startseite"><span class="brand-icon">✳</span><span>animal voices<span class="beta">BETA 0.9.3</span></span></a>
     <nav aria-label="Hauptnavigation" class="primary-nav">
       <button data-route="dialog" aria-current="page">Dialog</button>
       <button data-route="library">Wissen</button>
@@ -87,18 +87,17 @@
           <div class="card-head"><div><span class="section-kicker">DEIN ANTWORTENTWURF</span><h2 id="reply-title">Das könntest du antworten. ♡</h2></div><span class="friendly-label">Mit Liebe, nicht mit Lautstärke. ♡</span></div>
           <p class="tiny-intro">Vorläufiger Entwurf. Ändere ihn so, dass er wirklich zu dir passt.</p>
           <div class="length-toggle" role="group" aria-label="Länge der Antwort"><button id="reply-short" type="button" aria-pressed="true">Kurz · Instagram</button><button id="reply-long" type="button" aria-pressed="false">Ausführlich</button></div>
-          <div class="persona-picker" role="group" aria-label="Tierfigur als Sprecher wählen">
+          <details class="voice-details" id="voice-details"><summary id="voice-summary">🐮 Momo · Wissenschaft <span>Stimme ändern ⌄</span></summary><div class="persona-picker" role="group" aria-label="Stimme für diesen Entwurf ändern">
             <button class="persona-option" data-persona="momo" aria-pressed="true"><img src="./characters/momo.webp" alt="" width="44" height="44"><span><strong>Momo</strong><small>Wissenschaft</small></span></button>
             <button class="persona-option" data-persona="kiki" aria-pressed="false"><img src="./characters/kiki.webp" alt="" width="44" height="44"><span><strong>Kiki</strong><small>Mitgefühl</small></span></button>
             <button class="persona-option" data-persona="bao" aria-pressed="false"><img src="./characters/bao.webp" alt="" width="44" height="44"><span><strong>Bao</strong><small>Humor</small></span></button>
-          </div>
+          </div></details>
           <label class="form-label" for="reply">Dein Antwortentwurf <span class="hint">Kannst du frei bearbeiten</span></label>
           <textarea id="reply" rows="5" maxlength="2500"></textarea><div id="inline-proof" class="inline-proof" aria-live="polite"></div>
-          <details class="optional-ai"><summary>✨ Optional: KI-Zweitentwurf mit Gegenprüfung <span class="beta-small">nur nach Freigabe</span></summary><p>Nur wenn ein sicherer KI-Worker eingerichtet ist. Zwei getrennte Modellschritte entwerfen und prüfen den Text. Das ersetzt weder die Originalstudie noch deine persönliche Freigabe.</p><label for="ai-editor-code">Privater Editor-Code</label><input type="password" id="ai-editor-code" autocomplete="off" placeholder="Code aus deiner privaten Konfiguration"><label class="approval-checkbox"><input type="checkbox" id="ai-consent">Ich möchte diesen von mir anonymisierten Kommentar ausdrücklich an den KI-Anbieter senden.</label><button class="button button-secondary" type="button" id="ai-draft">Neuen KI-Entwurf anfragen</button><p id="ai-status" role="status">Ohne sicher konfigurierte Server-Zugangsdaten deaktiviert. Redaktionelle Vorlagen funktionieren offline.</p></details>
-          <div class="approval-box"><div class="approval-head"><span class="circle-check">✓</span><div><strong>Vor dem Verwenden kurz prüfen</strong><p>Stimmen Kontext, Quellen und Ton? Die letzte Entscheidung bleibt bei dir.</p></div></div>
-            <div class="approval-rows"><label class="approval-checkbox"><input type="checkbox" id="source-check"><span>Ich habe mindestens eine Originalquelle geöffnet und die Belegstelle kontrolliert.</span></label><label for="reviewer">Dein Kürzel <input id="reviewer" placeholder="Einmalig eingeben, z. B. AV" maxlength="70" autocomplete="off"></label><label class="approval-checkbox"><input type="checkbox" id="review-check"><span>Ich habe Text, Quellen und Einschränkungen geprüft.</span></label></div>
-            <div class="approval-actions"><button class="button button-primary" id="approve" disabled>Prüfen & kopieren ♡</button><button class="button button-secondary" id="copy" disabled hidden>Erneut kopieren ↗</button></div>
-            <p class="approval-note" id="approval-status" role="status">Noch nicht freigegeben. Es wird nichts automatisch veröffentlicht.</p>
+          <div class="approval-box"><div class="approval-head"><span class="circle-check">✓</span><div><strong>Ein kurzer Check vor dem Kopieren</strong><p>Öffne die Originalquelle und prüfe den Text. Dann kannst du ihn direkt verwenden.</p></div></div>
+            <div class="approval-rows"><label class="approval-checkbox"><input type="checkbox" id="review-check" disabled><span>Ich habe die Originalquelle sowie Antwort und Einschränkungen überprüft.</span></label><p class="approval-helper" id="review-helper">1. Quelle oben öffnen · 2. Prüfen und bestätigen · 3. Kopieren</p></div>
+            <div class="approval-actions"><button class="button button-primary" id="approve" disabled>Antwort & Quellen kopieren ♡</button><button class="button button-secondary" id="copy" disabled hidden>Erneut kopieren ↗</button></div>
+            <p class="approval-note" id="approval-status" role="status">Bitte zuerst eine Originalquelle öffnen und überprüfen. Keine automatische Veröffentlichung.</p>
             <div id="after-copy" class="after-copy" hidden><p>Fertig kopiert? Wechsle zurück zu Instagram und veröffentliche selbst, falls du möchtest.</p><div class="button-row"><a id="back-instagram" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" class="button button-secondary">Zurück zu Instagram ↗</a><button id="mark-posted" type="button" class="button button-plain">Ich habe selbst gepostet ✓</button></div><small id="posted-status">Ein kopierter Entwurf ist nicht automatisch veröffentlicht.</small></div>
           </div>
         </section>
@@ -131,6 +130,6 @@
 </div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 <dialog id="install-dialog" class="install-dialog"><form method="dialog"><div class="card-head"><h2>Animal Voices aufs Handy ♡</h2><button class="button button-plain" value="close" aria-label="Schliessen">✕</button></div><p><strong>Android (Chrome):</strong> Browser-Menü ⋮ → „App installieren“ oder „Zum Startbildschirm hinzufügen“. Danach kannst du bei unterstützten Share-Menüs „Animal Voices“ auswählen.</p><p><strong>iPhone (Safari):</strong> Teilen → „Zum Home-Bildschirm“. Direkte PWA-Share-Targets sind hier nicht allgemein verfügbar – nutze Kopieren/Einfügen.</p><p>Instagram teilt möglicherweise nur den Beitragslink. Den Kommentartext bitte dann selbst einfügen. Kein Zugriff auf dein Instagram-Konto.</p><button class="button button-primary" value="close">Verstanden</button></form></dialog>
-<script src="./data.js"></script><script src="./triage.js"></script><script src="./engine.js"></script><script src="./app.js?v=0.9.2"></script>
+<script src="./data.js"></script><script src="./triage.js"></script><script src="./engine.js"></script><script src="./app.js?v=0.9.3"></script>
 </body>
 </html>
