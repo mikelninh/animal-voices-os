@@ -54,10 +54,15 @@
         <div class="composer-top"><div><span class="section-kicker">DEIN STARTPUNKT</span><h2 id="question-heading">Was wurde gesagt?</h2></div><span class="step-tag">Schritt 1 von 3</span></div>
         <div class="form-label">1 · Kommentartext <span class="hint">Keine Nutzernamen / persönlichen Daten</span></div>
         <label class="sr-only" for="comment">Kommentar oder Frage</label>
-        <textarea id="comment" rows="4" maxlength="1800" placeholder="Füge hier einen Kommentar oder eine Frage ein …&#10;Zum Beispiel: „Vegane Männer sind doch schwach.“"></textarea>
+        <textarea id="comment" rows="4" maxlength="1800" aria-describedby="composer-feedback" placeholder="Füge hier einen Kommentar oder eine Frage ein …&#10;Zum Beispiel: „Vegane Männer sind doch schwach.“"></textarea>
         <div class="source-input"><label for="post-url">Beitragslink (optional, nur Instagram)</label><input id="post-url" type="url" inputmode="url" autocomplete="off" placeholder="https://www.instagram.com/p/…"><span class="hint">Ein Link enthält nicht automatisch den Kommentartext. Wir lesen keine fremden Accounts aus.</span></div>
         <div class="context-clarifier"><label for="context-type">Kontext <span class="muted-inline">· optional, aber wichtig</span></label><select id="context-type" aria-describedby="context-hint"><option value="auto">Animal Voices schlägt eine Einordnung vor</option><option value="question">Das ist eine ehrliche Frage</option><option value="claim">Diese Person behauptet das selbst</option><option value="quote">Das ist nur ein Zitat / eine Widerlegung</option><option value="irony">Ironie oder Sarkasmus</option></select><small id="context-hint">Du kennst die Diskussion am besten. Unsere Einschätzung kann falsch sein.</small></div>
         <div class="composer-foot"><div class="example-tray"><span class="example-label">Zum Ausprobieren</span><div id="sample-chips" class="example-chips"></div></div><button id="analyze" class="button button-primary">Handlung wählen <span aria-hidden="true">↗</span></button></div>
+        <div id="composer-feedback" class="composer-feedback" role="alert" aria-live="assertive" hidden>
+          <strong id="composer-feedback-title">Noch ein kleiner Schritt ♡</strong>
+          <p id="composer-feedback-message">Bitte zuerst einen Kommentar eingeben.</p>
+          <button id="composer-try-example" type="button" class="button button-secondary">Beispiel laden ↗</button>
+        </div>
         <div class="safety-line"><span aria-hidden="true">◎</span> Persönliche Daten entfernen. Manuell eingefügter Text bleibt in diesem Browser. Bei installiertem Android-Share-Target bleibt der geteilte Text im Gerätespeicher. Keine Screenshots, Profile oder privaten Nachrichten teilen.</div>
       </section>
 
@@ -126,6 +131,6 @@
 </div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 <dialog id="install-dialog" class="install-dialog"><form method="dialog"><div class="card-head"><h2>Animal Voices aufs Handy ♡</h2><button class="button button-plain" value="close" aria-label="Schliessen">✕</button></div><p><strong>Android (Chrome):</strong> Browser-Menü ⋮ → „App installieren“ oder „Zum Startbildschirm hinzufügen“. Danach kannst du bei unterstützten Share-Menüs „Animal Voices“ auswählen.</p><p><strong>iPhone (Safari):</strong> Teilen → „Zum Home-Bildschirm“. Direkte PWA-Share-Targets sind hier nicht allgemein verfügbar – nutze Kopieren/Einfügen.</p><p>Instagram teilt möglicherweise nur den Beitragslink. Den Kommentartext bitte dann selbst einfügen. Kein Zugriff auf dein Instagram-Konto.</p><button class="button button-primary" value="close">Verstanden</button></form></dialog>
-<script src="./data.js"></script><script src="./triage.js"></script><script src="./engine.js"></script><script src="./app.js"></script>
+<script src="./data.js"></script><script src="./triage.js"></script><script src="./engine.js"></script><script src="./app.js?v=0.9.1"></script>
 </body>
 </html>
