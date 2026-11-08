@@ -10,13 +10,14 @@ const require=createRequire(import.meta.url);
 const context={window:{}};
 vm.runInNewContext(fs.readFileSync(path.join(root,'data.js'),'utf8'),context);
 const triage=require('../triage.js');
+const contextFit=require('../context-fit.js');
 
 function mountQuality(overrideReply){
   const elements=new Map(),cache=new Map();
   const make=id=>{
     if(elements.has(id))return elements.get(id);
     const classes=new Set(),handlers={};
-    const e={id,value:id==='topic'?'strength':id==='voice'?'bao':'',checked:false,disabled:false,textContent:'',innerHTML:'',classList:{add(x){classes.add(x)},remove(x){classes.delete(x)},toggle(x,force){if(force===false)classes.delete(x);else if(force===true)classes.add(x);else if(classes.has(x))classes.delete(x);else classes.add(x);return classes.has(x)},contains(x){return classes.has(x)}},
+    const e={id,value:id==='topic'?'strength':id==='voice'?'bao':id==='comparison-intent'?'question':'',checked:false,disabled:false,textContent:'',innerHTML:'',classList:{add(x){classes.add(x)},remove(x){classes.delete(x)},toggle(x,force){if(force===false)classes.delete(x);else if(force===true)classes.add(x);else if(classes.has(x))classes.delete(x);else classes.add(x);return classes.has(x)},contains(x){return classes.has(x)}},
       setAttribute(name,val){this[name]=val},addEventListener(name,callback){handlers[name]=callback},fire(name){if(!handlers[name])throw new Error(id+' no '+name+' handler');handlers[name]()}};
     elements.set(id,e);return e;
   };
@@ -31,7 +32,7 @@ function mountQuality(overrideReply){
   };
   const store=new Map();
   const localStorage={getItem:k=>store.get(k)||null,setItem:(k,v)=>store.set(k,String(v))};
-  const sandbox={window:{AV_DATA:context.window.AV_DATA,AV_TRIAGE:overrideReply?{...triage,reply:overrideReply}:triage,scrollTo:()=>{}},document:doc,localStorage,console,Math,Date,Array,Number,String,Object,RegExp,
+  const sandbox={window:{AV_DATA:context.window.AV_DATA,AV_TRIAGE:triage,AV_CONTEXT_FIT:overrideReply?{...contextFit,compose:overrideReply}:contextFit,scrollTo:()=>{}},document:doc,localStorage,console,Math,Date,Array,Number,String,Object,RegExp,
     confirm:()=>true,Blob:class Blob{},URL:{createObjectURL:()=>'/blob',revokeObjectURL:()=>{}},setTimeout:()=>0};
   vm.runInNewContext(fs.readFileSync(path.join(root,'quality.js'),'utf8'),sandbox);
   return {get:make,store};
@@ -52,8 +53,8 @@ test('Blind vote is an opt-in action, stored locally and reversible when moving 
  assert.equal(m.get('card-a').classList.contains('chosen'),true);
  m.get('save').fire('click');
  assert.equal(m.get('test-count').textContent,1);
- assert.ok(m.store.has('avos_quality_reviews_v094'));
- const saved=JSON.parse(m.store.get('avos_quality_reviews_v094'));
+ assert.ok(m.store.has('avos_quality_reviews_v095'));
+ const saved=JSON.parse(m.store.get('avos_quality_reviews_v095'));
  assert.equal(saved.length,1);
  assert.equal(saved[0].topic,'strength');
  assert.equal(saved[0].sourceChecked,false);
@@ -69,7 +70,7 @@ test('Critical flags force a fail and full rubric ratings are only calculated fr
  m.get('critical').checked=true;
  m.get('source-checked').checked=true;
  m.get('save').fire('click');
- const record=JSON.parse(m.store.get('avos_quality_reviews_v094'))[0];
+ const record=JSON.parse(m.store.get('avos_quality_reviews_v095'))[0];
  assert.equal(record.score,0);
  assert.equal(record.critical,true);
  assert.equal(record.sourceChecked,true);
@@ -77,16 +78,13 @@ test('Critical flags force a fail and full rubric ratings are only calculated fr
 });
 
 test('Cached stale reply module cannot create false blinded A/B comparison',()=>{
- const m=mountQuality((topic,persona,form)=>{
-   const base=triage.SHORT[topic.id]||'';
-   return persona==='kiki'?'Danke für die Frage. 💚 '+base:persona==='bao'?'Kurzer Reality-Check aus Baos Küche: 😄 '+base:base;
- });
+ const m=mountQuality((topic,persona,form)=>triage.reply(topic,persona,'short'));
  assert.equal(m.get('text-a').textContent,m.get('text-b').textContent);
  assert.equal(m.get('save').disabled,true);
  assert.equal(m.get('vote-a').disabled,true);
  m.get('vote-a').fire('click');
  assert.equal(m.get('save').disabled,true);
  m.get('save').fire('click');
- assert.equal(m.store.has('avos_quality_reviews_v094'),false);
+ assert.equal(m.store.has('avos_quality_reviews_v095'),false);
  assert.match(m.get('feedback').textContent,/identisch/);
 });
