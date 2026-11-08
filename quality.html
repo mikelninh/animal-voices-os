@@ -8,7 +8,7 @@
 <main class="shell">
 <header class="mast"><a href="/" class="brand" aria-label="Zurück zu Animal Voices"><span class="mark">♥</span><span><b>animal voices</b><small>RESPONSE LAB</small></span></a><a href="/" class="back">← Zum Dialog</a></header>
 <div class="hero">
-  <div><span class="eyebrow">THE KINDNESS EXPERIMENT · v0.9.4</span><h1>Welche Antwort würdest<br><em>du wirklich posten?</em></h1><p>Gleiche Frage. Gleiche Quellen. Zwei unterschiedliche Antworten – ohne zu verraten, welche neu ist. Dein Urteil hilft uns, liebevoller und besser zu kommunizieren.</p></div>
+  <div><span class="eyebrow">CONTEXT MATTERS · v0.9.5</span><h1>Welche Antwort würdest<br><em>du wirklich posten?</em></h1><p>Gleiche Situation. Gleiche Quellen. Zwei unterschiedliche Antworten – ohne zu verraten, welche neu ist. Dein Urteil hilft uns, liebevoller und besser zu kommunizieren.</p></div>
   <div class="hero-symbol" aria-hidden="true">🐮 <span>🐔</span> 🐷</div>
 </div>
 <div class="metrics" aria-label="Lokale Testergebnisse">
@@ -22,6 +22,8 @@
     <h2>Ein Thema auswählen</h2>
     <label for="topic">Argument oder Frage</label><select id="topic"></select>
     <label for="voice">Erzählstimme</label><select id="voice"><option value="momo">🐮 Momo · Wissen</option><option value="kiki">🐔 Kiki · Empathie</option><option value="bao">🐷 Bao · Humor</option></select>
+    <label for="comparison-intent">Was ist die Gesprächssituation?</label><select id="comparison-intent"><option value="question">Ehrliche Frage</option><option value="skeptic">Skeptischer Einwand</option></select>
+    <p class="small">Vergleiche die bisherige Standardantwort mit einer Antwort, die sich auf diese konkrete Situation einstellt.</p>
     <div class="context"><span class="eyebrow">ORIGINALKONTEXT</span><p id="original"></p><div class="disclaimer">Bewerte zunächst die Antwortqualität, nicht ob du die Meinung der Figur teilst.</div></div>
     <h3>Faktenbasis für beide Antworten</h3><p class="small" id="fact"></p>
     <div class="caveat"><b>Wissenschaftliche Grenze</b><p id="caveat"></p></div>
@@ -31,7 +33,7 @@
   </section>
   <section class="panel main">
     <div class="panel-top"><span class="eyebrow">02 / BLIND VERGLEICHEN</span><span class="pill">Kein Sieger vorab</span></div>
-    <h2>Zwei Antworten, eine Entscheidung</h2><p class="small">Welche Antwort ist korrekt, verständlich und respektvoll – und klingt wie etwas, das du selbst posten würdest?</p>
+    <h2>Eine Situation. Zwei mögliche Antworten.</h2><p class="small">Welche Antwort ist korrekt, verständlich und respektvoll – und klingt wie etwas, das du selbst posten würdest?</p>
     <div class="candidates">
       <article class="candidate" id="card-a"><div class="candidate-head"><span>VARIANTE A</span><span class="length" id="length-a"></span></div><p id="text-a"></p><button class="vote" data-vote="a">Diese würde ich posten</button></article>
       <article class="candidate" id="card-b"><div class="candidate-head"><span>VARIANTE B</span><span class="length" id="length-b"></span></div><p id="text-b"></p><button class="vote" data-vote="b">Diese würde ich posten</button></article>
@@ -53,4 +55,4 @@
   <div class="method-actions"><button id="export" class="secondary">Lokale Bewertungen als CSV exportieren ↗</button><button id="clear" class="quiet">Lokale Bewertungen löschen</button><p class="tiny muted">Alle Ergebnisse bleiben ausschliesslich auf diesem Gerät. Beim Export keine persönlichen Daten mitsenden.</p></div>
 </section>
 <footer><span>For animals. With humans. ♡</span><span><a href="/">Dialog öffnen</a> · <a href="https://github.com/mikelninh/animal-voices-os">Quellcode</a></span></footer>
-</main><script src="/data.js?v=0.9.4.1"></script><script src="/triage.js?v=0.9.4.1"></script><script src="/quality.js?v=0.9.4.1"></script></body></html>
+</main><script src="/data.js?v=0.9.5"></script><script src="/triage.js?v=0.9.5"></script><script src="/context-fit.js?v=0.9.5"></script><script src="/quality.js?v=0.9.5"></script></body></html>
