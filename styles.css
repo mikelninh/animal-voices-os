@@ -25,3 +25,5 @@ main{min-height:60vh}.view{display:none;animation:fade .3s ease both}.view.activ
 .persona-option img{border-radius:50%;background:#eaf1e4;object-fit:cover;border:1px solid #e5ede2}
 @media(max-width:760px){.hero-art.hero-photo{height:205px;border-radius:23px;max-width:550px}}
 @media(max-width:480px){.hero-art.hero-photo{height:166px;max-width:380px}}
+
+.next-step-line{display:flex;align-items:center;justify-content:space-between;gap:14px;border-top:1px solid #e6ece4;margin-top:16px;padding-top:18px}.next-step-line span{font-size:12px;color:#829683}@media(max-width:480px){.next-step-line{display:grid}.next-step-line .button{width:100%}}
