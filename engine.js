@@ -20,7 +20,7 @@
   cost:['teuer','kosten','budget','afford','expensive','price','armut','kann ich mir nicht leisten'],
   children:['babys','säugling','schwangerschaft','schwanger','stillen','pregnan','kleinkind','newborn','infant']
  };
- const WEIGHTS={strength:{schwach:4,'keine muskeln':7,'no muscle':7,'keinen muskel':7},soy:{testosteron:6,soja:3},protein:{protein:6,eiwei:6},b12:{b12:10},forest:{regenwald:6,abholz:5},crop:{ernte:5,mäuse:6},climate:{klima:4,co2:5},nature:{nahrungskette:7},sentience:{'tiere fühlen':7},taste:{schmeckt:5},cost:{teuer:6},children:{babys:9}};
+ const WEIGHTS={strength:{schwach:4,'keine muskeln':7,'no muscle':7,'keinen muskel':7},soy:{testosteron:6,soja:3},protein:{protein:6,eiwei:6},b12:{b12:10},forest:{regenwald:6,abholz:5,abholzung:5,gerodet:5,roden:4},crop:{ernte:5,mäuse:6},climate:{klima:4,co2:5},nature:{nahrungskette:7},sentience:{'tiere fühlen':7},taste:{schmeckt:5},cost:{teuer:6},children:{babys:9}};
  const normalize=s=>String(s||'').toLocaleLowerCase('de').normalize('NFKC').replace(/ß/g,'ss').replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/[‘’“”„]/g,'"').replace(/\s+/g,' ').trim();
  const safeWord=(v)=>v.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
  function contains(haystack,needle){
