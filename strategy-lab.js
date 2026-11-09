@@ -60,6 +60,13 @@ function vote(choice){
  };
  save();load();$('lab-status').textContent='Danke! Dein Urteil wurde nur lokal gespeichert.';
 }
+function updateReview(){
+ if(!current||!votes[current.id])return;
+ votes[current.id].issue=$('lab-issue').value;
+ votes[current.id].critical=$('lab-critical').checked;
+ save();
+ $('lab-status').textContent='Deine Zusatzbewertung wurde lokal aktualisiert.';
+}
 function next(){
  if(!current||!cases.length)return;
  const nextIndex=(cases.indexOf(current)+1)%cases.length;
@@ -79,6 +86,8 @@ async function init(){
  $('lab-vote-a').addEventListener('click',()=>vote('a'));
  $('lab-vote-b').addEventListener('click',()=>vote('b'));
  $('lab-neither').addEventListener('click',()=>vote('neither'));
+ $('lab-issue').addEventListener('change',updateReview);
+ $('lab-critical').addEventListener('change',updateReview);
  $('lab-next').addEventListener('click',next);
  $('lab-export').addEventListener('click',exportVotes);
  $('lab-case').addEventListener('change',load);
