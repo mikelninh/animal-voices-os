@@ -21,5 +21,10 @@
         }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "api/assist.js": {
+      "maxDuration": 45
+    }
+  }
 }
