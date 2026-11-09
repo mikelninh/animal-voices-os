@@ -2,6 +2,16 @@
 <html lang="de">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+  // Daily mode is the normal homepage. Keep the full studio available at /?studio=1.
+  // Android share-target redirects to ?inbox=1; those must remain in the legacy handler.
+  (function(){try{
+   var q=new URLSearchParams(location.search);
+   if((location.pathname==='/'||location.pathname==='/index.html')&&
+       !q.has('studio')&&!q.has('inbox')&&!q.has('share_error')&&!location.hash)
+    location.replace('/daily.html'+(q.has('source')?'?source=pwa':''));
+  }catch(e){}})();
+  </script>
   <meta name="theme-color" content="#fafbf8"><meta name="referrer" content="no-referrer">
   <meta name="application-name" content="Animal Voices">
   <meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default">
