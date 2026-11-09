@@ -1,6 +1,6 @@
-/* Animal Voices v1.2 — everyday companion. Curated answers first; private AI only after explicit opt-in. */
+/* Animal Voices v1.3 — goal-first everyday companion. Curated answers first; private AI only after explicit opt-in. */
 (()=>{'use strict';
-const DATA=window.AV_DATA,T=window.AV_TRIAGE,F=window.AV_CONTEXT_FIT,E=window.AV_ENGINE;
+const DATA=window.AV_DATA,T=window.AV_TRIAGE,F=window.AV_CONTEXT_FIT,E=window.AV_ENGINE,S=window.AV_STRATEGIES;
 const $=id=>document.getElementById(id);
 const sourceById=new Map((DATA?.sources||[]).map(s=>[s.id,s]));
 const CASES=DATA?.cases||[];
@@ -14,7 +14,7 @@ const samples={
   crop:'Aber bei der Ernte sterben doch auch Tiere?',
   soy:'Senkt Soja den Testosteronspiegel wirklich?'
 };
-const state={decision:null,comment:'',topic:null,intent:'question',persona:'momo',reply:'',sourceOpened:false,aiAvailable:false,busy:false,proposal:null,request:null};
+const state={decision:null,comment:'',topic:null,intent:'question',persona:'momo',goal:'connect',reply:'',sourceOpened:false,aiAvailable:false,busy:false,proposal:null,request:null};
 function status(message){$('daily-feedback').textContent=message||''}
 function aiStatus(message){$('daily-ai-status').textContent=message||''}
 function wordCount(text){return String(text||'').trim().split(/\s+/).filter(Boolean).length}
@@ -66,6 +66,24 @@ function renderVoice(){
  $('voice-avatar').src=voice.avatar;
  document.querySelectorAll('[data-voice]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.voice===state.persona)));
 }
+function renderGoal(){
+ const recommended=S.choose(state.comment,state.intent,state.topic.id);
+ document.querySelectorAll('[data-goal]').forEach(b=>{
+  b.setAttribute('aria-pressed',String(b.dataset.goal===state.goal));
+  b.classList.toggle('recommended',b.dataset.goal===recommended);
+  b.title=b.dataset.goal===recommended?'Vorschlag, keine sichere Einordnung':'';
+ });
+ const g=S.GOALS[state.goal];
+ $('goal-context').textContent=(recommended===state.goal?'Unser Vorschlag: ':'Deine Wahl: ')+g.description+' Das ist eine redaktionelle Hypothese, keine Vorhersage über die Person.';
+}
+function switchGoal(goal){
+ if(!state.topic||!S.GOALS[goal])return;
+ stopRequest();state.goal=goal;resetComparison();renderGoal();
+ const baseline=F.compose(state.topic,state.persona,'short',state.intent,T.reply);
+ showReply(S.compose(state.topic.id,goal,baseline),'editorial');
+ $('rate-status').textContent='';
+ aiStatus('');
+}
 function clearResult(){
  stopRequest();state.decision=null;state.topic=null;state.comment='';state.reply='';
  $('daily-result').hidden=true;$('daily-hold').hidden=true;$('daily-ai-panel').hidden=true;
@@ -82,15 +100,16 @@ function analyze(){
  const text=$('daily-comment').value.trim();
  if(text.length<8){status('Bitte zuerst einen Kommentar oder eine Frage eingeben.');return}
  if(hasPrivateInfo(text)){status('Bitte erst Nutzernamen, Links und private Kontaktdaten entfernen.');return}
- if(!DATA||!T?.reply||!F?.compose||!E?.decide){status('Die Wissensbasis ist gerade nicht verfügbar. Bitte die Seite neu laden.');return}
+ if(!DATA||!T?.reply||!F?.compose||!E?.decide||!S?.compose||!S?.choose){status('Die Wissensbasis ist gerade nicht verfügbar. Bitte die Seite neu laden.');return}
  const d=E.decide(text,CASES,sourceById,'auto');state.decision=d;
  if(d.action!=='reply'||d.hold||!d.topic||!d.evidence?.ready){feedbackHold(d);return}
  state.comment=text;state.topic=d.topic;
  const fitted=F.intentFrom(text,d.context);
  state.intent=['question','skeptic','claim'].includes(fitted?.intent)?fitted.intent:'claim';
  state.persona=defaultVoice(d.topic.id);
- renderVoice();renderSources(d.topic);
- showReply(F.compose(d.topic,state.persona,'short',state.intent,T.reply),'editorial');
+ state.goal=S.choose(text,state.intent,d.topic.id);
+ renderVoice();renderGoal();renderSources(d.topic);
+ showReply(S.compose(d.topic.id,state.goal,F.compose(d.topic,state.persona,'short',state.intent,T.reply)),'editorial');
  $('daily-consent').checked=false;$('daily-ai-panel').hidden=true;
  $('rate-status').textContent='';
  $('daily-result').hidden=false;
@@ -114,18 +133,19 @@ async function runAI(){
  if(code.length<16){aiStatus('Bitte den privaten Redaktionscode eingeben (mindestens 16 Zeichen).');return}
  if(!$('daily-consent').checked){aiStatus('Bitte zuerst der einmaligen Übermittlung zustimmen.');return}
  if(hasPrivateInfo(state.comment)||hasPrivateInfo(state.reply)){aiStatus('Bitte Nutzernamen, Links und private Daten aus Kommentar und Entwurf entfernen.');return}
- const topic=state.topic,prior=state.reply,comment=state.comment,persona=state.persona,intent=state.intent;
+ const topic=state.topic,prior=state.reply,comment=state.comment,persona=state.persona,intent=state.intent,goal=state.goal;
  const controller=new AbortController();state.request=controller;state.busy=true;$('daily-ai-run').disabled=true;
  resetComparison();aiStatus('Die KI verbessert den Text. Ein zweiter Modellaufruf prüft den Entwurf gegen die Quellenhinweise …');
  const timeout=setTimeout(()=>controller.abort(),42000);
  try{
   const resp=await fetch('/api/assist',{method:'POST',credentials:'same-origin',cache:'no-store',signal:controller.signal,
    headers:{'Content-Type':'application/json','x-avos-editor':code},
-   body:JSON.stringify({text:comment,persona,contextType:intent,consent:true,mode:'improve',existingReply:prior})});
+   body:JSON.stringify({text:comment,persona,contextType:intent,consent:true,mode:'improve',existingReply:prior,goal})});
   const data=await resp.json();
+  if(state.goal!==goal||state.comment!==comment)return; // Ignore outdated responses after a goal change.
   if(!resp.ok||!data.ok){aiStatus(data.error||'Der KI-Test hat nicht funktioniert. Dein Entwurf bleibt erhalten.');return}
   if(data.improved===false){aiStatus(data.reason||'Keine überzeugende Verbesserung. Wir behalten den bestehenden Entwurf.');return}
-  const valid= data.topic_id===topic.id &&
+  const valid= data.topic_id===topic.id && data.goal===goal &&
     typeof data.reply==='string' && data.reply.length>=25 && data.reply.length<=950 &&
     wordCount(data.reply)<=65 && Array.isArray(data.source_links) && data.source_links.length>0 &&
     data.source_links.every(x=>topic.sources.includes(x.id)) &&
@@ -158,15 +178,15 @@ async function copyReply(){
 }
 function rate(value){
  if(!state.topic)return;
- const record={topic:state.topic.id,persona:state.persona,helpful:value==='yes',createdAt:new Date().toISOString()};
+ const record={version:'1.3',topic:state.topic.id,goal:state.goal,feedback:value,createdAt:new Date().toISOString()};
  try{
-  const key='avos-v12-daily-feedback',arr=JSON.parse(localStorage.getItem(key)||'[]');
+  const key='avos-v13-goal-feedback',arr=JSON.parse(localStorage.getItem(key)||'[]');
   if(Array.isArray(arr)){arr.push(record);localStorage.setItem(key,JSON.stringify(arr.slice(-100)))}
  }catch{}
  $('rate-status').textContent='Danke! Nur lokal gespeichert, ohne Kommentartext.';
 }
 function init(){
- if(!DATA||!T?.reply||!F?.compose||!E?.decide){status('Die Wissensbasis konnte nicht geladen werden.');return}
+ if(!DATA||!T?.reply||!F?.compose||!E?.decide||!S?.compose){status('Die Wissensbasis konnte nicht geladen werden.');return}
  $('daily-analyze').addEventListener('click',analyze);
  $('daily-comment').addEventListener('input',()=>{
   if(!$('daily-result').hidden||!$('daily-hold').hidden)clearResult();
@@ -176,9 +196,10 @@ function init(){
  document.querySelectorAll('[data-sample]').forEach(b=>b.addEventListener('click',()=>{
   $('daily-comment').value=samples[b.dataset.sample];analyze();
  }));
+ document.querySelectorAll('[data-goal]').forEach(b=>b.addEventListener('click',()=>switchGoal(b.dataset.goal)));
  document.querySelectorAll('[data-voice]').forEach(b=>b.addEventListener('click',()=>{
   if(!state.topic)return;state.persona=b.dataset.voice;renderVoice();resetComparison();
-  showReply(F.compose(state.topic,state.persona,'short',state.intent,T.reply),'editorial');
+  // Personalities only affect optional AI revision; the goal-first editorial reply stays unchanged.
   $('rate-status').textContent='';
  }));
  $('daily-reply').addEventListener('input',()=>{
