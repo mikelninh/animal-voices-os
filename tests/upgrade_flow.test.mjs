@@ -45,7 +45,7 @@ function mount(online=false){
  const sandbox={window:{AV_DATA:knowledge,AV_TRIAGE:T,AV_CONTEXT_FIT:F,AV_ENGINE:E},document,localStorage:{
   getItem:k=>store.get(k)||null,setItem:(k,v)=>store.set(k,String(v))
  },fetch,Blob,URL:{createObjectURL:blob=>{savedBlob=blob;return'blob:test'},revokeObjectURL:()=>{}},
-  confirm:()=>true,setTimeout:(fn)=>{fn();return 1},clearTimeout:()=>{},Math,Date,Array,Number,String,JSON,console};
+  confirm:()=>true,AbortController,setTimeout:()=>1,clearTimeout:()=>{},Math,Date,Array,Number,String,JSON,console};
  vm.runInNewContext(script,sandbox);
  return {el:make,store,requests,document,getBlob:()=>savedBlob};
 }
