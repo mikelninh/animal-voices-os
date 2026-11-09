@@ -9,11 +9,17 @@ test('Optional AI endpoint is disabled unless server-only credentials exist',asy
  try{const a=res();await ai(req('POST',{text:'Veganer sind schwach',persona:'momo',contextType:'auto',consent:true}),a);assert.equal(a.statusCode,503);assert.equal(a.body.ok,false);}finally{if(oldKey)process.env.OPENAI_API_KEY=oldKey;else delete process.env.OPENAI_API_KEY;if(oldCode)process.env.AVOS_EDITOR_CODE=oldCode;else delete process.env.AVOS_EDITOR_CODE;}
 });
 test('AI does not allow GET or publish on Instagram',async()=>{const a=res();await ai(req('GET'),a);assert.equal(a.statusCode,405);assert.ok(!fs.readFileSync(path.join(root,'api/assist.js'),'utf8').includes('graph.facebook.com'));});
-test('Private model endpoint stays server-only and disabled from daily consumer UI',()=>{
+test('AI is an explicitly opted-in private beta, never used on page load',()=>{
  const html=fs.readFileSync(path.join(root,'index.html'),'utf8'),app=fs.readFileSync(path.join(root,'app.js'),'utf8');
- assert.doesNotMatch(html,/ai-consent|ai-editor-code|KI-Zweitentwurf/);
- assert.doesNotMatch(app,/\$\('ai-draft'\)/);
+ assert.match(html,/id="ai-consent"/);
+ assert.match(html,/id="ai-improve"/);
+ assert.match(html,/id="ai-access"/);
+ assert.match(html,/id="ai-comparison"/);
+ assert.match(app,/if\(!\['improve','new'\]\.includes\(mode\)/);
+ assert.match(app,/\$\('ai-consent'\)\.checked/);
+ assert.match(app,/active\.sourceOpenedAt=null/);
  assert.match(app,/active\.approvedReply=null/);
+ assert.match(app,/requires_human_review|Quellenprüfung und persönliche Freigabe|Originalquelle bitte erneut/);
 });
 test('Share target is POST and worker never sends raw shared text to server',()=>{
  const mf=JSON.parse(fs.readFileSync(path.join(root,'manifest.webmanifest'),'utf8')),sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
