@@ -66,7 +66,7 @@ module.exports=async function handler(req,res){
    return error(res,422,'KI-Gegenprüfung hat den Entwurf zurückgestellt. Bitte die kuratierte Antwort verwenden.');
   if(mode==='improve'&&check.improves_existing!==true)
    return res.status(200).json({ok:true,mode,improved:false,reason:'Keine deutliche Verbesserung gefunden. Behalte lieber die vorhandene Antwort.',requires_human_review:true,scientifically_verified:false});
-  return res.status(200).json({ok:true,mode,improved:mode==='improve',reply:writer.reply,
+  return res.status(200).json({ok:true,mode,improved:mode==='improve',topic_id:result.topic.id,reply:writer.reply,
     changes:writer.changes.filter(x=>typeof x==='string').slice(0,3),
     used_source_ids:writer.used_source_ids,
     source_links:allowed.filter(s=>writer.used_source_ids.includes(s.id)),
