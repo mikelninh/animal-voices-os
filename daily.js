@@ -142,7 +142,7 @@ async function runAI(){
    headers:{'Content-Type':'application/json','x-avos-editor':code},
    body:JSON.stringify({text:comment,persona,contextType:intent,consent:true,mode:'improve',existingReply:prior,goal})});
   const data=await resp.json();
-  if(state.goal!==goal||state.comment!==comment)return; // Ignore outdated responses after a goal change.
+  if(state.goal!==goal||state.comment!==comment||state.reply!==prior||state.persona!==persona||state.intent!==intent)return; // Never apply stale suggestions after edits.
   if(!resp.ok||!data.ok){aiStatus(data.error||'Der KI-Test hat nicht funktioniert. Dein Entwurf bleibt erhalten.');return}
   if(data.improved===false){aiStatus(data.reason||'Keine überzeugende Verbesserung. Wir behalten den bestehenden Entwurf.');return}
   const valid= data.topic_id===topic.id && data.goal===goal &&
@@ -198,12 +198,12 @@ function init(){
  }));
  document.querySelectorAll('[data-goal]').forEach(b=>b.addEventListener('click',()=>switchGoal(b.dataset.goal)));
  document.querySelectorAll('[data-voice]').forEach(b=>b.addEventListener('click',()=>{
-  if(!state.topic)return;state.persona=b.dataset.voice;renderVoice();resetComparison();
+  if(!state.topic)return;stopRequest();state.persona=b.dataset.voice;renderVoice();resetComparison();
   // Personalities only affect optional AI revision; the goal-first editorial reply stays unchanged.
   $('rate-status').textContent='';
  }));
  $('daily-reply').addEventListener('input',()=>{
-  state.reply=$('daily-reply').value;renderWords();resetApproval();resetComparison();
+  stopRequest();state.reply=$('daily-reply').value;renderWords();resetApproval();resetComparison();
   $('reply-badge').textContent='Manuell bearbeitet';$('reply-badge').classList.remove('ai');
  });
  $('daily-reviewed').addEventListener('change',()=>{
