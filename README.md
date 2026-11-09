@@ -1,4 +1,21 @@
-# Animal Voices OS v0.9.5 · Context Matters
+# Animal Voices OS v1.0 · AI Editorial Beta
+
+[**Live Animal Voices**](https://animal-voices-os.vercel.app/) · [**Private AI setup instructions**](docs/AI_BETA_V1.md) · [**Answer Quality Lab**](https://animal-voices-os.vercel.app/quality.html)
+
+## What is new?
+
+- **Improve an existing reply with AI**: optional private editor receives a curated existing reply and its claim/limitations, offers a better-targeted version, and shows **before → after** with a reason.
+- **Or create a fresh alternative**: both routes pass through a separate model critic and never claim to have verified an original study live.
+- **Human choice**: suggestions are never applied automatically. Applying one resets approval, copied/posted status and source-open confirmation.
+- **No keys or user comments are committed**. Model calls happen server-side only following explicit consent, authenticated private editor access and best-effort request throttling.
+- **Fallback**: the curated, deterministic conversation tool remains fully usable even when AI is unavailable.
+- **Public AI activation is pending**: project-scoped credentials are **not yet configured**. `/api/status` reports availability honestly. We have tested the endpoint with **mocked model calls**, not real paid provider responses.
+
+Activation and important cost/privacy limitations are documented in [docs/AI_BETA_V1.md](docs/AI_BETA_V1.md). For broader public access, durable quotas, budgets and expert source verification must come first.
+
+---
+
+## Previous version: v0.9.5
 
 [**Live companion**](https://animal-voices-os.vercel.app/) · [**Response Lab**](https://animal-voices-os.vercel.app/quality.html) · [**Source**](https://github.com/mikelninh/animal-voices-os)
 
