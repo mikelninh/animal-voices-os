@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="de"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f6f5ec"><meta name="referrer" content="no-referrer">
+<meta name="description" content="Vergleiche vier Gesprächsstrategien anonym und blind. Keine erfundenen Ergebnisse.">
+<title>Animal Voices · Strategie-Labor</title>
+<link rel="stylesheet" href="/daily.css?v=1.3.0"><link rel="stylesheet" href="/strategy-lab.css?v=1.3.0">
+</head><body><div class="page">
+<header class="topbar"><a class="brand" href="/daily.html"><span class="brand-mark">✳</span><span>animal <strong>voices</strong></span></a><nav><a href="/daily.html">Alltag ↗</a><a href="/upgrade.html">KI-Labor</a></nav></header>
+<main class="lab-shell">
+ <div class="lab-head"><span class="eyebrow">STRATEGY LAB · V1.3</span><h1>Welche Antwort<br><em>öffnet eine Tür?</em></h1>
+ <p>Wir testen unterschiedliche Gesprächsziele. Nicht: Welche Antwort gewinnt den Streit? Sondern: Welche würdest du ernst nehmen?</p></div>
+ <div class="lab-stats"><strong id="lab-count">0 / 20</strong><span>lokale Urteile · synthetische Testkommentare</span></div>
+ <section class="lab-panel">
+  <div class="lab-top"><label for="lab-case">Testfall wählen</label><select id="lab-case" aria-label="Testkommentar wählen"></select></div>
+  <div class="lab-comment"><span class="eyebrow">KOMMENTAR</span><p id="lab-comment"></p></div>
+  <p class="lab-note">Zwei redaktionell verfasste Ansätze werden in zufälliger Reihenfolge gezeigt. <strong>Keine KI-Generierung und keine echten Nutzerstimmen.</strong></p>
+  <div class="lab-pair">
+   <article class="lab-option"><div class="lab-letter">A <span id="lab-length-a"></span></div><p id="lab-answer-a"></p><button type="button" class="secondary" id="lab-vote-a">A überzeugt mich eher</button></article>
+   <article class="lab-option"><div class="lab-letter">B <span id="lab-length-b"></span></div><p id="lab-answer-b"></p><button type="button" class="secondary" id="lab-vote-b">B überzeugt mich eher</button></article>
+  </div>
+  <button type="button" class="lab-neither" id="lab-neither">Keine von beiden</button>
+  <div class="lab-review"><label for="lab-issue">Falls du etwas verändern würdest</label><select id="lab-issue"><option value="none">Kein zusätzlicher Hinweis</option><option value="long">Zu lang</option><option value="preachy">Wirkt belehrend</option><option value="missed">Frage verfehlt</option><option value="vague">Zu vage / keine Richtung</option><option value="evidence">Fakten oder Quellen unklar</option></select>
+   <label class="review-label"><input id="lab-critical" type="checkbox"><span>Mindestens eine Antwort enthält möglicherweise einen schweren Fakten- oder Sicherheitsfehler.</span></label>
+  </div>
+  <div id="lab-reveal" class="lab-reveal" hidden><strong>Auflösung</strong><p id="lab-reveal-text"></p><p class="micro">Ein einzelnes Urteil beweist keine Wirkung. Quellen- und Faktenprüfung erfolgen separat.</p></div>
+  <p id="lab-status" class="feedback" role="status" aria-live="polite"></p>
+  <div class="lab-footer-actions"><button type="button" class="primary" id="lab-next">Nächster Kommentar ↗</button><button type="button" class="secondary" id="lab-export">Lokale Urteile exportieren ↓</button></div>
+ </section>
+ <section class="lab-method"><h2>Was wir hier wirklich messen</h2><p>Subjektive Präferenz, Verständlichkeit und mögliche Ablehnung – nicht automatisch Verhalten oder Tierwohlwirkung. Für belastbare Aussagen brauchen wir verschiedene freiwillige Testpersonen, unabhängige Quellenprüfungen und ehrliche Auswertung einschließlich „keine“.</p>
+ <details><summary>Belege zum aktuellen Fall ansehen</summary><p id="lab-limit"></p><div id="lab-sources" class="lab-sources"></div></details>
+ <p class="micro">Alle Stimmen bleiben in diesem Browser, bis du sie selbst als JSON exportierst. Keine Anmeldung, keine KI-Kosten, kein Tracking einzelner Kommentare.</p></section>
+</main>
+<footer class="footer"><span>FOR ANIMALS. WITH HUMANS. ♡</span><a href="/daily.html">Zum Alltagsmodus</a></footer>
+</div>
+<script src="/data.js?v=1.3.0"></script><script src="/strategy-core.js?v=1.3.0"></script><script src="/strategy-lab.js?v=1.3.0"></script>
+</body></html>
