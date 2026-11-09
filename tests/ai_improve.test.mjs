@@ -137,3 +137,26 @@ test('User interface only applies AI suggestion on explicit click, resets scient
  assert.match(app,/if\(!\['improve','new'\]\.includes\(mode\)/);
  assert.doesNotMatch(app,/fetch\('\/api\/assist',[^\n]*\)\s*;/);
 });
+
+test('Explicit conversation goal reaches both model passes and is echoed in the response',async()=>{
+ await withEditor(async()=>{
+  const calls=simulatedProvider();
+  const r=res();await assist(req('improve',{goal:'connect'}),r);
+  assert.equal(r.code,200);
+  assert.equal(r.body.goal,'connect');
+  assert.equal(calls.length,2);
+  const writer=JSON.parse(calls[0].input[0].content);
+  const critic=JSON.parse(calls[1].input[0].content);
+  assert.equal(writer.conversation_goal,'connect');
+  assert.equal(critic.facts.conversation_goal,'connect');
+  assert.match(calls[0].instructions,/Acknowledge the legitimate concern/);
+  assert.match(calls[1].instructions,/conversation_goal/);
+ });
+});
+test('Unknown conversation goal is rejected without a paid model call',async()=>{
+ await withEditor(async()=>{
+  let called=false;global.fetch=()=>{called=true;throw Error('Model must not be called')};
+  const r=res();await assist(req('improve',{goal:'manipulate'}),r);
+  assert.equal(r.code,400);assert.equal(called,false);
+ });
+});
