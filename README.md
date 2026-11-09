@@ -1,3 +1,21 @@
+# Animal Voices OS v1.2 · Daily Companion
+
+[**Open everyday mode**](https://animal-voices-os.vercel.app/daily.html) · [**Full Studio**](https://animal-voices-os.vercel.app/?studio=1#dialog) · [**20-case Answer Upgrade Lab**](https://animal-voices-os.vercel.app/upgrade.html)
+
+## v1.2 — Real daily utility, not another dashboard
+
+The default homepage now sends visitors to a quiet, responsive everyday flow. Enter a comment (or use a safe sample), receive a source-linked curated answer immediately, choose **Klar / Warm / Locker** without navigating away, review original evidence, then copy the short reply yourself. No account, private code or AI request is needed for this baseline. Unsupported/unsafe comments fail closed into a hold, ignore or report suggestion.
+
+An explicitly optional private **Mit KI feilen** tool takes the current reply through writer + independent model critic *against curated source capsules*. It requires the existing `AVOS_EDITOR_CODE` and per-request consent; editor code stays in this page's password input, never in storage or URLs. AI drafts are never automatically adopted, and adoption revokes prior source review. Production `/api/status` reports configured capabilities only; a valid provider request still needs separate testing with the private code. Drafts are not independently scientifically verified.
+
+The home-screen PWA now opens the daily mode. Existing Android share-to-app handling stays on the legacy studio route `/?inbox=1#dialog`, with its local-only IndexedDB inbox. The full old studio remains accessible at `/?studio=1#dialog`.
+
+**Test basis:** automated Node tests cover 20/20 source-backed corpus cases, copy approval revocation, safe holds, privacy guard, optional AI consent, and PWA shell. GitHub Actions is the authoritative test run. No real external users, preference votes, improved dialogue outcomes or live-source verification are claimed.
+
+**Limits:** keyword-led topic recognition covers only the curated knowledge base. Private editor codes are temporary beta gates, not a substitute for proper multi-user authentication and distributed rate limits. Manually verify original sources and claims before using a reply.
+
+---
+
 # Animal Voices OS v1.1 · Answer Upgrade Lab
 
 [**Live Companion**](https://animal-voices-os.vercel.app/) · [**20-case Answer Upgrade Lab**](https://animal-voices-os.vercel.app/upgrade.html) · [Response Lab](https://animal-voices-os.vercel.app/quality.html) · [v1.1 Test Protocol](docs/UPGRADE_LAB_V11.md)
