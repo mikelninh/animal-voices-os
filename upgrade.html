@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="de">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f8faf6"><meta name="referrer" content="no-referrer">
+<title>Animal Voices · Answer Upgrade Lab</title>
+<meta name="description" content="20 echte Prüffälle für bessere Antworten – ohne erfundene Nutzerergebnisse.">
+<link rel="stylesheet" href="./quality.css?v=1.1.0"><link rel="stylesheet" href="./upgrade.css?v=1.1.0"></head>
+<body>
+<main class="shell">
+<header class="mast"><a class="brand" href="/" aria-label="Animal Voices"><span class="mark">♥</span><span><b>animal voices</b><small>ANSWER UPGRADE LAB</small></span></a><a class="back" href="/">← Zum Dialog</a></header>
+<section class="hero"><div><span class="eyebrow">V1.1 · BETTER, NOT JUST DIFFERENT</span><h1>20 Antworten.<br><em>Eine echte Prüfung.</em></h1><p>Wir verbessern vorhandene Texte, prüfen die Belege und testen blind, ob Menschen eine neue Fassung wirklich bevorzugen.</p></div><div class="hero-symbol" aria-hidden="true">🐮 <span>🐔</span> 🐷</div></section>
+<div class="metrics" aria-label="Lokaler Testfortschritt">
+ <div class="metric"><strong id="metric-ai">0/20</strong><span>Echte KI-Überarbeitungen</span></div>
+ <div class="metric"><strong id="metric-rated">0</strong><span>Abgegebene Blindurteile</span></div>
+ <div class="metric"><strong id="metric-better">–</strong><span>KI bevorzugt, falls getestet</span></div>
+</div>
+<div class="upgrade-layout">
+<section class="panel upgrade-main">
+<div class="panel-top"><span class="eyebrow">01 · AUSWÄHLEN</span><span class="pill">20 synthetische Testkommentare</span></div>
+<h2>Eine Frage. Zwei Versionen.</h2>
+<label for="case-select">Testfall auswählen</label>
+<select id="case-select"></select>
+<div class="challenge" id="challenge" aria-live="polite">
+ <span class="eyebrow">KOMMENTAR</span><p id="case-comment"></p>
+ <div class="challenge-meta" id="case-meta"></div>
+</div>
+<div class="evidence-short">
+ <div class="evidence-heading"><strong>Belege & Grenzen</strong><span>Originale prüfen</span></div>
+ <p id="case-limit"></p><div id="case-sources"></div>
+</div>
+<div class="upgrade-actions">
+ <div class="mode-choice"><span class="eyebrow">02 · VERGLEICH ERSTELLEN</span><h3>Echte KI oder redaktionelle Demo?</h3></div>
+ <div class="mode-explain"><p id="ai-availability" role="status">Prüfe KI-Verfügbarkeit …</p>
+  <details><summary>Privaten KI-Zugang verwenden</summary>
+   <label for="editor-code">Redaktionscode (niemals Instagram-Passwort)</label>
+   <input id="editor-code" type="password" autocomplete="off" placeholder="Privater Zugangscode">
+   <label class="check"><input id="ai-consent" type="checkbox"><span>Ich erlaube für diesen Test, den synthetischen Kommentar und die alte Antwort an den KI-Anbieter zu senden.</span></label>
+   <p class="fine">Jeder KI-Vergleich benötigt zwei Modellaufrufe und kann API-Kosten verursachen. Keine automatische Massenverarbeitung.</p>
+  </details></div>
+ <div class="upgrade-buttons"><button class="primary" id="generate-ai" disabled>✳ Mit KI verbessern</button><button class="secondary" id="generate-demo">Redaktionelle Demo vergleichen</button></div>
+ <p class="fine" id="generation-message" role="status" aria-live="polite">Demo = zwei vorformulierte Antworten. Kein KI-Ergebnis.</p>
+</div>
+<div id="comparison" class="comparison" hidden>
+ <div class="panel-top"><span class="eyebrow">03 · BLIND BEWERTEN</span><span class="pill" id="pair-kind">Vergleich</span></div>
+ <h2>Welche würdest du posten?</h2><p class="small">Die Reihenfolge ist zufällig. Hier zählen Verständlichkeit, Vertrauen und Respekt – Faktenfehler werden getrennt markiert.</p>
+ <div class="candidates">
+  <article class="candidate" id="candidate-a"><div class="candidate-head">VARIANTE A <span id="a-length"></span></div><p id="a-text"></p><button class="vote" data-vote="a" aria-pressed="false">A würde ich posten</button></article>
+  <article class="candidate" id="candidate-b"><div class="candidate-head">VARIANTE B <span id="b-length"></span></div><p id="b-text"></p><button class="vote" data-vote="b" aria-pressed="false">B würde ich posten</button></article>
+ </div>
+ <button id="vote-neither" class="neutral-vote" aria-pressed="false">Keine überzeugt mich</button>
+ <div class="review-detail"><label class="check"><input type="checkbox" id="source-verified"><span>Ich habe die relevante Belegstelle selbst im Original geprüft.</span></label>
+ <label class="check"><input type="checkbox" id="critical-error"><span>Eine Variante enthält einen schwerwiegenden Fakten-, Quellen- oder Sicherheitsfehler.</span></label>
+ <label for="review-note">Was sollten wir verbessern? (optional)</label><textarea id="review-note" rows="2" maxlength="350" placeholder="Zu lang, missverständlich, nicht ausreichend belegt …"></textarea></div>
+ <div class="upgrade-buttons"><button id="save-review" class="primary" disabled>Urteil lokal speichern ♡</button><button id="next-case" class="secondary">Nächster Fall →</button></div><p id="review-message" class="fine" role="status" aria-live="polite"></p>
+</div>
+</section>
+<aside class="panel upgrade-side">
+<div class="panel-top"><span class="eyebrow">SO TESTEN WIR FAIR</span><span class="pill">Keine erfundenen Resultate</span></div>
+<h2>Fakten zuerst. Dann Präferenz.</h2>
+<p class="small">Die 20 Kommentare sind bewusst formulierte Beispiele – keine echten Instagram-Nutzer. KI-Verbesserungen zählen erst, wenn ein Modell tatsächlich geantwortet hat.</p>
+<div class="principle"><strong>01 · Wahrheit ist die Eintrittskarte.</strong><p>Ein schöner Text mit erfundener Studie wird nicht übernommen – auch bei vielen Stimmen.</p></div>
+<div class="principle"><strong>02 · Blind statt voreingenommen.</strong><p>Wir blenden aus, ob A oder B von der KI stammt. Das allein ist noch keine unabhängige Nutzerstudie.</p></div>
+<div class="principle"><strong>03 · Kein automatisches Übernehmen.</strong><p>Ein Gewinner bleibt ein Vorschlag. Erst fachlich prüfen, dann redaktionell entscheiden.</p></div>
+<div class="side-tools">
+ <h3>Mit echten Menschen testen</h3>
+ <p class="small">Erstelle einen anonymisierten Vergleichspack zum Weitergeben. Andere können ihn hier importieren und ihre Urteile getrennt exportieren – ohne deinen Zugangscode.</p>
+ <button id="export-pack" class="secondary">Blindvergleich als JSON exportieren</button>
+ <label class="import-label" for="import-pack">Blindvergleich importieren <input id="import-pack" type="file" accept=".json,application/json"></label>
+ <button id="export-votes" class="secondary">Lokale Urteile exportieren</button>
+ <button id="export-owner" class="secondary">Redaktionelle Ergebnisse exportieren</button>
+ <button id="clear-lab" class="quiet">Lokale Testdaten löschen</button>
+</div>
+<p class="fine">Daten bleiben bis zum freiwilligen Download in diesem Browser. Es gibt keine zentrale Sammlung von Stimmen oder automatische Veröffentlichung.</p>
+</aside>
+</div>
+<footer><span>For animals. With humans. ♡</span><span><a href="/quality.html">Response Lab</a> · <a href="/">Dialog</a></span></footer>
+</main>
+<script src="./data.js?v=1.1.0"></script>
+<script src="./triage.js?v=1.1.0"></script>
+<script src="./context-fit.js?v=1.1.0"></script>
+<script src="./engine.js?v=1.1.0"></script>
+<script src="./upgrade.js?v=1.1.0"></script>
+</body></html>
