@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="de"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><meta name="theme-color" content="#f6f5ec">
+<title>Animal Voices · First Contact</title>
+<meta name="description" content="Zehn echte öffentliche Gesprächsanlässe, anonymisiert. Zwei Antworten blind vergleichen. Keine erfundenen Bewertungen.">
+<link rel="stylesheet" href="/daily.css?v=1.4.0"><link rel="stylesheet" href="/strategy-lab.css?v=1.3.0">
+<style>
+.field-bar{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}.field-chip{display:inline-flex;gap:6px;border:1px solid #dce8d7;border-radius:30px;padding:5px 10px;color:#5d7763;background:#f0f6e9;font-size:11px;font-weight:700}
+.field-step{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.field-step button{border:0;background:transparent;text-decoration:underline;font-weight:700;font-size:12px;color:#49714f}
+.field-subtext{font-size:13px;color:#809486;line-height:1.5}
+.field-basis{display:none;padding:15px;margin-top:15px;background:#f6f9f2;border-radius:12px;border:1px solid #e3eddb}
+.field-basis[open]{display:block}.field-basis summary{font-weight:750;cursor:pointer;font-size:12px}.field-basis a{display:block;margin:8px 0;font-size:12px;overflow-wrap:anywhere}
+.field-eval{display:flex;flex-direction:column;gap:9px;border-top:1px solid #e9efe7;margin-top:17px;padding-top:15px}
+.field-eval label{font-size:12px;font-weight:700;color:#5a7563}.field-eval select{border:1px solid #dce6db;background:white;border-radius:11px;padding:11px;font:inherit;color:#315743;max-width:440px}
+.field-eval textarea{width:100%;resize:vertical;min-height:60px;border:1px solid #dce6db;border-radius:11px;padding:11px;font:inherit;color:#315743}
+.field-nav{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:20px}.field-nav button{flex:1}
+.field-metric{display:flex;align-items:baseline;gap:8px;color:#446e4e;font-size:13px}.field-metric strong{font-size:27px}
+.field-reviewer{margin:14px 0 18px;font-size:12px;color:#77907c}
+.field-reviewer select{border:1px solid #d6e3d4;background:white;padding:9px;border-radius:10px;color:#355d40;margin-left:6px}
+.field-note{margin-top:12px;font-size:11px;color:#849486}
+@media(max-width:640px){.field-nav{flex-direction:column}.field-nav button{width:100%}.field-reviewer select{display:block;margin:6px 0;width:100%}}
+</style>
+</head>
+<body><div class="page">
+<header class="topbar"><a class="brand" href="/daily.html"><span class="brand-mark">✳</span><span>animal <strong>voices</strong></span></a><nav aria-label="Navigation"><a href="/daily.html">Alltag</a><a href="/strategy-lab.html">Strategie-Labor</a></nav></header>
+<main class="lab-shell">
+ <div class="lab-head">
+ <div class="field-bar"><span class="eyebrow">FIRST CONTACT · RESEARCH PILOT</span><span class="field-chip">10 öffentliche Diskussionen · 0 externe Urteile zu Beginn</span></div>
+ <h1>Weniger überzeugen.<br><em>Mehr verbinden.</em></h1>
+ <p>Diese Fragen sind von tatsächlich veröffentlichten Diskussionen abgeleitet, anonymisiert und teils aus dem Englischen übersetzt. Das sind <strong>redaktionelle Paraphrasen</strong>, keine wortgetreuen Kommentare. Wir testen ehrlich, welche Antwort zum Weiterdenken einlädt.</p>
+ </div>
+ <section class="lab-panel" aria-labelledby="test-heading">
+  <div class="field-step"><span class="field-metric"><strong id="field-progress">0 / 10</strong> lokale Bewertungen</span><button id="field-reset" type="button">Lokale Urteile zurücksetzen</button></div>
+  <div class="field-reviewer"><label for="field-perspective">Optional: Welche Perspektive bringst du mit?</label> <select id="field-perspective"><option value="unspecified">Keine Angabe</option><option value="nonvegan">Ich esse tierische Produkte</option><option value="mostlyplant">Ich esse überwiegend pflanzlich</option><option value="vegan">Ich lebe vegan</option></select></div>
+  <div class="lab-top"><label id="test-heading" for="field-case">Gesprächsanlass</label><select id="field-case" aria-label="Fall auswählen"></select></div>
+  <div class="lab-comment"><span class="eyebrow">ANONYMISIERTE FRAGE</span><p id="field-question">Lädt …</p></div>
+  <p class="lab-note">Zwei verschiedene redaktionelle Strategien. Reihenfolge zufällig. Welche Antwort würdest du <strong>eher ernst nehmen oder auf die du eher eingehen würdest</strong>? Nicht: Welche beweist dir Veganismus?</p>
+  <div class="lab-pair">
+    <article class="lab-option"><div class="lab-letter">A <span id="field-words-a"></span></div><p id="field-answer-a"></p><button id="field-vote-a" type="button" class="secondary">A wäre für mich besser</button></article>
+    <article class="lab-option"><div class="lab-letter">B <span id="field-words-b"></span></div><p id="field-answer-b"></p><button id="field-vote-b" type="button" class="secondary">B wäre für mich besser</button></article>
+  </div>
+  <button id="field-vote-neither" type="button" class="lab-neither">Keine der beiden</button>
+  <div class="field-eval"><label for="field-reason">Was ist der wichtigste Grund?</label>
+    <select id="field-reason"><option value="unspecified">Nicht angeben</option><option value="heard">Ich fühle mich ernst genommen</option><option value="clear">Beantwortet die Frage</option><option value="curious">Macht neugierig</option><option value="practical">Ein machbarer Schritt</option><option value="pushy">Wirkt aufdringlich / belehrend</option><option value="weak">Zu vage / zu ausweichend</option><option value="risk">Möglicher Faktenfehler</option></select>
+    <label for="field-note">Optionales Feedback (bitte keine personenbezogenen Informationen)</label><textarea id="field-note" maxlength="250" rows="2" placeholder="Was fehlt dir?"></textarea>
+    <label class="review-label"><input id="field-critical" type="checkbox"><span>Mindestens eine Antwort enthält möglicherweise einen schwerwiegenden Fehler.</span></label>
+  </div>
+  <p id="field-status" class="feedback" role="status" aria-live="polite"></p>
+  <div id="field-reveal" class="lab-reveal" hidden><strong>Nach deiner Bewertung</strong><p id="field-reveal-text"></p><p class="micro">Deine Präferenz ist keine wissenschaftliche Faktenprüfung und kein Nachweis für Verhaltensänderung.</p></div>
+  <details id="field-basis" class="field-basis"><summary>Ursprung & Quellen dieses Falles prüfen</summary><div id="field-audit"></div></details>
+  <div class="field-nav"><button type="button" class="primary" id="field-next">Nächste Frage ↗</button><button type="button" class="secondary" id="field-export">Ergebnisse als JSON exportieren ↓</button></div>
+  <p class="field-note">Bewertungen werden nur in diesem Browser gespeichert. Du kannst sie exportieren und freiwillig teilen; es gibt keine zentrale Auswertung oder automatischen Versand.</p>
+ </section>
+ <section class="lab-method"><h2>Was dieser Test kann – und was nicht</h2><p>Er zeigt, ob konkrete Antworten subjektiv ankommen. Die Fälle wurden gezielt aus öffentlichen Diskussionen ausgewählt und sind nicht repräsentativ. Erst mit freiwilligen echten Testerinnen und Testern können wir Präferenzen auswerten. Selbst dann folgt daraus nicht automatisch Verhalten oder weniger Tierleid.</p></section>
+</main>
+<footer class="footer"><span>FOR ANIMALS. WITH HUMANS. ♡</span><a href="/daily.html">Alltagsmodus</a><a href="/strategy-lab.html">Synthetisches Labor</a></footer>
+</div>
+<script src="/field-test.js?v=1.4.0"></script>
+</body></html>
