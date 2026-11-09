@@ -1,4 +1,33 @@
-# Animal Voices OS v0.9.4 · Better answers, measured honestly
+# Animal Voices OS v0.9.5 · Context Matters
+
+[**Live companion**](https://animal-voices-os.vercel.app/) · [**Response Lab**](https://animal-voices-os.vercel.app/quality.html) · [**Source**](https://github.com/mikelninh/animal-voices-os)
+
+## v0.9.5 — Better context, not more buttons
+
+Animal Voices is a **deterministic, curated** advocacy companion, not a live AI chatbot. The public client currently uses rules to match 12 themes and manually written editorial replies. An optional `api/assist.js` model writer + critic exists but is **not activated** in the everyday UI and requires server-only provider credentials, an authorised editor and explicit consent. It is **not live scientific verification**.
+
+- Added `context-fit.js`: 72 new intent-aware editorial replies (12 subjects × 2 contexts × 3 distinct voices). Existing factual templates remain for straightforward claims.
+- **Question vs. objection:** For supported topics the companion heuristically suggests a context; readers can switch to question / skeptical objection / factual claim in the visible reply card without restarting.
+- **Approval revocation:** Changing context invalidates the old approval, copy state and previous source-opening confirmation. Source must be opened and manually reviewed again.
+- **Private quality feedback:** One tap can flag irrelevant, preachy, too long or weakly sourced replies. Stores only topic/context/persona/reason locally, not the comment text or user identity. Manual JSON export includes locally stored feedback.
+- **Response Lab v0.9.5:** Blind comparisons now measure whether the earlier general response or the new intent-aware response is preferred **for a specified context**. It has no shared cohort data or genuine users by default.
+- Offline PWA cache version bumped to include the new script, and source assets are versioned.
+
+### Scientific integrity & consent
+
+Curated source links are **not** live-checked. Every public factual claim must be checked against original research and limitations by a person. Deterministic safety gates stop some threats, quotations and sensitive medical matters, but cannot guarantee detection of all cases. No third-party posting, no Instagram account scraping, and no automatic publication. Do not share private comments or identifiers.
+
+### Why the future version should use LLMs
+
+The rules-based prototype is cheap, predictable and offline-friendly but misses context and new objections. A production hybrid could use an authenticated server-side LLM as a **context + draft assistant**, with source-retrieval, independent deterministic citation checks, model critique, safe abstention, rate limits, logging minimisation and human approval. Until provider keys, consent and a source-review process exist, we cannot label this a live AI assistant.
+
+### Evaluation
+
+Acceptance before claiming superiority: test anonymised real comments with diverse non-vegan / vegan reviewers; blind preference + neither rate, independent factual review, absolute safety error counts, context-match accuracy and qualitative feedback. Metrics begin at zero: no real participant or animal-welfare outcome is implied by this release.
+
+---
+
+## Previous release: v0.9.4
 
 [**Live companion**](https://animal-voices-os.vercel.app/) · [**Response Lab**](https://animal-voices-os.vercel.app/quality.html) · [GitHub](https://github.com/mikelninh/animal-voices-os)
 
