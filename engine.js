@@ -12,7 +12,7 @@
   b12:['b12','vitamin b12','supplement','nahrungsergänzung'],
   soy:['soja','soy','isoflav','testosteron','estrogen','östrogen','hormone'],
   crop:['ernte','maeuse','mäuse','maus','crop death','field mice','feldtier','harvest','pestizid'],
-  forest:['regenwald','amazonas','abholz','deforest','soja anbau','soy forests'],
+  forest:['regenwald','amazonas','abholz','abholzung','gerodet','roden','deforest','soja anbau','soy forests'],
   climate:['klima','klimawandel','co2','co₂','landnutzung','agrarfläche','emission','planet'],
   sentience:['nutztiere fühlen','nutztiere schmerz','tiere fühlen','tiere haben keine gefühle','schweine fühlen','animal sentience','animals feel','schmerzempfind','leidensfähig'],
   nature:['andere tiere','tiere tiere','nahrungskette','löwen essen','löwe frisst','tiger fressen','in der natur','animals eat animals','raubtiere'],
