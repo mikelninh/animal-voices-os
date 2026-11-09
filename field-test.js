@@ -109,6 +109,14 @@ function exportVotes(){
  setTimeout(()=>URL.revokeObjectURL(url),1500);
  $('field-status').textContent='Export erstellt. Teile die JSON-Datei nur freiwillig mit dem Forschungsteam.';
 }
+async function invite(){
+ const message='Ich teste gerade Animal Voices – wie können wir über Tiere reden, ohne Menschen zu belehren? Würdest du 10 kurze, anonymisierte Fragen ansehen und jeweils zwischen zwei Antworten wählen (oder beide ablehnen)? Keine Anmeldung, keine automatische Datensammlung. Wenn du möchtest, schick mir anschließend die exportierte JSON-Datei. ♡\\nhttps://animal-voices-os.vercel.app/field-test.html';
+ try{
+  if(!navigator.clipboard?.writeText)throw Error('clipboard');
+  await navigator.clipboard.writeText(message);
+  $('field-status').textContent='Einladung kopiert. Du entscheidest selbst, wem du sie sendest.';
+ }catch{$('field-status').textContent='Kopieren nicht möglich. Teile den Link https://animal-voices-os.vercel.app/field-test.html direkt.';}
+}
 async function init(){
  const controls=['field-vote-a','field-vote-b','field-vote-neither','field-next','field-export','field-reset'];
  for(const id of controls)$(id).disabled=true;
@@ -135,6 +143,7 @@ async function init(){
   });
   $('field-next').addEventListener('click',next);
   $('field-export').addEventListener('click',exportVotes);
+  $('field-invite').addEventListener('click',invite);
   $('field-reset').addEventListener('click',reset);
   for(const id of controls)$(id).disabled=false;
   render();
