@@ -65,6 +65,7 @@ test('AI improves existing reply with exactly two provider calls and preserved c
   assert.equal(r.body.ok,true);
   assert.equal(r.body.mode,'improve');
   assert.equal(r.body.improved,true);
+  assert.equal(r.body.topic_id,'strength'); // Contract required by upgrade.js before accepting live results.
   assert.match(r.body.reply,/Trainingsplan/);
   assert.ok(r.body.source_links.length>=1);
   assert.equal(r.body.scientifically_verified,false);
