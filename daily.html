@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f6f5ec"><meta name="referrer" content="no-referrer">
+<meta name="description" content="Animal Voices: eine freundliche Antwort, passende Quellen und ein schneller Check. Für Tiere. Mit Menschen.">
+<meta property="og:title" content="Animal Voices · Eine gute Antwort beginnt hier">
+<meta property="og:description" content="Kommentar rein. Eine kurze Antwort mit Quellen. Du entscheidest.">
+<link rel="manifest" href="/manifest.webmanifest"><link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="stylesheet" href="/daily.css?v=1.2.0">
+<title>Animal Voices · Dein täglicher Dialog</title>
+</head>
+<body>
+<a href="#daily-comment" class="skip">Zum Kommentar springen</a>
+<div class="page">
+<header class="topbar">
+  <a class="brand" href="/daily.html" aria-label="Animal Voices Start"><span class="brand-mark" aria-hidden="true">✳</span><span>animal <strong>voices</strong></span></a>
+  <nav aria-label="Weitere Bereiche"><a href="/?studio=1#library">Wissen</a><a href="/upgrade.html">Testlabor</a><a href="/?studio=1#dialog" class="studio-link">Studio ↗</a></nav>
+</header>
+<main>
+  <div class="intro">
+    <div class="intro-copy"><span class="eyebrow"><span class="live-dot" aria-hidden="true"></span> DEIN KLEINER BEITRAG ZU BESSEREN GESPRÄCHEN</span>
+      <h1>Eine gute Antwort.<br><em>Mit Herz & Haltung.</em></h1>
+      <p>Für die Momente, in denen du etwas bewegen möchtest – ohne zu streiten oder einen Roman zu schreiben.</p>
+    </div>
+    <img class="friends" src="/characters/trio.webp" alt="Momo die Kuh, Kiki die Henne und Bao das Schwein" width="756" height="302" decoding="async">
+  </div>
+  <section class="workspace" aria-labelledby="ask-title">
+    <div class="stephead"><span class="step">01</span><span class="eyebrow">EIN KOMMENTAR</span><span class="subtle">Weniger tippen, mehr verbinden</span></div>
+    <h2 id="ask-title">Was hat jemand geschrieben?</h2>
+    <label for="daily-comment" class="sr-only">Kommentar oder Frage</label>
+    <textarea id="daily-comment" maxlength="1800" rows="3" placeholder="„Aber bei der Ernte sterben doch auch Tiere?“" aria-describedby="privacy-hint"></textarea>
+    <div class="prompt-row">
+      <span class="example-label">Oder probier's mit:</span>
+      <button type="button" class="example" data-sample="protein">Protein</button>
+      <button type="button" class="example" data-sample="crop">Erntetode</button>
+      <button type="button" class="example" data-sample="soy">Soja</button>
+    </div>
+    <div class="input-actions">
+      <p id="privacy-hint" class="micro">Bitte Namen, @Handles und private Details weglassen. Ohne Zustimmung senden wir nichts an eine KI.</p>
+      <button type="button" id="daily-analyze" class="primary">Antwort finden <span aria-hidden="true">↗</span></button>
+    </div>
+    <p id="daily-feedback" class="feedback" role="status" aria-live="polite"></p>
+  </section>
+  <section id="daily-hold" class="hold" hidden aria-live="polite">
+    <span class="eyebrow">LIEBER BEDACHT HANDELN</span>
+    <h2 id="hold-title">Das braucht etwas mehr Kontext.</h2>
+    <p id="hold-reason"></p>
+    <a href="/?studio=1#dialog" class="text-link">Im Studio genauer ansehen ↗</a>
+  </section>
+  <section id="daily-result" class="answer" aria-labelledby="reply-title" hidden>
+    <div class="answer-heading"><div><div class="stephead"><span class="step">02</span><span class="eyebrow">DEIN ENTWURF</span></div><h2 id="reply-title">Das könntest du antworten.</h2></div><span id="reply-badge" class="badge">Redaktionell</span></div>
+    <div class="voice-row">
+      <img id="voice-avatar" src="/characters/momo.webp" width="48" height="48" alt="">
+      <div class="voice-label"><strong id="voice-name">Momo</strong><small id="voice-description">Fakten mit Wärme</small></div>
+      <div class="voice-switch" role="group" aria-label="Ton wählen">
+        <button type="button" data-voice="momo" aria-pressed="true">Klar</button>
+        <button type="button" data-voice="kiki" aria-pressed="false">Warm</button>
+        <button type="button" data-voice="bao" aria-pressed="false">Locker</button>
+      </div>
+    </div>
+    <label for="daily-reply" class="sr-only">Antwortentwurf bearbeiten</label>
+    <textarea id="daily-reply" rows="4" maxlength="2000" spellcheck="true"></textarea>
+    <div class="reply-meta"><span id="word-count">0 Wörter</span><span>Bearbeitbar · keine automatische Veröffentlichung</span></div>
+    <div class="ai-strip">
+      <div><strong>✳ Darf die KI es noch besser machen?</strong><p>Ein echter Modellvorschlag mit zweitem Modellcheck. Kein Live-Faktencheck.</p></div>
+      <button type="button" id="daily-ai-open" class="secondary">Mit KI feilen ↗</button>
+    </div>
+    <div id="daily-ai-panel" class="ai-panel" hidden>
+      <p class="micro" id="daily-ai-status" role="status" aria-live="polite">Verfügbarkeit prüfen …</p>
+      <div class="ai-auth">
+        <label for="daily-code">Privater Redaktionscode</label>
+        <input id="daily-code" type="password" autocomplete="off" spellcheck="false" placeholder="Dein AVOS_EDITOR_CODE">
+        <small>Bleibt nur in diesem offenen Tab. Niemals in URLs, Dateien oder Browser-Speicher.</small>
+      </div>
+      <label class="review-label"><input id="daily-consent" type="checkbox"> <span>Ich erlaube, dass dieser anonymisierte Kommentar und mein Entwurf für diesen Test an den KI-Anbieter gesendet werden.</span></label>
+      <button type="button" id="daily-ai-run" class="primary small-primary">Vorschlag erzeugen</button>
+      <div id="daily-ai-comparison" class="ai-comparison" hidden>
+        <span class="eyebrow">MODELLVORSCHLAG · NOCH NICHT FREIGEGEBEN</span>
+        <p id="daily-ai-proposal"></p><p class="micro" id="daily-ai-change"></p>
+        <div class="ai-actions"><button id="daily-ai-use" type="button" class="primary small-primary">Vorschlag übernehmen</button><button id="daily-ai-keep" type="button" class="secondary">Original behalten</button></div>
+      </div>
+    </div>
+    <div class="evidence">
+      <details id="daily-evidence">
+        <summary><span>↗ Belege & Grenzen prüfen <small id="source-count">0 Quellen</small></span><span class="chevron" aria-hidden="true">⌄</span></summary>
+        <p class="micro"><strong>Wichtig:</strong> Kuratierte Hinweise sind noch keine unabhängige Prüfung der Originalstudien. Öffne die passende Originalquelle und kontrolliere Aussage und Grenzen selbst.</p>
+        <p id="daily-limit" class="limitation"></p><div id="daily-sources" class="sources"></div>
+      </details>
+    </div>
+    <div class="approval">
+      <label class="review-label"><input type="checkbox" id="daily-reviewed" disabled> <span>Ich habe die Originalquelle, ihre Aussage und die Antwort überprüft.</span></label>
+      <p id="review-hint" class="micro">Zuerst unter „Belege & Grenzen“ eine Originalquelle öffnen.</p>
+      <button id="daily-copy" type="button" class="primary copy-button" disabled>Antwort kopieren <span aria-hidden="true">♡</span></button>
+      <p id="copy-feedback" class="feedback" role="status" aria-live="polite"></p>
+    </div>
+    <div class="quick-feedback" id="quick-feedback"><span>War dieser Entwurf hilfreich?</span><button type="button" data-rate="yes">Ja ♥</button><button type="button" data-rate="no">Noch nicht</button><span id="rate-status" role="status" aria-live="polite"></span></div>
+  </section>
+  <div class="bottom-note"><span>♥</span><p>Es geht nicht darum, eine Debatte zu gewinnen. Sondern darum, dass jemand zuhören möchte.</p></div>
+</main>
+<footer class="footer"><span>FOR ANIMALS. WITH HUMANS. ♡</span><a href="/?studio=1#dialog">Alle Werkzeuge</a><a href="/upgrade.html">Blindtest-Labor</a><span>Privater Editor · Beta 1.2</span></footer>
+</div>
+<script src="/data.js?v=1.2.0"></script><script src="/triage.js?v=1.2.0"></script><script src="/context-fit.js?v=1.2.0"></script><script src="/engine.js?v=1.2.0"></script><script src="/daily.js?v=1.2.0"></script>
+</body></html>
