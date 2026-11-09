@@ -143,3 +143,39 @@ test('Private details and unsupported topics do not trigger AI and are held',asy
  assert.equal(a.el('daily-hold').hidden,false);
  assert.equal(a.requests.filter(x=>x.url==='/api/assist').length,0);
 });
+
+test('Switching conversational strategy changes the actual answer and revokes source approval',async()=>{
+ const a=mount(false);await settle();
+ a.el('daily-comment').value='Sterben bei der Ernte nicht auch viele Tiere?';
+ a.el('daily-analyze').fire('click');
+ const initial=a.el('daily-reply').value;
+ const selected=a.goals.find(x=>x.getAttribute('aria-pressed')==='true')?.dataset.goal;
+ assert.equal(selected,'clarify');
+ a.el('daily-sources').children[0].fire('click');
+ a.el('daily-reviewed').checked=true;a.el('daily-reviewed').fire('change');
+ assert.equal(a.el('daily-copy').disabled,false);
+ a.goals.find(x=>x.dataset.goal==='connect').fire('click');
+ assert.notEqual(a.el('daily-reply').value,initial);
+ assert.match(a.el('daily-reply').value,/Feld|Tiere/);
+ assert.equal(a.el('daily-reviewed').disabled,true);
+ assert.equal(a.el('daily-copy').disabled,true);
+ assert.equal(a.goals.find(x=>x.dataset.goal==='connect').getAttribute('aria-pressed'),'true');
+ a.el('rate-preachy').fire('click');
+ const entry=JSON.parse(a.storage.get('avos-v13-goal-feedback'))[0];
+ assert.deepEqual({topic:entry.topic,goal:entry.goal,feedback:entry.feedback},
+  {topic:'crop',goal:'connect',feedback:'preachy'});
+ assert.ok(!a.storage.get('avos-v13-goal-feedback').includes('Sterben bei der Ernte'));
+});
+test('AI goal is sent only after consent and returned goal matches the selection',async()=>{
+ const a=mount(true);await settle();
+ a.el('daily-comment').value='Woher bekommst du Protein ohne Fleisch?';
+ a.el('daily-analyze').fire('click');
+ a.goals.find(x=>x.dataset.goal==='explore').fire('click');
+ a.el('daily-ai-open').fire('click');await settle();
+ a.el('daily-code').value='private-only-testing-code';a.el('daily-consent').checked=true;
+ await a.el('daily-ai-run').fire('click');await settle();
+ const calls=a.requests.filter(x=>x.url==='/api/assist');
+ assert.equal(calls.length,1);
+ assert.equal(JSON.parse(calls[0].options.body).goal,'explore');
+ assert.equal(a.el('daily-ai-comparison').hidden,false);
+});
