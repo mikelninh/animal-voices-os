@@ -16,7 +16,7 @@
 <body>
 <div class="site-shell">
   <header class="site-header">
-    <a class="brand" href="#dialog" data-go="dialog" aria-label="Animal Voices Startseite"><span class="brand-icon">✳</span><span>animal voices<span class="beta">BETA 0.9.5</span></span></a>
+    <a class="brand" href="#dialog" data-go="dialog" aria-label="Animal Voices Startseite"><span class="brand-icon">✳</span><span>animal voices<span class="beta">BETA 1.0 AI</span></span></a>
     <nav aria-label="Hauptnavigation" class="primary-nav">
       <button data-route="dialog" aria-current="page">Dialog</button>
       <button data-route="library">Wissen</button>
@@ -103,6 +103,29 @@
           </div></details>
           <label class="form-label" for="reply">Dein Antwortentwurf <span class="hint">Kannst du frei bearbeiten</span></label>
           <textarea id="reply" rows="5" maxlength="2500"></textarea>
+          <details id="ai-workbench" class="ai-workbench">
+            <summary><span aria-hidden="true">✳</span> Mit KI verbessern <span class="ai-beta">Private Beta</span></summary>
+            <div class="ai-body">
+              <p id="ai-readiness" class="ai-readiness" role="status">KI-Verfügbarkeit wird geprüft …</p>
+              <p class="ai-help">Du kannst deinen bestehenden Text verbessern oder eine neue Fassung entwerfen lassen. Beide werden gegen unsere kuratierten Quellenhinweise geprüft. <strong>Keine Live-Faktenprüfung.</strong></p>
+              <label class="ai-label" for="ai-access">Privater Redaktionszugang</label>
+              <input id="ai-access" type="password" autocomplete="off" spellcheck="false" placeholder="Zugangscode (nicht dein Instagram-Passwort)">
+              <label class="ai-optin"><input type="checkbox" id="ai-consent"><span>Ich möchte meinen anonymisierten Kommentar und gegebenenfalls meinen Entwurf an den KI-Anbieter senden. Keine Namen, Profile oder privaten Nachrichten.</span></label>
+              <div class="ai-controls">
+                <button type="button" id="ai-improve" class="button button-primary" disabled>✨ Bestehende Antwort verbessern</button>
+                <button type="button" id="ai-new" class="button button-secondary" disabled>Neue Variante erstellen</button>
+              </div>
+              <p id="ai-progress" class="ai-progress" role="status" aria-live="polite">Ohne eingerichteten KI-Zugang bleibt die kuratierte Antwort vollständig nutzbar.</p>
+              <div id="ai-comparison" class="ai-comparison" hidden>
+                <span class="section-kicker">VORHER · NACHHER</span>
+                <div class="ai-before"><strong>Dein bisheriger Entwurf</strong><p id="ai-before-text"></p></div>
+                <div class="ai-after"><strong>KI-Vorschlag · noch nicht freigegeben</strong><p id="ai-after-text"></p></div>
+                <p id="ai-changes" class="ai-changes"></p>
+                <div class="ai-actions"><button id="ai-use" type="button" class="button button-primary">Vorschlag übernehmen</button><button id="ai-keep" type="button" class="button button-secondary">Bisherigen behalten</button></div>
+                <small>Übernehmen ersetzt nur den Entwurf. Die Quellenprüfung und persönliche Freigabe sind danach erneut nötig.</small>
+              </div>
+            </div>
+          </details>
           <details id="reply-feedback" class="reply-feedback"><summary>Antwort passt nicht? Hilf uns, besser zu werden. ↗</summary>
             <p>Was stimmt noch nicht? Dein Feedback bleibt anonymisiert in diesem Browser.</p>
             <div class="feedback-choices" role="group" aria-label="Antwortfeedback">
@@ -149,6 +172,6 @@
 </div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 <dialog id="install-dialog" class="install-dialog"><form method="dialog"><div class="card-head"><h2>Animal Voices aufs Handy ♡</h2><button class="button button-plain" value="close" aria-label="Schliessen">✕</button></div><p><strong>Android (Chrome):</strong> Browser-Menü ⋮ → „App installieren“ oder „Zum Startbildschirm hinzufügen“. Danach kannst du bei unterstützten Share-Menüs „Animal Voices“ auswählen.</p><p><strong>iPhone (Safari):</strong> Teilen → „Zum Home-Bildschirm“. Direkte PWA-Share-Targets sind hier nicht allgemein verfügbar – nutze Kopieren/Einfügen.</p><p>Instagram teilt möglicherweise nur den Beitragslink. Den Kommentartext bitte dann selbst einfügen. Kein Zugriff auf dein Instagram-Konto.</p><button class="button button-primary" value="close">Verstanden</button></form></dialog>
-<script src="./data.js"></script><script src="./triage.js"></script><script src="./engine.js?v=0.9.5"></script><script src="./context-fit.js?v=0.9.5"></script><script src="./app.js?v=0.9.5"></script>
+<script src="./data.js"></script><script src="./triage.js"></script><script src="./engine.js?v=0.9.5"></script><script src="./context-fit.js?v=0.9.5"></script><script src="./app.js?v=1.0.0"></script>
 </body>
 </html>
