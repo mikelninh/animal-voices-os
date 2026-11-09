@@ -7,14 +7,14 @@
 })(typeof window!=='undefined'?window:undefined,function(){
  'use strict';
  const TOKENS={
-  strength:['schwach','schwaech','weak','soyboy','keine muskeln','no muscle','keinen muskel','muskelkraft','strength','stärke','strong'],
+  strength:['schwach','schwaech','weak','soyboy','keine muskeln','no muscle','keinen muskel','muskelkraft','muskeln aufbauen','muskelaufbau','strength','stärke','strong'],
   protein:['protein','eiwei','amino','proteins','proteinbedarf','protein deficiency'],
   b12:['b12','vitamin b12','supplement','nahrungsergänzung'],
   soy:['soja','soy','isoflav','testosteron','estrogen','östrogen','hormone'],
   crop:['ernte','maeuse','mäuse','maus','crop death','field mice','feldtier','harvest','pestizid'],
   forest:['regenwald','amazonas','abholz','deforest','soja anbau','soy forests'],
   climate:['klima','klimawandel','co2','co₂','landnutzung','agrarfläche','emission','planet'],
-  sentience:['nutztiere fühlen','tiere fühlen','tiere haben keine gefühle','schweine fühlen','animal sentience','animals feel','schmerzempfind','leidensfähig'],
+  sentience:['nutztiere fühlen','nutztiere schmerz','tiere fühlen','tiere haben keine gefühle','schweine fühlen','animal sentience','animals feel','schmerzempfind','leidensfähig'],
   nature:['andere tiere','tiere tiere','nahrungskette','löwen essen','löwe frisst','tiger fressen','in der natur','animals eat animals','raubtiere'],
   taste:['schmeckt','geschmack','lecker','taste','liebe fleisch','steak schmeckt'],
   cost:['teuer','kosten','budget','afford','expensive','price','armut','kann ich mir nicht leisten'],
