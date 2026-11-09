@@ -8,3 +8,37 @@
 @media(max-width:760px){.page{padding:0 15px}.topbar{min-height:66px}.topbar nav{gap:12px}.topbar nav a{font-size:11px}.studio-link{display:none}.intro{grid-template-columns:1fr auto;padding:35px 5px 28px;gap:5px;position:relative}.intro h1{font-size:clamp(32px,8vw,45px);line-height:1.09;letter-spacing:-1.6px}.intro h1 em{letter-spacing:-1.4px}.intro .eyebrow{font-size:9px;letter-spacing:1.1px}.intro-copy>p{font-size:14px;line-height:1.5;max-width:440px}.friends{width:155px;position:absolute;right:-7px;top:-12px;opacity:.23;pointer-events:none}.intro-copy{position:relative;z-index:1}.workspace,.answer,.hold{padding:22px 18px;border-radius:18px}.workspace h2,.answer h2{font-size:23px}.input-actions{flex-direction:column;align-items:stretch;gap:14px}.input-actions .micro{max-width:none}.input-actions .primary{width:100%}.answer{margin-top:16px}.answer-heading h2{font-size:23px}.ai-strip{padding:15px;align-items:flex-start;gap:10px}.ai-strip .secondary{white-space:normal}.footer span:first-child{width:100%;text-align:center;margin:auto}.reply-meta span:last-child{max-width:190px;text-align:right}}
 @media(max-width:440px){.topbar nav{gap:9px}.topbar nav a{font-size:10px}.brand{font-size:18px}.brand-mark{width:31px;height:31px}.intro h1{font-size:35px}.intro{padding:28px 2px 23px}.intro-copy>p{font-size:13px}.workspace,.answer,.hold{padding:21px 15px}.subtle{display:none}.voice-row{gap:8px}.voice-switch button{padding:8px 9px;font-size:11px}.voice-row img{width:39px;height:39px}.voice-label{min-width:66px}.ai-strip{flex-direction:column}.ai-strip .secondary{width:100%}.reply-meta{font-size:10px}.answer textarea{font-size:16px}.quick-feedback{align-items:flex-start}.evidence summary{font-size:13px}.prompt-row{gap:5px}.example{padding:6px 10px}.example-label{flex-basis:100%;margin-bottom:2px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.answer{animation:none}.primary{transition:none}}
+/* v1.3: strategy before personality. Four goals stay within one mobile view. */
+.intro{grid-template-columns:1fr;max-width:900px;padding:47px 20px 36px}
+.intro-copy>p{max-width:630px}
+.goal-intro{font-size:14px;color:#758c7c;line-height:1.6;margin:0 0 14px;max-width:640px}
+.goal-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-bottom:12px}
+.goal-choice{appearance:none;min-height:80px;border:1px solid #dfe7d8;border-radius:13px;background:#f9fbf5;display:flex;align-items:flex-start;justify-content:center;flex-direction:column;gap:5px;text-align:left;padding:13px 12px;color:#3c5b49;position:relative}
+.goal-choice strong{font-size:13px;font-weight:780;line-height:1.3}
+.goal-choice span{font-size:11px;color:#839486;line-height:1.3}
+.goal-choice:hover{background:#eef5e8;border-color:#b6d2a8}
+.goal-choice[aria-pressed="true"]{background:#e4f0d9;border-color:#5e9a63;box-shadow:inset 0 0 0 1px #5e9a63}
+.goal-choice.recommended:after{content:"VORSCHLAG";position:absolute;right:8px;top:-9px;background:#325a41;color:white;padding:3px 6px;font-size:8px;letter-spacing:.7px;font-weight:800;border-radius:6px}
+.goal-context{font-size:12px;line-height:1.5;color:#597360;background:#f5f8f2;padding:10px 13px;border-radius:10px;margin:0 0 16px}
+.personality-details{margin:0 0 13px;border:0}
+.personality-details>summary{cursor:pointer;list-style:none;font-size:12px;color:#829889;font-weight:680;padding:6px 0}
+.personality-details>summary::-webkit-details-marker{display:none}
+.personality-details>summary:after{content:"⌄";padding-left:7px}
+.personality-details[open]>summary:after{content:"⌃"}
+.personality-details .micro{margin:4px 0 8px}
+.personality-details .voice-row{background:#f8faf5;padding:10px;border-radius:12px}
+.quick-feedback{row-gap:9px}
+@media(max-width:760px){
+ .intro{display:block;padding:31px 7px 26px}
+ .goal-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .goal-choice{min-height:70px;padding:12px 14px}
+ .goal-choice strong{font-size:13px}
+ .goal-choice span{font-size:11px}
+}
+@media(max-width:440px){
+ .intro{padding:28px 3px 23px}
+ .goal-intro{font-size:13px}
+ .goal-choice{min-height:68px}
+ .goal-choice.recommended:after{font-size:7px;top:-7px}
+ .goal-context{font-size:11px}
+}
