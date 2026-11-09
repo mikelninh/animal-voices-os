@@ -1,0 +1,147 @@
+{
+  "version": "1.1.0",
+  "dataset": "Twenty synthetic, anonymised, pre-authored prompts. Not real users.",
+  "purpose": "Test text improvements of existing scientifically constrained editorial drafts. Do not treat votes as fact validation.",
+  "cases": [
+    {
+      "id": "S01",
+      "topicId": "strength",
+      "intent": "question",
+      "persona": "momo",
+      "comment": "Kann man als veganer Mann Muskeln aufbauen?"
+    },
+    {
+      "id": "S02",
+      "topicId": "strength",
+      "intent": "skeptic",
+      "persona": "bao",
+      "comment": "Vegane Männer sind doch zu schwach fürs Fitnessstudio."
+    },
+    {
+      "id": "S03",
+      "topicId": "strength",
+      "intent": "question",
+      "persona": "kiki",
+      "comment": "Ohne Fleisch kann man keine Muskeln aufbauen, oder?"
+    },
+    {
+      "id": "B01",
+      "topicId": "b12",
+      "intent": "question",
+      "persona": "momo",
+      "comment": "Warum müssen Veganer Vitamin B12 supplementieren?"
+    },
+    {
+      "id": "B02",
+      "topicId": "b12",
+      "intent": "skeptic",
+      "persona": "kiki",
+      "comment": "Wenn man B12 extra braucht, ist vegan doch ungesund."
+    },
+    {
+      "id": "B03",
+      "topicId": "b12",
+      "intent": "question",
+      "persona": "bao",
+      "comment": "Woher bekomme ich B12 als Veganer?"
+    },
+    {
+      "id": "P01",
+      "topicId": "protein",
+      "intent": "question",
+      "persona": "bao",
+      "comment": "Woher bekommst du Protein ohne Fleisch?"
+    },
+    {
+      "id": "P02",
+      "topicId": "protein",
+      "intent": "skeptic",
+      "persona": "momo",
+      "comment": "Ohne Fleisch bekommt man doch nicht genug Protein."
+    },
+    {
+      "id": "Y01",
+      "topicId": "soy",
+      "intent": "question",
+      "persona": "momo",
+      "comment": "Senkt Soja den Testosteronspiegel wirklich?"
+    },
+    {
+      "id": "Y02",
+      "topicId": "soy",
+      "intent": "skeptic",
+      "persona": "bao",
+      "comment": "Tofu und Soja verändern doch die Hormone und Testosteron."
+    },
+    {
+      "id": "Y03",
+      "topicId": "soy",
+      "intent": "question",
+      "persona": "kiki",
+      "comment": "Ist Soja schlecht für Hormone und Testosteron?"
+    },
+    {
+      "id": "C01",
+      "topicId": "crop",
+      "intent": "question",
+      "persona": "kiki",
+      "comment": "Sterben bei der Ernte nicht auch viele Tiere?"
+    },
+    {
+      "id": "C02",
+      "topicId": "crop",
+      "intent": "skeptic",
+      "persona": "momo",
+      "comment": "Bei der Ernte sterben Tiere, vegan ist deshalb auch nicht leidfrei."
+    },
+    {
+      "id": "C03",
+      "topicId": "crop",
+      "intent": "question",
+      "persona": "bao",
+      "comment": "Bei der Ernte sterben Mäuse, was ist mit denen?"
+    },
+    {
+      "id": "F01",
+      "topicId": "forest",
+      "intent": "question",
+      "persona": "kiki",
+      "comment": "Wird für Tofu wirklich Regenwald gerodet?"
+    },
+    {
+      "id": "F02",
+      "topicId": "forest",
+      "intent": "skeptic",
+      "persona": "momo",
+      "comment": "Für Tofu wird der Regenwald abgeholzt, also ist vegan schlecht."
+    },
+    {
+      "id": "L01",
+      "topicId": "climate",
+      "intent": "question",
+      "persona": "momo",
+      "comment": "Wie hilft vegane Ernährung beim Klima?"
+    },
+    {
+      "id": "L02",
+      "topicId": "climate",
+      "intent": "skeptic",
+      "persona": "bao",
+      "comment": "Vegan bringt für das Klima und die Umwelt nichts."
+    },
+    {
+      "id": "A01",
+      "topicId": "sentience",
+      "intent": "question",
+      "persona": "kiki",
+      "comment": "Fühlen Nutztiere Schmerz oder Angst?"
+    },
+    {
+      "id": "A02",
+      "topicId": "sentience",
+      "intent": "skeptic",
+      "persona": "momo",
+      "comment": "Nutztiere fühlen nichts, das sind doch keine Menschen."
+    }
+  ]
+}
