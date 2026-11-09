@@ -58,7 +58,7 @@ function mount(online=true){
 async function settle(){for(let i=0;i<4;i++)await new Promise(r=>setImmediate(r))}
 test('Daily home keeps the full studio, mobile PWA and offline shell',()=>{
  const index=fs.readFileSync(path.join(root,'index.html'),'utf8');
- const manifest=require('../manifest.webmanifest');
+ const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.webmanifest'),'utf8'));
  assert.match(index,/location.replace\('\/daily.html'/);
  assert.match(index,/!q.has\('inbox'\)/);
  assert.equal(manifest.start_url,'/daily.html?source=pwa');
