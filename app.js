@@ -1,4 +1,4 @@
-/* Animal Voices 0.9.5: context-fit editorial replies, local evaluation and human-controlled publishing. */
+/* Animal Voices v1.0: context-aware editorial replies plus optional private AI revision. */
 (() => {
   'use strict';
   const DATA = window.AV_DATA;
@@ -104,7 +104,7 @@
       '<div class="inline-proof-links">'+topic.sources.map(id=>sourcesById.get(id)).filter(Boolean).map(s=>'<a target="_blank" rel="noopener noreferrer" href="'+safeURL(s.url)+'">'+escape(s.name)+' · '+escape(s.year)+' ↗</a>').join('')+'</div>'+
       '<button id="more-evidence" class="link-control" type="button">Alle Belege & Hintergründe anzeigen ⌄</button>';
     $('more-evidence').addEventListener('click',()=>{$('evidence-card').hidden=false;$('evidence-card').scrollIntoView({behavior:'auto',block:'nearest'});});
-    replyIntent=active.intent||'claim';updateIntentUI();active.reply=composeReply(topic);active.form=replyForm;
+    replyIntent=active.intent||'claim';updateIntentUI();active.reply=composeReply(topic);active.form=replyForm;aiReset();
     $('reply').value=active.reply;$('review-check').checked=false;$('review-check').disabled=true;
     $('after-copy').hidden=true; $('voice-details').open=false; updateVoiceSummary();updateLengthButtons();
     setApprovalState();setJourney(2);
@@ -181,7 +181,7 @@
     $('analyze').click();
   });
   $('analyze').addEventListener('click',()=>{
-    const input=$('comment').value.trim();const postUrl=T.instagramUrl($('post-url').value);
+    aiReset();const input=$('comment').value.trim();const postUrl=T.instagramUrl($('post-url').value);
     if(input.length<8){composerProblem(input.length?'Bitte den vollständigen Kommentar eingeben (mindestens acht Zeichen).':'Bitte zuerst einen Kommentar einfügen oder ein Beispiel laden. Nur mit einem Kommentar können wir eine Handlung empfehlen.');return;}
     if($('post-url').value.trim()&&!postUrl){composerProblem('Der Beitragslink ist ungültig. Nutze einen echten Instagram-Link oder lass das Feld leer.','post-url');return;}
     clearComposerFeedback();
@@ -219,7 +219,7 @@
   }
   function setReplyForm(next){
     if(!['short','long'].includes(next))return;
-    replyForm=next;updateLengthButtons();
+    replyForm=next;updateLengthButtons();aiReset();
     if(active?.topicId&&active.action==='reply'&&['ready','approved'].includes(active.status)){
       active.form=next;active.reply=composeReply(casesById.get(active.topicId));
       active.approvedReply=null;active.approvedAt=null;active.status='ready';
@@ -231,7 +231,7 @@
     const next=$('reply-intent').value;
     if(!['question','skeptic','claim'].includes(next)||!active?.topicId||active.action!=='reply'||active.hold)return;
     if(next===replyIntent)return;
-    replyIntent=next;active.intent=next;active.intentMethod='human_selected';
+    replyIntent=next;active.intent=next;active.intentMethod='human_selected';aiReset();
     active.reply=composeReply(casesById.get(active.topicId));active.approvedReply=null;active.approvedAt=null;
     active.status='ready';active.copiedAt=null;active.postedAt=null;active.sourceOpenedAt=null;
     $('reply').value=active.reply;$('review-check').checked=false;$('review-check').disabled=true;$('after-copy').hidden=true;
@@ -256,7 +256,7 @@
     document.querySelectorAll('[data-persona]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.persona===next)));
     if(active?.topicId&&active.action==='reply'&&['ready','approved'].includes(active.status)){
       const t=casesById.get(active.topicId); if(!t)return;
-      active.persona=next;active.reply=composeReply(t);active.approvedReply=null;active.status='ready';active.reviewer=null;
+      aiReset();active.persona=next;active.reply=composeReply(t);active.approvedReply=null;active.status='ready';active.reviewer=null;
       $('reply').value=active.reply;$('review-check').checked=false;$('after-copy').hidden=true;updateVoiceSummary();$('voice-details').open=false;persist();setApprovalState();
       toast('Stimme geändert. Bitte Antwort erneut prüfen.');
     }
@@ -292,6 +292,7 @@
   $('review-check').addEventListener('change',setApprovalState);
   $('reply').addEventListener('input',()=>{
     if(!active||!active.topicId)return;
+    aiReset();
     active.reply=$('reply').value;
     if(active.status==='approved') {active.status='ready';active.approvedReply=null;active.reviewer=null;}
     $('review-check').checked=false;$('after-copy').hidden=true;active.copiedAt=null;active.postedAt=null;persist();setApprovalState();
@@ -316,6 +317,113 @@
     $('posted-status').textContent='Selbst als veröffentlicht markiert. Dies wurde nicht von Instagram verifiziert.';
     toast('Dokumentiert – keine automatische Veröffentlichung. ♡');
   });
+
+  // AI editorial beta: improves EXISTING curated drafts or proposes an alternative.
+  // Never sends anything without a click + consent; secret is not persisted.
+  const aiState={available:false,proposal:null,seq:0,busy:false};
+  function aiReset(){
+    aiState.seq++;aiState.proposal=null;
+    $('ai-comparison').hidden=true;
+    if(!aiState.busy)$('ai-progress').textContent=aiState.available?
+      'Quelle vor Veröffentlichung selbst prüfen. KI ist kein wissenschaftlicher Reviewer.':
+      'KI noch nicht eingerichtet. Die kuratierte Antwort funktioniert ohne KI.';
+    aiButtons();
+  }
+  function aiButtons(){
+    const ok=aiState.available&&!aiState.busy&&active?.status==='ready'&&active.action==='reply'&&
+      !active.hold&&active.topicId&&$('ai-consent').checked&&$('ai-access').value.length>=16;
+    $('ai-improve').disabled=!ok||$('reply').value.trim().length<10;
+    $('ai-new').disabled=!ok;
+  }
+  function aiPrivateCheck(text){
+    return /(?:[\w.+-]+@[\w.-]+\.[a-z]{2,}|@[a-z0-9_.]{3,}|\+?\d[\d\s()\-]{7,}\d|https?:\/\/)/i.test(text||'');
+  }
+  async function aiReady(){
+    try{
+      const r=await fetch('/api/status',{method:'GET',cache:'no-store',credentials:'same-origin'});
+      const d=await r.json();
+      aiState.available=Boolean(r.ok&&d.available);
+      $('ai-readiness').textContent=aiState.available?
+        'KI ist bereit – nur mit privatem Redaktionszugang und deiner Einwilligung.':
+        'KI ist derzeit nicht eingerichtet. Die kuratierten Antworten bleiben verfügbar.';
+    }catch{
+      aiState.available=false;
+      $('ai-readiness').textContent='KI ist derzeit nicht erreichbar; die kuratierten Antworten bleiben verfügbar.';
+    }
+    aiButtons();
+  }
+  $('ai-consent').addEventListener('change',aiButtons);
+  $('ai-access').addEventListener('input',aiButtons);
+  async function aiRequest(mode){
+    if(!['improve','new'].includes(mode)||!aiState.available||aiState.busy||
+      !active||active.action!=='reply'||active.hold||!active.topicId||
+      !$('ai-consent').checked||$('ai-access').value.length<16)return;
+    const comment=active.input;
+    const old=$('reply').value.trim();
+    if(aiPrivateCheck(comment)||(mode==='improve'&&aiPrivateCheck(old))){
+      $('ai-progress').textContent='Bitte vor dem Senden Nutzernamen, URLs, Telefonnummern und persönliche Angaben entfernen.';
+      return;
+    }
+    aiState.busy=true;aiButtons();
+    const ticket=++aiState.seq,caseId=active.id;
+    aiState.proposal=null;$('ai-comparison').hidden=true;
+    $('ai-progress').textContent=mode==='improve'?
+      'Die KI überarbeitet deinen Entwurf und ein zweiter Modellschritt prüft die Aussagen …':
+      'Die KI formuliert eine neue Antwort und ein zweiter Modellschritt prüft die Aussagen …';
+    const controller=new AbortController();
+    const timeout=setTimeout(()=>controller.abort(),35000);
+    try{
+      const response=await fetch('/api/assist',{
+        method:'POST',credentials:'same-origin',cache:'no-store',signal:controller.signal,
+        headers:{'Content-Type':'application/json','x-avos-editor':$('ai-access').value},
+        body:JSON.stringify({text:comment,persona,contextType:$('context-type').value,
+          consent:true,mode,existingReply:mode==='improve'?old:''})
+      });
+      const d=await response.json();
+      if(ticket!==aiState.seq||active?.id!==caseId)return;
+      if(!response.ok||!d.ok){
+        $('ai-progress').textContent=d.error||'Kein belastbarer KI-Entwurf verfügbar. Die bisherige Antwort bleibt erhalten.';
+        return;
+      }
+      if(d.improved===false){$('ai-progress').textContent=d.reason||'Die bisherige Antwort bleibt die bessere Wahl.';return;}
+      const t=casesById.get(active.topicId);
+      if(!t||d.topic_id!==t.id||typeof d.reply!=='string'||d.reply.trim()===old||
+         d.reply.length<25||d.reply.length>950||
+         !Array.isArray(d.source_links)||d.source_links.some(src=>!t.sources.includes(src.id))){
+        $('ai-progress').textContent='KI-Ergebnis wurde aus Qualitätsgründen verworfen. Die bestehende Antwort bleibt.';
+        return;
+      }
+      aiState.proposal={draft:d.reply,before:old,mode,changes:Array.isArray(d.changes)?d.changes.slice(0,3):[],caseId};
+      $('ai-before-text').textContent=old;
+      $('ai-after-text').textContent=d.reply;
+      $('ai-changes').textContent=(d.changes||[]).slice(0,3).join(' · ')||
+        'Bitte selbst beurteilen, ob der neue Text wirklich besser ist.';
+      $('ai-comparison').hidden=false;
+      $('ai-progress').textContent='Ein Modell hat den Entwurf erstellt, ein zweites Modell hat ihn anhand der kuratierten Notizen geprüft. Das ersetzt keine Originalquellenprüfung.';
+      $('ai-comparison').scrollIntoView({behavior:'auto',block:'nearest'});
+    }catch{
+      if(ticket===aiState.seq)$('ai-progress').textContent='KI-Anfrage fehlgeschlagen. Deine bisherige Antwort ist unverändert.';
+    }finally{
+      clearTimeout(timeout);aiState.busy=false;aiButtons();
+    }
+  }
+  $('ai-improve').addEventListener('click',()=>aiRequest('improve'));
+  $('ai-new').addEventListener('click',()=>aiRequest('new'));
+  $('ai-keep').addEventListener('click',()=>{
+    aiReset();toast('Bestehende Antwort bleibt erhalten.');
+  });
+  $('ai-use').addEventListener('click',()=>{
+    const proposal=aiState.proposal;
+    if(!proposal||!active||active.id!==proposal.caseId||active.action!=='reply'||active.hold)return;
+    active.status='ready';active.reply=proposal.draft;active.approvedReply=null;active.approvedAt=null;
+    active.copiedAt=null;active.postedAt=null;active.sourceOpenedAt=null;
+    active.aiMode=proposal.mode;active.reviewMethod=null;
+    $('reply').value=proposal.draft;
+    $('review-check').checked=false;$('review-check').disabled=true;$('after-copy').hidden=true;
+    persist();aiReset();setApprovalState();
+    toast('KI-Vorschlag übernommen. Originalquelle bitte erneut lesen und freigeben.');
+  });
+  aiReady();
 
   // Evidence library, manually reviewed source cards.
   const categories=['Alle',...new Set(topicList.map(t=>t.category))];
