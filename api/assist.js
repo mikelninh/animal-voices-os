@@ -36,7 +36,6 @@ module.exports=async function handler(req,res){
  if(!allowedOrigin(req))return error(res,403,'Unexpected origin.');
  if(!enabled())return error(res,503,'KI-Worker nicht eingerichtet. Die redaktionelle Vorlage funktioniert weiterhin.');
  if(!compareCode(req.headers?.['x-avos-editor'],process.env.AVOS_EDITOR_CODE))return error(res,401,'Editor-Zugang erforderlich.');
- if(throttled())return error(res,429,'KI-Beta: zu viele Anfragen. Bitte später erneut versuchen.');
  if(Number(req.headers?.['content-length']||0)>7000)return error(res,413,'Payload too large.');
  const {text,persona,contextType,consent,mode,existingReply,goal}=req.body||{};
  if(consent!==true||typeof text!=='string'||text.length<8||text.length>1800||!Object.hasOwn(personaDescription,persona)||
@@ -49,6 +48,7 @@ module.exports=async function handler(req,res){
  const result=engine.decide(text,knowledge.cases,sourceById,contextType);
  if(result.action!=='reply'||result.hold||!result.topic||!result.evidence.ready)
   return error(res,422,'Für diesen Kommentar fehlen geprüfte Zuordnung oder passende redaktionelle Quellen. Bitte manuell recherchieren.');
+ if(throttled())return error(res,429,'KI-Beta: zu viele Anfragen. Bitte später erneut versuchen.');
  const allowed=result.evidence.sources.map(s=>({id:s.id,title:s.name,url:s.url,year:s.year,description:s.note}));
  const facts={comment:text,context:result.context,fact:result.topic.fact,limitations:result.topic.limit,sources:allowed,
    persona:goal?'neutral human conversationalist':personaDescription[persona],previous:mode==='improve'?existingReply:'',mode,
