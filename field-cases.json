@@ -90,9 +90,11 @@
         "text": "Die Frage ist berechtigt, gerade beim Training. Ein einzelnes Lebensmittel muss nicht alles perfekt liefern: Entscheidend ist, was über den Tag insgesamt an geeignetem Protein zusammenkommt."
       },
       "fact_urls": [
-        "https://www.dge.de/gesunde-ernaehrung/faq/faqs-vegane-ernaehrung"
+        "https://www.dge.de/gesunde-ernaehrung/faq/faqs-vegane-ernaehrung",
+        "https://pubmed.ncbi.nlm.nih.gov/39661760/",
+        "https://pubmed.ncbi.nlm.nih.gov/41200120/"
       ],
-      "review_note": "Ergänzende proteinwissenschaftliche Quellen vor öffentlicher Verwendung prüfen, keine Gleichwertigkeit aller Einzelquellen behaupten."
+      "review_note": "Pflanzliche Proteine können sich bei Verdaulichkeit und Aminosäuren unterscheiden; ausreichende gut geplante Zufuhr ist dennoch möglich. Kein generelles Gleichwertigkeitsversprechen und keine Individualberatung."
     },
     {
       "id": "F05",
