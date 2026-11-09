@@ -1,0 +1,42 @@
+/* Answer Upgrade Lab v1.1: readable, calm, mobile-first */
+.upgrade-layout{display:grid;grid-template-columns:minmax(0,1.42fr) minmax(285px,.82fr);gap:17px}
+.upgrade-main,.upgrade-side{align-self:start}
+.challenge{padding:20px;margin:15px 0;background:#f1f6ee;border:1px solid #e3ecdf;border-radius:16px}
+.challenge p{font-weight:700;font-size:18px;line-height:1.55;letter-spacing:-.02em;margin:10px 0}
+.challenge-meta{color:#64806d;font-size:11px}
+.evidence-short{border-top:1px solid #e4eae0;padding-top:18px}
+.evidence-heading{display:flex;justify-content:space-between;gap:8px;font-size:12px}
+.evidence-heading span{font-size:10px;color:#79917c}
+.evidence-short p{font-size:11px;color:#6f8472;line-height:1.65}
+.evidence-short a{display:inline-block;margin:4px 8px 4px 0;text-decoration:none;padding:5px 9px;font-size:10px;border:1px solid #dae5d8;border-radius:8px}
+.upgrade-actions,.comparison{margin-top:19px;padding-top:19px;border-top:1px solid #e6eee3}
+.mode-choice h3,.side-tools h3{font-size:17px;letter-spacing:-.04em;margin:7px 0}
+.mode-explain{background:#f7faf5;border-radius:13px;padding:11px 15px}
+.mode-explain p{font-size:11px;color:#718573}
+.mode-explain details{border:0;margin:0;padding:0}
+.mode-explain details summary{margin:6px 0 10px}
+.mode-explain label:not(.check){display:block;font-size:11px;font-weight:750;color:#496a51;margin:9px 0 5px}
+#editor-code{width:100%;border:1px solid #d3e3d0;padding:11px;border-radius:9px;background:white}
+.upgrade-buttons{display:flex;gap:9px;flex-wrap:wrap;margin:12px 0}
+.upgrade-buttons button{flex:1 1 170px}
+.fine{font-size:10px!important;line-height:1.55;color:#7f917f!important}
+.comparison .candidate{min-height:200px}
+.comparison .candidate p{font-size:13px;white-space:pre-wrap}
+.comparison .candidate button:disabled{opacity:.5}
+.review-detail{background:#fafbf8;border-radius:12px;padding:10px 14px;margin-top:14px}
+.review-detail .check{margin:9px 0}
+.review-detail label[for=review-note]{display:block;margin:9px 0 5px;font-size:11px;font-weight:750;color:#5d785f}
+.review-detail textarea{width:100%;padding:10px;border:1px solid #dce6d8;border-radius:10px;resize:vertical}
+.principle{margin:21px 0}
+.principle strong{font-size:12px;color:#375f40}
+.principle p{font-size:12px;color:#728475;margin:3px 0 0}
+.side-tools{border-top:1px solid #e4ebdf;padding-top:18px;margin-top:23px;display:grid;gap:8px}
+.side-tools .secondary,.side-tools .quiet{width:100%;text-align:center;font-size:11px}
+.import-label{display:block;width:100%;text-align:center;padding:12px 16px;border:1px solid #cadfca;border-radius:11px;cursor:pointer;color:#326444;font-weight:800;font-size:11px}
+.import-label input{display:none}
+.upgrade-side h2{font-size:22px;line-height:1.2}
+.pill{white-space:normal}
+#ai-availability{font-weight:700;color:#496d50}
+footer{margin-top:15px}
+@media(max-width:880px){.upgrade-layout{grid-template-columns:1fr}.upgrade-side{order:2}}
+@media(max-width:550px){.challenge{padding:15px}.challenge p{font-size:16px}.upgrade-buttons{flex-direction:column}.upgrade-buttons button{width:100%;flex-basis:auto}.comparison .candidate{min-height:unset}.panel{padding:18px}.metrics .metric span{font-size:9px}}
