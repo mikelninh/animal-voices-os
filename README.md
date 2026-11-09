@@ -1,4 +1,24 @@
-# Animal Voices OS v1.0 · AI Editorial Beta
+# Animal Voices OS v1.1 · Answer Upgrade Lab
+
+[**Live Companion**](https://animal-voices-os.vercel.app/) · [**20-case Answer Upgrade Lab**](https://animal-voices-os.vercel.app/upgrade.html) · [Response Lab](https://animal-voices-os.vercel.app/quality.html) · [v1.1 Test Protocol](docs/UPGRADE_LAB_V11.md)
+
+## v1.1 — Are the improved answers genuinely better?
+
+- A reproducible set of **20 synthetic, anonymous known-topic comments**, manually tied to the curated source library. These are not measured users or real social media outcomes.
+- An editor can **opt in to a private real AI model review of an existing answer**, one case at a time. Writer and critic calls stay server-side. No model credentials are saved or sent on page load.
+- A separate clearly labelled **editorial demo mode** works without API credentials and does not count as AI.
+- A/B cards are shuffled blindly. Reviewers can choose A, B, or neither; critical facts/safety issues and whether original sources were actually checked are recorded separately.
+- **Shareable blind reviewer packs** omit which side is AI-generated. Reviewers import them without private AI credentials and export local votes. The owner keeps the version mapping separately.
+- All results are local to the browser; there is no central user database, anonymous telemetry collection, automated publishing or fake impact counter.
+- The live AI endpoint remains **inactive until the project owner configures `OPENAI_API_KEY` and `AVOS_EDITOR_CODE` securely** on Vercel. Source notes do not constitute independent verification against primary studies. The 20-case pilot is deliberately not a test of arbitrary new comment understanding.
+
+**Current state:** Deterministic everyday app works, AI server and demo/review workflow coded, production OpenAI credentials not yet provisioned; no real AI improvements or participants measured.
+
+[Setup and safety](docs/AI_BETA_V1.md) · [v1.1 evaluation guide](docs/UPGRADE_LAB_V11.md)
+
+---
+
+## Previous release: v1.0
 
 [**Live Animal Voices**](https://animal-voices-os.vercel.app/) · [**Private AI setup instructions**](docs/AI_BETA_V1.md) · [**Answer Quality Lab**](https://animal-voices-os.vercel.app/quality.html)
 
