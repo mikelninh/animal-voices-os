@@ -1,9 +1,9 @@
 {
   "id": "/",
-  "name": "Animal Voices Companion",
+  "name": "Animal Voices",
   "short_name": "Animal Voices",
   "description": "In Instagram entdecken, Kontext verstehen, Belege prüfen, fair antworten oder bewusst weiterziehen.",
-  "start_url": "/?source=pwa",
+  "start_url": "/daily.html?source=pwa",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
