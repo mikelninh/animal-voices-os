@@ -8,7 +8,7 @@ import {fileURLToPath} from 'node:url';
 const require=createRequire(import.meta.url);
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const DATA=require('../knowledge.json');
-const T=require('../triage.js'),F=require('../context-fit.js'),E=require('../engine.js');
+const T=require('../triage.js'),F=require('../context-fit.js'),E=require('../engine.js'),S=require('../strategy-core.js');
 const corpus=require('../upgrade-cases.json').cases;
 const js=fs.readFileSync(path.join(root,'daily.js'),'utf8');
 const html=fs.readFileSync(path.join(root,'daily.html'),'utf8');
@@ -32,28 +32,29 @@ function mount(online=true){
  };
  const voices=['momo','kiki','bao'].map(id=>{const v=el('voice-'+id);v.dataset.voice=id;return v});
  const samples=['protein','crop','soy'].map(id=>{const b=el('sample-'+id);b.dataset.sample=id;return b});
- const rates=['yes','no'].map(id=>{const b=el('rate-'+id);b.dataset.rate=id;return b});
+ const goals=['connect','clarify','explore','act'].map(id=>{const b=el('goal-'+id);b.dataset.goal=id;return b});
+ const rates=['post','preachy','missed','long','evidence'].map(id=>{const b=el('rate-'+id);b.dataset.rate=id;return b});
  const document={
   getElementById:el,createElement:t=>el('created-'+t+'-'+Math.random()),
-  querySelectorAll:s=>s==='[data-voice]'?voices:s==='[data-sample]'?samples:s==='[data-rate]'?rates:[]
+  querySelectorAll:s=>s==='[data-voice]'?voices:s==='[data-sample]'?samples:s==='[data-rate]'?rates:s==='[data-goal]'?goals:[]
  };
  const storage=new Map();
  const fetch=async (url,options={})=>{
   requests.push({url,options});
   if(url==='/api/status')return{ok:true,json:async()=>({ok:true,available:online})};
   if(url==='/api/assist')return{ok:true,json:async()=>({
-    ok:true,improved:true,topic_id:'protein',
+    ok:true,improved:true,topic_id:'protein',goal:JSON.parse(options.body).goal,
     reply:'Linsen, Bohnen und Tofu liefern Protein. Mit einer passenden Auswahl kannst du deinen Bedarf auch ohne Fleisch decken. 💪',
     source_links:[{id:'hevia'}],changes:['Kürzer und konkreter'],model_reviewed:true,scientifically_verified:false
   })};
   throw Error('Unexpected '+url);
  };
- const context={window:{AV_DATA:DATA,AV_TRIAGE:T,AV_CONTEXT_FIT:F,AV_ENGINE:E},
+ const context={window:{AV_DATA:DATA,AV_TRIAGE:T,AV_CONTEXT_FIT:F,AV_ENGINE:E,AV_STRATEGIES:S},
   document,fetch,navigator:{clipboard:{writeText:async s=>copied.push(s)},serviceWorker:{register:async()=>true}},
   localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)},
   URL,AbortController,Math,Date,JSON,console,setTimeout:()=>1,clearTimeout:()=>{}};
  vm.runInNewContext(js,context);
- return {el,voices,samples,rates,requests,copied,storage};
+ return {el,voices,samples,rates,goals,requests,copied,storage};
 }
 async function settle(){for(let i=0;i<4;i++)await new Promise(r=>setImmediate(r))}
 test('Daily home keeps the full studio, mobile PWA and offline shell',()=>{
@@ -62,8 +63,8 @@ test('Daily home keeps the full studio, mobile PWA and offline shell',()=>{
  assert.match(index,/location.replace\('\/daily.html'/);
  assert.match(index,/!q.has\('inbox'\)/);
  assert.equal(manifest.start_url,'/daily.html?source=pwa');
- assert.match(sw,/animal-voices-v12-shell-1/);
- for(const asset of ['daily.html','daily.css','daily.js'])assert.ok(sw.includes('/'+asset));
+ assert.match(sw,/animal-voices-v13-shell-1/);
+ for(const asset of ['daily.html','daily.css','daily.js','strategy-core.js'])assert.ok(sw.includes('/'+asset));
  assert.match(css,/@media\(max-width:440px\)/);
  assert.match(html,/href="\/\?studio=1#dialog"/);
 });
@@ -88,6 +89,7 @@ test('All twenty editorial cases load a source-backed answer and correct topic',
   assert.ok(a.el('daily-reply').value.length>=40,c.id);
   assert.equal(a.el('daily-copy').disabled,true,c.id);
   assert.ok(a.el('daily-sources').children.length>0,c.id);
+  assert.ok(S.GOALS[a.goals.find(b=>b.getAttribute('aria-pressed')==='true')?.dataset.goal],c.id);
  }
 });
 test('Opening source alone is not verification; checked review enables copy, edits reset it',async()=>{
