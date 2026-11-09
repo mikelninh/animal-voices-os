@@ -53,10 +53,11 @@ test('User feedback stays on device, is anonymized and included in manual export
  assert.match(app,/animal-voices-reply-feedback-v095/);
  assert.match(app,/saveAnswerFeedback/);
  assert.match(app,/answerFeedback/);
- assert.doesNotMatch(app,/fetch\(['"]\/api\/assist/);
+ assert.match(app,/\$\('ai-consent'\)\.checked/);
+ assert.match(app,/\$\('ai-use'\)\.addEventListener\('click'/);
 });
 test('New assets are versioned and PWA caches fresh answers',()=>{
  assert.match(index,/context-fit\.js\?v=0\.9\.5/);
- assert.match(index,/app\.js\?v=0\.9\.5/);
+ assert.match(index,/app\.js\?v=1\.0\.0/);
  assert.match(sw,/\/context-fit\.js/);
 });
