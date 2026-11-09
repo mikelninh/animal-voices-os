@@ -1,6 +1,6 @@
 {
   "name": "animal-voices-os",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "description": "Animal Voices: source-backed, human-first conversation and content studio",
   "scripts": {
