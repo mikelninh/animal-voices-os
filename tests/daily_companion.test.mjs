@@ -30,5 +30,6 @@ test('Copy is source-backed and API access remains unused by consumer frontend',
  assert.match(app,/Quellen \(Original\)/);
  assert.match(app,/topic\.sources\.map/);
  assert.match(app,/navigator\.clipboard\.writeText/);
- assert.doesNotMatch(app,/fetch\('\/api\/assist'/);
+ assert.match(app,/\$\('ai-consent'\)\.checked/);
+ assert.match(app,/active\.approvedReply=null/);
 });
