@@ -1,3 +1,19 @@
+# Animal Voices OS v1.3 · Goal-first Conversations
+
+[**Daily conversations**](https://animal-voices-os.vercel.app/daily.html) · [**Blind strategy test**](https://animal-voices-os.vercel.app/strategy-lab.html) · [**AI upgrade lab**](https://animal-voices-os.vercel.app/upgrade.html) · [**Strategy and research protocol**](docs/STRATEGY_V13.md)
+
+## Our change in direction
+
+**Choose the conversation goal before the voice.** The default app now proposes one of four distinct, editorially written goals: connection, understanding, curiosity, or enabling a voluntary next step. You can compare all four instantly without generating anything through an AI service. Momo, Kiki and Bao move into a collapsed optional personality control and remain in the full Studio.
+
+An optional authenticated AI step now receives the selected conversation goal for both model drafting and critic checks. It never posts, does not verify original research live, requires explicit consent, and remains subject to human review of sources.
+
+**What was tested:** 20 synthetic comments × 4 goal variants, basic safety/source gates, approval resets, local strategy feedback, blind A/B with "neither", private JSON exports, and mock-model unit tests. Real preference and animal-welfare outcomes remain unmeasured.
+
+**Next milestone:** source-checked, diverse real comments and truly independent volunteer blind testing. See the protocol. No claim that any strategy has been proven most persuasive.
+
+---
+
 # Animal Voices OS v1.2 · Daily Companion
 
 [**Open everyday mode**](https://animal-voices-os.vercel.app/daily.html) · [**Full Studio**](https://animal-voices-os.vercel.app/?studio=1#dialog) · [**20-case Answer Upgrade Lab**](https://animal-voices-os.vercel.app/upgrade.html)
