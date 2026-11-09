@@ -1,0 +1,225 @@
+{
+  "version": "field-v0.1",
+  "captured_at": "2026-11-09",
+  "sample_size": 10,
+  "dataset": "Ten anonymised German paraphrases of verifiable public discussion posts/comments. English examples translated. NOT verbatim quotations, randomly sampled comments or recruited testers. Sources retained for audit.",
+  "respondents": 0,
+  "publication_status": "editorial_candidate_not_human_validated",
+  "cases": [
+    {
+      "id": "F01",
+      "topicId": "crop",
+      "angle": "ethics",
+      "comment": "Bei der Ernte sterben auch Tiere. Warum zählen diese Tiere bei veganer Ernährung scheinbar weniger?",
+      "context": "Skeptische Nachfrage nach moralischer Konsistenz bei Erntetoden",
+      "source_url": "https://www.reddit.com/r/DebateAVegan/comments/1jrx2ck/crop_deaths_conflicting_arguments_by_vegans/",
+      "source_date": "2025-04-05",
+      "source_type": "public_post",
+      "a": {
+        "goal": "connect",
+        "text": "Die Tiere auf den Feldern sind genauso wichtig. Vegan heißt nicht: kein Schaden – sondern vermeidbares Leid verringern, auch beim Pflanzenanbau."
+      },
+      "b": {
+        "goal": "clarify",
+        "text": "Erntetode sind relevant. Tierhaltung braucht aber zusätzlich viel Land und Futter. Genaue Opferzahlen sind schwierig zu vergleichen; bessere Schutzmethoden für Feldtiere brauchen wir trotzdem."
+      },
+      "fact_urls": [
+        "https://ourworldindata.org/land-use-diets"
+      ],
+      "review_note": "Keine genaue Zahl zu Erntetoden behaupten; beantwortet normative und empirische Dimension getrennt."
+    },
+    {
+      "id": "F02",
+      "topicId": "crop",
+      "angle": "ethical_conflict",
+      "comment": "Wenn auch Insekten beim Pflanzenanbau leiden können, wie kann man dann überhaupt verantwortlich essen?",
+      "context": "Existenzielle ethische Frage aus einer Diskussion über Insektenleid",
+      "source_url": "https://www.reddit.com/r/DebateAVegan/comments/1log438/implications_of_insect_suffering/",
+      "source_date": "2025-06-30",
+      "source_type": "public_post",
+      "a": {
+        "goal": "connect",
+        "text": "Das kann überwältigend wirken. Niemand kann völlig ohne Auswirkungen essen. Gerade deshalb ist es sinnvoll, vermeidbare Schäden Schritt für Schritt zu reduzieren – auch in der Landwirtschaft."
+      },
+      "b": {
+        "goal": "explore",
+        "text": "Welche Schäden beim Essen können wir heute schon verringern, und wo brauchen wir bessere Anbaumethoden? Eine vollkommen schadensfreie Lösung müssen wir nicht vortäuschen."
+      },
+      "fact_urls": [
+        "https://ourworldindata.org/land-use-diets"
+      ],
+      "review_note": "Insekten-Sentienz wissenschaftlich umstritten; weder Leidensfähigkeit noch Zahl von Opfern pauschal behaupten."
+    },
+    {
+      "id": "F03",
+      "topicId": "protein",
+      "angle": "practical_question",
+      "comment": "Ich möchte vegan essen und weiter Krafttraining machen. Wie komme ich zuverlässig an genug Protein?",
+      "context": "Ehrliche Umstiegsfrage in einem veganen Fitnessforum",
+      "source_url": "https://www.reddit.com/r/veganfitness/comments/1rtlvxu/vegan_gym_goers_how_do_you_get_in_protein/",
+      "source_date": "2026-03-14",
+      "source_type": "public_post",
+      "a": {
+        "goal": "clarify",
+        "text": "Tofu, Linsen, Seitan, Tempeh und Bohnen liefern Protein. Wie viel du brauchst, hängt unter anderem von Training und Körpergewicht ab. Vegan heißt nicht automatisch proteinarm."
+      },
+      "b": {
+        "goal": "act",
+        "text": "Starte mit einer Mahlzeit, die du magst: Bohnen-Chili oder ein Tofu-Wok. Dann kannst du die Proteinmenge passend zu deinem Trainingsziel über den Tag planen."
+      },
+      "fact_urls": [
+        "https://www.dge.de/gesunde-ernaehrung/faq/faqs-vegane-ernaehrung"
+      ],
+      "review_note": "Keine pauschale Grammzahl ohne persönlichen Bedarf; konkrete Quellen des Proteins genannt."
+    },
+    {
+      "id": "F04",
+      "topicId": "protein",
+      "angle": "scientific_skepticism",
+      "comment": "Pflanzliches Protein soll schlechter aufgenommen werden und wichtige Aminosäuren fehlen. Ist das ein echter Nachteil?",
+      "context": "Skepsis zu Proteinverdaulichkeit und vollständigem Aminosäureprofil",
+      "source_url": "https://www.reddit.com/r/veganfitness/comments/1q0tw72/protein/",
+      "source_date": "2026-01-01",
+      "source_type": "public_post",
+      "a": {
+        "goal": "clarify",
+        "text": "Pflanzliche Proteinquellen unterscheiden sich in Verdaulichkeit und Aminosäureprofil. Mit passender Lebensmittelauswahl lässt sich der Bedarf dennoch decken. Entscheidend sind Gesamtzufuhr und persönliche Bedürfnisse."
+      },
+      "b": {
+        "goal": "connect",
+        "text": "Die Frage ist berechtigt, gerade beim Training. Ein einzelnes Lebensmittel muss nicht alles perfekt liefern: Entscheidend ist, was über den Tag insgesamt an geeignetem Protein zusammenkommt."
+      },
+      "fact_urls": [
+        "https://www.dge.de/gesunde-ernaehrung/faq/faqs-vegane-ernaehrung"
+      ],
+      "review_note": "Ergänzende proteinwissenschaftliche Quellen vor öffentlicher Verwendung prüfen, keine Gleichwertigkeit aller Einzelquellen behaupten."
+    },
+    {
+      "id": "F05",
+      "topicId": "b12",
+      "angle": "health_information",
+      "comment": "Warum enthalten B12-Präparate so viel mehr als den angegebenen Tagesbedarf? Ist das nicht übertrieben?",
+      "context": "Echte Frage zu B12-Referenzwerten und hochdosierten Präparaten; keine individuelle Dosisberatung",
+      "source_url": "https://www.reddit.com/r/VeganDE/comments/1l72xuu/nahrungserg%C3%A4nzung_b12_%C3%BCberdosierung/",
+      "source_date": "2025-06-09",
+      "source_type": "public_post",
+      "a": {
+        "goal": "clarify",
+        "text": "Die Menge auf der Packung ist nicht die aufgenommene Menge: Bei hohen B12-Dosen sinkt die prozentuale Aufnahme. Welche Einnahme passt, hängt von der individuellen Situation ab."
+      },
+      "b": {
+        "goal": "connect",
+        "text": "Die hohe Prozentzahl kann erschrecken. Bei B12 bedeutet sie nicht, dass der Körper alles aufnimmt. Präparat und persönliche Versorgung sind wichtiger als nur die Prozentzahl."
+      },
+      "fact_urls": [
+        "https://ods.od.nih.gov/factsheets/Vitaminb12-HealthProfessional/",
+        "https://www.dge.de/gesunde-ernaehrung/faq/vitamin-b12/"
+      ],
+      "review_note": "Explizit allgemeine Information, keine Dosis, keine persönlichen Mangel-Diagnosen, keine Kinderdosierung."
+    },
+    {
+      "id": "F06",
+      "topicId": "forest",
+      "angle": "land_use",
+      "comment": "Wenn künftig mehr Menschen Tofu statt Fleisch essen, braucht man dann nicht mehr Soja und dafür noch mehr gerodeten Wald?",
+      "context": "Frage zur Vergleichsbilanz zwischen Rinderhaltung und Soja-/Erbsenanbau",
+      "source_url": "https://www.reddit.com/r/VeganDE/comments/1jjmp5n",
+      "source_date": "2025-03-25",
+      "source_type": "public_comment_in_thread",
+      "a": {
+        "goal": "clarify",
+        "text": "Sojaanbau kann zur Entwaldung beitragen. Historisch ging aber der Großteil der weltweiten Sojaernte in Tierfutter. Beim Vergleich müssen wir deshalb auch das Futter für Fleisch und Milch mitzählen."
+      },
+      "b": {
+        "goal": "explore",
+        "text": "Gute Frage. Wäre es für einen fairen Vergleich sinnvoll, auch das Soja mitzuzählen, das heute über Tierfutter in Fleisch und Milch steckt?"
+      },
+      "fact_urls": [
+        "https://ourworldindata.org/drivers-of-deforestation"
+      ],
+      "review_note": "Globale historische Sojaverteilung belegt keine einzelne Lieferkette; keine pauschalen lokalen Rodungsprognosen."
+    },
+    {
+      "id": "F07",
+      "topicId": "taste",
+      "angle": "taste_barrier",
+      "comment": "Ich finde einige vegane Produkte lecker, aber bei Pflanzendrinks schmeckt mir keine Sorte. Muss ich mich damit einfach abfinden?",
+      "context": "Teilweise Umstellung gelungen, spezifische Geschmacksbarriere bei Milchalternativen",
+      "source_url": "https://www.reddit.com/r/VeganDE/comments/1hxghoh",
+      "source_date": "2025-01-09",
+      "source_type": "public_post",
+      "a": {
+        "goal": "connect",
+        "text": "Nein, du musst dich nicht zwingen. Toll, dass andere Alternativen für dich schon passen. Geschmack ist sehr persönlich, und du darfst dir Zeit lassen."
+      },
+      "b": {
+        "goal": "act",
+        "text": "Teste Pflanzendrinks zunächst in Müsli, Kaffee oder beim Kochen statt pur. Wenn eine Variante nicht schmeckt, musst du deshalb nicht alle anderen Veränderungen aufgeben."
+      },
+      "fact_urls": [],
+      "review_note": "Geschmackspräferenz respektieren; keine Gesundheits- oder Preisversprechen."
+    },
+    {
+      "id": "F08",
+      "topicId": "cost",
+      "angle": "access_barrier",
+      "comment": "Für mich ist pflanzliches Essen teuer, und ich schaffe es zeitlich kaum, alles selbst zu kochen. Wie soll das praktikabel sein?",
+      "context": "Barriere durch Geld, Zeit und Einkaufsmöglichkeiten, kein fehlender guter Wille",
+      "source_url": "https://www.reddit.com/r/VeganDE/comments/1p8z0s1/kollege_meint_vegan_ist_doch_viel_zu_teuer_kanns/",
+      "source_date": "2025-12-01",
+      "source_type": "public_comment_in_thread",
+      "a": {
+        "goal": "connect",
+        "text": "Zeit und Geld sind echte Hürden. Niemand sollte dir sagen, das sei nur schlechte Planung. Was wäre in deinem Alltag überhaupt machbar?"
+      },
+      "b": {
+        "goal": "act",
+        "text": "Vielleicht finden wir ein einziges schnelles Gericht ohne teure Spezialprodukte, das zu deinem Budget passt – etwa Linsen mit Reis und Gemüse. Kein Alles-oder-nichts."
+      },
+      "fact_urls": [],
+      "review_note": "Keine pauschale Behauptung vegan sei immer billiger. Der bisherige KI-Worker hält Kostenfälle mangels kuratierter Quellen zurück."
+    },
+    {
+      "id": "F09",
+      "topicId": "sentience",
+      "angle": "ethical_challenge",
+      "comment": "Wenn ein Tier ganz ohne Schmerzen getötet würde – wäre das aus veganer Sicht trotzdem falsch?",
+      "context": "Echte normative Frage zur Tötung unabhängig von Schmerzen",
+      "source_url": "https://www.reddit.com/r/DebateAVegan/comments/1ll65f1/many_vegans_say_its_okay_to_eat_plants_but_not/",
+      "source_date": "2025-06-26",
+      "source_type": "public_post",
+      "a": {
+        "goal": "clarify",
+        "text": "Für viele geht es nicht nur um Schmerzen beim Sterben, sondern auch darum, dass ein Tier weiterleben könnte. Das ist eine ethische Frage, keine Schmerz-Messung allein."
+      },
+      "b": {
+        "goal": "explore",
+        "text": "Auch ohne Schmerzen bleibt eine Frage: Dürfen wir einem Tier sein weiteres Leben nehmen, wenn wir andere Möglichkeiten haben? Darüber kann man ernsthaft unterschiedlicher Meinung sein."
+      },
+      "fact_urls": [
+        "https://eur-lex.europa.eu/eli/treaty/tfeu_2012/art_13/oj"
+      ],
+      "review_note": "Normative Aussage als Ethik kennzeichnen, nicht als wissenschaftlicher Beweis für bestimmte Moral."
+    },
+    {
+      "id": "F10",
+      "topicId": "taste",
+      "angle": "positive_opening",
+      "comment": "Ich esse weiterhin Fleisch, mag aber manche veganen Alternativen. Was könnte ich als Nächstes ausprobieren?",
+      "context": "Nicht-vegan lebende Person, freiwillig neugierig auf einfache Alternativen",
+      "source_url": "https://www.reddit.com/r/VeganDE/comments/1qeetmd/gute_vegane_ersatzprodukte/",
+      "source_date": "2026-01-16",
+      "source_type": "public_post",
+      "a": {
+        "goal": "act",
+        "text": "Schön, dass du neugierig bist. Probier als Nächstes eine Produktkategorie, die dir ohnehin schmeckt – etwa Aufschnitt, Burger oder ein Fertiggericht. Kein perfekter Umstieg nötig."
+      },
+      "b": {
+        "goal": "explore",
+        "text": "Was hast du bisher probiert und wirklich gern gegessen? Daran würde ich anknüpfen, statt dir ungefragt zehn Produkte zu empfehlen."
+      },
+      "fact_urls": [],
+      "review_note": "Konkrete Marken/Preise nur mit aktueller Verfügbarkeit nennen, nicht ohne Prüfung."
+    }
+  ]
+}
