@@ -33,7 +33,7 @@ self.addEventListener('fetch',event=>{
  }
  if(req.method!=='GET')return;
  if(req.mode==='navigate'){
-  event.respondWith(fetch(req).catch(()=>caches.match(url.pathname==='/daily.html'?'/daily.html':'/index.html')));return;
+  event.respondWith(fetch(req).catch(()=>url.pathname==='/daily.html'?caches.match('/daily.html'):caches.match('/index.html')));return;
  }
  // Critical scripts/styles are network-first to avoid old editorial logic in new UI.
  // Installed PWAs keep a versioned offline fallback for network outages.
