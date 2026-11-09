@@ -98,3 +98,15 @@ test('Neither, critical reporting, optional reason and exports are real working 
  assert.ok(!JSON.stringify(pack).includes('source_url'));
  assert.ok(!JSON.stringify(pack).includes(cases.cases[0].comment));
 });
+
+test('Existing daily routing recognizes the real deforestation question while safely holding unsupported ethical or cost cases',()=>{
+ const E=require('../engine.js'),knowledge=require('../knowledge.json');
+ const src=new Map(knowledge.sources.map(s=>[s.id,s]));
+ const lookup=id=>cases.cases.find(c=>c.id===id).comment;
+ const forest=E.decide(lookup('F06'),knowledge.cases,src);
+ assert.equal(forest.topic?.id,'forest');assert.equal(forest.action,'reply');
+ for(const id of ['F02','F08','F09','F10']){
+  const decision=E.decide(lookup(id),knowledge.cases,src);
+  assert.notEqual(decision.action,'reply',id+' must not receive unfounded confident answer');
+ }
+});
