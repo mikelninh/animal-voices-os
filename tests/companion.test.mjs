@@ -63,7 +63,7 @@ test('Offline shell intercepts share POST and does not cache comments',()=>{
  assert.ok(sw.includes("caches.match('/index.html')"));
  assert.ok(sw.includes("url.pathname==='/share'"));
  assert.ok(sw.includes("indexedDB.open(DB,1)"));
- assert.ok(sw.includes("Response.redirect(new URL('/?inbox=1#dialog',self.location.origin).href,303)"));
+ assert.ok(sw.includes("Response.redirect(new URL('/phone.html?inbox=1',self.location.origin).href,303)"));
  assert.ok(!sw.includes('cache.put(req'));
  assert.ok(sw.includes("req.mode==='navigate'"));
 });
