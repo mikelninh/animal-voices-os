@@ -51,4 +51,43 @@ document.querySelectorAll('.native-reply').forEach(b=>b.addEventListener('click'
 document.querySelectorAll('.do-not-post').forEach(b=>b.addEventListener('click',()=>{b.textContent='Demo: Es wird nichts veröffentlicht';}));
 </script>
 <script src="/animal-voices.user.js?v=0.1.0"></script>
+<script>
+if(new URLSearchParams(location.search).has('selftest')){
+ const report=document.createElement('output');report.id='av-e2e-report';report.dataset.status='running';report.textContent='Running in-page integration test';document.body.append(report);
+ const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+ (async()=>{
+  try{
+   await delay(450);
+   const comments=document.querySelectorAll('[data-av-demo-comment]');
+   const first=comments[0],button=first.querySelector('[aria-label="Mit Animal Voices auf diesen Kommentar antworten"]');
+   if(!button)throw Error('NO_INJECTED_BUTTON');
+   button.click();
+   await delay(60);
+   let host=document.querySelector('.av-panel');
+   if(!host?.shadowRoot)throw Error('NO_OVERLAY_SHADOW');
+   let shadow=host.shadowRoot;
+   if(!shadow.getElementById('av-comment').value.includes('Regenwald'))throw Error('WRONG_COMMENT_SELECTION');
+   if(!shadow.getElementById('av-status-pill').textContent.includes('vorab geprüft'))throw Error('MISSING_REVIEW_STATUS');
+   if(!shadow.getElementById('av-proposal').value.includes('Soja'))throw Error('MISSING_REVIEWED_DRAFT');
+   if(!shadow.getElementById('av-sources').querySelector('a[href^="https://"]'))throw Error('MISSING_SOURCE_LINK');
+   shadow.getElementById('av-insert').click();
+   await delay(450);
+   const composer=first.querySelector('.compose textarea');
+   if(!composer||!composer.value.includes('Soja'))throw Error('NOT_INSERTED_IN_RELEVANT_COMPOSER');
+   if(!shadow.getElementById('av-feedback').textContent.includes('eingefügt'))throw Error('MISSING_MANUAL_APPROVAL_MESSAGE');
+   shadow.getElementById('av-close').click();
+   const unknown=comments[3].querySelector('[aria-label="Mit Animal Voices auf diesen Kommentar antworten"]');
+   if(!unknown)throw Error('UNKNOWN_BUTTON_NOT_ATTACHED');
+   unknown.click();await delay(40);
+   host=document.querySelector('.av-panel');shadow=host?.shadowRoot;
+   if(!shadow)throw Error('UNKNOWN_PANEL_MISSING');
+   if(shadow.getElementById('av-status-pill').textContent.includes('✓'))throw Error('UNKNOWN_WRONGLY_VERIFIED');
+   if(!shadow.getElementById('av-insert').disabled)throw Error('UNKNOWN_CAN_INSERT');
+   if(!shadow.getElementById('av-copy').disabled)throw Error('UNKNOWN_CAN_COPY');
+   report.dataset.status='pass';
+   report.textContent='PASS: real DOM comments selected, reviewed draft, source card, manual composer fill; unknown claim held, no publishing';
+  }catch(err){report.dataset.status='fail';report.textContent='FAIL: '+(err?.message||err);}
+ })();
+}
+</script>
 </body></html>
