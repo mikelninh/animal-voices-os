@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- No INTERNET or screenshot/media permissions. Instagram content never leaves the device. -->
+    <queries><package android:name="com.instagram.android"/></queries>
     <application android:label="Animal Voices – Instagram"
       android:theme="@android:style/Theme.Material.Light.NoActionBar"
       android:usesCleartextTraffic="false" android:allowBackup="false">
