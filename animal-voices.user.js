@@ -222,6 +222,7 @@ function findComposer(from){
  return candidates.length===1?candidates[0]:null;
 }
 function chooseComment(node,trigger){
+ if(sheet)closePanel();
  const rootEl=nearestCommentRoot(node)||node.closest?.('[data-av-demo-comment]')||node;
  const txt=extractComment(rootEl,trigger);
  selected={root:rootEl,text:txt};replyTrigger=trigger||null;
@@ -232,10 +233,11 @@ function closePanel(){
 }
 function showPanel(){
  if(!selected)return;
- if(sheet)closePanel();
  const backdrop=make('div',{class:'av-shade','data-av-control':''});
  backdrop.setAttribute('data-av-control','1');
+ backdrop.style.cssText='position:fixed;inset:0;background:#0b211e65;z-index:2147483601;touch-action:none';
  const host=make('section',{class:'av-panel','data-av-control':''});host.setAttribute('data-av-control','1');host.setAttribute('role','dialog');host.setAttribute('aria-modal','true');host.setAttribute('aria-label','Animal Voices Antwortvorschlag');
+ host.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:2147483602;display:block;margin:0;padding:0;box-sizing:border-box;color:#234c32';
  const shadow=host.attachShadow({mode:'open'});
  shadow.innerHTML=`<style>
  :host{all:initial;font:14px/1.48 -apple-system,BlinkMacSystemFont,system-ui,sans-serif;color:#203b2b}
@@ -364,6 +366,7 @@ function scan(){
  for(const native of buttons){
   if(n>=30)break;
   if(seen.has(native)||!normalReplyLabel(native.textContent||''))continue;
+  if(native.tagName==='SPAN'&&native.closest('button,[role="button"]'))continue;
   if(native.closest?.('[data-av-control]'))continue;
   const rootEl=nearestCommentRoot(native);
   if(!rootEl||!visible(native)){continue}
