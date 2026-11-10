@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#eff4e9"><meta name="referrer" content="no-referrer">
+<meta name="description" content="Animal Voices auf instagram.com im Handy-Browser installieren. Kein Screenshot, kein App-Wechsel, Freigabe durch dich.">
+<title>Animal Voices · Direkt in Instagram installieren</title>
+<style>
+:root{--ink:#254b36;--muted:#688373;--bg:#f4f7f0;--line:#dae7d6;--dark:#265b3e}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 90% 3%,#e2efd8,transparent 36%),var(--bg);font:15px/1.6 system-ui,-apple-system,sans-serif;color:var(--ink)}
+button,a{font:inherit}a{color:#246744}.page{max-width:760px;margin:auto;padding:0 20px}.nav{padding:18px 0;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.nav a{text-decoration:none;font-weight:800}.brand{font-size:19px}.brand span{background:var(--dark);border-radius:10px;padding:4px 9px;color:#eafab9;margin-right:8px}.eyebrow{font-size:10px;font-weight:850;letter-spacing:1.9px;color:#6c936d}
+.hero{padding:54px 6px 28px}.hero h1{font-size:clamp(38px,7vw,62px);line-height:1.08;letter-spacing:-2.4px;margin:14px 0;font-weight:760}
+.hero h1 em{color:#7d9563;font:italic 400 1em Georgia,serif}.hero p{color:#708474;font-size:17px;max-width:650px}
+.card{background:#fff;box-shadow:0 14px 38px #2c5d3110;border-radius:19px;border:1px solid var(--line);padding:25px;margin-bottom:16px}
+.switch{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
+.switch button{border:1px solid #d7e3d2;background:#f5faf3;border-radius:11px;padding:14px;font-size:14px;font-weight:800;color:#66806d;cursor:pointer}
+.switch button[aria-pressed=true]{background:#dcebd5;color:#2f643f;border-color:#7ca87b}
+h2{font-size:21px;letter-spacing:-.55px;margin:4px 0 10px}h3{font-size:15px;margin:12px 0 5px}
+.step{display:flex;gap:13px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #edf1eb}
+.step:last-child{border-bottom:0}.step b{flex:none;background:#e5f1df;color:#386c45;border-radius:50%;width:27px;height:27px;display:grid;place-items:center;font-size:12px}
+.step div{font-size:14px}.step small{display:block;color:var(--muted);line-height:1.5;margin-top:3px;font-size:12px}
+.primary,.secondary{display:flex;justify-content:center;align-items:center;text-align:center;gap:8px;min-height:49px;padding:12px;border-radius:12px;text-decoration:none;font-size:14px;font-weight:800}
+.primary{background:var(--dark);color:white}.secondary{background:#ebf3e6;color:#316c45;border:1px solid #d9e7d3}
+.actions{display:grid;gap:9px;margin-top:17px}.micro{font-size:12px;color:var(--muted);line-height:1.6}
+.note{background:#fff9ed;border:1px solid #eee0c9;border-radius:13px;padding:16px;margin:17px 0;font-size:13px;color:#7b6448}
+.example{border:1px solid #e0e9dc;border-radius:14px;padding:20px;background:#fafcf7;margin:10px 0}
+.example b{font-size:12px;color:#62886c}.example p{font-size:15px}
+.inline{background:#e4efdf;color:#326c43;border-radius:25px;padding:7px 12px;font-size:12px;font-weight:800;display:inline-block}
+footer{padding:25px 0 45px;text-align:center;color:#8ca08c;font-size:11px}
+#android[hidden],#iphone[hidden]{display:none}.tick{color:#347648}
+@media(max-width:450px){.page{padding:0 14px}.hero{padding:34px 5px 20px}.hero h1{font-size:40px}.card{padding:20px 17px}.switch button{padding:12px 8px;font-size:13px}}
+</style>
+</head>
+<body>
+<div class="page">
+<header class="nav"><a class="brand" href="/phone.html"><span>✳</span>animal voices</a><a href="/instagram-demo.html">Demo ansehen ↗</a></header>
+<main>
+<div class="hero">
+ <span class="eyebrow">IN-INSTAGRAM COMPANION · BETA 0.1</span>
+ <h1>Eine Antwort.<br><em>Genau hier.</em></h1>
+ <p>Du bleibst auf <strong>instagram.com im Handybrowser</strong>. Tippe direkt neben einem Kommentar auf <strong>✳ Animal Voices</strong>, lies den vorab geprüften Vorschlag und übernimm ihn in dein Antwortfeld – mit deiner Freigabe.</p>
+</div>
+<div class="card">
+ <span class="eyebrow">WÄHLE DEIN HANDY</span>
+ <h2>So installierst du die Integration</h2>
+ <div class="switch" role="group" aria-label="Betriebssystem"><button id="tab-iphone" type="button" aria-pressed="true">iPhone · Safari</button><button id="tab-android" type="button" aria-pressed="false">Android · Firefox</button></div>
+ <section id="iphone">
+  <div class="step"><b>1</b><div>Installiere <a href="https://apps.apple.com/de/app/userscripts/id1463298887" target="_blank" rel="noopener noreferrer">Userscripts</a> aus dem App Store.<small>Die kostenlose Safari-Erweiterung führt JavaScript auf ausgewählten Websites aus.</small></div></div>
+  <div class="step"><b>2</b><div>Öffne die Userscripts-App und wähle den Ordner für Skripte (falls noch keiner eingerichtet ist).<small>Speichere die folgende <code>.user.js</code>-Datei über Safari/Dateien in diesen Ordner.</small></div></div>
+  <div class="step"><b>3</b><div>Aktiviere in den iPhone-Einstellungen unter <strong>Apps → Safari → Erweiterungen</strong> die Erweiterung Userscripts und erlaube sie für <strong>instagram.com</strong>.<small>Je nach iOS-Version findest du Safari direkt unter „Einstellungen → Safari“.</small></div></div>
+  <div class="step"><b>4</b><div>Öffne <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">instagram.com in Safari</a> und melde dich dort normal an.<small>In der nativen Instagram-App können Safari-Erweiterungen nicht erscheinen.</small></div></div>
+ </section>
+ <section id="android" hidden>
+  <div class="step"><b>1</b><div>Installiere <a href="https://www.mozilla.org/de/firefox/browsers/mobile/android/" target="_blank" rel="noopener noreferrer">Firefox für Android</a>.</div></div>
+  <div class="step"><b>2</b><div>Installiere <a href="https://addons.mozilla.org/de/android/addon/violentmonkey/" target="_blank" rel="noopener noreferrer">Violentmonkey</a> als Firefox-Erweiterung.<small>Der Userscript-Manager unterstützt Firefox Android.</small></div></div>
+  <div class="step"><b>3</b><div>Öffne den Installationslink unten <strong>in Firefox</strong> und bestätige das Skript in Violentmonkey.<small>Das Skript ist auf instagram.com begrenzt.</small></div></div>
+  <div class="step"><b>4</b><div>Öffne <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">instagram.com in Firefox</a> und wähle einen sichtbaren Kommentar.</div></div>
+ </section>
+ <div class="actions">
+  <a class="primary" href="/animal-voices.user.js" download="animal-voices.user.js">✳ Animal Voices Userscript installieren ↗</a>
+  <a class="secondary" href="/instagram-demo.html">Ablauf erst ohne Instagram testen ↗</a>
+ </div>
+ <p class="micro">Falls der Skript-Link nur als Text angezeigt wird, nutze die Browser-Funktion „Teilen“/„In Dateien sichern“ und lege die Datei in den Userscripts-Ordner (iPhone) bzw. importiere sie in Violentmonkey (Android). Die Erweiterung muss der Website ausdrücklich Zugriff erlauben.</p>
+</div>
+<div class="card">
+ <h2>Einmal installiert – direkt im Kommentar.</h2>
+ <div class="example">
+   <b>INSTAGRAM · KOMMENTAR</b>
+   <p>„Aber bei der Ernte sterben doch auch Tiere?“</p>
+   <span class="inline">✳ Animal Voices</span>
+ </div>
+ <div class="example"><b>VORSCHLAG · VORAB GEPRÜFTE AUSSAGE</b>
+ <p>Ja, auch beim Pflanzenanbau können Tiere verletzt oder getötet werden. Das sollten wir ernst nehmen. Tierhaltung benötigt aber zusätzlich große Flächen und Futterpflanzen.</p>
+ <span class="inline">Antwort in Eingabefeld einsetzen ↗</span>
+ </div>
+ <p class="micro">Das Skript erkennt ausgewählte Kommentare aus der sichtbaren Instagram-Webseite. Es übermittelt keine Kommentartexte an unseren Server. Quellenhinweise sind für einen abgegrenzten Themenkatalog vorab anhand von DGE, NIH, EUR-Lex und Our World in Data redaktionell geprüft. Unbekannte oder sensible Fragen werden nicht mit einem erfundenen „geprüft“-Badge versehen. <strong>Es wird niemals automatisch gepostet.</strong></p>
+</div>
+<div class="note"><strong>Wichtig: native Instagram-App ≠ instagram.com.</strong> Diese Beta funktioniert ausschließlich in unterstützten mobilen Browsern mit Userscripts. Ein Button innerhalb der nativen Instagram-App lässt sich damit nicht installieren. Außerdem können Instagram-Oberflächenänderungen die direkte Texterkennung oder das Einfügen in das Antwortfeld beeinträchtigen. In solchen Fällen bietet das Skript eine Auswahlhilfe und Kopieren, ohne Instagram zu verlassen.</div>
+</main>
+<footer>Animal Voices · Für Tiere. Mit Menschen. ♡ <a href="/phone.html">Web-App als Alternative</a></footer>
+</div>
+<script>
+const tabs=document.querySelectorAll('.switch button');
+function choose(id){for(const b of tabs)b.setAttribute('aria-pressed',String(b.id==='tab-'+id));document.getElementById('iphone').hidden=id!=='iphone';document.getElementById('android').hidden=id!=='android'}
+tabs.forEach(b=>b.addEventListener('click',()=>choose(b.id.slice(4))));
+if(/Android/i.test(navigator.userAgent))choose('android');
+</script>
+</body></html>
