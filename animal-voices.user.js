@@ -92,8 +92,8 @@ const TOPICS={
  }
 };
 const REPLIES=['antworten','reply','respond','répondre','responder','rispondi'];
-const SENSITIVE=/\b(schwanger|schwangerschaft|stillend|baby|babys|kinder|minderjaehr|minderjähr|pregnan|child|infant|stillen|medikament|diagnose|eating disorder|essst[oö]rung|suizid|suicide|kill yourself|t[oö]ten|threat|drohung)\b/i;
-const PRIVATE=/(?:[\w.+-]+@[\w.-]+\.[a-z]{2,}|\+?\d[\d()\s-]{8,}\d)/i;
+const SENSITIVE=/\b(schwanger|schwangerschaft|stillend|baby|babys|kind|kinder|kid|kids|children|minor|minderjaehr|minderjähr|pregnan|child|infant|stillen|medikament|diagnose|eating disorder|essst[oö]rung|suizid|suicide|kill yourself|t[oö]ten|threat|drohung)\b/i;
+const PRIVATE=/(?:@[a-z0-9_.]{3,}|[\w.+-]+@[\w.-]+\.[a-z]{2,}|\+?\d[\d()\s-]{8,}\d)/i;
 const norm=s=>String(s||'').replace(/\s+/g,' ').trim();
 function classify(text){
  const s=norm(text);
