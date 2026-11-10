@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="service_description">Zeigt nach ausdrücklichem Tippen über Instagram zugängliche Bildschirmtexte an und setzt ausschließlich nach deiner Freigabe einen vorab redaktionell geprüften Text in ein erkanntes Kommentarfeld ein. Keine automatische Veröffentlichung.</string>
+</resources>
