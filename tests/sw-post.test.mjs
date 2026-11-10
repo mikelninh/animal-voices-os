@@ -11,7 +11,7 @@ test('Service Worker POST Share Target writes only to local IndexedDB and redire
  let result;
  listeners.fetch({request:{method:'POST',url:'https://animal-voices-os.vercel.app/share',formData:async()=>form},respondWith:p=>{result=p}});
  const response=await result;
- assert.equal(response.status,303);assert.equal(response.headers.get('location'),'https://animal-voices-os.vercel.app/?inbox=1#dialog');
+ assert.equal(response.status,303);assert.equal(response.headers.get('location'),'https://animal-voices-os.vercel.app/phone.html?inbox=1');
  assert.equal(local.latest.text,'Vegane Männer sind schwach');
  assert.equal(remoteCalls,0);
  assert.ok(!response.headers.get('location').includes('Vegane'));
