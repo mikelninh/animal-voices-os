@@ -4,7 +4,7 @@
   android:accessibilityFeedbackType="feedbackGeneric"
   android:notificationTimeout="150"
   android:canRetrieveWindowContent="true"
-  android:flagRetrieveInteractiveWindows="true"
+  android:accessibilityFlags="flagRetrieveInteractiveWindows|flagReportViewIds"
   android:description="@string/service_description"
   android:settingsActivity="org.animalvoices.instagram.MainActivity"
   android:isAccessibilityTool="false"
