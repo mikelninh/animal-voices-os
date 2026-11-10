@@ -24,7 +24,7 @@ test('AI is an explicitly opted-in private beta, never used on page load',()=>{
 test('Share target is POST and worker never sends raw shared text to server',()=>{
  const mf=JSON.parse(fs.readFileSync(path.join(root,'manifest.webmanifest'),'utf8')),sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
  assert.equal(mf.share_target.method,'POST');assert.equal(mf.share_target.action,'/share');assert.equal(mf.share_target.enctype,'multipart/form-data');
- assert.match(sw,/indexedDB\.open\(DB,1\)/);assert.match(sw,/url\.pathname==='\/share'/);assert.ok(sw.includes("Response.redirect(new URL('/?inbox=1#dialog',self.location.origin).href,303)"));
+ assert.match(sw,/indexedDB\.open\(DB,1\)/);assert.match(sw,/url\.pathname==='\/share'/);assert.ok(sw.includes("Response.redirect(new URL('/phone.html?inbox=1',self.location.origin).href,303)"));
  assert.doesNotMatch(sw,/fetch\(req\).*formData/);
 });
 test('Evidence data used by server matches browser data for all facts and sources',()=>{
