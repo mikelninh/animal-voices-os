@@ -13,7 +13,7 @@ const html=fs.readFileSync(path.join(root,'phone.html'),'utf8');
 const css=fs.readFileSync(path.join(root,'phone.css'),'utf8');
 const js=fs.readFileSync(path.join(root,'phone.js'),'utf8');
 const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8');
-const manifest=require('../manifest.webmanifest');
+const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.webmanifest'),'utf8'));
 const tick=async()=>{for(let i=0;i<8;i++)await new Promise(r=>setImmediate(r))};
 function mount(options={}){
  const els=new Map(),request=[],copied=[],visited=[],createdURLs=[],removedURLs=[],listeners={},store={};
