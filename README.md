@@ -1,3 +1,13 @@
+# Animal Voices · Directly in Instagram (mobile browser beta)
+
+**[Install on iPhone or Android](https://animal-voices-os.vercel.app/install.html)** · **[Try the in-Instagram demo](https://animal-voices-os.vercel.app/instagram-demo.html)** · [Read the release gates & source audit](docs/INSTAGRAM_COMPANION.md) · [Previous web companion](https://animal-voices-os.vercel.app/phone.html)
+
+The new `animal-voices.user.js` works **in the Instagram website** via a Safari Userscripts or Firefox Android/Violentmonkey extension. It adds a button beside recognisable comments and a fallback tap-to-select launcher. A shadow-DOM panel presents a short local editorial response and links to primary sources checked on 2026-11-10. **Only you may insert and publish**; there is no Instagram auto-posting, account login or remote comment upload.
+
+**Verified:** headless Chromium end-to-end with a mobile-sized Instagram-style DOM and manual insertion into the correct reply textarea, plus automated safety cases. **Not yet independently device-tested on logged-in Instagram.com**. The native Instagram app cannot be modified by this userscript. See [docs/INSTAGRAM_COMPANION.md](docs/INSTAGRAM_COMPANION.md) for boundaries and next test gates.
+
+---
+
 # Animal Voices OS v1.3 · Goal-first Conversations
 
 [**Daily conversations**](https://animal-voices-os.vercel.app/daily.html) · [**Blind strategy test**](https://animal-voices-os.vercel.app/strategy-lab.html) · [**AI upgrade lab**](https://animal-voices-os.vercel.app/upgrade.html) · [**Strategy and research protocol**](docs/STRATEGY_V13.md)
