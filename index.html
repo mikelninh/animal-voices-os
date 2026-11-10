@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <script>
-  // Phone mode is the normal homepage. Keep the full studio available at /?studio=1.
+  // In-Instagram installation is the normal homepage; keep Studio and share-target fallback routes. Keep the full studio available at /?studio=1.
   // Android share-target redirects to ?inbox=1; those must remain in the legacy handler.
   (function(){try{
    var q=new URLSearchParams(location.search);
    if((location.pathname==='/'||location.pathname==='/index.html')&&
        !q.has('studio')&&!q.has('inbox')&&!q.has('share_error')&&!location.hash)
-    location.replace('/phone.html'+(q.has('source')?'?source=pwa':''));
+    location.replace('/install.html'+(q.has('source')?'?source=pwa':''));
   }catch(e){}})();
   </script>
   <meta name="theme-color" content="#fafbf8"><meta name="referrer" content="no-referrer">
