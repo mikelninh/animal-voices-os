@@ -62,8 +62,8 @@ test('Daily home keeps the full studio, mobile PWA and offline shell',()=>{
  const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.webmanifest'),'utf8'));
  assert.match(index,/location.replace\('\/daily.html'/);
  assert.match(index,/!q.has\('inbox'\)/);
- assert.equal(manifest.start_url,'/daily.html?source=pwa');
- assert.match(sw,/animal-voices-v13-shell-1/);
+ assert.equal(manifest.start_url,'/phone.html?source=pwa');
+ assert.match(sw,/animal-voices-v14-shell-1/);
  for(const asset of ['daily.html','daily.css','daily.js','strategy-core.js'])assert.ok(sw.includes('/'+asset));
  assert.match(css,/@media\(max-width:440px\)/);
  assert.match(html,/href="\/\?studio=1#dialog"/);
