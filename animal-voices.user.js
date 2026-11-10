@@ -211,7 +211,13 @@ function visible(node){
 }
 function findComposer(from){
  const candidates=Array.from(doc.querySelectorAll('textarea,[contenteditable="true"],input[placeholder],[role="textbox"]'))
-  .filter(n=>visible(n)&&!n.closest?.('[data-av-control]')&&(n.matches?.('textarea,[contenteditable="true"]')||/comment|kommentar|antwort|reply/i.test(n.getAttribute?.('placeholder')||'')));
+  .filter(n=>{
+   if(!visible(n)||n.closest?.('[data-av-control]'))return false;
+   const hint=[n.getAttribute?.('placeholder'),n.getAttribute?.('aria-label'),n.getAttribute?.('aria-placeholder'),n.getAttribute?.('data-placeholder')].join(' ');
+   const inComment=!!from&&(from.contains?.(n)||from.parentElement?.contains(n));
+   // Never insert into search, chat or caption editors just because they are the only input visible.
+   return inComment||/add a comment|comment|kommentar|antwort|reply|antwort hinzuf/i.test(hint);
+  });
  if(!candidates.length)return null;
  const active=doc.activeElement;
  if(active&&candidates.includes(active))return active;
@@ -283,10 +289,12 @@ function showPanel(){
  doc.body.append(backdrop,host);
  sheet=host;overlayRoot=shadow;
  const box=shadow.getElementById('av-comment'),proposal=shadow.getElementById('av-proposal'),feedback=shadow.getElementById('av-feedback');
+ let proposalModified=false;
  box.value=selected.text;
  shadow.getElementById('av-close').addEventListener('click',closePanel);
  backdrop.addEventListener('click',closePanel);
  function update(){
+  proposalModified=false;
   const result=suggest(box.value),pill=shadow.getElementById('av-status-pill'),src=shadow.getElementById('av-sources');
   src.replaceChildren();feedback.textContent='';
   if(result.state==='reviewed'){
@@ -309,6 +317,13 @@ function showPanel(){
   selected.suggestion=result;
  }
  box.addEventListener('input',update);
+ proposal.addEventListener('input',()=>{
+  if(selected?.suggestion?.state!=='reviewed')return;
+  proposalModified=true;
+  const pill=shadow.getElementById('av-status-pill');
+  pill.textContent='Entwurf verändert · nicht vorab geprüft';pill.className='pill unverified';
+  feedback.textContent='Du hast die geprüfte Vorlage verändert. Bitte neue Tatsachenbehauptungen selbst belegen. Veröffentlicht wird nichts automatisch.';
+ });
  update();
  async function copy(){
   if(selected?.suggestion?.state!=='reviewed')return false;
@@ -342,8 +357,12 @@ function installDock(){
  const dock=make('button',{type:'button','aria-label':'Animal Voices: Kommentar auswählen'},'✳');
  dock.id='av-launcher';dock.setAttribute('data-av-control','1');
  dock.style.cssText='position:fixed;right:14px;bottom:calc(78px + env(safe-area-inset-bottom));z-index:2147483600;width:46px;height:46px;border-radius:50%;border:2px solid white;background:#286342;color:white;font:26px system-ui;box-shadow:0 4px 15px #193d2e55;cursor:pointer';
+ const tip=make('div',{class:'av-pick-hint'},'Tippe jetzt auf einen Kommentar');
+ tip.setAttribute('data-av-control','1');
+ tip.style.cssText='position:fixed;bottom:calc(131px + env(safe-area-inset-bottom));right:12px;padding:8px 12px;max-width:230px;border-radius:12px;background:#285c40;color:white;box-shadow:0 5px 20px #162e2850;z-index:2147483599;font:600 12px system-ui;display:none';
+ doc.body.append(tip);
  dock.addEventListener('click',()=>{
-  pickMode=!pickMode;
+  pickMode=!pickMode;tip.style.display=pickMode?'block':'none';
   dock.textContent=pickMode?'✓':'✳';
   dock.setAttribute('aria-label',pickMode?'Animal Voices: Tippe jetzt auf einen Kommentar':'Animal Voices: Kommentar auswählen');
   dock.title=pickMode?'Tippe auf einen sichtbaren Kommentar':'Animal Voices';
@@ -356,7 +375,7 @@ function installDock(){
   const selectedNode=comment||n.closest?.('span[dir],p,[data-comment-text]');
   if(!selectedNode)return;
   e.preventDefault();e.stopPropagation();e.stopImmediatePropagation?.();
-  dock.textContent='✳';chooseComment(selectedNode,null);
+  dock.textContent='✳';tip.style.display='none';chooseComment(selectedNode,null);
  },true);
 }
 function scan(){
