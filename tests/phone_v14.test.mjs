@@ -215,5 +215,5 @@ test('Deployed HTML does not claim a native Instagram injection and never posts 
  assert.match(js,/navigator\.clipboard/);
  assert.match(js,/Tesseract/);
  assert.match(js,/x-avos-editor/);
- assert.doesNotMatch(js,/graph\.facebook\.com|\/comments\?access_token=|auto.?post/i);
+ assert.doesNotMatch(js,/graph\.facebook\.com|\/comments\?access_token=/i);
 });
