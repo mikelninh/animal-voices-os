@@ -90,7 +90,7 @@ test('Old conversation, screenshots, AI model calls, image uploads and auto-post
  assert.match(code,/data-av-control/);
 });
 test('Demo contains four visible independent comment rows and native reply inputs',()=>{
- const comments=(demo.match(/data-av-demo-comment/g)||[]).length;
+ const comments=(demo.match(/<li data-av-demo-comment>/g)||[]).length;
  assert.equal(comments,4);
  assert.match(demo,/class="native-reply"/);
  assert.match(demo,/class="compose" hidden/);
