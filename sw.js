@@ -2,8 +2,8 @@
  * Text from the Android share sheet is written to IndexedDB on the device,
  * NOT to a backend and NOT into a URL query string. No binary file uploads.
  */
-const VERSION='animal-voices-v13-shell-1';
-const SHELL=['/daily.html','/daily.css','/daily.js','/strategy-core.js','/strategy-lab.html','/strategy-lab.css','/strategy-lab.js','/upgrade.html','/upgrade.css','/upgrade.js','/upgrade-cases.json','/quality.html','/quality.css','/quality.js','/','/index.html','/styles.css','/app.js','/triage.js','/engine.js','/context-fit.js','/data.js','/manifest.webmanifest','/characters/trio.webp','/characters/momo.webp','/characters/kiki.webp','/characters/bao.webp','/icons/icon-192.png','/icons/icon-512.png'];
+const VERSION='animal-voices-v14-shell-1';
+const SHELL=['/phone.html','/phone.css','/phone.js','/daily.html','/daily.css','/daily.js','/strategy-core.js','/strategy-lab.html','/strategy-lab.css','/strategy-lab.js','/upgrade.html','/upgrade.css','/upgrade.js','/upgrade-cases.json','/quality.html','/quality.css','/quality.js','/','/index.html','/styles.css','/app.js','/triage.js','/engine.js','/context-fit.js','/data.js','/manifest.webmanifest','/characters/trio.webp','/characters/momo.webp','/characters/kiki.webp','/characters/bao.webp','/icons/icon-192.png','/icons/icon-512.png'];
 const DB='animal-voices-inbox-v09';
 function openInbox(){return new Promise((resolve,reject)=>{
  const req=indexedDB.open(DB,1);req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains('items'))req.result.createObjectStore('items')};
@@ -24,16 +24,16 @@ self.addEventListener('fetch',event=>{
     const form=await req.formData();
     const data={title:String(form.get('title')||'').slice(0,220),text:String(form.get('text')||'').slice(0,1800),url:String(form.get('url')||'').slice(0,450),receivedAt:new Date().toISOString()};
     await storeShare(data);
-    return Response.redirect(new URL('/?inbox=1#dialog',self.location.origin).href,303);
+    return Response.redirect(new URL('/phone.html?inbox=1',self.location.origin).href,303);
    }catch{
     // Fail closed. Never forward the raw POST to hosting/analytics infrastructure.
-    return Response.redirect(new URL('/?share_error=1#dialog',self.location.origin).href,303);
+    return Response.redirect(new URL('/phone.html?share_error=1',self.location.origin).href,303);
    }
   })());return;
  }
  if(req.method!=='GET')return;
  if(req.mode==='navigate'){
-  event.respondWith(fetch(req).catch(()=>url.pathname==='/daily.html'?caches.match('/daily.html'):caches.match('/index.html')));return;
+  event.respondWith(fetch(req).catch(()=>url.pathname==='/phone.html'?caches.match('/phone.html'):url.pathname==='/daily.html'?caches.match('/daily.html'):caches.match('/index.html')));return;
  }
  // Critical scripts/styles are network-first to avoid old editorial logic in new UI.
  // Installed PWAs keep a versioned offline fallback for network outages.
