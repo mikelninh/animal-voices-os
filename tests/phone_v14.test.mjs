@@ -211,7 +211,7 @@ test('Optional model needs private code and consent, is never called on load and
 });
 test('Deployed HTML does not claim a native Instagram injection and never posts automatically',()=>{
  assert.match(html,/keine Schaltfläche/);
- assert.match(html,/kein Zugriff auf dein Instagram-Konto/i);
+ assert.match(html,/Zugriff auf dein Instagram-Konto ist nicht erforderlich/i);
  assert.match(js,/navigator\.clipboard/);
  assert.match(js,/Tesseract/);
  assert.match(js,/x-avos-editor/);
