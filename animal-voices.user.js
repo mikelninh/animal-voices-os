@@ -1,0 +1,390 @@
+// ==UserScript==
+// @name         Animal Voices · Instagram Companion
+// @namespace    https://animal-voices-os.vercel.app/
+// @version      0.1.0
+// @description  Einen Instagram-Kommentar auswählen, vorab geprüften Antwortvorschlag ansehen und selbst freigeben. Keine Veröffentlichung durch das Skript.
+// @match        https://www.instagram.com/*
+// @match        https://instagram.com/*
+// @run-at       document-idle
+// @grant        none
+// @downloadURL  https://animal-voices-os.vercel.app/animal-voices.user.js
+// @updateURL    https://animal-voices-os.vercel.app/animal-voices.user.js
+// ==/UserScript==
+/* © 2026 Animal Voices. Works on Instagram's browser website, NOT in the native Instagram app.
+ * No request, tracking, tokens, screenshots, account scraping, or automatic post.
+ * The verified source capsules below were manually checked against primary sites on 2026-11-10.
+ */
+(function(root){
+'use strict';
+const VERSION='0.1.0';
+const REVIEWED_AT='2026-11-10';
+const OWID='https://ourworldindata.org/land-use-diets';
+const DGE='https://www.dge.de/gesunde-ernaehrung/faq/faqs-vegane-ernaehrung';
+const POSITION='https://www.dge.de/wissenschaft/stellungnahmen-und-positionspapiere/positionen/neubewertung-der-position-zu-veganer-ernaehrung/';
+const NIH='https://ods.od.nih.gov/factsheets/VitaminB12-HealthProfessional/';
+const EU='https://eur-lex.europa.eu/eli/treaty/tfeu_2016/art_13/oj/deu';
+const TOPICS={
+ forest:{
+  name:'Soja & Regenwald',
+  patterns:[/regenwald|amazonas|waldabholz|entwald|abholzung|abgeholzt|rodung|gerodet|deforest|rainforest|amazon forest/i],
+  answer:{
+   de:'Die Sorge um Abholzung ist berechtigt. Aber viel Soja wird zu Tierfutter verarbeitet, während nur ein kleinerer Teil direkt für Lebensmittel wie Tofu verwendet wird. Für einen fairen Vergleich müssen wir die Futtermittel mitrechnen.',
+   en:'Deforestation linked to soy is a real concern. But a large share of soy is processed into animal feed, while a much smaller share goes directly to foods like tofu. A fair comparison must include feed crops.'
+  },
+  summary:'Our World in Data: ein Großteil der Sojaverwendung hängt mit Tierfutter und Ölproduktion zusammen; rund 7 % werden direkt für Lebensmittel wie Tofu und Sojamilch verwendet. Produktions- und Lieferketten variieren.',
+  sources:[{name:'Our World in Data · Soja, Futter & Fläche',url:OWID}],
+  limitation:'Historische globale Daten belegen nicht die Herkunft jedes einzelnen Tofu- oder Futtermittelprodukts.'
+ },
+ crop:{
+  name:'Erntetode & Landnutzung',
+  patterns:[/erntetod|bei der ernte|ernte.*tier|feldm[aä]us|feldtier|crop deaths|field mice|harvest.*animal|pesticid|pestizid/i],
+  answer:{
+   de:'Ja, auch beim Pflanzenanbau können Tiere verletzt oder getötet werden. Das sollten wir ernst nehmen. Tierhaltung benötigt aber zusätzlich große Flächen und Futterpflanzen. Weniger tierische Produkte können Landnutzung reduzieren – ohne zu behaupten, dass Pflanzenbau schadenfrei wäre.',
+   en:'Yes, growing crops can also harm or kill animals. That matters. But animal farming uses additional land and feed crops. Reducing animal products can lower land demand without pretending that crop farming is harmless.'
+  },
+  summary:'Our World in Data: globale Ernährungsmodelle zeigen bei stärker pflanzlicher Ernährung deutlich weniger landwirtschaftlichen Flächenbedarf.',
+  sources:[{name:'Our World in Data · Flächenbedarf',url:OWID}],
+  limitation:'Die Quelle zählt keine Erntetode. Aus geringerem Flächenbedarf lässt sich keine genaue Zahl vermiedener Tieropfer ableiten.'
+ },
+ protein:{
+  name:'Pflanzliches Protein',
+  patterns:[/protein|eiwei[sß]|amino|muskeln|muskelaufbau|protein deficiency|plant protein/i],
+  answer:{
+   de:'Auch pflanzlich lässt sich der Proteinbedarf decken. Hülsenfrüchte, Sojaprodukte und Getreide ergänzen sich in der Aminosäureversorgung. Entscheidend sind eine abwechslungsreiche Auswahl, genügend Energie und der individuelle Bedarf.',
+   en:'You can meet your protein needs with plant foods. Legumes, soy foods and grains can complement one another in amino acids. Variety, sufficient overall intake and individual needs still matter.'
+  },
+  summary:'DGE, FAQ 3.7: pflanzliche Proteine unterscheiden sich in ihrem Aminosäurenprofil; durch vielseitige Auswahl, Kombination und genug Energie kann der Proteinbedarf gedeckt werden.',
+  sources:[{name:'DGE · Protein bei veganer Ernährung (3.7)',url:DGE}],
+  limitation:'Keine pauschale Aussage über individuelle Kraftzuwächse, Supplementierungsdosen oder besondere Bedürfnisse von Kindern.'
+ },
+ b12:{
+  name:'Vitamin B12',
+  patterns:[/vitamin\s*b.?12|\bb12\b|cobalamin|supplement/i],
+  answer:{
+   de:'Ja, bei veganer Ernährung muss Vitamin B12 zuverlässig ergänzt werden. Die DGE hält eine gut geplante vegane Ernährung für gesunde Erwachsene dennoch für gesundheitsfördernd möglich – wenn auch weitere kritische Nährstoffe ausreichend gedeckt sind.',
+   en:'Yes, vitamin B12 needs reliable supplementation on a vegan diet. Germany’s nutrition society says a well-planned vegan diet can still support health in healthy adults, provided other critical nutrients are covered.'
+  },
+  summary:'DGE 2024: gut geplante vegane Ernährung kann für gesunde Erwachsene gesundheitsfördernd sein; B12-Präparat ist erforderlich.',
+  sources:[{name:'DGE · Vegane Ernährung (2024)',url:POSITION},{name:'DGE · FAQ B12 & Nährstoffe',url:DGE}],
+  limitation:'Keine individuelle Diagnose oder Einnahmeempfehlung; Sondergruppen (Kinder, Schwangerschaft, Erkrankungen) erfordern fachliche Einschätzung.'
+ },
+ b12dose:{
+  name:'B12-Aufnahme & Präparate',
+  patterns:[/b12.*(?:dos|dosis|hoch|aufnah|absorb)|(?:dos|dosis|aufnah).*b12|b12 overdose/i],
+  answer:{
+   de:'Die hohe Zahl auf dem B12-Präparat bedeutet nicht, dass der Körper alles aufnimmt: Bei höheren Einzeldosen sinkt die prozentuale Aufnahme deutlich. Welche Einnahme sinnvoll ist, hängt von der individuellen Versorgung ab.',
+   en:'A high B12 dose on a label doesn’t mean your body absorbs all of it. The percentage absorbed falls at higher single doses. Appropriate supplementation depends on individual circumstances.'
+  },
+  summary:'NIH Office of Dietary Supplements: die prozentuale Aufnahme von B12 nimmt bei hohen Einzeldosen ab; beispielsweise werden bei 500 µg rund 2 % absorbiert.',
+  sources:[{name:'NIH · Vitamin B12, Bioverfügbarkeit',url:NIH}],
+  limitation:'Keine persönliche Dosierung oder Entwarnung bei Verdacht auf Mangel; ärztliche Beratung ist bei konkreten Gesundheitsfragen sinnvoll.'
+ },
+ sentience:{
+  name:'Tiere als fühlende Wesen',
+  patterns:[/tiere.*f[uü]hl|tiere.*leid|tiere.*schmerz|schweine.*f[uü]hl|animal sentience|animals feel pain|animals suffer/i],
+  answer:{
+   de:'Die EU erkennt Tiere ausdrücklich als fühlende Wesen an. Welche Verantwortung daraus folgt, ist eine ethische Frage – aber das Wohl der Tiere verdient in der Diskussion einen eigenen Platz.',
+   en:'EU law recognises animals as sentient beings. What moral duties follow is an ethical question, but their welfare deserves to be taken seriously in the discussion.'
+  },
+  summary:'Art. 13 AEUV: die EU und Mitgliedstaaten tragen dem Wohlergehen von Tieren als fühlenden Wesen bei verschiedenen Politikbereichen Rechnung.',
+  sources:[{name:'EUR-Lex · Artikel 13 AEUV',url:EU}],
+  limitation:'EU-Recht belegt die rechtliche Anerkennung, nicht die subjektiven Erfahrungen jedes einzelnen Tiers oder eine bestimmte ethische Schlussfolgerung.'
+ }
+};
+const REPLIES=['antworten','reply','respond','répondre','responder','rispondi'];
+const SENSITIVE=/\b(schwanger|schwangerschaft|stillend|baby|babys|kinder|minderjaehr|minderjähr|pregnan|child|infant|stillen|medikament|diagnose|eating disorder|essst[oö]rung|suizid|suicide|kill yourself|t[oö]ten|threat|drohung)\b/i;
+const PRIVATE=/(?:[\w.+-]+@[\w.-]+\.[a-z]{2,}|\+?\d[\d()\s-]{8,}\d)/i;
+const norm=s=>String(s||'').replace(/\s+/g,' ').trim();
+function classify(text){
+ const s=norm(text);
+ if(s.length<9)return {state:'unknown',reason:'Kommentar zu kurz oder nicht erkennbar.'};
+ if(s.length>1400)return {state:'unknown',reason:'Mehrere Kommentare oder zu viel Kontext – bitte den genauen Kommentar wählen.'};
+ if(SENSITIVE.test(s)||PRIVATE.test(s))return {state:'unsafe',reason:'Sensible oder private Angaben: kein automatischer Antwortvorschlag.'};
+ const variants=Object.entries(TOPICS).filter(([id,v])=>v.patterns.some(p=>p.test(s)));
+ if(variants.some(([id])=>id==='b12dose'))return {state:'reviewed',id:'b12dose'};
+ if(variants.length===0)return {state:'unknown',reason:'Dazu haben wir noch keinen vorab geprüften Antworttext.'};
+ if(variants.some(([id])=>id==='forest'))return {state:'reviewed',id:'forest'};
+ if(variants.length>1)return {state:'unknown',reason:'Mehrere Themen erkannt. Der Kontext ist nicht eindeutig.'};
+ return {state:'reviewed',id:variants[0][0]};
+}
+function language(text){
+ const s=norm(text).toLowerCase();
+ return /\b(what|why|how|but|does|isn't|don.t|is|are|crop|protein|animals|veganism|deforestation|soybeans|vitamin|from|with)\b/.test(s)&&
+ !/\b(aber|warum|wie|doch|und|nicht|tiere|für|beim|denn|proteinbedarf)\b/.test(s)?'en':'de';
+}
+function suggest(text){
+ const result=classify(text);
+ if(result.state!=='reviewed')return result;
+ const t=TOPICS[result.id];
+ return {...result,topic:t.name,text:t.answer[language(text)],sources:t.sources,summary:t.summary,limitation:t.limitation,reviewedAt:REVIEWED_AT};
+}
+function normalReplyLabel(s){return REPLIES.includes(norm(s).toLowerCase().replace(/[.!:]+$/,''));}
+function cleanLine(s){
+ return norm(s).replace(/^(?:\d+[smhdw]|\d+\s*(?:min|std|tag|tage|h|m))\s+/i,'')
+  .replace(/^(?:gefällt mir|like|reply|antworten|übersetzung ansehen|see translation|view replies)\s*$/i,'');
+}
+function extractComment(rootEl,trigger){
+ if(!rootEl)return '';
+ const texts=[];
+ const nodes=rootEl.querySelectorAll?rootEl.querySelectorAll('span[dir="auto"], span[dir="ltr"], p, [data-comment-text], h3'):[];
+ for(const n of nodes){
+  if(n.closest?.('[data-av-control]'))continue;
+  if(n.children?.length&&Array.from(n.children).some(c=>c.matches?.('span[dir],p,[data-comment-text]')))continue;
+  const txt=cleanLine(n.innerText||n.textContent||'');
+  if(txt.length<11||txt.length>1400||normalReplyLabel(txt))continue;
+  if(/^(?:\d+[smhdw]|gefällt mir|like|view replies|antworten|reply|see translation)$/i.test(txt))continue;
+  if(!texts.includes(txt))texts.push(txt);
+ }
+ if(texts.length===1)return texts[0];
+ if(texts.length>1){
+  // Prefer a single substantive span rather than concatenating unrelated thread contents.
+  return texts.filter(t=>t.split(/\s+/).length>=3).sort((a,b)=>b.length-a.length)[0]||texts[0];
+ }
+ let fallback=norm(rootEl.innerText||rootEl.textContent||'').replace(/\b(Reply|Antworten|Like|Gefällt mir|See translation|Übersetzung ansehen)\b/gi,' ').trim();
+ return fallback.length<=450?fallback:'';
+}
+function nearestCommentRoot(node){
+ let curr=node;
+ for(let i=0;curr&&i<11;i++,curr=curr.parentElement){
+  if(curr.matches?.('li,[role="listitem"],[data-av-demo-comment]')){
+   const text=norm(curr.innerText||curr.textContent||'');
+   if(text.length>=12&&text.length<=2200)return curr;
+  }
+ }
+ // Fallback when Instagram does not use list items.
+ curr=node;
+ for(let i=0;curr&&i<8;i++,curr=curr.parentElement){
+  if(curr===document.body||curr===document.documentElement)break;
+  const text=norm(curr.innerText||curr.textContent||'');
+  if(text.length>=24&&text.length<=700&&curr.querySelector?.('span[dir],p,[data-comment-text]'))return curr;
+ }
+ return null;
+}
+const API={VERSION,REVIEWED_AT,TOPICS,classify,suggest,language,normalReplyLabel,extractComment};
+if(typeof module==='object'&&module.exports)module.exports=API;
+if(!root?.document||!root?.location)return;
+const demo=root.location.pathname.startsWith('/instagram-demo');
+if(!demo&&!/^\/?(?:www\.)?instagram\.com$/i.test(root.location.hostname))return;
+if(root.__AV_INSTAGRAM_ACTIVE__)return;
+root.__AV_INSTAGRAM_ACTIVE__=true;
+const doc=root.document,seen=new WeakSet();
+let selected=null,replyTrigger=null,sheet=null,overlayRoot=null,pickMode=false,observer=null,scanTimer=0;
+const make=(tag,props={},txt)=>{
+ const el=doc.createElement(tag);
+ for(const [k,v] of Object.entries(props)){
+  if(k==='class')el.className=v;
+  else if(k==='type')el.type=v;
+  else if(k==='role')el.setAttribute(k,v);
+  else if(k==='aria-label')el.setAttribute(k,v);
+ }
+ if(txt!==undefined)el.textContent=txt;
+ return el;
+};
+function safeFill(composer,text){
+ if(!composer||!text)return false;
+ try{
+  composer.focus();
+  if(composer.matches?.('textarea,input')){
+   const proto=composer.tagName==='TEXTAREA'?root.HTMLTextAreaElement?.prototype:root.HTMLInputElement?.prototype;
+   const setter=proto&&Object.getOwnPropertyDescriptor(proto,'value')?.set;
+   if(setter)setter.call(composer,text);else composer.value=text;
+   composer.dispatchEvent(new root.Event('input',{bubbles:true}));
+   composer.dispatchEvent(new root.Event('change',{bubbles:true}));
+   return norm(composer.value)===norm(text);
+  }
+  if(composer.matches?.('[contenteditable="true"]')){
+   // App-specific React/Meta editors can reject synthetic input. Do not force a submit.
+   const selection=root.getSelection?.(),range=doc.createRange?.();
+   if(selection&&range){range.selectNodeContents(composer);range.collapse(false);selection.removeAllRanges();selection.addRange(range);}
+   if(doc.execCommand?.('insertText',false,text)){
+    composer.dispatchEvent(new root.Event('input',{bubbles:true}));
+    if(norm(composer.innerText||composer.textContent)===norm(text))return true;
+   }
+  }
+ }catch{}
+ return false;
+}
+function visible(node){
+ if(!node||!node.isConnected)return false;
+ const rect=node.getBoundingClientRect?.();
+ return !!rect&&rect.width>0&&rect.height>0;
+}
+function findComposer(from){
+ const candidates=Array.from(doc.querySelectorAll('textarea,[contenteditable="true"],input[placeholder],[role="textbox"]'))
+  .filter(n=>visible(n)&&!n.closest?.('[data-av-control]')&&(n.matches?.('textarea,[contenteditable="true"]')||/comment|kommentar|antwort|reply/i.test(n.getAttribute?.('placeholder')||'')));
+ if(!candidates.length)return null;
+ const active=doc.activeElement;
+ if(active&&candidates.includes(active))return active;
+ if(from){
+  const inRoot=candidates.find(n=>from.contains?.(n)||from.parentElement?.contains(n));
+  if(inRoot)return inRoot;
+ }
+ return candidates.length===1?candidates[0]:null;
+}
+function chooseComment(node,trigger){
+ const rootEl=nearestCommentRoot(node)||node.closest?.('[data-av-demo-comment]')||node;
+ const txt=extractComment(rootEl,trigger);
+ selected={root:rootEl,text:txt};replyTrigger=trigger||null;
+ pickMode=false;showPanel();
+}
+function closePanel(){
+ sheet?.remove();sheet=null;overlayRoot=null;selected=null;replyTrigger=null;
+}
+function showPanel(){
+ if(!selected)return;
+ if(sheet)closePanel();
+ const backdrop=make('div',{class:'av-shade','data-av-control':''});
+ backdrop.setAttribute('data-av-control','1');
+ const host=make('section',{class:'av-panel','data-av-control':''});host.setAttribute('data-av-control','1');host.setAttribute('role','dialog');host.setAttribute('aria-modal','true');host.setAttribute('aria-label','Animal Voices Antwortvorschlag');
+ const shadow=host.attachShadow({mode:'open'});
+ shadow.innerHTML=`<style>
+ :host{all:initial;font:14px/1.48 -apple-system,BlinkMacSystemFont,system-ui,sans-serif;color:#203b2b}
+ *,*:before,*:after{box-sizing:border-box}
+ .sheet{background:#fbfdf8;border:1px solid #d7e6d5;border-radius:20px 20px 0 0;box-shadow:0 -14px 44px #122f2340;max-height:min(85dvh,740px);overflow-y:auto;padding:16px max(17px,env(safe-area-inset-right)) calc(18px + env(safe-area-inset-bottom)) max(17px,env(safe-area-inset-left))}
+ header{display:flex;align-items:center;justify-content:space-between;gap:10px}
+ h2{font-size:18px;margin:5px 0;color:#204732}
+ .title{font-size:14px;font-weight:800;color:#286341}
+ .desc{font-size:11px;color:#708873;margin:4px 0 10px}
+ button{font:inherit;cursor:pointer;border:0;border-radius:11px}
+ button:focus-visible,textarea:focus-visible,a:focus-visible{outline:3px solid #75aa78;outline-offset:3px}
+ .x{background:#edf3e8;color:#426d4c;padding:8px 12px;font-size:16px}
+ .label{font-size:11px;font-weight:800;color:#597460;margin:13px 0 5px;display:block}
+ textarea{resize:vertical;width:100%;border-radius:12px;border:1px solid #d6e3d5;padding:12px;font:14px/1.52 system-ui,sans-serif;color:#254a34;background:white;min-height:63px}
+ #av-proposal{min-height:94px;font-size:15px;background:#f1f7ed}
+ .pill{border-radius:40px;background:#e3f2df;color:#2f7442;padding:5px 9px;font-size:10px;font-weight:800}
+ .unverified{background:#fff0d8;color:#935f2b}
+ .row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+ .micro{font-size:11px;color:#6f876f;margin:7px 0;line-height:1.5}
+ a{color:#316c48;overflow-wrap:anywhere}
+ details{border-top:1px solid #e1eadb;padding:10px 0;margin:12px 0}
+ summary{font-size:12px;color:#3e7150;font-weight:760;cursor:pointer}
+ .source{padding-top:5px}
+ .actions{display:flex;gap:9px;margin-top:11px}
+ .primary{background:#22583c;color:white;font-weight:800;padding:13px 14px;flex:1;min-height:48px}
+ .secondary{background:#e8f2e4;color:#336543;font-weight:720;padding:12px;min-height:48px}
+ .status{margin:9px 0 0;font-size:12px;color:#406f4b;font-weight:650}
+ .alert{color:#995b32;background:#fff4e3;padding:11px;border-radius:9px}
+ .small{font-size:10px}
+ </style>
+ <div class="sheet">
+ <header><div><div class="title">✳ Animal Voices</div><div class="desc">Direkt auf Instagram · du entscheidest</div></div><button class="x" id="av-close" aria-label="Schließen">×</button></header>
+ <label class="label" for="av-comment">Ausgewählter Kommentar · bitte bestätigen</label>
+ <textarea id="av-comment" rows="2" maxlength="1400"></textarea>
+ <div class="row" style="margin-top:11px"><strong style="font-size:12px">Antwortvorschlag</strong><span class="pill" id="av-status-pill">Wird geprüft</span></div>
+ <p class="micro" id="av-topic"></p>
+ <textarea id="av-proposal" rows="3" maxlength="1200" placeholder="Für diese Frage liegt noch keine vorab geprüfte Antwort vor."></textarea>
+ <details id="av-evidence" open><summary>Vorab geprüfte Aussage & Quellen ansehen</summary><div id="av-sources"></div></details>
+ <p class="micro" id="av-hint">Keine automatische Veröffentlichung. Deine Übernahme ist immer freiwillig.</p>
+ <div class="actions"><button class="secondary" id="av-copy">Kopieren</button><button class="primary" id="av-insert">In Antwortfeld einsetzen</button></div>
+ <p class="status" role="status" aria-live="polite" id="av-feedback"></p>
+ </div>`;
+ doc.body.append(backdrop,host);
+ sheet=host;overlayRoot=shadow;
+ const box=shadow.getElementById('av-comment'),proposal=shadow.getElementById('av-proposal'),feedback=shadow.getElementById('av-feedback');
+ box.value=selected.text;
+ shadow.getElementById('av-close').addEventListener('click',closePanel);
+ backdrop.addEventListener('click',closePanel);
+ function update(){
+  const result=suggest(box.value),pill=shadow.getElementById('av-status-pill'),src=shadow.getElementById('av-sources');
+  src.replaceChildren();feedback.textContent='';
+  if(result.state==='reviewed'){
+   pill.textContent='✓ Aussage vorab geprüft';pill.className='pill';
+   shadow.getElementById('av-topic').textContent=result.topic+' · Quellenstand '+result.reviewedAt+' · kein Live-Check des Kommentars';
+   proposal.value=result.text;proposal.readOnly=false;
+   const p=make('p',{},result.summary);p.className='micro';src.append(p);
+   for(const ref of result.sources){const a=make('a',{},ref.name+' ↗');a.href=ref.url;a.target='_blank';a.rel='noopener noreferrer';a.className='source';src.append(a,make('div'))}
+   const lim=make('p',{},'Grenze: '+result.limitation);lim.className='micro';src.append(lim);
+   shadow.getElementById('av-evidence').open=false;
+  }else{
+   pill.textContent='Nicht vorab geprüft';pill.className='pill unverified';
+   shadow.getElementById('av-topic').textContent=result.reason;
+   proposal.value='';proposal.readOnly=true;
+   const p=make('p',{},'Zu diesem konkreten Kommentar liegt noch keine verlässlich belegte Antwortvorlage vor. Nicht raten – Kontext und Quellen müssen zuerst geprüft werden.');p.className='micro alert';src.append(p);
+   shadow.getElementById('av-evidence').open=true;
+  }
+  shadow.getElementById('av-copy').disabled=result.state!=='reviewed';
+  shadow.getElementById('av-insert').disabled=result.state!=='reviewed';
+  selected.suggestion=result;
+ }
+ box.addEventListener('input',update);
+ update();
+ async function copy(){
+  if(selected?.suggestion?.state!=='reviewed')return false;
+  const text=norm(proposal.value);
+  if(!text){feedback.textContent='Bitte zuerst einen Antworttext eintragen.';return false;}
+  try{await root.navigator.clipboard.writeText(text);feedback.textContent='Kopiert. Du bleibst auf Instagram – füge den Text selbst ins Antwortfeld ein.';return true}
+  catch{proposal.focus();proposal.select();feedback.textContent='Text markiert. Wähle „Kopieren“ über das Textmenü.';return false}
+ }
+ shadow.getElementById('av-copy').addEventListener('click',copy);
+ shadow.getElementById('av-insert').addEventListener('click',async()=>{
+  if(selected?.suggestion?.state!=='reviewed')return;
+  const text=norm(proposal.value);
+  if(!text)return;
+  // Explicit user action only. Clicking Instagram's own Reply opens the appropriate composer.
+  if(replyTrigger?.isConnected){
+   try{replyTrigger.click();}catch{}
+  }
+  // Allow React/Instagram to mount the composer without a fixed server-side selector.
+  await new Promise(resolve=>root.setTimeout(resolve,180));
+  const input=findComposer(selected.root);
+  if(input&&safeFill(input,text)){
+   feedback.textContent='Im Instagram-Antwortfeld eingefügt. Lies die Antwort noch einmal – veröffentliche selbst.';
+   // Keep panel open so the user can inspect/edit; no Enter or Submit event.
+   return;
+  }
+  const copied=await copy();
+  feedback.textContent=copied?'Das Instagram-Antwortfeld wurde nicht sicher erkannt. Text kopiert – bitte direkt hier auf Instagram einfügen.':'Antwortfeld nicht sicher erkannt. Bitte Text manuell übernehmen; nichts wurde veröffentlicht.';
+ });
+}
+function installDock(){
+ const dock=make('button',{type:'button','aria-label':'Animal Voices: Kommentar auswählen'},'✳');
+ dock.id='av-launcher';dock.setAttribute('data-av-control','1');
+ dock.style.cssText='position:fixed;right:14px;bottom:calc(78px + env(safe-area-inset-bottom));z-index:2147483600;width:46px;height:46px;border-radius:50%;border:2px solid white;background:#286342;color:white;font:26px system-ui;box-shadow:0 4px 15px #193d2e55;cursor:pointer';
+ dock.addEventListener('click',()=>{
+  pickMode=!pickMode;
+  dock.textContent=pickMode?'✓':'✳';
+  dock.setAttribute('aria-label',pickMode?'Animal Voices: Tippe jetzt auf einen Kommentar':'Animal Voices: Kommentar auswählen');
+  dock.title=pickMode?'Tippe auf einen sichtbaren Kommentar':'Animal Voices';
+ });
+ doc.body.append(dock);
+ doc.addEventListener('click',e=>{
+  if(!pickMode||e.target.closest?.('[data-av-control]')||sheet?.contains(e.target))return;
+  const n=e.target,comment=nearestCommentRoot(n);
+  // Prefer the nearest legible comment span when layouts lack listitem.
+  const selectedNode=comment||n.closest?.('span[dir],p,[data-comment-text]');
+  if(!selectedNode)return;
+  e.preventDefault();e.stopPropagation();e.stopImmediatePropagation?.();
+  dock.textContent='✳';chooseComment(selectedNode,null);
+ },true);
+}
+function scan(){
+ if(!doc.body)return;
+ const buttons=Array.from(doc.querySelectorAll('button,[role="button"],span')).slice(0,1800);
+ let n=0;
+ for(const native of buttons){
+  if(n>=30)break;
+  if(seen.has(native)||!normalReplyLabel(native.textContent||''))continue;
+  if(native.closest?.('[data-av-control]'))continue;
+  const rootEl=nearestCommentRoot(native);
+  if(!rootEl||!visible(native)){continue}
+  seen.add(native);n++;
+  const control=make('button',{type:'button','aria-label':'Mit Animal Voices auf diesen Kommentar antworten'},'✳ Animal Voices');
+  control.setAttribute('data-av-control','1');
+  control.style.cssText='color:#2f7751;background:#ecf6e9;border:1px solid #d6e9d0;padding:5px 9px;border-radius:20px;font:600 11px system-ui;cursor:pointer;margin-inline-start:9px';
+  control.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();chooseComment(rootEl,native);});
+  native.insertAdjacentElement?.('afterend',control);
+ }
+}
+function scheduleScan(){
+ if(scanTimer)return;
+ scanTimer=root.setTimeout(()=>{scanTimer=0;scan()},650);
+}
+function start(){
+ if(!doc.body){root.setTimeout(start,250);return}
+ installDock();scan();
+ observer=new MutationObserver(scheduleScan);
+ observer.observe(doc.body,{childList:true,subtree:true});
+ root.addEventListener('pagehide',()=>{observer?.disconnect();if(scanTimer)root.clearTimeout(scanTimer)},{once:true});
+}
+start();
+})(typeof window!=='undefined'?window:undefined);
