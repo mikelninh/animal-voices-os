@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f4f6ee"><meta name="referrer" content="no-referrer">
+<meta name="description" content="Mit Animal Voices auf echte Instagram-Kommentare antworten. Einfügen oder Screenshot, prüfen, kopieren, zurück.">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Mit Animal Voices antworten</title>
+<link rel="manifest" href="/manifest.webmanifest"><link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="stylesheet" href="/phone.css?v=1.4.0">
+</head>
+<body>
+<a class="skip" href="#phone-comment">Zum Kommentar springen</a>
+<div class="shell">
+<header class="bar"><a href="/phone.html" class="logo" aria-label="Animal Voices Start"><span class="logo-icon">✳</span><span>animal <strong>voices</strong></span></a><a class="more" href="/daily.html">Studio <span aria-hidden="true">↗</span></a></header>
+<main>
+<div class="hero"><span class="eyebrow">FÜR INSTAGRAM · MOBILE FIRST</span><h1>Mit Animal Voices<br><em>antworten.</em></h1><p>Eine gute Antwort beginnt mit Zuhören. Finde sie, prüfe sie, veröffentliche sie selbst.</p></div>
+<div class="flow-steps" aria-label="Ablauf"><span class="active"><b>1</b> Kommentar</span><span><b>2</b> Vorschlag</span><span><b>3</b> Freigabe</span></div>
+<section class="panel" id="capture" aria-labelledby="capture-title">
+ <div class="section-label"><span class="eyebrow">SCHRITT 01</span><span class="hint">Nichts wird automatisch gepostet</span></div>
+ <h2 id="capture-title">Worauf möchtest du antworten?</h2>
+ <div class="entry-tabs" role="group" aria-label="Kommentar erfassen">
+  <button type="button" id="entry-paste" class="tab active" aria-pressed="true"><span aria-hidden="true">▤</span> Text einfügen</button>
+  <button type="button" id="entry-image" class="tab" aria-pressed="false"><span aria-hidden="true">▧</span> Screenshot</button>
+ </div>
+ <div id="paste-pane">
+  <button type="button" id="paste-clipboard" class="quick-paste"><span><strong>Aus Zwischenablage einfügen</strong><small>Wenn du einen Kommentar kopiert hast</small></span><span aria-hidden="true">↘</span></button>
+ </div>
+ <div id="image-pane" hidden>
+  <label class="file-pick" for="phone-screenshot">Screenshot aus Fotos auswählen <span aria-hidden="true">＋</span></label>
+  <input id="phone-screenshot" type="file" accept="image/png,image/jpeg,image/webp" aria-describedby="image-private">
+  <p id="image-private" class="micro">Das Foto bleibt auf deinem Gerät. Texterkennung läuft lokal im Browser; dafür lädt er OCR-Bibliotheken nach. Am besten vorher genau den Kommentar zuschneiden.</p>
+  <img id="image-preview" class="image-preview" alt="Ausgewählter Screenshot zur Kontrolle" hidden>
+  <button type="button" class="secondary" id="image-read" disabled>Text aus Screenshot erkennen ↗</button>
+  <p id="image-progress" class="micro" role="status" aria-live="polite"></p>
+ </div>
+ <label class="input-label" for="phone-comment">Kommentartext <span class="input-label-sub">bitte auf Genauigkeit prüfen</span></label>
+ <textarea id="phone-comment" rows="4" maxlength="1800" placeholder="Zum Beispiel: „Aber beim Ernten sterben doch auch Tiere?“"></textarea>
+ <div class="under-textarea"><span>Ein Kommentar, keine Namen oder @Handles</span><button type="button" id="phone-clear">Löschen</button></div>
+ <details class="optional" id="post-details"><summary>Originalbeitrag verlinken <span>(optional)</span></summary>
+  <label for="phone-post-url" class="input-label">Instagram-Beitragslink</label>
+  <input id="phone-post-url" type="url" inputmode="url" autocomplete="off" placeholder="https://www.instagram.com/p/…">
+  <p class="micro">Nur für „Zurück zum Beitrag“. Ein Beitragslink enthält den Kommentar nicht automatisch.</p>
+ </details>
+ <p id="capture-status" class="feedback" role="status" aria-live="polite"></p>
+ <button type="button" class="primary big" id="phone-generate">Antwortvorschlag ansehen <span>↗</span></button>
+ <div class="sample"><button type="button" id="phone-sample">Erst mit einem Beispiel ausprobieren</button></div>
+</section>
+<section id="phone-hold" class="panel hold" hidden aria-live="polite">
+ <span class="eyebrow">ZUERST KONTEXT PRÜFEN</span>
+ <h2 id="hold-title">Hier möchten wir nicht raten.</h2><p id="hold-reason"></p>
+ <button type="button" class="secondary" id="hold-back">Kommentar korrigieren</button>
+</section>
+<section id="phone-result" class="panel result" hidden aria-labelledby="answer-title">
+ <div class="section-label"><span class="eyebrow">SCHRITT 02</span><span class="hint">Redaktioneller Entwurf · keine Live-Quellenprüfung</span></div>
+ <h2 id="answer-title">Das könntest du antworten.</h2>
+ <div class="goal-top"><span id="chosen-goal">Verbindung</span><span id="topic-label" class="topic-label"></span></div>
+ <label for="phone-reply" class="sr-only">Antwort bearbeiten</label>
+ <textarea id="phone-reply" rows="4" maxlength="2000" spellcheck="true"></textarea>
+ <div class="reply-bottom"><span id="reply-words">0 Wörter</span><span>Bearbeitbar · du hast das letzte Wort</span></div>
+ <div class="goal-switch" role="group" aria-label="Gesprächsziel wählen">
+  <button type="button" data-goal="connect" aria-pressed="false">♡ Verbinden</button>
+  <button type="button" data-goal="clarify" aria-pressed="false">✦ Verstehen</button>
+  <button type="button" data-goal="explore" aria-pressed="false">↗ Neugier</button>
+  <button type="button" data-goal="act" aria-pressed="false">✳ Möglichkeit</button>
+ </div>
+ <p class="micro goal-note" id="goal-note"></p>
+ <details id="phone-ai" class="ai-fold">
+  <summary>Optional: mit KI verbessern <span>Privater Test</span></summary>
+  <label class="input-label" for="phone-code">Redaktionscode, nicht dein Instagram-Passwort</label>
+  <input id="phone-code" type="password" autocomplete="off" spellcheck="false" placeholder="AVOS_EDITOR_CODE">
+  <label class="check"><input id="phone-ai-consent" type="checkbox"><span>Ich stimme zu, dass dieser anonymisierte Kommentar und der Entwurf für diesen einen KI-Test übertragen werden.</span></label>
+  <button type="button" id="phone-ai-run" class="secondary">KI-Vorschlag prüfen ↗</button>
+  <p id="phone-ai-status" class="micro" role="status" aria-live="polite"></p>
+  <div id="phone-ai-comparison" class="model-proposal" hidden><strong>Neuer KI-Vorschlag – noch nicht freigegeben</strong><p id="phone-ai-text"></p>
+   <div class="actions"><button type="button" class="secondary" id="phone-ai-keep">Original behalten</button><button type="button" class="primary" id="phone-ai-use">Vorschlag übernehmen</button></div>
+  </div>
+ </details>
+ <div class="review" id="review-section">
+  <div class="section-label"><span class="eyebrow">SCHRITT 03</span><span class="hint">Kurz prüfen, dann kopieren</span></div>
+  <h3>Fakten & Grenzen</h3>
+  <p id="source-limit" class="micro"></p>
+  <div id="source-links" class="source-links"></div>
+  <label class="check"><input id="phone-reviewed" type="checkbox" disabled><span>Ich habe die Originalquelle und den Antworttext selbst geprüft.</span></label>
+  <p id="review-status" class="micro">Öffne zuerst mindestens eine Originalquelle.</p>
+ </div>
+ <button type="button" class="primary big" id="phone-copy" disabled>Geprüfte Antwort kopieren <span>⧉</span></button>
+ <p id="copy-status" class="feedback" role="status" aria-live="polite"></p>
+ <a id="phone-return" class="return-link" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" hidden>Zurück zu Instagram ↗</a>
+ <button type="button" class="secondary new-comment" id="phone-new">Anderen Kommentar beantworten</button>
+</section>
+<section class="help" aria-labelledby="help-title">
+ <h2 id="help-title">So klappt's auf deinem Handy</h2>
+ <details><summary><strong>iPhone · Instagram-Kommentar</strong> <span>⌄</span></summary>
+  <p>Wenn Instagram das Kopieren nicht anbietet: Screenshot machen, in Animal Voices „Screenshot“ wählen und das Bild auswählen. Der erkannte Text wird <strong>vorher</strong> von dir korrigiert. Alternativ: In Fotos mit Apples Live Text kopieren und hier einfügen.</p>
+  <p>Safari → Teilen → „Zum Home-Bildschirm hinzufügen“, um Animal Voices wie eine App zu öffnen.</p>
+ </details>
+ <details><summary><strong>Android · Teilen oder Screenshot</strong> <span>⌄</span></summary>
+  <p>In Chrome „App installieren“ wählen. Bei unterstützten Android-Teilen-Menüs kannst du Animal Voices direkt auswählen. Instagram teilt möglicherweise nur den Post-Link; in dem Fall den Kommentar ergänzen. Alternativ Screenshot auswählen oder Text einfügen.</p>
+ </details>
+ <p class="micro">Diese Web-App kann keine Schaltfläche <strong>innerhalb der nativen Instagram-App</strong> einbauen oder dort eigenständig Kommentare veröffentlichen. Ein Zugriff auf dein Instagram-Konto ist nicht erforderlich.</p>
+</section>
+</main>
+<footer class="foot"><a href="/field-test.html">Mit echten Diskussionsfällen testen</a><a href="/daily.html">Erweiterter Modus</a><span>FOR ANIMALS. WITH HUMANS. ♡</span></footer>
+</div>
+<script src="/data.js?v=1.4.0"></script>
+<script src="/triage.js?v=1.4.0"></script>
+<script src="/context-fit.js?v=1.4.0"></script>
+<script src="/engine.js?v=1.4.0"></script>
+<script src="/strategy-core.js?v=1.4.0"></script>
+<script src="/phone.js?v=1.4.0"></script>
+</body></html>
