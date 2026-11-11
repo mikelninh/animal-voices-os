@@ -25,7 +25,7 @@ async function withEditor(callback){
 function req(mode='improve',extra={}){
  return {method:'POST',headers:{'x-avos-editor':code},body:{text:goodText,persona:'momo',contextType:'auto',consent:true,mode,existingReply:mode==='improve'?oldDraft:'',...extra}};
 }
-function simulatedProvider(supported=true,improves=true){
+function simulatedProvider(supported=true,improves=true,writerReply=null){
  const calls=[];
  global.fetch=async (url,options)=>{
   assert.equal(url,'https://api.openai.com/v1/responses');
@@ -37,7 +37,7 @@ function simulatedProvider(supported=true,improves=true){
   const facts=JSON.parse(payload.input[0].content);
   const second=calls.length%2===0;
   const out=second?{supported,issues:supported?[]:['Claim unsupported'],addresses_comment:true,respects_limitations:true,improves_existing:improves}:
-   {reply:'Fleisch ist kein Trainingsplan. Eine Meta-Analyse randomisierter Studien fand keinen signifikanten Kraftunterschied zwischen den untersuchten Ernährungsformen. Die Studienlage ist noch begrenzt. 💪',
+   {reply:writerReply||'Fleisch ist kein Trainingsplan. Eine Meta-Analyse randomisierter Studien fand keinen signifikanten Kraftunterschied zwischen den untersuchten Ernährungsformen. Die Studienlage ist noch begrenzt. 💪',
     used_source_ids:[facts.sources?.[0]?.id||facts.facts?.sources?.[0]?.id||'strength'],changes:['Konkreter auf die Aussage eingegangen.']};
   return {ok:true,json:async()=>({status:'completed',output:[{content:[{type:'output_text',text:JSON.stringify(out)}]}]})};
  };
@@ -158,5 +158,33 @@ test('Unknown conversation goal is rejected without a paid model call',async()=>
   let called=false;global.fetch=()=>{called=true;throw Error('Model must not be called')};
   const r=res();await assist(req('improve',{goal:'manipulate'}),r);
   assert.equal(r.code,400);assert.equal(called,false);
+ });
+});
+
+test('AI writer and critic are explicitly bilingual and return same-language English',async()=>{
+ await withEditor(async()=>{
+  const reply='You can meet your protein needs using beans, tofu and other plant foods. A varied diet and adequate total intake matter for individual needs.';
+  const calls=simulatedProvider(true,true,reply);
+  const r=res();
+  await assist(req('new',{text:'Can I get enough protein from plant foods?'}),r);
+  assert.equal(r.code,200,JSON.stringify(r.body));
+  assert.equal(r.body.reply_language,'en');
+  assert.equal(r.body.reply,reply);
+  assert.equal(calls.length,2);
+  const writer=JSON.parse(calls[0].input[0].content);
+  assert.equal(writer.language,'en');
+  assert.match(calls[0].instructions,/write English animal welfare dialogue drafts/);
+  assert.match(calls[1].instructions,/English editorial reviewer/);
+  assert.equal(JSON.parse(calls[1].input[0].content).facts.language,'en');
+ });
+});
+test('AI refuses a wrong-language English response before critic call',async()=>{
+ await withEditor(async()=>{
+  const calls=simulatedProvider();
+  const r=res();
+  await assist(req('new',{text:'Can I get enough protein from plant foods?'}),r);
+  assert.equal(r.code,422);
+  assert.equal(r.body.ok,false);
+  assert.equal(calls.length,1,'Do not spend second model call reviewing language-invalid draft');
  });
 });
