@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Animal Voices · Instagram Companion
 // @namespace    https://animal-voices-os.vercel.app/
-// @version      0.2.0
+// @version      0.3.0
 // @description  Einen Instagram-Kommentar auswählen, vorab geprüften Antwortvorschlag ansehen und selbst freigeben. Keine Veröffentlichung durch das Skript.
 // @match        https://www.instagram.com/*
 // @match        https://instagram.com/*
@@ -16,7 +16,7 @@
  */
 (function(root){
 'use strict';
-const VERSION='0.2.0';
+const VERSION='0.3.0';
 const REVIEWED_AT='2026-11-10';
 const OWID='https://ourworldindata.org/land-use-diets';
 const DGE='https://www.dge.de/gesunde-ernaehrung/faq/faqs-vegane-ernaehrung';
@@ -129,6 +129,79 @@ const VARIANTS={
   curious:{de:'Wenn Tiere als fühlende Wesen anerkannt sind – wie sollte ihr Wohlergehen bei unseren Essensentscheidungen zählen? Das EU-Recht erkennt diese Eigenschaft an; die ethischen Konsequenzen müssen wir miteinander aushandeln.',en:'If animals are recognised as sentient beings, how should their welfare count in food choices? EU law acknowledges sentience; the ethical implications are still worth discussing.'}
  }
 };
+// Ethical and everyday obstacles are conversation drafts, not scientifically
+// 'verified' moral conclusions. We only link sources for factual premises.
+TOPICS.taste={
+ name:'Geschmack & persönliche Motivation',
+ patterns:[/fleisch.{0,80}schmeck|schmeck.{0,80}fleisch|geschmack.{0,60}fleisch|meat.{0,80}tast|tast.{0,80}meat|tastes better|taste of meat/i],
+ answer:{
+  de:'Kann ich verstehen: Geschmack ist wichtig. Gleichzeitig betrifft unser Essen auch die Tiere. Vielleicht ist es weniger die Frage, worauf du verzichten musst, sondern ob du pflanzliche Gerichte findest, die dir genauso gut schmecken.',
+  en:'That makes sense: taste matters. But our food choices affect animals too. Maybe the question is not what you must give up, but whether you can find plant-based meals you genuinely enjoy.'
+ },
+ summary:'Diese Antwort ist ein Gesprächsangebot, keine wissenschaftlich geprüfte Behauptung über Geschmack oder persönliche Werte. EU-Recht erkennt Tiere als fühlende Wesen an.',
+ sources:[{name:'EUR-Lex · Tiere als fühlende Wesen (Art. 13)',url:EU}],
+ limitation:'Geschmack ist subjektiv. Die rechtliche Anerkennung tierlicher Empfindungsfähigkeit beweist keine individuelle moralische Pflicht.',
+ evidenceStatus:'editorial'
+};
+TOPICS.cost={
+ name:'Zeit, Kosten & Alltag',
+ patterns:[/vegan.{0,50}teuer|zu teuer|kann ich mir nicht leisten|kostet.{0,30}mehr|zeit.{0,30}kochen|too expensive|can.t afford|cannot afford|afford vegan|plant.based.{0,30}expensive/i],
+ answer:{
+  de:'Das ist ein nachvollziehbares Hindernis – Geld und Zeit sind begrenzt. Wäre es hilfreich, erst ein einziges günstiges, schnelles Gericht auszuprobieren, das in deinen Alltag passt? Ein perfekter Umstieg ist dafür nicht nötig.',
+  en:'That is a real barrier: time and money are limited. Would it help to start with just one quick, affordable meal that fits your routine? It need not be an all-or-nothing change.'
+ },
+ summary:'Redaktionelle Gesprächshilfe: keine aktuellen Preis-, Verfügbarkeits- oder Nährwertvergleiche und keine Behauptung, vegan sei grundsätzlich günstiger.',
+ sources:[],
+ limitation:'Konkrete Einkaufspreise hängen von Ort, Zeit und Zugang ab. Ein Beispielrezept ersetzt keine individuellen Ernährungsinformationen.',
+ evidenceStatus:'editorial'
+};
+TOPICS.ethical_choice={
+ name:'Warum Tierleid beim Essen zählt',
+ patterns:[/why.{0,65}animal.{0,35}suffer.{0,50}matter|why.{0,65}animals?.{0,35}(?:matter|care)|why.{0,55}animal.{0,35}food.choice|warum.{0,55}(?:tierleid|tiere|tieren).{0,45}(?:wichtig|zählen|interessieren)|wieso.{0,55}(?:tierleid|tiere).{0,45}(?:wichtig|zählen)|wenn tiere.{0,60}fühl.{0,60}leben/i],
+ answer:{
+  de:'Weil unsere Essensentscheidungen nicht nur uns betreffen. Wenn Tiere leiden können, verdient ihr Wohlergehen ebenfalls Beachtung. Geschmack, Kosten und Alltag zählen auch – aber Tierleid sollte bei der Entscheidung nicht unsichtbar bleiben.',
+  en:'Because our food choices affect more than just us. If animals can experience suffering, their wellbeing deserves consideration too. Taste, cost and convenience still matter — animal suffering simply should not be invisible in the decision.'
+ },
+ summary:'Ethisches Argument, keine naturwissenschaftlich beweisbare Moralregel. Artikel 13 AEUV erkennt Tiere rechtlich als fühlende Wesen an.',
+ sources:[{name:'EUR-Lex · Artikel 13 AEUV',url:EU}],
+ limitation:'Aus dem EU-Recht folgt nicht automatisch eine bestimmte Ernährungsentscheidung. Die Gewichtung moralischer Interessen ist eine ethische Diskussion.',
+ evidenceStatus:'editorial'
+};
+TOPICS.painless_killing={
+ name:'Töten ohne Schmerzen',
+ patterns:[/töt.{0,55}ohne.{0,30}schmerz|töten.{0,70}schmerz|ohne.{0,30}schmerz.{0,60}(?:tier|töt|ethisch)|painlessly.{0,25}kill|painless.{0,25}kill|kill.{0,60}without pain|slaughter.{0,50}without pain/i],
+ answer:{
+  de:'Auch wenn ein Tier ohne Schmerzen sterben würde, bleibt die Frage nach seinem weiteren Leben. Für manche zählt deshalb nicht nur das Leid beim Sterben, sondern auch, ob wir ihm das Leben für einen vermeidbaren Zweck nehmen dürfen. Das ist eine ethische Abwägung.',
+  en:'Even if an animal could die without pain, there is still a question about the life it would otherwise have lived. For many, ethics is not only about pain during death but whether taking that life is justified when alternatives exist.'
+ },
+ summary:'Philosophische Unterscheidung zwischen Schmerzvermeidung und dem Wert des Weiterlebens. Keine Einigkeit über die moralische Gewichtung.',
+ sources:[{name:'EUR-Lex · Tiere als fühlende Wesen (Art. 13)',url:EU}],
+ limitation:'Artikel 13 AEUV beantwortet die Frage nach moralischer Zulässigkeit schmerzloser Tötung nicht. Kein wissenschaftlicher Beweis einer Moralregel.',
+ evidenceStatus:'editorial'
+};
+const MORE_VARIANTS={
+ taste:{
+  kiki:{de:'Verstehe ich gut – was wir gern essen, ist nicht nebensächlich. Mir hilft die Frage: Könnten wir Genuss und Rücksicht auf Tiere zusammenbringen? Vielleicht gibt es pflanzliche Gerichte, die dich wirklich überzeugen.',en:'I get it. Enjoying food matters. Could we find ways to keep that pleasure while considering animals too? Maybe there are plant-based meals you would genuinely love.'},
+  bao:{de:'Fair! Essen soll Freude machen, nicht nach Hausaufgaben schmecken. 😄 Aber auch die Folgen für Tiere zählen. Vielleicht wäre die spannendere Challenge: Finde ein pflanzliches Gericht, das du freiwillig nochmal bestellst.',en:'Fair! Food should be a pleasure, not homework. 😄 But animals are part of the picture too. How about finding one plant-based dish you would happily order again?'},
+  curious:{de:'Was genau schmeckt dir besser: die Würze, die Konsistenz oder ein bestimmtes Gericht? Vielleicht lohnt es sich, genau dort eine pflanzliche Alternative zu testen – wenn dir die Auswirkungen auf Tiere ebenfalls wichtig sind.',en:'What do you like most about it: the seasoning, the texture or a particular dish? Maybe that is the best place to try an alternative, if you also care about the impact on animals.'}
+ },
+ cost:{
+  kiki:{de:'Kann ich nachvollziehen. Wer wenig Zeit oder Geld hat, braucht keine zusätzlichen Ansprüche. Wenn du magst, suchen wir ein schnelles Gericht ohne teure Spezialprodukte, das zu deinem Budget passt.',en:'I hear you. Limited time and money are real constraints. If you want, we can look for one quick meal without pricey specialty products that actually fits your budget.'},
+  bao:{de:'Völlig fair: Niemand braucht eine teure Einkaufsliste als neue Lebensphilosophie. Vielleicht starten wir mit einem einfachen Gericht aus Zutaten, die du ohnehin kaufst?',en:'Totally fair. No one needs an expensive shopping list as a new lifestyle. What about starting with a simple meal made from ingredients you already buy?'},
+  curious:{de:'Was ist für dich die größere Hürde: Preis, Kochzeit oder Angebot vor Ort? Dann können wir nach genau einer machbaren Alternative suchen – ohne zu behaupten, alles Pflanzliche sei immer günstiger.',en:'What is the biggest barrier for you: price, cooking time or availability? Then we can look for one practical option without pretending plant-based food is always cheaper.'}
+ },
+ ethical_choice:{
+  kiki:{de:'Ich finde, wir dürfen Geschmack und Gewohnheiten wichtig nehmen. Gleichzeitig betrifft unser Essen auch Lebewesen, die leiden können. Deshalb möchte ich ihr Wohlergehen mitbedenken – nicht als Vorwurf, sondern als Teil einer fairen Entscheidung.',en:'I think taste and habits matter. But our food choices also affect living beings who can suffer. That is why I want to consider their wellbeing too — not as an accusation, but as part of a fair decision.'},
+  bao:{de:'Weil auf dem Teller nicht die ganze Geschichte liegt. Tiere können leiden, und ihre Erfahrungen verschwinden nicht, nur weil wir sie nicht sehen. Geschmack ist wichtig – aber vielleicht nicht das einzige Kriterium.',en:'Because there is more to a meal than what reaches the plate. Animals can suffer, even when we do not see it. Taste matters — it just might not be the only consideration.'},
+  curious:{de:'Wenn eine Entscheidung jemand anderem Leid zufügen kann, sollten wir das zumindest mitbedenken? Genau deshalb finde ich Tierwohl beim Essen relevant – neben Geschmack, Preis und Gewohnheit.',en:'If a choice can cause suffering to another being, should that count in our decision? That is why I think animal welfare matters in food choices, alongside taste, cost and convenience.'}
+ },
+ painless_killing:{
+  kiki:{de:'Ich verstehe den Gedanken: Wenn kein Schmerz entsteht, was wäre dann noch das Problem? Für viele geht es auch darum, dass das Tier hätte weiterleben können. Ob wir ihm dieses Leben nehmen dürfen, ist eine echte ethische Frage.',en:'I understand the thought: if there is no pain, what is the harm? For many, the question also concerns the life the animal could have continued living. Whether taking it is justified is a real ethical debate.'},
+  bao:{de:'Eine schmerzlose Tötung würde einen Teil des Problems verändern – nicht zwingend die ganze Frage. Es bleibt: Zählt das weitere Leben des Tieres? Darüber kann man reden, ohne eine fertige Moralformel vorzutäuschen.',en:'A painless death would change one part of the problem, but not necessarily the whole question. Does the animal’s future life count? It is worth discussing without pretending there is a one-line moral proof.'},
+  curious:{de:'Geht es für dich beim Töten nur um Schmerzen – oder zählt auch die Möglichkeit, weiterzuleben? Daran hängt oft, wie wir eine vermeintlich schmerzlose Tötung ethisch einordnen.',en:'Is the only ethical issue pain during death, or does the chance to keep living count too? That distinction often shapes how people think about painless killing.'}
+ }
+};
+for(const [topic,variants] of Object.entries(MORE_VARIANTS))VARIANTS[topic]=variants;
 const REPLIES=['antworten','reply','respond','répondre','responder','rispondi'];
 const SENSITIVE=/\b(schwanger|schwangerschaft|stillend|baby|babys|kind|kinder|kid|kids|children|minor|minderjaehr|minderjähr|pregnan|child|infant|stillen|medikament|diagnose|eating disorder|essst[oö]rung|suizid|suicide|kill yourself|t[oö]ten|threat|drohung)\b/i;
 const PRIVATE=/(?:@[a-z0-9_.]{3,}|[\w.+-]+@[\w.-]+\.[a-z]{2,}|\+?\d[\d()\s-]{8,}\d)/i;
@@ -139,16 +212,32 @@ function classify(text){
  if(s.length>1400)return {state:'unknown',reason:'Mehrere Kommentare oder zu viel Kontext – bitte den genauen Kommentar wählen.'};
  if(SENSITIVE.test(s)||PRIVATE.test(s))return {state:'unsafe',reason:'Sensible oder private Angaben: kein automatischer Antwortvorschlag.'};
  const variants=Object.entries(TOPICS).filter(([id,v])=>v.patterns.some(p=>p.test(s)));
- if(variants.some(([id])=>id==='b12dose'))return {state:'reviewed',id:'b12dose'};
- if(variants.length===0)return {state:'unknown',reason:'Dazu haben wir noch keinen vorab geprüften Antworttext.'};
- if(variants.some(([id])=>id==='forest'))return {state:'reviewed',id:'forest'};
- if(variants.length>1)return {state:'unknown',reason:'Mehrere Themen erkannt. Der Kontext ist nicht eindeutig.'};
+ if(variants.length===0)return {state:'unknown',reason:'Dazu haben wir noch keinen redaktionell geprüften Gesprächsentwurf.'};
+ // Only known supersets/semantic overlaps are resolved. Unrelated topics hold.
+ if(variants.some(([id])=>id==='b12dose')&&variants.every(([id])=>['b12dose','b12'].includes(id)))return {state:'reviewed',id:'b12dose'};
+ if(variants.some(([id])=>id==='ethical_choice')&&variants.every(([id])=>['ethical_choice','sentience'].includes(id)))return {state:'reviewed',id:'ethical_choice'};
+ if(variants.some(([id])=>id==='painless_killing')&&variants.every(([id])=>['painless_killing','sentience'].includes(id)))return {state:'reviewed',id:'painless_killing'};
+ if(variants.length>1)return {state:'unknown',reason:'Mehrere unterschiedliche Themen erkannt. Bitte den Kommentar präzisieren.'};
  return {state:'reviewed',id:variants[0][0]};
 }
+const LANGUAGE_WORDS={
+ de:new Set('aber warum wieso wie doch und nicht kein keine einer einem einen eine ein der die das den dem des beim bei mit für zum zur von vom ich du mir dir ihr wir man wenn obwohl dass weil sondern sollte sollten können kann müsste müssen musst muss schmeckt schmecken fleisch tier tiere tierleid essen einfach besser teurer teuer ist sind sind es gibt schon mal auch ob ohne oder welche welcher woher bekommst bekommen überhaupt genügend genug werden wird ja was halten hältst hören schmerz fühlen'.split(' ')),
+ en:new Set('why what how where when who whose should would could does do did the and but from with our your you we they them their that this these those can enough get getting animal animals suffering suffer pain feel matter choices choice food foods meat taste tastes better because if whether veganism isnt there are is have has why would compared rather still care shouldnt dont should'.split(' '))
+};
 function language(text){
- const s=norm(text).toLowerCase();
- return /\b(what|why|how|but|does|isn't|don.t|is|are|crop|protein|animals|veganism|deforestation|soybeans|vitamin|from|with)\b/.test(s)&&
- !/\b(aber|warum|wie|doch|und|nicht|tiere|für|beim|denn|proteinbedarf)\b/.test(s)?'en':'de';
+ const words=(norm(text).toLowerCase().match(/[\p{L}]+/gu)||[]);
+ let de=0,en=0;
+ for(const word of words){
+  if(LANGUAGE_WORDS.de.has(word))de++;
+  if(LANGUAGE_WORDS.en.has(word))en++;
+ }
+ // Shared words (protein, vegan, vitamin, soy, b12) are intentionally neutral.
+ // A one-word tie is not sufficient to switch away from German.
+ if(en>=2 && en>de)return 'en';
+ if(de>=1 && de>=en)return 'de';
+ // Very short English replies: only trust unmistakable English syntax.
+ if(en>=1 && de===0 && /\b(why|what|how|should|would|could|does|isnt|dont|because)\b/i.test(text))return 'en';
+ return 'de';
 }
 function suggest(text,voice='momo'){
  const result=classify(text);
@@ -156,8 +245,23 @@ function suggest(text,voice='momo'){
  const t=TOPICS[result.id],lang=language(text);
  const id=Object.prototype.hasOwnProperty.call(VOICES,voice)?voice:'momo';
  const candidate=id==='momo'?t.answer[lang]:VARIANTS[result.id]?.[id]?.[lang];
- return {...result,topic:t.name,voice:id,voiceLabel:VOICES[id].label,
-  text:candidate||t.answer[lang],sources:t.sources,summary:t.summary,limitation:t.limitation,reviewedAt:REVIEWED_AT};
+ return {...result,topic:t.name,voice:id,voiceLabel:VOICES[id].label,language:lang,
+  evidenceStatus:t.evidenceStatus||'source_linked',text:candidate||t.answer[lang],
+  sources:t.sources,summary:t.summary,limitation:t.limitation,reviewedAt:REVIEWED_AT};
+}
+const DEFAULT_REASON={
+ factual:'Sachfrage → zuerst eine klare, belegte Erklärung.',
+ reflective:'Ethischer oder persönlicher Einwand → zuerst respektvoll anerkennen.',
+ objection:'Skeptische Frage → zuerst die Sorge ernst nehmen.'
+};
+function recommendVoice(text,topicId){
+ const s=norm(text).toLowerCase();
+ // No hidden moral persuasion optimisation: prefer clear, civil engagement.
+ if(['taste','cost','ethical_choice','painless_killing'].includes(topicId))return 'kiki';
+ if(topicId==='crop'||topicId==='sentience')return 'kiki';
+ if(topicId==='forest'&&/(aber|doch|but|really|fake|lüg|gefälscht)/i.test(s))return 'kiki';
+ if(topicId==='protein'&&/(kann ich|could i|i want|möchte|wie schaffe)/i.test(s))return 'kiki';
+ return 'momo';
 }
 function normalReplyLabel(s){return REPLIES.includes(norm(s).toLowerCase().replace(/[.!:]+$/,''));}
 function cleanLine(s){
@@ -201,7 +305,7 @@ function nearestCommentRoot(node){
  }
  return null;
 }
-const API={VERSION,REVIEWED_AT,TOPICS,VOICES,VARIANTS,classify,suggest,language,normalReplyLabel,extractComment};
+const API={VERSION,REVIEWED_AT,TOPICS,VOICES,VARIANTS,classify,suggest,language,recommendVoice,normalReplyLabel,extractComment};
 if(typeof module==='object'&&module.exports)module.exports=API;
 if(!root?.document||!root?.location)return;
 const demo=root.location.pathname.startsWith('/instagram-demo');
