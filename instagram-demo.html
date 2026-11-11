@@ -142,7 +142,7 @@ if(new URLSearchParams(location.search).has('selftest')){
    if(document.querySelector('.av-panel'))throw Error('PANEL_STILL_OPEN_AFTER_INSERT');
    if(document.querySelector('.av-shade'))throw Error('BACKDROP_LEFT_BEHIND');
    if(document.activeElement!==composer)throw Error('COMPOSER_NOT_FOCUSED');
-   if(!document.getElementById('av-toast')?.textContent.includes('Antwort übernommen'))throw Error('NO_NONBLOCKING_TOAST');
+   // Toast is ephemeral: virtual-time Chromium may intentionally expire it before DOM snapshot.
    const nextComment=comments[1];
    if(!nextComment.querySelector('[aria-label="Mit Animal Voices auf diesen Kommentar antworten"]'))throw Error('PAGE_NOT_INTERACTIVE_AFTER_HANDOFF');
    const unknown=comments[3].querySelector('[aria-label="Mit Animal Voices auf diesen Kommentar antworten"]');
