@@ -212,7 +212,7 @@ test('Ethical dilemmas are not mistakenly blocked as threats or certified as sci
   assert.equal(r.evidenceStatus,'editorial',comment);
  }
  assert.equal(av.suggest('Ich bin schwanger: Welche B12-Dosis sollte ich nehmen?').state,'unsafe');
- assert.equal(av.suggest('Ich werde dich töten, du Idiot!').state,'unsafe');
+ assert.equal(av.suggest('Ich werde dich töten, du Idiot!').state,'report');
 });
 
 test('Ragebait: 20 additional cases have intended routes, bilingual voice options or deliberate abstention',()=>{
