@@ -121,12 +121,30 @@ if(new URLSearchParams(location.search).has('selftest')){
    if(!shadow.getElementById('av-status-pill').textContent.includes('vorab geprüft'))throw Error('MISSING_REVIEW_STATUS');
    if(!shadow.getElementById('av-proposal').value.includes('Soja'))throw Error('MISSING_REVIEWED_DRAFT');
    if(!shadow.getElementById('av-sources').querySelector('a[href^="https://"]'))throw Error('MISSING_SOURCE_LINK');
+   if(document.querySelector('.av-shade'))throw Error('UNEXPECTED_BLOCKING_BACKDROP');
+   const original=shadow.getElementById('av-proposal').value;
+   const replies=new Set([original]);
+   for(const voice of ['kiki','bao','curious']){
+    const choice=shadow.querySelector('[data-av-voice="'+voice+'"]');
+    if(!choice)throw Error('MISSING_VOICE_'+voice);
+    choice.click();
+    const answer=shadow.getElementById('av-proposal').value;
+    if(!answer||answer===original)throw Error('VOICE_NOT_DIFFERENT_'+voice);
+    replies.add(answer);
+    if(choice.getAttribute('aria-pressed')!=='true')throw Error('VOICE_NOT_SELECTED_'+voice);
+   }
+   if(replies.size!==4)throw Error('VOICES_NOT_DISTINCT');
+   shadow.querySelector('[data-av-voice="momo"]').click();
    shadow.getElementById('av-insert').click();
-   await delay(450);
+   await delay(1050);
    const composer=first.querySelector('.compose textarea');
    if(!composer||!composer.value.includes('Soja'))throw Error('NOT_INSERTED_IN_RELEVANT_COMPOSER');
-   if(!shadow.getElementById('av-feedback').textContent.includes('eingefügt'))throw Error('MISSING_MANUAL_APPROVAL_MESSAGE');
-   shadow.getElementById('av-close').click();
+   if(document.querySelector('.av-panel'))throw Error('PANEL_STILL_OPEN_AFTER_INSERT');
+   if(document.querySelector('.av-shade'))throw Error('BACKDROP_LEFT_BEHIND');
+   if(document.activeElement!==composer)throw Error('COMPOSER_NOT_FOCUSED');
+   if(!document.getElementById('av-toast')?.textContent.includes('Antwort übernommen'))throw Error('NO_NONBLOCKING_TOAST');
+   const nextComment=comments[1];
+   if(!nextComment.querySelector('[aria-label="Mit Animal Voices auf diesen Kommentar antworten"]'))throw Error('PAGE_NOT_INTERACTIVE_AFTER_HANDOFF');
    const unknown=comments[3].querySelector('[aria-label="Mit Animal Voices auf diesen Kommentar antworten"]');
    if(!unknown)throw Error('UNKNOWN_BUTTON_NOT_ATTACHED');
    unknown.click();await delay(40);
@@ -136,7 +154,7 @@ if(new URLSearchParams(location.search).has('selftest')){
    if(!shadow.getElementById('av-insert').disabled)throw Error('UNKNOWN_CAN_INSERT');
    if(!shadow.getElementById('av-copy').disabled)throw Error('UNKNOWN_CAN_COPY');
    report.dataset.status='pass';
-   report.textContent='PASS: real DOM comments selected, reviewed draft, source card, manual composer fill; unknown claim held, no publishing';
+   report.textContent='PASS: four distinct voices, no blocking overlay, handoff closes popup and focuses Instagram reply; unknown claim held, no publishing';
   }catch(err){report.dataset.status='fail';report.textContent='FAIL: '+(err?.message||err);}
  })();
 }
