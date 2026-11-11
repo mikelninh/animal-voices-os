@@ -161,12 +161,13 @@ test('Unknown conversation goal is rejected without a paid model call',async()=>
  });
 });
 
+function freshAssistForIsolatedTests(){delete require.cache[require.resolve('../api/assist.js')];return require('../api/assist.js')}
 test('AI writer and critic are explicitly bilingual and return same-language English',async()=>{
  await withEditor(async()=>{
   const reply='You can meet your protein needs using beans, tofu and other plant foods. A varied diet and adequate total intake matter for individual needs.';
   const calls=simulatedProvider(true,true,reply);
   const r=res();
-  await assist(req('new',{text:'Can I get enough protein from plant foods?'}),r);
+  await freshAssistForIsolatedTests()(req('new',{text:'Can I get enough protein from plant foods?'}),r);
   assert.equal(r.code,200,JSON.stringify(r.body));
   assert.equal(r.body.reply_language,'en');
   assert.equal(r.body.reply,reply);
