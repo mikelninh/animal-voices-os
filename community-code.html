@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="de"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f4f7f0"><meta name="referrer" content="no-referrer">
+<meta name="description" content="Der Animal Voices Community Code: Wie wir bei Kritik, Ragebait, Beleidigungen und Drohungen respektvoll und klar reagieren.">
+<title>Animal Voices · Community Code</title>
+<style>
+:root{--bg:#f4f7f0;--ink:#203f2e;--muted:#6d8573;--line:#dce6d7;--dark:#28583e;--paper:#fffefa}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 85% 0,#e4f1dc,transparent 38%),var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,system-ui,sans-serif}
+main{max-width:800px;margin:auto;padding:0 19px}.top{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding:18px 1px}.brand{font-size:19px;font-weight:800;color:var(--ink);text-decoration:none;letter-spacing:-.5px}.brand b{display:inline-grid;place-items:center;background:var(--dark);color:#ebf8c5;width:30px;height:30px;border-radius:9px;margin-right:6px}.top>a:last-child{color:#4d7556;text-decoration:none;font-size:12px;font-weight:750}
+.hero{padding:54px 3px 28px}.eyebrow{font-size:10px;letter-spacing:1.6px;font-weight:850;color:#719874}.hero h1{font-size:clamp(35px,7.5vw,61px);letter-spacing:-2px;line-height:1.06;margin:16px 0;max-width:720px}.hero h1 em{font:italic 400 1em Georgia,serif;color:#81996d}.hero p{max-width:610px;color:var(--muted);font-size:16px}.card{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:25px;margin-bottom:16px;box-shadow:0 12px 32px #1f46280b}h2{font-size:23px;letter-spacing:-.6px;line-height:1.2;margin:4px 0 16px}h3{margin:0;font-size:14px}p{margin:8px 0 11px}.rules{display:grid;gap:0}.rule{display:flex;align-items:flex-start;gap:13px;padding:13px 0;border-bottom:1px solid #edf2e9}.rule:last-child{border-bottom:0}.num{background:#e6f2dc;border-radius:50%;width:28px;height:28px;flex:none;display:grid;place-items:center;color:#43734a;font-size:12px;font-weight:850}.rule p{margin:3px 0;font-size:13px;color:var(--muted)}.rule strong{font-size:14px}
+.control{display:grid;gap:9px;margin:13px 0}.control label{font-weight:750;font-size:12px}.control textarea{width:100%;border:1px solid #cbdccc;border-radius:13px;background:#fff;padding:14px;color:var(--ink);min-height:92px;resize:vertical;font:15px/1.5 system-ui}.control textarea:focus,.control button:focus-visible,.actions button:focus-visible,.actions a:focus-visible,.control input:focus-visible{outline:3px solid #90bf86;outline-offset:2px}
+.examples{display:flex;gap:7px;overflow-x:auto;padding:2px 0 11px}.examples button,.voice-picker button{border:1px solid #dce8d4;background:#f4f8ef;border-radius:11px;padding:9px 12px;cursor:pointer;color:#477052;font:750 12px system-ui;white-space:nowrap}.examples button[aria-pressed=true],.voice-picker button[aria-pressed=true]{background:#286341;color:#fff;border-color:#286341}
+.options{display:flex;gap:12px;flex-wrap:wrap;margin:8px 0 16px}.options label{display:flex;align-items:flex-start;gap:7px;font-size:12px;color:#607f67;max-width:320px}.options input{accent-color:#2a6242;width:16px;height:16px;margin:1px 0 0}
+.recommendation{background:#f2f7ed;border:1px solid #dde8d5;border-radius:15px;padding:17px;margin-top:13px}.recommendation strong{display:block;font-size:17px}.recommendation p{font-size:13px;color:#617969}.recommendation .small{color:#839985;font-size:11px;margin:8px 0 0}.voice-picker{display:flex;flex-wrap:wrap;gap:5px;margin:14px 0}.draft{background:#fff;border:1px solid #dbe8da;border-radius:12px;padding:14px;font-size:14px;line-height:1.63;min-height:70px}.actions{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.actions button,.actions a{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 14px;border:1px solid #d7e4d1;border-radius:10px;text-decoration:none;background:#eaf3e6;color:#366947;font-size:12px;font-weight:800;cursor:pointer}.actions .primary{background:#275b40;color:#fff;border-color:#275b40}.actions button:disabled{opacity:.5;cursor:not-allowed}
+.micro{font-size:11px;color:#7a907d;line-height:1.55}.decision{display:grid;grid-template-columns:1fr auto;gap:9px;align-items:center;border-top:1px solid #e9f0e7;padding:12px 0;font-size:13px}.decision:first-of-type{border-top:0}.decision span:last-child{font-size:11px;color:#6d8a73;text-align:right}
+.metric{display:flex;gap:12px;padding:10px 0;border-top:1px solid #edf1e9}.metric b{font-size:12px;min-width:125px}.metric span{font-size:12px;color:var(--muted)}footer{text-align:center;font-size:11px;color:#92a393;padding:20px 0 40px}
+@media(max-width:480px){main{padding:0 13px}.hero{padding:34px 4px 20px}.hero h1{font-size:39px}.card{padding:19px 16px}.decision{grid-template-columns:1fr;gap:2px}.decision span:last-child{text-align:left}.rule{gap:10px}}
+</style>
+</head><body><main>
+<header class="top"><a class="brand" href="/install.html"><b>✳</b> animal voices</a><a href="/instagram-demo.html">42 Situationen testen ↗</a></header>
+<section class="hero"><span class="eyebrow">DER ANIMAL VOICES CODE · 1.0</span>
+<h1>Kind to people.<br><em>Fierce for animals.</em></h1>
+<p>Wir verteidigen Tiere, ohne Menschen zu Feinden zu machen. Dieser öffentliche Code bestimmt, wie Animal Voices auf Fragen, Spott, Beleidigungen und Gefährdungen reagiert.</p></section>
+<section class="card"><span class="eyebrow">UNSER VERSPRECHEN</span><h2>Sieben Regeln für jedes Gespräch</h2>
+<div class="rules">
+<div class="rule"><span class="num">1</span><div><strong>Würde bewahren</strong><p>Aussagen kritisieren, Menschen nicht herabwürdigen.</p></div></div>
+<div class="rule"><span class="num">2</span><div><strong>Den wahren Kern suchen</strong><p>Echte Fragen verdienen auch dann eine Antwort, wenn sie ungeschickt formuliert sind.</p></div></div>
+<div class="rule"><span class="num">3</span><div><strong>Wahrheit vor Schlagfertigkeit</strong><p>Fakten belegen, ethische Meinungen als solche kennzeichnen und Unsicherheit zugeben.</p></div></div>
+<div class="rule"><span class="num">4</span><div><strong>Humor verbindet</strong><p>Wir lachen über Situationen und Widersprüche, nicht über den Wert eines Menschen.</p></div></div>
+<div class="rule"><span class="num">5</span><div><strong>Niemanden beschämen</strong><p>Kein öffentliches Vorführen, keine Diagnose von Motiven und keine moralische Selbsterhöhung.</p></div></div>
+<div class="rule"><span class="num">6</span><div><strong>Grenzen setzen</strong><p>Kritik bleibt willkommen, Beleidigung, Hass, Doxxing und Drohung nicht.</p></div></div>
+<div class="rule"><span class="num">7</span><div><strong>Die Tür offenlassen</strong><p>Ein respektvoller Abschluss ist wertvoller als das letzte Wort.</p></div></div>
+</div></section>
+<section class="card" id="try"><span class="eyebrow">LIVE · LOKALE ENTSCHEIDUNGSHILFE</span><h2>Wie würden wir reagieren?</h2>
+<p class="micro">Alle Beispiele sind erfunden. Texte bleiben lokal im Browser; hier wird nichts gepostet, gespeichert oder an einen Server gesendet.</p>
+<div class="examples" role="group" aria-label="Beispiel wählen">
+<button type="button" data-example="question" aria-pressed="false">Sachfrage</button>
+<button type="button" data-example="bait" aria-pressed="true">Spott</button>
+<button type="button" data-example="insult" aria-pressed="false">Beleidigung</button>
+<button type="button" data-example="threat" aria-pressed="false">Drohung</button>
+</div>
+<div class="control"><label for="case-input">Kommentar</label><textarea id="case-input" maxlength="1400">Ich esse jetzt zwei Steaks extra für euch 😂</textarea></div>
+<div class="options"><label><input type="checkbox" id="repeat"> Wiederholte Angriffe oder Trolling (von dir beobachtet)</label><label><input type="checkbox" id="own"> Kommentar auf meinem eigenen Beitrag</label></div>
+<div class="recommendation" aria-live="polite">
+<span class="eyebrow">EMPFOHLENE HANDLUNG</span><strong id="decision-title"></strong><p id="decision-why"></p>
+<p class="small" id="decision-guide"></p><p class="small" id="decision-limit"></p>
+<div id="reply-area" hidden>
+<div class="voice-picker" role="group" aria-label="Antwortstimme wählen">
+<button type="button" data-voice="momo" aria-pressed="false">✦ Klar</button>
+<button type="button" data-voice="kiki" aria-pressed="true">♡ Warm</button>
+<button type="button" data-voice="bao" aria-pressed="false">☀ Locker</button>
+<button type="button" data-voice="curious" aria-pressed="false">? Neugierig</button>
+</div>
+<div id="draft" class="draft" aria-live="polite"></div>
+<div class="actions"><button id="copy-draft" class="primary" type="button">Antwort kopieren</button></div>
+</div>
+</div><p class="micro" id="feedback" role="status"></p>
+</section>
+<section class="card"><span class="eyebrow">SO ENTSCHEIDEN WIR</span><h2>Grenzen ohne Zensurreflex</h2>
+<div class="decision"><strong>Ehrliche Kritik</strong><span>Fair antworten und zuhören</span></div>
+<div class="decision"><strong>Spott ohne Frage</strong><span>Weiterziehen oder höchstens einmal humorvoll reagieren</span></div>
+<div class="decision"><strong>Persönliche Beleidigung</strong><span>Einmal Grenze setzen, dann Gespräch beenden</span></div>
+<div class="decision"><strong>Wiederholte Belästigung</strong><span>Einschränken/blockieren; bei Verstößen melden</span></div>
+<div class="decision"><strong>Hass, Drohungen, private Daten</strong><span>Schützen, ggf. Belege sichern, melden – nicht öffentlich diskutieren</span></div>
+<p class="micro">Verbergen/Löschen ist nur bei eigenen Beiträgen oder vorhandenen Moderationsrechten möglich. Auf fremden Beiträgen kann Animal Voices nichts löschen. Das Tool empfiehlt Handlungen, führt sie aber nicht automatisch aus. Die Einordnung ist eine Hilfestellung, keine zuverlässige juristische oder sicherheitsbezogene Einstufung.</p>
+</section>
+<section class="card"><span class="eyebrow">WAS WIR LERNEN WOLLEN</span><h2>Gesprächsqualität statt Lautstärke</h2>
+<div class="metric"><b>Respekt</b><span>Hat die Antwort die Würde der Beteiligten bewahrt?</span></div>
+<div class="metric"><b>Fakten & Fairness</b><span>Waren Aussagen belegt und Grenzen erkennbar?</span></div>
+<div class="metric"><b>Richtige Handlung</b><span>War Antworten, Beenden oder Melden angemessen?</span></div>
+<div class="metric"><b>Wirklicher Dialog</b><span>Gab es eine konstruktive Folgeantwort – sofern freiwillig berichtet?</span></div>
+<p class="micro">Kein „Troll besiegt“-Score. Kein automatisches Auslesen von Instagram-Gesprächen. Unbelegte Wirkungsbehauptungen sind tabu. Für belastbare Ergebnisse brauchen wir später freiwillige, datensparsame Nutzertests und externe Beurteilung.</p>
+<div class="actions"><a class="primary" href="/instagram-demo.html">Mit 42 Beispielen üben ↗</a><a href="/install.html">In Instagram testen ↗</a></div>
+</section>
+<footer>Animal Voices · Für Tiere. Mit Menschen. ♡ · Code v1.0</footer>
+</main>
+<script src="/animal-voices.user.js?v=0.5.0"></script>
+<script>
+(()=>{
+const core=window.AV_COMMUNITY_CORE,by=id=>document.getElementById(id);
+const examples={question:'Warum muss ich Vitamin B12 als Veganer ergänzen?',bait:'Ich esse jetzt zwei Steaks extra für euch 😂',
+ insult:'Ihr seid doch alle Idioten, haltet einfach den Mund!',threat:'Ich werde dich töten, wenn du nochmal was sagst!'};
+let currentVoice='kiki',current=null;
+function render(){
+ if(!core){by('decision-title').textContent='Die Entscheidungshilfe ist nicht verfügbar';return;}
+ const text=by('case-input').value,flags={repeated:by('repeat').checked,ownPost:by('own').checked};
+ const m=core.moderate(text,flags),result=core.suggest(text,currentVoice,flags);
+ current=result;
+ by('decision-title').textContent= m.label;
+ by('decision-why').textContent=m.reason;
+ by('decision-guide').textContent=m.guidance;
+ by('decision-limit').textContent=m.action==='report'?'Keine automatische Meldung oder Löschung. Bei unmittelbarer Gefahr Hilfe vor Ort suchen.':
+  m.action==='boundary'?'Einmal freundlich Grenze setzen. Weitere Angriffe nicht belohnen.':
+  m.action==='optional_one'?'Eine Antwort für stille Mitlesende ist optional, kein Aufruf zum Streit.':'Du entscheidest selbst, ob und wie du reagierst.';
+ const canReply=(result.state==='reviewed'||result.state==='boundary'||result.state==='skip')&&!!result.text;
+ by('reply-area').hidden=!canReply;by('draft').textContent=canReply?result.text:'';
+ by('copy-draft').disabled=!canReply;
+ document.querySelectorAll('[data-voice]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.voice===currentVoice)));
+}
+for(const b of document.querySelectorAll('[data-example]'))b.addEventListener('click',()=>{
+ const name=b.dataset.example;by('case-input').value=examples[name];by('repeat').checked=false;by('own').checked=false;
+ currentVoice=name==='question'?'momo':'kiki';
+ document.querySelectorAll('[data-example]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));render();
+});
+for(const b of document.querySelectorAll('[data-voice]'))b.addEventListener('click',()=>{currentVoice=b.dataset.voice;render()});
+for(const id of ['case-input','repeat','own'])by(id).addEventListener(id==='case-input'?'input':'change',render);
+by('copy-draft').addEventListener('click',async()=>{
+ if(!current?.text)return;
+ try{await navigator.clipboard.writeText(current.text);by('feedback').textContent='Antwort kopiert. Bitte persönlich prüfen, bevor du sie postest.'}
+ catch{by('feedback').textContent='Kopieren nicht möglich. Bitte den Text manuell markieren.'}
+});
+render();
+})();
+</script>
+</body></html>
