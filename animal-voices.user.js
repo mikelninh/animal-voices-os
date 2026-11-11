@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Animal Voices · Instagram Companion
 // @namespace    https://animal-voices-os.vercel.app/
-// @version      0.1.0
+// @version      0.2.0
 // @description  Einen Instagram-Kommentar auswählen, vorab geprüften Antwortvorschlag ansehen und selbst freigeben. Keine Veröffentlichung durch das Skript.
 // @match        https://www.instagram.com/*
 // @match        https://instagram.com/*
@@ -16,7 +16,7 @@
  */
 (function(root){
 'use strict';
-const VERSION='0.1.0';
+const VERSION='0.2.0';
 const REVIEWED_AT='2026-11-10';
 const OWID='https://ourworldindata.org/land-use-diets';
 const DGE='https://www.dge.de/gesunde-ernaehrung/faq/faqs-vegane-ernaehrung';
@@ -91,6 +91,44 @@ const TOPICS={
   limitation:'EU-Recht belegt die rechtliche Anerkennung, nicht die subjektiven Erfahrungen jedes einzelnen Tiers oder eine bestimmte ethische Schlussfolgerung.'
  }
 };
+const VOICES={
+ momo:{label:'Klar',subtitle:'Fakten, ohne Vorträge',emoji:'✦'},
+ kiki:{label:'Warm',subtitle:'Erst verstehen',emoji:'♡'},
+ bao:{label:'Locker',subtitle:'Leicht, aber respektvoll',emoji:'☀'},
+ curious:{label:'Neugierig',subtitle:'Mit einer Frage öffnen',emoji:'?'}
+};
+const VARIANTS={
+ forest:{
+  kiki:{de:'Ich verstehe die Sorge um den Regenwald. Entwaldung durch Soja ist ein echtes Problem. Gerade deshalb lohnt es sich zu fragen, wie viel Soja als Tierfutter endet – und wie wenig direkt in Tofu oder Pflanzendrinks.',en:'I get the concern about rainforests. Soy-linked deforestation is a real problem. That is why it matters how much soy goes to animal feed versus directly into foods like tofu.'},
+  bao:{de:'Beim Soja lohnt sich ein Blick hinter die Kulissen: Der Tofu ist nicht der einzige Kunde. Ein großer Teil wird fürs Tierfutter genutzt. Darum sollten wir beim Regenwaldvergleich auch das Futter mit auf die Rechnung nehmen.',en:'Soy has more customers than tofu makers. A large share goes into animal feed. So if we are comparing rainforest impacts, we have to count the soy used to feed animals too.'},
+  curious:{de:'Würdest du bei der Regenwaldfrage auch das Soja mitzählen, das als Tierfutter verwendet wird? Ein großer Teil der Sojaernte geht in diesen Bereich – nicht direkt in pflanzliche Lebensmittel.',en:'When comparing rainforest impacts, would you also count the soy used as animal feed? A large share goes there rather than directly into plant-based foods.'}
+ },
+ crop:{
+  kiki:{de:'Dass bei der Ernte Tiere sterben können, finde ich ebenfalls wichtig. Vegan bedeutet leider nicht schadenfrei. Der Gedanke ist, vermeidbaren Schaden zu verringern – auch indem wir weniger Flächen für Tiere und ihr Futter brauchen.',en:'Animals harmed during harvest matter too. Eating plant-based does not mean causing zero harm. The aim is to reduce avoidable harm, including by reducing the land needed for livestock and feed.'},
+  bao:{de:'Fairer Punkt: Ein Salat ist kein magisch tierfreies Universum. Aber Tierhaltung braucht zusätzlich Futter und Fläche. Die ehrliche Frage ist also nicht „null Schaden?“, sondern „wie können wir weniger Schaden verursachen?“',en:'Fair point: a salad is not magically harm-free. But raising animals also takes feed and land. The more useful question is not “zero harm?” but “how do we reduce harm?”'},
+  curious:{de:'Was wäre für dich der faire Maßstab: überhaupt keine Schäden oder möglichst wenige vermeidbare Schäden? Beim Vergleich sollten wir auch die Flächen und Futterpflanzen der Tierhaltung mitzählen.',en:'What seems a fair standard to you: zero harm, or as little avoidable harm as possible? A comparison should count the land and feed crops used for livestock too.'}
+ },
+ protein:{
+  kiki:{de:'Gerade bei Sport und Ernährung ist die Proteinfrage verständlich. Du musst deinen Bedarf nicht dem Zufall überlassen: Linsen, Bohnen, Tofu und andere passende Lebensmittel können ihn bei guter Planung auch pflanzlich decken.',en:'Protein is a fair concern, especially if you train. You do not have to leave it to chance: legumes, tofu and other suitable foods can meet protein needs with good planning.'},
+  bao:{de:'Die Muskeln brauchen Protein, keine Mitgliedskarte im Steakclub. 😉 Auch Linsen, Tofu, Bohnen und Co. liefern welches. Entscheidend ist, wie viel du insgesamt isst und ob die Auswahl zu deinem Bedarf passt.',en:'Muscles need protein, not a steak-club membership. 😉 Lentils, tofu and beans provide it too. What matters is sufficient intake and choosing foods that fit your needs.'},
+  curious:{de:'Geht es dir um normalen Alltag oder um Krafttraining? Auch mit Hülsenfrüchten, Sojaprodukten und Getreide lässt sich Protein decken – die sinnvolle Menge hängt aber vom persönlichen Bedarf ab.',en:'Are you asking about everyday nutrition or strength training? Legumes, soy foods and grains can provide protein, but the right total depends on individual needs.'}
+ },
+ b12:{
+  kiki:{de:'Ja, B12 ist bei veganer Ernährung ein wichtiger Punkt – gut, dass du ihn ansprichst. Eine zuverlässige Ergänzung ist nötig. Mit guter Planung und Blick auf weitere kritische Nährstoffe kann die Ernährung für gesunde Erwachsene dennoch funktionieren.',en:'Yes, B12 is an important point for vegans. Reliable supplementation is necessary. With good planning and attention to other critical nutrients, a vegan diet can still support healthy adults.'},
+  bao:{de:'Beim B12 gibt es keinen Trick: Wer vegan isst, sollte zuverlässig supplementieren. Die gute Nachricht ist, dass eine gut geplante vegane Ernährung für gesunde Erwachsene trotzdem gesundheitsfördernd sein kann – nicht ohne Nährstoffplanung.',en:'No magic trick with B12: vegans need reliable supplementation. The good news is that a well-planned vegan diet can still be healthy for adults, as long as other key nutrients are covered too.'},
+  curious:{de:'Wäre es fair, vegane Ernährung danach zu beurteilen, ob sie mit sinnvoller Ergänzung alle wichtigen Nährstoffe liefert? B12 muss zuverlässig supplementiert werden; auch die übrige Versorgung sollte stimmen.',en:'Would you judge a vegan diet by whether it provides all needed nutrients with appropriate supplementation? B12 needs reliable supplementation, alongside attention to other key nutrients.'}
+ },
+ b12dose:{
+  kiki:{de:'Die hohen B12-Zahlen auf Verpackungen können erst einmal seltsam wirken. Der Körper nimmt davon aber nicht alles auf; mit steigender Einzeldosis sinkt der aufgenommene Anteil. Welche Menge passt, ist eine individuelle Frage.',en:'Big B12 numbers on a label can look odd. Your body does not absorb all of it; the percentage absorbed falls as a single dose rises. The right approach depends on individual circumstances.'},
+  bao:{de:'Die Prozentzahl auf dem B12-Etikett ist nicht gleich die Prozentzahl, die im Körper ankommt. Bei höheren Einzeldosen wird nur ein kleinerer Anteil aufgenommen. Deshalb bitte nicht allein von der Packungszahl auf die passende Dosierung schließen.',en:'The number printed on a B12 label is not the number your body absorbs. Higher single doses have a lower absorbed percentage, so the label alone does not determine a suitable dose.'},
+  curious:{de:'Wusstest du, dass die B12-Aufnahme nicht proportional zur Dosis steigt? Der Körper nimmt bei hohen Einzeldosen prozentual weniger auf. Geht es dir um die Erklärung auf dem Etikett oder um eine persönliche Einnahmefrage?',en:'Did you know B12 absorption does not rise proportionally with the dose? Higher single doses have a lower percentage absorbed. Are you asking about the label, or about personal supplementation?' }
+ },
+ sentience:{
+  kiki:{de:'Mir ist wichtig, dass wir Tiere nicht einfach ausblenden. Im EU-Recht werden sie als fühlende Wesen anerkannt. Welche Konsequenzen wir daraus ziehen, können wir respektvoll diskutieren – aber ihr Wohlergehen zählt.',en:'I think animal welfare deserves a place in the conversation. EU law recognises animals as sentient beings. We can respectfully debate what follows ethically, but their welfare matters.'},
+  bao:{de:'Tiere sind keine bloßen Produkte auf vier Beinen. Die EU behandelt sie rechtlich als fühlende Wesen. Über unsere Verantwortung daraus lässt sich streiten – ihr Wohlergehen sollte dabei aber nicht unter den Tisch fallen.',en:'Animals are more than products on legs. EU law recognises them as sentient beings. We can disagree about our duties, but their welfare should not disappear from the discussion.'},
+  curious:{de:'Wenn Tiere als fühlende Wesen anerkannt sind – wie sollte ihr Wohlergehen bei unseren Essensentscheidungen zählen? Das EU-Recht erkennt diese Eigenschaft an; die ethischen Konsequenzen müssen wir miteinander aushandeln.',en:'If animals are recognised as sentient beings, how should their welfare count in food choices? EU law acknowledges sentience; the ethical implications are still worth discussing.'}
+ }
+};
 const REPLIES=['antworten','reply','respond','répondre','responder','rispondi'];
 const SENSITIVE=/\b(schwanger|schwangerschaft|stillend|baby|babys|kind|kinder|kid|kids|children|minor|minderjaehr|minderjähr|pregnan|child|infant|stillen|medikament|diagnose|eating disorder|essst[oö]rung|suizid|suicide|kill yourself|t[oö]ten|threat|drohung)\b/i;
 const PRIVATE=/(?:@[a-z0-9_.]{3,}|[\w.+-]+@[\w.-]+\.[a-z]{2,}|\+?\d[\d()\s-]{8,}\d)/i;
@@ -112,11 +150,14 @@ function language(text){
  return /\b(what|why|how|but|does|isn't|don.t|is|are|crop|protein|animals|veganism|deforestation|soybeans|vitamin|from|with)\b/.test(s)&&
  !/\b(aber|warum|wie|doch|und|nicht|tiere|für|beim|denn|proteinbedarf)\b/.test(s)?'en':'de';
 }
-function suggest(text){
+function suggest(text,voice='momo'){
  const result=classify(text);
  if(result.state!=='reviewed')return result;
- const t=TOPICS[result.id];
- return {...result,topic:t.name,text:t.answer[language(text)],sources:t.sources,summary:t.summary,limitation:t.limitation,reviewedAt:REVIEWED_AT};
+ const t=TOPICS[result.id],lang=language(text);
+ const id=Object.prototype.hasOwnProperty.call(VOICES,voice)?voice:'momo';
+ const candidate=id==='momo'?t.answer[lang]:VARIANTS[result.id]?.[id]?.[lang];
+ return {...result,topic:t.name,voice:id,voiceLabel:VOICES[id].label,
+  text:candidate||t.answer[lang],sources:t.sources,summary:t.summary,limitation:t.limitation,reviewedAt:REVIEWED_AT};
 }
 function normalReplyLabel(s){return REPLIES.includes(norm(s).toLowerCase().replace(/[.!:]+$/,''));}
 function cleanLine(s){
@@ -160,7 +201,7 @@ function nearestCommentRoot(node){
  }
  return null;
 }
-const API={VERSION,REVIEWED_AT,TOPICS,classify,suggest,language,normalReplyLabel,extractComment};
+const API={VERSION,REVIEWED_AT,TOPICS,VOICES,VARIANTS,classify,suggest,language,normalReplyLabel,extractComment};
 if(typeof module==='object'&&module.exports)module.exports=API;
 if(!root?.document||!root?.location)return;
 const demo=root.location.pathname.startsWith('/instagram-demo');
