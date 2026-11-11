@@ -101,7 +101,7 @@ document.querySelectorAll('[data-filter]').forEach(button=>button.addEventListen
  });
 }));
 </script>
-<script src="/animal-voices.user.js?v=0.2.0"></script>
+<script src="/animal-voices.user.js?v=0.3.1"></script>
 <script>
 if(new URLSearchParams(location.search).has('selftest')){
  const report=document.createElement('output');report.id='av-e2e-report';report.dataset.status='running';report.textContent='Running in-page integration test';document.body.append(report);
@@ -122,6 +122,8 @@ if(new URLSearchParams(location.search).has('selftest')){
    if(!shadow.getElementById('av-proposal').value.includes('Soja'))throw Error('MISSING_REVIEWED_DRAFT');
    if(!shadow.getElementById('av-sources').querySelector('a[href^="https://"]'))throw Error('MISSING_SOURCE_LINK');
    if(document.querySelector('.av-shade'))throw Error('UNEXPECTED_BLOCKING_BACKDROP');
+   if(shadow.querySelector('[data-av-voice="kiki"]').getAttribute('aria-pressed')!=='true')throw Error('WRONG_CONTEXT_DEFAULT');
+   shadow.querySelector('[data-av-voice="momo"]').click();
    const original=shadow.getElementById('av-proposal').value;
    const replies=new Set([original]);
    for(const voice of ['kiki','bao','curious']){
