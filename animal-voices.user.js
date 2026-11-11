@@ -383,22 +383,40 @@ function showPanel(){
  shadow.getElementById('av-copy').addEventListener('click',copy);
  shadow.getElementById('av-insert').addEventListener('click',async()=>{
   if(selected?.suggestion?.state!=='reviewed')return;
-  const text=norm(proposal.value);
+  const text=norm(proposal.value),origin=selected.root,trigger=replyTrigger,comment=box.value;
   if(!text)return;
-  // Explicit user action only. Clicking Instagram's own Reply opens the appropriate composer.
-  if(replyTrigger?.isConnected){
-   try{replyTrigger.click();}catch{}
+  // Request clipboard write during the user's tap before any timers or focus changes.
+  let copied=false;
+  const clipboardTask=root.navigator.clipboard?.writeText
+   ? Promise.resolve().then(()=>root.navigator.clipboard.writeText(text)).then(()=>{copied=true},()=>{})
+   : Promise.resolve();
+  // Immediate handoff: remove all Animal Voices UI so Instagram is interactive.
+  closePanel();
+  if(trigger?.isConnected){try{trigger.click()}catch{}}
+  // React may mount the correct input after its Reply action.
+  let input=null,inserted=false;
+  for(let attempt=0;attempt<5;attempt++){
+   await new Promise(resolve=>root.setTimeout(resolve,100+attempt*55));
+   input=findComposer(origin);
+   if(input&&safeFill(input,text)){inserted=true;break}
   }
-  // Allow React/Instagram to mount the composer without a fixed server-side selector.
-  await new Promise(resolve=>root.setTimeout(resolve,180));
-  const input=findComposer(selected.root);
-  if(input&&safeFill(input,text)){
-   feedback.textContent='Im Instagram-Antwortfeld eingefügt. Lies die Antwort noch einmal – veröffentliche selbst.';
-   // Keep panel open so the user can inspect/edit; no Enter or Submit event.
+  await clipboardTask;
+  if(inserted){
+   try{input.focus();input.scrollIntoView({block:'nearest',behavior:'smooth'})}catch{}
+   toast('✓ Antwort übernommen. Jetzt in Instagram prüfen und selbst absenden.');
    return;
   }
-  const copied=await copy();
-  feedback.textContent=copied?'Das Instagram-Antwortfeld wurde nicht sicher erkannt. Text kopiert – bitte direkt hier auf Instagram einfügen.':'Antwortfeld nicht sicher erkannt. Bitte Text manuell übernehmen; nichts wurde veröffentlicht.';
+  if(copied){
+   toast('Antwort kopiert. Direkt in Instagram einfügen und selbst absenden.');
+   return;
+  }
+  // The browser refused clipboard AND the composer was unavailable. Preserve
+  // the draft for manual copying instead of silently dropping the user action.
+  selected={root:origin,text:comment};replyTrigger=trigger;
+  showPanel();
+  const field=sheet?.shadowRoot?.getElementById('av-proposal');
+  if(field){field.value=text;field.focus();field.select()}
+  toast('Einfügen blockiert. Text ist markiert – bitte selbst kopieren.');
  });
 }
 function installDock(){
