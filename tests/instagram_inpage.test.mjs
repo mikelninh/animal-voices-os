@@ -84,17 +84,20 @@ test('Old conversation, screenshots, AI model calls, image uploads and auto-post
  assert.doesNotMatch(code,/graph\.facebook\.com|\/media_publish|\/comments\?access_token/);
  assert.match(code,/function safeFill\(/);
  assert.match(code,/function findComposer\(/);
- assert.match(code,/replyTrigger\.click\(\)/);
- assert.match(code,/append\(backdrop,host\)/);
+ assert.match(code,/trigger\.click\(\)/);
+ assert.match(code,/doc\.body\.append\(host\)/);
+ assert.doesNotMatch(code,/doc\.body\.append\(backdrop/);
  assert.match(code,/aria-modal/);
  assert.match(code,/data-av-control/);
 });
-test('Demo contains four visible independent comment rows and native reply inputs',()=>{
+test('Demo contains twenty-two selectable sample comments and native reply inputs',()=>{
  const comments=(demo.match(/<li data-av-demo-comment>/g)||[]).length;
- assert.equal(comments,4);
+ assert.equal(comments,4); // Four static rows plus eighteen client-generated examples
+ assert.match(demo,/const demoExamples=\[/);
+ assert.match(demo,/22 Beispiel-Kommentare/);
  assert.match(demo,/class="native-reply"/);
  assert.match(demo,/class="compose" hidden/);
- assert.match(demo,/src="\/animal-voices\.user\.js\?v=0\.1\.0"/);
+ assert.match(demo,/src="\/animal-voices\.user\.js\?v=0\.2\.0"/);
  assert.match(demo,/NICHT Instagram/);
  assert.match(demo,/wird grundsätzlich nichts veröffentlicht/);
 });
@@ -110,4 +113,41 @@ test('Clean text function extracts an isolated comment span, not neighboring use
  const span=(text)=>({innerText:text,textContent:text,children:[],closest:()=>null});
  const comment={querySelectorAll:()=>[span('Aber für Soja wird doch der Regenwald abgeholzt?')],innerText:'username Aber für Soja wird doch der Regenwald abgeholzt? Antworten'};
  assert.equal(av.extractComment(comment,null),'Aber für Soja wird doch der Regenwald abgeholzt?');
+});
+
+test('Four truly distinct voices for each supported topic, in German and English',()=>{
+ assert.deepEqual(Object.keys(av.VOICES).sort(),['bao','curious','kiki','momo'].sort());
+ const examples=[
+  'Aber für Soja wird doch der Regenwald abgeholzt?',
+  'Aber bei der Ernte sterben doch auch Tiere?',
+  'Woher bekommst du genug Protein ohne Fleisch?',
+  'B12 muss man doch bei veganer Ernährung ergänzen.',
+  'Warum sind B12 Dosen so hoch?',
+  'Tiere fühlen doch auch Schmerz!',
+  'Why are crop deaths ignored in veganism?',
+  'Can I get enough protein from plant foods?'
+ ];
+ for(const example of examples){
+  const results=Object.keys(av.VOICES).map(v=>av.suggest(example,v));
+  assert.equal(new Set(results.map(r=>r.text)).size,4,'Duplicate voice text for '+example);
+  assert.ok(results.every(r=>r.state==='reviewed'),example);
+  assert.deepEqual(results.map(r=>r.id),Array(4).fill(results[0].id));
+  assert.deepEqual(results.map(r=>r.sources),Array(4).fill(results[0].sources));
+  for(const r of results)assert.ok(r.text.length>=65,'Too short: '+example+' '+r.voice);
+ }
+});
+test('Changing voices does not reclassify unknown or sensitive comments as verified',()=>{
+ const examples=['Eine andere Frage ohne belegtes Thema',
+ 'Ich bin schwanger, wie viel B12 brauche ich?',
+ 'Mein Kind braucht Proteine – was soll es essen?'];
+ for(const example of examples){
+  for(const voice of Object.keys(av.VOICES))assert.notEqual(av.suggest(example,voice).state,'reviewed');
+ }
+});
+test('Handoff removes panel, reports nonblocking feedback and never clicks publish',()=>{
+ assert.match(code,/closePanel\(\);\s*\/\/ Important|closePanel\(\);\s*if\(trigger/);
+ assert.match(code,/toast\('✓ Antwort übernommen/);
+ assert.match(code,/input\.focus\(\)/);
+ assert.doesNotMatch(code,/\bsubmit\(\)|click\(\s*['"]publish/);
+ assert.match(code,/doc\.querySelectorAll\('\.av-shade'\)/);
 });
