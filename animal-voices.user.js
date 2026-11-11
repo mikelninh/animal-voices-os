@@ -276,20 +276,20 @@ function chooseComment(node,trigger){
  pickMode=false;showPanel();
 }
 function closePanel(){
- sheet?.remove();sheet=null;overlayRoot=null;selected=null;replyTrigger=null;
+ sheet?.remove();
+ // Also clear leftover backdrops from the previous userscript version, if any.
+ doc.querySelectorAll('.av-shade').forEach(el=>el.remove());
+ sheet=null;overlayRoot=null;selected=null;replyTrigger=null;
 }
 function showPanel(){
  if(!selected)return;
- const backdrop=make('div',{class:'av-shade','data-av-control':''});
- backdrop.setAttribute('data-av-control','1');
- backdrop.style.cssText='position:fixed;inset:0;background:#0b211e65;z-index:2147483601;touch-action:none';
- const host=make('section',{class:'av-panel','data-av-control':''});host.setAttribute('data-av-control','1');host.setAttribute('role','dialog');host.setAttribute('aria-modal','true');host.setAttribute('aria-label','Animal Voices Antwortvorschlag');
- host.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:2147483602;display:block;margin:0;padding:0;box-sizing:border-box;color:#234c32';
+ const host=make('section',{class:'av-panel','data-av-control':''});host.setAttribute('data-av-control','1');host.setAttribute('role','dialog');host.setAttribute('aria-modal','false');host.setAttribute('aria-label','Animal Voices Antwortvorschlag');
+ host.style.cssText='position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));max-width:540px;margin:0 auto;z-index:2147483602;display:block;padding:0;box-sizing:border-box;color:#234c32';
  const shadow=host.attachShadow({mode:'open'});
  shadow.innerHTML=`<style>
  :host{all:initial;font:14px/1.48 -apple-system,BlinkMacSystemFont,system-ui,sans-serif;color:#203b2b}
  *,*:before,*:after{box-sizing:border-box}
- .sheet{background:#fbfdf8;border:1px solid #d7e6d5;border-radius:20px 20px 0 0;box-shadow:0 -14px 44px #122f2340;max-height:min(85dvh,740px);overflow-y:auto;padding:16px max(17px,env(safe-area-inset-right)) calc(18px + env(safe-area-inset-bottom)) max(17px,env(safe-area-inset-left))}
+ .sheet{background:#fbfdf8;border:1px solid #c5ddc9;border-radius:20px;box-shadow:0 6px 34px #122f2344;max-height:min(83dvh,720px);overflow-y:auto;overscroll-behavior:contain;padding:16px}
  header{display:flex;align-items:center;justify-content:space-between;gap:10px}
  h2{font-size:18px;margin:5px 0;color:#204732}
  .title{font-size:14px;font-weight:800;color:#286341}
@@ -308,7 +308,7 @@ function showPanel(){
  details{border-top:1px solid #e1eadb;padding:10px 0;margin:12px 0}
  summary{font-size:12px;color:#3e7150;font-weight:760;cursor:pointer}
  .source{padding-top:5px}
- .actions{display:flex;gap:9px;margin-top:11px}
+ .actions{display:flex;gap:9px;margin-top:12px;position:sticky;bottom:-16px;background:#fbfdf8;padding:13px 0 16px}
  .primary{background:#22583c;color:white;font-weight:800;padding:13px 14px;flex:1;min-height:48px}
  .secondary{background:#e8f2e4;color:#336543;font-weight:720;padding:12px;min-height:48px}
  .status{margin:9px 0 0;font-size:12px;color:#406f4b;font-weight:650}
@@ -324,16 +324,15 @@ function showPanel(){
  <textarea id="av-proposal" rows="3" maxlength="1200" placeholder="Für diese Frage liegt noch keine vorab geprüfte Antwort vor."></textarea>
  <details id="av-evidence" open><summary>Vorab geprüfte Aussage & Quellen ansehen</summary><div id="av-sources"></div></details>
  <p class="micro" id="av-hint">Keine automatische Veröffentlichung. Deine Übernahme ist immer freiwillig.</p>
- <div class="actions"><button class="secondary" id="av-copy">Kopieren</button><button class="primary" id="av-insert">In Antwortfeld einsetzen</button></div>
+ <div class="actions"><button class="secondary" id="av-copy">Kopieren</button><button class="primary" id="av-insert">Antwort übernehmen ↗</button></div>
  <p class="status" role="status" aria-live="polite" id="av-feedback"></p>
  </div>`;
- doc.body.append(backdrop,host);
+ doc.body.append(host);
  sheet=host;overlayRoot=shadow;
  const box=shadow.getElementById('av-comment'),proposal=shadow.getElementById('av-proposal'),feedback=shadow.getElementById('av-feedback');
  let proposalModified=false;
  box.value=selected.text;
  shadow.getElementById('av-close').addEventListener('click',closePanel);
- backdrop.addEventListener('click',closePanel);
  function update(){
   proposalModified=false;
   const result=suggest(box.value),pill=shadow.getElementById('av-status-pill'),src=shadow.getElementById('av-sources');
