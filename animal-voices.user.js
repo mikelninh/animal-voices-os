@@ -265,6 +265,55 @@ const REPLIES=['antworten','reply','respond','répondre','responder','rispondi']
 const SENSITIVE=/\b(schwanger|schwangerschaft|stillend|baby|babys|kind|kinder|kid|kids|children|minor|minderjaehr|minderjähr|pregnan|child|infant|stillen|medikament|diagnose|eating disorder|essst[oö]rung|suizid|suicide|kill yourself|töte dich|bring dich um|ich bringe dich um|ich werde dich töten|ich töte dich|i will kill|i'm going to kill|threat|drohung)\b/i;
 const PRIVATE=/(?:@[a-z0-9_.]{3,}|[\w.+-]+@[\w.-]+\.[a-z]{2,}|\+?\d[\d()\s-]{8,}\d)/i;
 const norm=s=>String(s||'').replace(/\s+/g,' ').trim();
+
+// ANIMAL VOICES CODE v0.5: decision support only; no deletion/reporting or posting APIs.
+const COMMUNITY_CODE=[
+'Würde bewahren: Aussagen kritisieren, nicht Menschen abwerten.',
+'Echte Sorgen suchen und beantworten.',
+'Wahrheit vor Schlagfertigkeit; Wissenschaft von Ethik trennen.',
+'Humor verbindet und schlägt nie nach unten.',
+'Nie beschämen oder Menschen öffentlich vorführen.',
+'Bei Beleidigung, Hass oder Drohung Grenzen setzen.',
+'Die Tür offenlassen, ohne das letzte Wort haben zu müssen.'
+];
+const BOUNDARY_REPLIES={
+de:{momo:'Kritik und andere Meinungen sind willkommen. Persönliche Beleidigungen helfen uns nicht weiter. Über die Sache können wir gern respektvoll sprechen.',
+kiki:'Du musst mir nicht zustimmen. Ich möchte trotzdem respektvoll miteinander reden. Wenn du eine konkrete Frage hast, höre ich gern zu.',
+bao:'Meinungsverschiedenheiten sind okay. 😊 Der Beleidigungswettbewerb fällt heute aber aus. Über die eigentliche Frage spreche ich gern.',
+curious:'Was ist dein eigentlicher Einwand? Ohne persönliche Angriffe können wir ihn gern in Ruhe besprechen.'},
+en:{momo:'Criticism and disagreement are welcome. Personal insults do not move the conversation forward. I am happy to discuss the actual issue respectfully.',
+kiki:'You do not have to agree with me. I would still like us to speak respectfully. If you have a specific question, I am listening.',
+bao:'Disagreement is fine. 😊 The insult championship is cancelled today, though. Happy to discuss the actual issue.',
+curious:'What is your actual concern? Without personal attacks, we can discuss it calmly.'}
+};
+const DIRECT_THREAT=/(?:ich\s+(?:werde|will)\s+dich\s+(?:töten|umbringen|verletzen)|ich\s+bringe\s+dich\s+um|ich\s+töte\s+dich|(?:i\s+(?:will|am going to)|i.?ll)\s+(?:kill|hurt)\s+you|kill\s+yourself|bring\s+dich\s+um|töte\s+dich)/i;
+const HATE_OR_TARGETED=/(?:go back to your country|geh zurück\s+(?:in dein land|wo du herkommst)|ihr gehört\s+(?:hier\s+)?nicht\s+her|(?:alle|die)\s+\S{3,25}\s+(?:sollen|sollten|müssen)\s+(?:sterben|verrecken)|all\s+\S{3,25}\s+(?:should|must)\s+die)/i;
+const PERSONAL_ATTACK=/(?:\b(?:du|ihr)\s+(?:bist|seid)\s+(?:doch\s+)?(?:alle\s+)?(?:dumm|bescheuert|idiot(?:en)?|hirnlos|abschaum)|\b(?:you|you.?re|you are)\s+(?:an?\s+)?(?:stupid|idiot|moron|trash)|halt\s+die\s+fresse|shut\s+the\s+fuck\s+up|fuck\s+you)/i;
+function moderate(text,flags={}){
+ const s=norm(text),lang=language(s),de=lang==='de',own=flags.ownPost===true;
+ const tip=own?(de?' Auf deinem Beitrag je nach Schwere verbergen/löschen; Verstöße melden.':' On your post consider hiding/deleting; report violations.'):
+ (de?' Auf fremden Beiträgen kannst du nicht selbst löschen; bei Verstößen melden.':' On other posts you cannot delete; report violations.');
+ const result=(action,severity,label,reason,guidance,optionalReply)=>({action,severity,language:lang,label,reason,guidance:guidance+tip,optionalReply});
+ if(DIRECT_THREAT.test(s)||HATE_OR_TARGETED.test(s))
+  return result('report','high',de?'Schützen & melden':'Protect & report',de?'Mögliche Drohung oder Hassrede.':'Possible threat or hateful attack.',
+   de?'Nicht öffentlich diskutieren. Belege sichern, über Instagram melden, Betroffene schützen; bei akuter Gefahr Behörden kontaktieren.':'Do not argue. Preserve evidence, report through Instagram, protect people affected; contact authorities in immediate danger.',false);
+ if(PRIVATE.test(s))
+  return result('review','privacy',de?'Private Angaben prüfen':'Review private information',de?'Mögliche private Daten oder @Handles.':'Potential private data or handles.',
+   de?'Nicht weiterverbreiten; persönliche Angaben vor jeder Bearbeitung entfernen.':'Do not repeat private details; remove them before drafting.',false);
+ if(flags.repeated===true)
+  return result('end','medium',de?'Gespräch beenden':'End the exchange',de?'Wiederholte Angriffe wurden von dir markiert.':'You marked this as repeated attacks.',
+   de?'Nicht weiter antworten. Bei Belästigung einschränken oder blockieren, bei Verstößen melden.':'Stop replying. Restrict or block harassment; report violations.',false);
+ if(PERSONAL_ATTACK.test(s))
+  return result('boundary','medium',de?'Einmal Grenze setzen':'Set one boundary',de?'Direkte persönliche Beleidigung.':'Direct personal insult.',
+   de?'Höchstens einmal ruhig reagieren, dann aufhören.':'Reply calmly at most once, then disengage.',true);
+ if(RAGE_SKIP.some(p=>p.test(s)))
+  return result('optional_one','low',de?'Weiterziehen oder einmal antworten':'Move on or answer once',de?'Reiner Spott ohne echte Frage.':'Bait without a genuine question.',
+   de?'Nicht ins Pingpong einsteigen. Ein kurzer Satz kann Mitlesenden die Haltung zeigen.':'Avoid a back-and-forth. One short reply may model civility to bystanders.',true);
+ return result('answer','none',de?'Die Frage ernst nehmen':'Address the question',
+  de?'Kein klarer persönlicher Angriff erkannt.':'No obvious personal attack detected.',
+  de?'Sachlich und freundlich antworten, wenn die Quellen passen.':'Respond warmly and accurately if sources support it.',true);
+}
+
 function classify(text){
  const s=norm(text);
  if(s.length<9)return {state:'unknown',reason:'Kommentar zu kurz oder nicht erkennbar.'};
@@ -301,12 +350,19 @@ function language(text){
  if(en>=1 && de===0 && /\b(why|what|how|should|would|could|does|isnt|dont|because)\b/i.test(text))return 'en';
  return 'de';
 }
-function suggest(text,voice='momo'){
+function suggest(text,voice='momo',flags={}){
+ const m=moderate(text,flags);
+ if(['report','end','review'].includes(m.action))return {state:m.action,topic:m.label,language:m.language,moderation:m,reason:m.reason,evidenceStatus:'none',sources:[]};
+ if(m.action==='boundary'){
+  const id=Object.prototype.hasOwnProperty.call(VOICES,voice)?voice:'kiki';
+  return {state:'boundary',topic:m.label,language:m.language,voice:id,moderation:m,text:BOUNDARY_REPLIES[m.language][id],
+   evidenceStatus:'editorial',summary:m.reason,limitation:m.guidance,sources:[]};
+ }
  const result=classify(text);
  if(result.state==='skip'){
   const lang=language(text),id=Object.prototype.hasOwnProperty.call(VOICES,voice)?voice:'kiki';
   const kind=/steaks?|schnitzel|burgers?/i.test(text)?'steak':'generic';
-  return {...result,language:lang,voice:id,topic:'Reine Provokation',
+  return {...result,language:lang,voice:id,topic:'Reine Provokation',moderation:m,
    text:RAGE_REPLY[kind][lang][id],evidenceStatus:'editorial',recommendedAction:'no_reply_or_one',
    summary:'Keine faktische Prüfung nötig: ein optionaler Gesprächsversuch für Mitlesende. Keine weitere Eskalation.',
    limitation:'Ein einziger respektvoller Satz ist optional. Nicht antworten bleibt eine gute Entscheidung.',
@@ -316,7 +372,7 @@ function suggest(text,voice='momo'){
  const t=TOPICS[result.id],lang=language(text);
  const id=Object.prototype.hasOwnProperty.call(VOICES,voice)?voice:'momo';
  const candidate=id==='momo'?t.answer[lang]:VARIANTS[result.id]?.[id]?.[lang];
- return {...result,topic:t.name,voice:id,voiceLabel:VOICES[id].label,language:lang,
+ return {...result,topic:t.name,voice:id,voiceLabel:VOICES[id].label,language:lang,moderation:m,
   evidenceStatus:t.evidenceStatus||'source_linked',text:candidate||t.answer[lang],
   sources:t.sources,summary:t.summary,limitation:t.limitation,reviewedAt:REVIEWED_AT};
 }
@@ -377,7 +433,7 @@ function nearestCommentRoot(node){
  }
  return null;
 }
-const API={VERSION,REVIEWED_AT,TOPICS,VOICES,VARIANTS,classify,suggest,language,recommendVoice,normalReplyLabel,extractComment};
+const API={VERSION,REVIEWED_AT,TOPICS,VOICES,VARIANTS,COMMUNITY_CODE,classify,suggest,moderate,language,recommendVoice,normalReplyLabel,extractComment};
 if(typeof module==='object'&&module.exports)module.exports=API;
 // Dedicated quality lab may inspect pure decision functions, but no Instagram UI is mounted.
 if(root?.document&&root.location?.pathname==='/quality-review.html'){root.AV_QUALITY_CORE=API;return;}
