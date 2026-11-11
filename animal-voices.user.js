@@ -322,6 +322,13 @@ function showPanel(){
  .status{margin:9px 0 0;font-size:12px;color:#406f4b;font-weight:650}
  .alert{color:#995b32;background:#fff4e3;padding:11px;border-radius:9px}
  .small{font-size:10px}
+ .voices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:10px 0 7px}
+ .voices button{min-width:0;min-height:45px;padding:8px 2px;color:#477258;background:#eaf4e8;border:1px solid #d6e6d3;border-radius:11px;font-weight:780;font-size:11px;line-height:1.3}
+ .voices button[aria-pressed="true"]{color:white;background:#286244;border-color:#286244}
+ .voice-hint{font-size:11px;color:#819887;margin:2px 0 8px}
+ .alt{border:0;background:none;color:#477455;font-size:11px;font-weight:800;text-decoration:underline;text-underline-offset:3px;padding:7px 0}
+ button:disabled{opacity:.45;cursor:not-allowed}
+ .x{min-width:44px;min-height:44px}
  </style>
  <div class="sheet">
  <header><div><div class="title">✳ Animal Voices</div><div class="desc">Direkt auf Instagram · du entscheidest</div></div><button class="x" id="av-close" aria-label="Schließen">×</button></header>
@@ -329,6 +336,13 @@ function showPanel(){
  <textarea id="av-comment" rows="2" maxlength="1400"></textarea>
  <div class="row" style="margin-top:11px"><strong style="font-size:12px">Antwortvorschlag</strong><span class="pill" id="av-status-pill">Wird geprüft</span></div>
  <p class="micro" id="av-topic"></p>
+ <div class="voices" role="group" aria-label="Antwortstimme wählen">
+  <button type="button" data-av-voice="momo" aria-pressed="true">✦ Klar</button>
+  <button type="button" data-av-voice="kiki" aria-pressed="false">♡ Warm</button>
+  <button type="button" data-av-voice="bao" aria-pressed="false">☀ Locker</button>
+  <button type="button" data-av-voice="curious" aria-pressed="false">? Neugierig</button>
+ </div>
+ <div class="row"><span class="voice-hint" id="av-voice-hint">Momo · Klar und faktenorientiert</span><button type="button" id="av-next-voice" class="alt">Andere Antwort ↻</button></div>
  <textarea id="av-proposal" rows="3" maxlength="1200" placeholder="Für diese Frage liegt noch keine vorab geprüfte Antwort vor."></textarea>
  <details id="av-evidence" open><summary>Vorab geprüfte Aussage & Quellen ansehen</summary><div id="av-sources"></div></details>
  <p class="micro" id="av-hint">Keine automatische Veröffentlichung. Deine Übernahme ist immer freiwillig.</p>
@@ -338,13 +352,16 @@ function showPanel(){
  doc.body.append(host);
  sheet=host;overlayRoot=shadow;
  const box=shadow.getElementById('av-comment'),proposal=shadow.getElementById('av-proposal'),feedback=shadow.getElementById('av-feedback');
- let proposalModified=false;
+ let proposalModified=false,currentVoice='momo';
  box.value=selected.text;
  shadow.getElementById('av-close').addEventListener('click',closePanel);
  function update(){
   proposalModified=false;
-  const result=suggest(box.value),pill=shadow.getElementById('av-status-pill'),src=shadow.getElementById('av-sources');
+  const result=suggest(box.value,currentVoice),pill=shadow.getElementById('av-status-pill'),src=shadow.getElementById('av-sources');
   src.replaceChildren();feedback.textContent='';
+  shadow.querySelectorAll('[data-av-voice]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.avVoice===currentVoice)));
+  const descriptions={momo:'Momo · Fakten & Klarheit',kiki:'Kiki · Warm & zugewandt',bao:'Bao · Locker & sympathisch',curious:'Neugier · Eine offene Frage'};
+  shadow.getElementById('av-voice-hint').textContent=descriptions[currentVoice]+' · 4 unterschiedliche Antworten';
   if(result.state==='reviewed'){
    pill.textContent='✓ Aussage vorab geprüft';pill.className='pill';
    shadow.getElementById('av-topic').textContent=result.topic+' · Quellenstand '+result.reviewedAt+' · kein Live-Check des Kommentars';
@@ -365,6 +382,14 @@ function showPanel(){
   selected.suggestion=result;
  }
  box.addEventListener('input',update);
+ shadow.querySelectorAll('[data-av-voice]').forEach(button=>button.addEventListener('click',()=>{
+  if(currentVoice===button.dataset.avVoice)return;
+  currentVoice=button.dataset.avVoice;update();
+ }));
+ shadow.getElementById('av-next-voice').addEventListener('click',()=>{
+  const ids=Object.keys(VOICES);
+  currentVoice=ids[(ids.indexOf(currentVoice)+1)%ids.length];update();
+ });
  proposal.addEventListener('input',()=>{
   if(selected?.suggestion?.state!=='reviewed')return;
   proposalModified=true;
