@@ -1,0 +1,427 @@
+{
+  "version": "quality-0.1",
+  "source": "synthetic and redacted editorial scenarios; not verbatim Instagram posts",
+  "reviewed_at": "2026-11-11",
+  "cases": [
+    {
+      "id": "Q01",
+      "comment": "Aber für Soja wird doch der Regenwald abgeholzt?",
+      "scenario": "facts",
+      "language": "de",
+      "expected_topic": "forest",
+      "review_mode": "source_linked",
+      "editorial_default": "kiki",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q02",
+      "comment": "Woher bekommst du genug Protein ohne Fleisch?",
+      "scenario": "facts",
+      "language": "de",
+      "expected_topic": "protein",
+      "review_mode": "source_linked",
+      "editorial_default": "momo",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q03",
+      "comment": "Aber bei der Ernte sterben doch auch Tiere?",
+      "scenario": "ethics",
+      "language": "de",
+      "expected_topic": "crop",
+      "review_mode": "source_linked",
+      "editorial_default": "kiki",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q04",
+      "comment": "Was hältst du von einer neuen Idee für den Urlaub in Berlin?",
+      "scenario": "unknown",
+      "language": "de",
+      "expected_topic": "unknown",
+      "review_mode": "unknown",
+      "editorial_default": "none",
+      "reply_allowed": false
+    },
+    {
+      "id": "Q05",
+      "comment": "Aber B12 müsst ihr doch bei veganer Ernährung supplementieren?",
+      "scenario": "facts",
+      "language": "de",
+      "expected_topic": "b12",
+      "review_mode": "source_linked",
+      "editorial_default": "momo",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q06",
+      "comment": "Warum sind die B12-Dosen auf Präparaten so hoch?",
+      "scenario": "facts",
+      "language": "de",
+      "expected_topic": "b12dose",
+      "review_mode": "source_linked",
+      "editorial_default": "momo",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q07",
+      "comment": "Tiere fühlen doch auch Schmerz, oder?",
+      "scenario": "ethics",
+      "language": "de",
+      "expected_topic": "sentience",
+      "review_mode": "source_linked",
+      "editorial_default": "kiki",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q08",
+      "comment": "Sojaanbau und der Amazonas – ist das nicht genau das Regenwaldproblem?",
+      "scenario": "facts",
+      "language": "de",
+      "expected_topic": "forest",
+      "review_mode": "source_linked",
+      "editorial_default": "momo",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q09",
+      "comment": "Werden bei der Ernte nicht genauso Tiere verletzt?",
+      "scenario": "ethics",
+      "language": "de",
+      "expected_topic": "crop",
+      "review_mode": "source_linked",
+      "editorial_default": "kiki",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q10",
+      "comment": "Kann ich meinen Proteinbedarf überhaupt mit Hülsenfrüchten decken?",
+      "scenario": "facts",
+      "language": "de",
+      "expected_topic": "protein",
+      "review_mode": "source_linked",
+      "editorial_default": "kiki",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q11",
+      "comment": "Muskelaufbau ohne Fleisch, wie soll das mit dem Eiweiß klappen?",
+      "scenario": "facts",
+      "language": "de",
+      "expected_topic": "protein",
+      "review_mode": "source_linked",
+      "editorial_default": "kiki",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q12",
+      "comment": "Warum sterben Feldmäuse beim Ernten, wenn es vegan sein soll?",
+      "scenario": "ethics",
+      "language": "de",
+      "expected_topic": "crop",
+      "review_mode": "source_linked",
+      "editorial_default": "kiki",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q13",
+      "comment": "Wenn Tiere fühlen können, zählt dann ihr Leben nicht auch?",
+      "scenario": "ethics",
+      "language": "de",
+      "expected_topic": "life_ethics",
+      "review_mode": "editorial",
+      "editorial_default": "kiki",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q14",
+      "comment": "B12-Aufnahme bei hohen Dosen – wie funktioniert das?",
+      "scenario": "facts",
+      "language": "de",
+      "expected_topic": "b12dose",
+      "review_mode": "source_linked",
+      "editorial_default": "momo",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q15",
+      "comment": "Veganes Essen ist mir oft zu teuer. Hast du einen einfachen Tipp?",
+      "scenario": "unknown",
+      "language": "de",
+      "expected_topic": "cost",
+      "review_mode": "editorial",
+      "editorial_default": "kiki",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q16",
+      "comment": "Fleisch schmeckt mir einfach besser. Warum sollte ich wechseln?",
+      "scenario": "unknown",
+      "language": "de",
+      "expected_topic": "taste",
+      "review_mode": "editorial",
+      "editorial_default": "kiki",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q17",
+      "comment": "Wäre das Töten eines Tieres ohne Schmerzen ethisch in Ordnung?",
+      "scenario": "unknown",
+      "language": "de",
+      "expected_topic": "painless_killing",
+      "review_mode": "editorial",
+      "editorial_default": "kiki",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q18",
+      "comment": "Ich bin schwanger: Welche B12-Dosis sollte ich nehmen?",
+      "scenario": "unknown",
+      "language": "de",
+      "expected_topic": "unsafe",
+      "review_mode": "unsafe",
+      "editorial_default": "none",
+      "reply_allowed": false
+    },
+    {
+      "id": "Q19",
+      "comment": "Why are crop deaths ignored in veganism?",
+      "scenario": "ethics",
+      "language": "en",
+      "expected_topic": "crop",
+      "review_mode": "source_linked",
+      "editorial_default": "kiki",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q20",
+      "comment": "Can I get enough protein from plant foods?",
+      "scenario": "facts",
+      "language": "en",
+      "expected_topic": "protein",
+      "review_mode": "source_linked",
+      "editorial_default": "momo",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q21",
+      "comment": "But is soy causing rainforest deforestation?",
+      "scenario": "facts",
+      "language": "en",
+      "expected_topic": "forest",
+      "review_mode": "source_linked",
+      "editorial_default": "kiki",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q22",
+      "comment": "Why should animal suffering matter for our food choices?",
+      "scenario": "ethics",
+      "language": "en",
+      "expected_topic": "ethical_choice",
+      "review_mode": "editorial",
+      "editorial_default": "kiki",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q23",
+      "comment": "Pflanzen haben doch auch Gefühle!!!",
+      "scenario": "rage",
+      "language": "de",
+      "expected_topic": "plants",
+      "review_mode": "editorial",
+      "editorial_default": "momo",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q24",
+      "comment": "Ich esse jetzt zwei Steaks extra für euch 😂",
+      "scenario": "rage",
+      "language": "de",
+      "expected_topic": "skip",
+      "review_mode": "skip",
+      "editorial_default": "none",
+      "reply_allowed": false
+    },
+    {
+      "id": "Q25",
+      "comment": "Ihr Veganer nervt so! Muss das dauernd sein?",
+      "scenario": "rage",
+      "language": "de",
+      "expected_topic": "pushy",
+      "review_mode": "editorial",
+      "editorial_default": "kiki",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q26",
+      "comment": "Wollt ihr uns Fleisch verbieten?",
+      "scenario": "rage",
+      "language": "de",
+      "expected_topic": "ban",
+      "review_mode": "editorial",
+      "editorial_default": "kiki",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q27",
+      "comment": "Tofu ist doch reine Chemie!",
+      "scenario": "rage",
+      "language": "de",
+      "expected_topic": "tofu",
+      "review_mode": "editorial",
+      "editorial_default": "momo",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q28",
+      "comment": "Vegane Ernährung ist doch völlig unnatürlich!",
+      "scenario": "rage",
+      "language": "de",
+      "expected_topic": "natural",
+      "review_mode": "editorial",
+      "editorial_default": "momo",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q29",
+      "comment": "Menschen haben schon immer Fleisch gegessen!",
+      "scenario": "rage",
+      "language": "de",
+      "expected_topic": "tradition",
+      "review_mode": "editorial",
+      "editorial_default": "kiki",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q30",
+      "comment": "Löwen essen Fleisch, sollen die jetzt auch vegan werden?",
+      "scenario": "rage",
+      "language": "de",
+      "expected_topic": "lions",
+      "review_mode": "editorial",
+      "editorial_default": "bao",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q31",
+      "comment": "Ihr esst dem Essen das Essen weg 😂",
+      "scenario": "rage",
+      "language": "de",
+      "expected_topic": "meme",
+      "review_mode": "editorial",
+      "editorial_default": "bao",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q32",
+      "comment": "Vegan ist doch nur ein Trend.",
+      "scenario": "rage",
+      "language": "de",
+      "expected_topic": "trend",
+      "review_mode": "editorial",
+      "editorial_default": "curious",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q33",
+      "comment": "Warum sind Tiere wichtiger als Menschen?",
+      "scenario": "rage",
+      "language": "de",
+      "expected_topic": "both",
+      "review_mode": "editorial",
+      "editorial_default": "kiki",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q34",
+      "comment": "Ohne Fleisch keine Muskeln, ihr Lauchs!",
+      "scenario": "rage",
+      "language": "de",
+      "expected_topic": "protein",
+      "review_mode": "source_linked",
+      "editorial_default": "momo",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q35",
+      "comment": "B12-Supplemente! Schachmatt, Veganer 😂",
+      "scenario": "rage",
+      "language": "de",
+      "expected_topic": "b12",
+      "review_mode": "source_linked",
+      "editorial_default": "momo",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q36",
+      "comment": "Wegen euch esse ich heute zwei extra Steaks!",
+      "scenario": "rage",
+      "language": "de",
+      "expected_topic": "skip",
+      "review_mode": "skip",
+      "editorial_default": "none",
+      "reply_allowed": false
+    },
+    {
+      "id": "Q37",
+      "comment": "Soja macht Männer weiblich!",
+      "scenario": "rage",
+      "language": "de",
+      "expected_topic": "unknown",
+      "review_mode": "unknown",
+      "editorial_default": "none",
+      "reply_allowed": false
+    },
+    {
+      "id": "Q38",
+      "comment": "Why are vegans so annoying?",
+      "scenario": "rage",
+      "language": "en",
+      "expected_topic": "pushy",
+      "review_mode": "editorial",
+      "editorial_default": "kiki",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q39",
+      "comment": "Plants feel pain too!",
+      "scenario": "rage",
+      "language": "en",
+      "expected_topic": "plants",
+      "review_mode": "editorial",
+      "editorial_default": "momo",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q40",
+      "comment": "I will eat two more steaks to annoy vegans",
+      "scenario": "rage",
+      "language": "en",
+      "expected_topic": "skip",
+      "review_mode": "skip",
+      "editorial_default": "none",
+      "reply_allowed": false
+    },
+    {
+      "id": "Q41",
+      "comment": "Tofu is just chemicals, bro.",
+      "scenario": "rage",
+      "language": "en",
+      "expected_topic": "tofu",
+      "review_mode": "editorial",
+      "editorial_default": "momo",
+      "reply_allowed": true
+    },
+    {
+      "id": "Q42",
+      "comment": "My ancestors ate meat, so why should I change?",
+      "scenario": "rage",
+      "language": "en",
+      "expected_topic": "tradition",
+      "review_mode": "editorial",
+      "editorial_default": "kiki",
+      "reply_allowed": true
+    }
+  ]
+}
