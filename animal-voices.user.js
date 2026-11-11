@@ -281,6 +281,14 @@ function closePanel(){
  doc.querySelectorAll('.av-shade').forEach(el=>el.remove());
  sheet=null;overlayRoot=null;selected=null;replyTrigger=null;
 }
+function toast(message){
+ doc.getElementById('av-toast')?.remove();
+ const el=make('div',{},message);
+ el.id='av-toast';el.setAttribute('role','status');el.setAttribute('data-av-control','1');
+ el.style.cssText='position:fixed;top:calc(14px + env(safe-area-inset-top));left:12px;right:12px;max-width:500px;margin:0 auto;z-index:2147483604;padding:13px 17px;border-radius:12px;background:#245b3b;color:white;box-shadow:0 6px 21px #122f2355;text-align:center;font:600 13px/1.45 system-ui;pointer-events:none';
+ doc.body.append(el);
+ root.setTimeout(()=>{if(el.isConnected)el.remove()},4500);
+}
 function showPanel(){
  if(!selected)return;
  const host=make('section',{class:'av-panel','data-av-control':''});host.setAttribute('data-av-control','1');host.setAttribute('role','dialog');host.setAttribute('aria-modal','false');host.setAttribute('aria-label','Animal Voices Antwortvorschlag');
