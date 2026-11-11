@@ -22,14 +22,15 @@ test('Userscript intentionally runs only on instagram.com, not in native Instagr
 });
 test('Verified editorial capsules reference trusted primary institutions and a clear review date',()=>{
  assert.equal(av.REVIEWED_AT,'2026-11-10');
- assert.equal(Object.keys(av.TOPICS).length,6);
+ assert.equal(Object.keys(av.TOPICS).length,11);
  for(const topic of Object.values(av.TOPICS)){
   assert.ok(topic.name.length>=9);
   assert.ok(topic.answer.de.length>=85);
   assert.ok(topic.answer.en.length>=80);
   assert.ok(topic.limitation.length>=30);
   assert.ok(topic.summary.length>=40);
-  assert.ok(topic.sources.length>=1);
+  if(topic.evidenceStatus==='editorial')assert.ok(topic.sources.length>=0);
+  else assert.ok(topic.sources.length>=1);
   for(const s of topic.sources){
    const u=new URL(s.url);
    assert.equal(u.protocol,'https:');
@@ -150,4 +151,66 @@ test('Handoff removes panel, reports nonblocking feedback and never clicks publi
  assert.match(code,/input\.focus\(\)/);
  assert.doesNotMatch(code,/\bsubmit\(\)|click\(\s*['"]publish/);
  assert.match(code,/doc\.querySelectorAll\('\.av-shade'\)/);
+});
+
+test('Full demo review: all 22 texts route to the intended specific topic, in the comment language',()=>{
+ const staticComments=[...demo.matchAll(/<span dir="auto" data-comment-text>([^<]+)<\/span>/g)].map(m=>m[1]);
+ const demoArray=demo.slice(demo.indexOf('const demoExamples=['),demo.indexOf('];\nconst list='));
+ const dynamicComments=[...demoArray.matchAll(/\['[^']+','([^']+)','(?:facts|ethics|unknown)'\]/g)].map(m=>m[1]);
+ const comments=staticComments.concat(dynamicComments);
+ const expected=[
+  ['forest','de','kiki'],['protein','de','momo'],['crop','de','kiki'],['unknown','de',null],
+  ['b12','de','momo'],['b12dose','de','momo'],['sentience','de','kiki'],['forest','de','momo'],
+  ['crop','de','kiki'],['protein','de','kiki'],['protein','de','momo'],['crop','de','kiki'],
+  ['life_ethics','de','kiki'],['b12dose','de','momo'],['cost','de','kiki'],['taste','de','kiki'],
+  ['painless_killing','de','kiki'],['unsafe','de',null],
+  ['crop','en','kiki'],['protein','en','momo'],['forest','en','kiki'],['ethical_choice','en','kiki']
+ ];
+ assert.equal(comments.length,22);
+ assert.equal(expected.length,22);
+ for(let i=0;i<22;i++){
+  const [topic,lang,defaultVoice]=expected[i],comment=comments[i],base=av.suggest(comment);
+  assert.equal(av.language(comment),lang,'Wrong language for #'+(i+1)+': '+comment);
+  assert.equal(base.id||base.state,topic,'Wrong topic for #'+(i+1)+': '+comment);
+  if(!defaultVoice)continue;
+  assert.equal(av.recommendVoice(comment,topic),defaultVoice,'Wrong default for #'+(i+1));
+  const texts=Object.keys(av.VOICES).map(voice=>av.suggest(comment,voice));
+  assert.equal(new Set(texts.map(x=>x.text)).size,4,'Same answer repeated on #'+(i+1));
+  for(const entry of texts){
+   assert.equal(entry.language,lang,'Reply language mismatch #'+(i+1));
+   assert.ok(entry.text.length>=55,'Too short #'+(i+1));
+   const german=(entry.text.match(/\b(?:ich|wir|du|die|der|das|und|nicht|aber|wenn|auch|kann|können|tiere|für|bei|wird|werden|ist|sind|sollten)\b/gi)||[]).length;
+   const english=(entry.text.match(/\b(?:the|and|but|our|you|because|why|how|with|can|should|would|could|this|they|their|does)\b/gi)||[]).length;
+   if(lang==='de')assert.ok(german>=2,'German reply appears English #'+(i+1)+' '+entry.voice+': '+entry.text);
+   else assert.ok(english>=2,'English reply appears German #'+(i+1)+' '+entry.voice+': '+entry.text);
+  }
+ }
+});
+test('Shared English loanwords do not make German comments English',()=>{
+ for(const comment of [
+  'Woher bekomme ich Protein, wenn ich vegan esse?',
+  'Protein ist wichtig, aber ohne Fleisch?',
+  'B12 Supplemente sind doch bei vegan wichtig!',
+  'Fleisch dasdschmeckt mir einfach besser. Warum sollte ich wechseln?',
+  'Kann ich vegan leben und trotzdem genug Protein essen?'
+ ])assert.equal(av.language(comment),'de',comment);
+ for(const comment of [
+  'Why should animal suffering matter for our food choices?',
+  'Can I get enough protein from plant foods?',
+  'Why should I care about crop deaths?'
+ ])assert.equal(av.language(comment),'en',comment);
+});
+test('Ethical dilemmas are not mistakenly blocked as threats or certified as scientific fact',()=>{
+ for(const [comment,topic] of [
+  ['Wäre das Töten eines Tieres ohne Schmerzen ethisch in Ordnung?','painless_killing'],
+  ['Wenn Tiere fühlen können, zählt dann ihr Leben nicht auch?','life_ethics'],
+  ['Why should animal suffering matter for our food choices?','ethical_choice'],
+  ['Fleisch schmeckt mir einfach besser. Warum sollte ich wechseln?','taste']
+ ]){
+  const r=av.suggest(comment);
+  assert.equal(r.id,topic,comment);
+  assert.equal(r.evidenceStatus,'editorial',comment);
+ }
+ assert.equal(av.suggest('Ich bin schwanger: Welche B12-Dosis sollte ich nehmen?').state,'unsafe');
+ assert.equal(av.suggest('Ich werde dich töten, du Idiot!').state,'unsafe');
 });
