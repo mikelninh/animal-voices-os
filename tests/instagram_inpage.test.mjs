@@ -21,8 +21,8 @@ test('Userscript intentionally runs only on instagram.com, not in native Instagr
  assert.match(install,/nativen Instagram-App/);
 });
 test('Verified editorial capsules reference trusted primary institutions and a clear review date',()=>{
- assert.equal(av.REVIEWED_AT,'2026-11-10');
- assert.equal(Object.keys(av.TOPICS).length,11);
+ assert.equal(av.REVIEWED_AT,'2026-11-11');
+ assert.equal(Object.keys(av.TOPICS).length,21);
  for(const topic of Object.values(av.TOPICS)){
   assert.ok(topic.name.length>=9);
   assert.ok(topic.answer.de.length>=85);
@@ -34,7 +34,7 @@ test('Verified editorial capsules reference trusted primary institutions and a c
   for(const s of topic.sources){
    const u=new URL(s.url);
    assert.equal(u.protocol,'https:');
-   assert.ok(['www.dge.de','ods.od.nih.gov','ourworldindata.org','eur-lex.europa.eu'].includes(u.hostname),s.url);
+   assert.ok(['www.dge.de','ods.od.nih.gov','ourworldindata.org','eur-lex.europa.eu','www.efsa.europa.eu'].includes(u.hostname),s.url);
   }
  }
 });
@@ -51,7 +51,7 @@ test('Real, distinct German comments receive a pre-reviewed local suggestion and
   const result=av.suggest(text);
   assert.equal(result.state,'reviewed',text);
   assert.equal(result.id,id,text);
-  assert.equal(result.reviewedAt,'2026-11-10');
+  assert.equal(result.reviewedAt,'2026-11-11');
   assert.ok(result.sources.length>=1);
   assert.ok(result.text.length>=70);
  }
@@ -93,12 +93,12 @@ test('Old conversation, screenshots, AI model calls, image uploads and auto-post
 });
 test('Demo contains twenty-two selectable sample comments and native reply inputs',()=>{
  const comments=(demo.match(/<li data-av-demo-comment>/g)||[]).length;
- assert.equal(comments,4); // Four static rows plus eighteen client-generated examples
+ assert.equal(comments,4); // Four static rows plus thirty-eight client-generated examples
  assert.match(demo,/const demoExamples=\[/);
- assert.match(demo,/22 Beispiel-Kommentare/);
+ assert.match(demo,/42 Kommentar-Beispiele/);
  assert.match(demo,/class="native-reply"/);
  assert.match(demo,/class="compose" hidden/);
- assert.match(demo,/src="\/animal-voices\.user\.js\?v=0\.3\.1"/);
+ assert.match(demo,/src="\/animal-voices\.user\.js\?v=0\.4\.0"/);
  assert.match(demo,/NICHT Instagram/);
  assert.match(demo,/wird grundsätzlich nichts veröffentlicht/);
 });
@@ -153,20 +153,20 @@ test('Handoff removes panel, reports nonblocking feedback and never clicks publi
  assert.match(code,/doc\.querySelectorAll\('\.av-shade'\)/);
 });
 
-test('Full demo review: all 22 texts route to the intended specific topic, in the comment language',()=>{
+test('Full demo review: first 22 baseline texts route to the intended specific topic, in the comment language',()=>{
  const staticComments=[...demo.matchAll(/<span dir="auto" data-comment-text>([^<]+)<\/span>/g)].map(m=>m[1]);
  const demoArray=demo.slice(demo.indexOf('const demoExamples=['),demo.indexOf('];\nconst list='));
- const dynamicComments=[...demoArray.matchAll(/\['[^']+','([^']+)','(?:facts|ethics|unknown)'\]/g)].map(m=>m[1]);
+ const dynamicComments=[...demoArray.matchAll(/\[\s*["'][^"']+["']\s*,\s*["']([^"']+)["']\s*,\s*["'](?:facts|ethics|unknown|rage)["']\s*\]/g)].map(m=>m[1]);
  const comments=staticComments.concat(dynamicComments);
  const expected=[
   ['forest','de','kiki'],['protein','de','momo'],['crop','de','kiki'],['unknown','de',null],
   ['b12','de','momo'],['b12dose','de','momo'],['sentience','de','kiki'],['forest','de','momo'],
-  ['crop','de','kiki'],['protein','de','kiki'],['protein','de','momo'],['crop','de','kiki'],
+  ['crop','de','kiki'],['protein','de','kiki'],['protein','de','kiki'],['crop','de','kiki'],
   ['life_ethics','de','kiki'],['b12dose','de','momo'],['cost','de','kiki'],['taste','de','kiki'],
   ['painless_killing','de','kiki'],['unsafe','de',null],
   ['crop','en','kiki'],['protein','en','momo'],['forest','en','kiki'],['ethical_choice','en','kiki']
  ];
- assert.equal(comments.length,22);
+ assert.equal(comments.length,42);
  assert.equal(expected.length,22);
  for(let i=0;i<22;i++){
   const [topic,lang,defaultVoice]=expected[i],comment=comments[i],base=av.suggest(comment);
