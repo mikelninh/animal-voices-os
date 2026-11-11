@@ -1,4 +1,18 @@
-# Animal Voices – In-Instagram Companion beta 0.1
+# Animal Voices – In-Instagram Companion beta 0.2
+
+## Version 0.2 — 11 November 2026
+
+The in-page integration now has four **distinct, locally curated reply variants for each of six supported topics**, in both German and English: **Momo (clear), Kiki (warm), Bao (light), and Curiosity (open question)**. That provides 24 German and 24 English variants, rather than changing emojis around one text. Switching voices keeps the same source capsule, changes the suggested message, and does not run remote AI.
+
+A serious previous UI bug was found and fixed: the popup close handler removed the panel but **left a high-z-index dark backdrop covering the Instagram page**, blocking all further taps. Version 0.2 **does not create a backdrop at all**, and removes any abandoned old backdrop on closing. The sheet is nonmodal so the Instagram page remains visible.
+
+**New handoff:** `Antwort übernehmen ↗` initiates clipboard copy while the user is tapping, removes the panel immediately, triggers the selected Instagram Reply action, waits for a safe and relevant composer, fills it and focuses the input for manual submission. When a safe composer is not identifiable, it uses clipboard copy and a nonblocking confirmation toast. It never clicks Instagram's Post/Submit. `Kopieren` also closes the panel after a successful copy. Candidate selection now excludes sibling-comment textareas to avoid accidental wrong-recipient insertion.
+
+**Demo:** 22 example comments (four static, eighteen generated with `textContent` to avoid injected markup) and fact/ethics/unknown category filters. These are editorial examples and anonymised paraphrases of discussion patterns, **not real Instagram users or direct Instagram comments**. The demo browser test verifies four distinct drafts, source links, popup removal, focus on the correct composer, and unknown-topic abstention.
+
+**Status:** mobile-sized Chromium E2E and GitHub checks passed. Real logged-in instagram.com browser layouts and native iPhone/Android apps still require physical user-side testing; no unverified claims of full compatibility.
+
+---
 
 ## What exists, and what does not
 
