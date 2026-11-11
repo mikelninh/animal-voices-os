@@ -1,5 +1,21 @@
 # Animal Voices – In-Instagram Companion beta 0.2
 
+## Community Code 1.0 · 11 November 2026
+
+Our direct Instagram browser companion now performs a **human-reviewable moderation recommendation before drafting**:
+- Answer genuine questions and correct misinformation without shaming.
+- Harmless bait: ignoring is the default, one short civil response is *optional*.
+- Direct personal insult: at most one boundary-setting response, then stop.
+- Manually flagged repeated harassment: stop responding; consider restriction/blocking.
+- Explicit threats or hate indicators: protect and report; no auto-generated public comeback.
+- Private details: hold until manually anonymised.
+
+The person can mark whether this is their own post; only own-post moderation can include hiding/deleting. **No automated Instagram delete, report, block or post.** Heuristics are limited and can misread sarcasm or coded hostility. A separate interactive public page presents the principles: [Community Code](https://animal-voices-os.vercel.app/community-code.html). Complete operating policy: [COMMUNITY_CODE.md](COMMUNITY_CODE.md).
+
+The mobile Chromium E2E checks an actual in-page panel for boundary setting, the manual repeated-abuse override, blocking reply on threats, and own-post hints, in addition to the standard composer insertion path. This is a test on a simulated Instagram-style page, not a claim of on-device native Instagram support.
+
+---
+
 ## Version 0.2 — 11 November 2026
 
 The in-page integration now has four **distinct, locally curated reply variants for each of six supported topics**, in both German and English: **Momo (clear), Kiki (warm), Bao (light), and Curiosity (open question)**. That provides 24 German and 24 English variants, rather than changing emojis around one text. Switching voices keeps the same source capsule, changes the suggested message, and does not run remote AI.
