@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Animal Voices · Instagram Companion
 // @namespace    https://animal-voices-os.vercel.app/
-// @version      0.3.1
+// @version      0.3.2
 // @description  Einen Instagram-Kommentar auswählen, vorab geprüften Antwortvorschlag ansehen und selbst freigeben. Keine Veröffentlichung durch das Skript.
 // @match        https://www.instagram.com/*
 // @match        https://instagram.com/*
@@ -17,7 +17,7 @@
 (function(root){
 'use strict';
 const VERSION='0.3.1';
-const REVIEWED_AT='2026-11-10';
+const REVIEWED_AT='2026-11-11';
 const OWID='https://ourworldindata.org/land-use-diets';
 const DGE='https://www.dge.de/gesunde-ernaehrung/faq/faqs-vegane-ernaehrung';
 const POSITION='https://www.dge.de/wissenschaft/stellungnahmen-und-positionspapiere/positionen/neubewertung-der-position-zu-veganer-ernaehrung/';
@@ -83,12 +83,12 @@ const TOPICS={
   name:'Tiere als fühlende Wesen',
   patterns:[/tiere.*f[uü]hl|tiere.*leid|tiere.*schmerz|schweine.*f[uü]hl|animal sentience|animals feel pain|animals suffer/i],
   answer:{
-   de:'Die EU erkennt Tiere ausdrücklich als fühlende Wesen an. Welche Verantwortung daraus folgt, ist eine ethische Frage – aber das Wohl der Tiere verdient in der Diskussion einen eigenen Platz.',
-   en:'EU law recognises animals as sentient beings. What moral duties follow is an ethical question, but their welfare deserves to be taken seriously in the discussion.'
+   de:'Ja. Bei vielen Tieren, etwa Schweinen und Hühnern, ist Schmerzempfinden wissenschaftlich anerkannt. Deshalb berücksichtigt die Europäische Behörde für Lebensmittelsicherheit Schmerzen und Stress beim Tierwohl. Welche Konsequenzen wir daraus ziehen, bleibt auch eine ethische Frage.',
+   en:'Yes. Pain and distress are recognised welfare concerns in many animals, including farmed pigs and poultry. European food-safety experts assess those harms. What that means for our food choices is also an ethical question.'
   },
-  summary:'Art. 13 AEUV: die EU und Mitgliedstaaten tragen dem Wohlergehen von Tieren als fühlenden Wesen bei verschiedenen Politikbereichen Rechnung.',
-  sources:[{name:'EUR-Lex · Artikel 13 AEUV',url:EU}],
-  limitation:'EU-Recht belegt die rechtliche Anerkennung, nicht die subjektiven Erfahrungen jedes einzelnen Tiers oder eine bestimmte ethische Schlussfolgerung.'
+  summary:'EFSA erklärt ausdrücklich, dass Schmerzen, Stress und Leiden zentrale Aspekte des Tierwohls sind, und bewertet Tierwohl bei Schweinen, Geflügel und weiteren Nutztieren.',
+  sources:[{name:'EFSA · Animal welfare: Schmerzen und Stress',url:'https://www.efsa.europa.eu/en/topics/topic/animal-welfare'},{name:'EUR-Lex · Artikel 13 AEUV',url:EU}],
+  limitation:'Die Aussage gilt nicht pauschal in gleicher Weise für jede Tierart. Ob und wie Menschen moralisch handeln sollten, folgt nicht allein aus einem wissenschaftlichen Befund.'
  }
 };
 const VOICES={
@@ -109,7 +109,7 @@ const VARIANTS={
   curious:{de:'Was wäre für dich der faire Maßstab: überhaupt keine Schäden oder möglichst wenige vermeidbare Schäden? Beim Vergleich sollten wir auch die Flächen und Futterpflanzen der Tierhaltung mitzählen.',en:'What seems a fair standard to you: zero harm, or as little avoidable harm as possible? A comparison should count the land and feed crops used for livestock too.'}
  },
  protein:{
-  kiki:{de:'Gerade bei Sport und Ernährung ist die Proteinfrage verständlich. Du musst deinen Bedarf nicht dem Zufall überlassen: Linsen, Bohnen, Tofu und andere passende Lebensmittel können ihn bei guter Planung auch pflanzlich decken.',en:'Protein is a fair concern, especially if you train. You do not have to leave it to chance: legumes, tofu and other suitable foods can meet protein needs with good planning.'},
+  kiki:{de:'Die Proteinfrage ist verständlich, besonders wenn dir eine gute Versorgung wichtig ist. Linsen, Bohnen, Tofu und Getreide können bei abwechslungsreicher, ausreichender Ernährung helfen, den Bedarf zu decken.',en:'Protein is a fair concern, especially if you train. You do not have to leave it to chance: legumes, tofu and other suitable foods can meet protein needs with good planning.'},
   bao:{de:'Die Muskeln brauchen Protein, keine Mitgliedskarte im Steakclub. 😉 Auch Linsen, Tofu, Bohnen und Co. liefern welches. Entscheidend ist, wie viel du insgesamt isst und ob die Auswahl zu deinem Bedarf passt.',en:'Muscles need protein, not a steak-club membership. 😉 Lentils, tofu and beans provide it too. What matters is sufficient intake and choosing foods that fit your needs.'},
   curious:{de:'Geht es dir um normalen Alltag oder um Krafttraining? Auch mit Hülsenfrüchten, Sojaprodukten und Getreide lässt sich Protein decken – die sinnvolle Menge hängt aber vom persönlichen Bedarf ab.',en:'Are you asking about everyday nutrition or strength training? Legumes, soy foods and grains can provide protein, but the right total depends on individual needs.'}
  },
@@ -124,9 +124,9 @@ const VARIANTS={
   curious:{de:'Wusstest du, dass die B12-Aufnahme nicht proportional zur Dosis steigt? Der Körper nimmt bei hohen Einzeldosen prozentual weniger auf. Geht es dir um die Erklärung auf dem Etikett oder um eine persönliche Einnahmefrage?',en:'Did you know B12 absorption does not rise proportionally with the dose? Higher single doses have a lower percentage absorbed. Are you asking about the label, or about personal supplementation?' }
  },
  sentience:{
-  kiki:{de:'Mir ist wichtig, dass wir Tiere nicht einfach ausblenden. Im EU-Recht werden sie als fühlende Wesen anerkannt. Welche Konsequenzen wir daraus ziehen, können wir respektvoll diskutieren – aber ihr Wohlergehen zählt.',en:'I think animal welfare deserves a place in the conversation. EU law recognises animals as sentient beings. We can respectfully debate what follows ethically, but their welfare matters.'},
-  bao:{de:'Tiere sind keine bloßen Produkte auf vier Beinen. Die EU behandelt sie rechtlich als fühlende Wesen. Über unsere Verantwortung daraus lässt sich streiten – ihr Wohlergehen sollte dabei aber nicht unter den Tisch fallen.',en:'Animals are more than products on legs. EU law recognises them as sentient beings. We can disagree about our duties, but their welfare should not disappear from the discussion.'},
-  curious:{de:'Wenn Tiere als fühlende Wesen anerkannt sind – wie sollte ihr Wohlergehen bei unseren Essensentscheidungen zählen? Das EU-Recht erkennt diese Eigenschaft an; die ethischen Konsequenzen müssen wir miteinander aushandeln.',en:'If animals are recognised as sentient beings, how should their welfare count in food choices? EU law acknowledges sentience; the ethical implications are still worth discussing.'}
+  kiki:{de:'Ja, Tiere wie Schweine und Hühner können Schmerzen und Stress erfahren. Das ist ein wichtiger Grund, ihr Wohlergehen ernst zu nehmen. Wie wir das im Alltag berücksichtigen, können wir miteinander besprechen.',en:'Yes. Animals such as pigs and chickens can experience pain and distress. That matters for their welfare. We can respectfully discuss how to take those experiences into account in everyday decisions.'},
+  bao:{de:'Ja. Schweine und Hühner sind keine gefühllosen Produkte auf Beinen – Schmerz und Stress zählen für ihr Wohlergehen. Was wir daraus fürs Essen ableiten, ist eine wichtige Diskussion.',en:'Yes. Pigs and chickens are not unfeeling products on legs: pain and distress affect their welfare. What we do about that in our food choices is worth discussing.'},
+  curious:{de:'Ja, viele Tiere können Schmerzen empfinden. Wenn wir das wissen: Wie sollte ihr Wohlergehen bei unseren Essensentscheidungen berücksichtigt werden? Die ethische Frage geht über die reine Biologie hinaus.',en:'Yes, many animals can feel pain. Knowing that, how much weight should their welfare carry in our food choices? The ethical question goes beyond biology alone.'}
  }
 };
 // Ethical and everyday obstacles are conversation drafts, not scientifically
@@ -280,7 +280,7 @@ function recommendVoice(text,topicId){
  if(['taste','cost','ethical_choice','painless_killing','life_ethics'].includes(topicId))return 'kiki';
  if(topicId==='crop'||topicId==='sentience')return 'kiki';
  if(topicId==='forest'&&/(aber|doch|but|really|fake|lüg|gefälscht)/i.test(s))return 'kiki';
- if(topicId==='protein'&&/(kann ich|could i|i want|möchte|wie schaffe)/i.test(s))return 'kiki';
+ if(topicId==='protein'&&/(kann ich|could i|i want|möchte|wie schaffe|muskelaufbau|krafttraining)/i.test(s))return 'kiki';
  return 'momo';
 }
 function normalReplyLabel(s){return REPLIES.includes(norm(s).toLowerCase().replace(/[.!:]+$/,''));}
