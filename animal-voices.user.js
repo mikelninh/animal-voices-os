@@ -255,7 +255,7 @@ function findComposer(from){
   .filter(n=>{
    if(!visible(n)||n.closest?.('[data-av-control]'))return false;
    const hint=[n.getAttribute?.('placeholder'),n.getAttribute?.('aria-label'),n.getAttribute?.('aria-placeholder'),n.getAttribute?.('data-placeholder')].join(' ');
-   const inComment=!!from&&(from.contains?.(n)||from.parentElement?.contains(n));
+   const inComment=!!from&&from.contains?.(n);
    // Never insert into search, chat or caption editors just because they are the only input visible.
    return inComment||/add a comment|comment|kommentar|antwort|reply|antwort hinzuf/i.test(hint);
   });
@@ -263,7 +263,7 @@ function findComposer(from){
  const active=doc.activeElement;
  if(active&&candidates.includes(active))return active;
  if(from){
-  const inRoot=candidates.find(n=>from.contains?.(n)||from.parentElement?.contains(n));
+  const inRoot=candidates.find(n=>from.contains?.(n));
   if(inRoot)return inRoot;
  }
  return candidates.length===1?candidates[0]:null;
@@ -402,7 +402,7 @@ function showPanel(){
   if(selected?.suggestion?.state!=='reviewed')return false;
   const text=norm(proposal.value);
   if(!text){feedback.textContent='Bitte zuerst einen Antworttext eintragen.';return false;}
-  try{await root.navigator.clipboard.writeText(text);feedback.textContent='Kopiert. Du bleibst auf Instagram – füge den Text selbst ins Antwortfeld ein.';return true}
+  try{await root.navigator.clipboard.writeText(text);closePanel();toast('Antwort kopiert. Jetzt direkt in Instagram einfügen und selbst senden.');return true}
   catch{proposal.focus();proposal.select();feedback.textContent='Text markiert. Wähle „Kopieren“ über das Textmenü.';return false}
  }
  shadow.getElementById('av-copy').addEventListener('click',copy);
