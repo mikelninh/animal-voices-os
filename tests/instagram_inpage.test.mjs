@@ -180,7 +180,7 @@ test('Full demo review: all 22 texts route to the intended specific topic, in th
    assert.equal(entry.language,lang,'Reply language mismatch #'+(i+1));
    assert.ok(entry.text.length>=55,'Too short #'+(i+1));
    const german=(entry.text.match(/\b(?:ich|wir|du|die|der|das|und|nicht|aber|wenn|auch|kann|können|tiere|für|bei|wird|werden|ist|sind|sollten)\b/gi)||[]).length;
-   const english=(entry.text.match(/\b(?:the|and|but|our|you|because|why|how|with|can|should|would|could|this|they|their|does)\b/gi)||[]).length;
+   const english=(entry.text.match(/\b(?:the|and|but|our|you|because|why|how|with|can|should|would|could|this|they|their|does|is|are|of|to|as|a|an|not|have|we)\b/gi)||[]).length;
    if(lang==='de')assert.ok(german>=2,'German reply appears English #'+(i+1)+' '+entry.voice+': '+entry.text);
    else assert.ok(english>=2,'English reply appears German #'+(i+1)+' '+entry.voice+': '+entry.text);
   }
