@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Animal Voices · Instagram Companion
 // @namespace    https://animal-voices-os.vercel.app/
-// @version      0.4.0
+// @version      0.4.1
 // @description  Einen Instagram-Kommentar auswählen, vorab geprüften Antwortvorschlag ansehen und selbst freigeben. Keine Veröffentlichung durch das Skript.
 // @match        https://www.instagram.com/*
 // @match        https://instagram.com/*
@@ -228,6 +228,38 @@ for(const r of RAGE_TOPICS){
  TOPICS[r.id]={name:r.name,patterns:[new RegExp(r.re,'i')],answer:{de:r.de[0],en:r.en[0]},summary:r.summary,sources:r.sources,limitation:r.limitation,evidenceStatus:'editorial',defaultVoice:r.go};
  VARIANTS[r.id]={kiki:{de:r.de[1],en:r.en[1]},bao:{de:r.de[2],en:r.en[2]},curious:{de:r.de[3],en:r.en[3]}};
 }
+// Provocation is not always silence: one dignified public reply is optional,
+// never the automatic default. It is an editorial script, not a fact-check.
+const RAGE_REPLY={
+ steak:{
+  de:{
+   momo:'Die Zahl der Steaks sagt noch nichts darüber, wie wir mit Tieren umgehen sollten. Mir wäre eine sachliche Frage lieber als ein Wettbewerb.',
+   kiki:'Du musst mir nichts beweisen. Ich möchte niemanden beschämen – mir geht es darum, ob wir vermeidbares Leid für Tiere verringern können.',
+   bao:'Steak-Bingo gewonnen. 😄 Mir wäre ein Gespräch über Tiere lieber als ein Wettkampf, wer wen ärgert.',
+   curious:'Wenn wir den Steak-Wettbewerb weglassen: Was wäre für dich eine faire Frage zum Umgang mit Tieren?'
+  },
+  en:{
+   momo:'The number of steaks does not settle how we should treat animals. I would rather discuss a real question than keep score.',
+   kiki:'You do not have to prove anything to me. I am not here to shame you; I care about whether we can reduce avoidable harm to animals.',
+   bao:'Steak bingo: you win. 😄 I would rather discuss animals than compete over who can annoy whom.',
+   curious:'If we skip the steak competition, what would be a fair question about how we treat animals?'
+  }
+ },
+ generic:{
+  de:{
+   momo:'Provokation bringt uns selten weiter. Wenn du eine konkrete Frage zu Tieren oder Ernährung hast, beantworte ich sie gern.',
+   kiki:'Wir müssen uns nicht einig sein. Ich möchte trotzdem respektvoll sprechen – über Tiere und Entscheidungen, nicht gegeneinander.',
+   bao:'Provokation angekommen. 😄 Jetzt vielleicht ein echtes Gespräch statt eines Kommentar-Duells?',
+   curious:'Hinter dem Spruch steckt vielleicht eine echte Frage. Welche davon möchtest du ernsthaft diskutieren?'
+  },
+  en:{
+   momo:'Provocation rarely moves a conversation forward. If you have a real question about animals or food, I am happy to answer.',
+   kiki:'We do not have to agree. I would still rather speak respectfully about animals and choices than fight each other.',
+   bao:'Provocation received. 😄 Fancy an actual conversation instead of a comment duel?',
+   curious:'Maybe there is a real question behind the joke. Which one would you actually like to discuss?'
+  }
+ }
+};
 const RAGE_SKIP=[/wegen euch.{0,25}esse ich.{0,45}(?:steaks?|schnitzel)/i,/ich esse.{0,50}(?:zwei|2|drei|3|extra|mehr).{0,30}(?:steak|schnitzel|burger).{0,40}(?:wegen euch|extra für euch|nur damit)/i,/(?:i'll eat|i will eat|i'm eating).{0,55}(?:extra|two more|2 more).{0,35}(?:steaks?|burgers?).{0,40}(?:because of you|to annoy)/i,/(?:heul doch|cry more|stay mad).{0,65}(?:vegan|pflanzen|tofu)/i];
 const REPLIES=['antworten','reply','respond','répondre','responder','rispondi'];
 const SENSITIVE=/\b(schwanger|schwangerschaft|stillend|baby|babys|kind|kinder|kid|kids|children|minor|minderjaehr|minderjähr|pregnan|child|infant|stillen|medikament|diagnose|eating disorder|essst[oö]rung|suizid|suicide|kill yourself|töte dich|bring dich um|ich bringe dich um|ich werde dich töten|ich töte dich|i will kill|i'm going to kill|threat|drohung)\b/i;
@@ -271,6 +303,15 @@ function language(text){
 }
 function suggest(text,voice='momo'){
  const result=classify(text);
+ if(result.state==='skip'){
+  const lang=language(text),id=Object.prototype.hasOwnProperty.call(VOICES,voice)?voice:'kiki';
+  const kind=/steaks?|schnitzel|burgers?/i.test(text)?'steak':'generic';
+  return {...result,language:lang,voice:id,topic:'Reine Provokation',
+   text:RAGE_REPLY[kind][lang][id],evidenceStatus:'editorial',recommendedAction:'no_reply_or_one',
+   summary:'Keine faktische Prüfung nötig: ein optionaler Gesprächsversuch für Mitlesende. Keine weitere Eskalation.',
+   limitation:'Ein einziger respektvoller Satz ist optional. Nicht antworten bleibt eine gute Entscheidung.',
+   sources:[]};
+ }
  if(result.state!=='reviewed')return result;
  const t=TOPICS[result.id],lang=language(text);
  const id=Object.prototype.hasOwnProperty.call(VOICES,voice)?voice:'momo';
@@ -480,6 +521,7 @@ function showPanel(){
   <button type="button" data-av-voice="curious" aria-pressed="false">? Neugierig</button>
  </div>
  <div class="row"><span class="voice-hint" id="av-voice-hint">Momo · Klar und faktenorientiert</span><button type="button" id="av-next-voice" class="alt">Andere Antwort ↻</button></div>
+ <button type="button" id="av-optin" class="secondary" hidden style="width:100%;margin:7px 0">Optional: einmal respektvoll antworten ↗</button>
  <textarea id="av-proposal" rows="3" maxlength="1200" placeholder="Für diese Frage liegt noch keine vorab geprüfte Antwort vor."></textarea>
  <details id="av-evidence" open><summary>Belege, Grenzen & Einordnung ansehen</summary><div id="av-sources"></div></details>
  <p class="micro" id="av-hint">Keine automatische Veröffentlichung. Deine Übernahme ist immer freiwillig.</p>
@@ -489,25 +531,32 @@ function showPanel(){
  doc.body.append(host);
  sheet=host;overlayRoot=shadow;
  const box=shadow.getElementById('av-comment'),proposal=shadow.getElementById('av-proposal'),feedback=shadow.getElementById('av-feedback');
- let proposalModified=false,currentVoice='momo',lastTopicKey=null;
+ let proposalModified=false,currentVoice='momo',lastTopicKey=null,optedIn=false;
  box.value=selected.text;
  const initial=classify(box.value);
  if(initial.state==='reviewed')currentVoice=recommendVoice(box.value,initial.id);
+ if(initial.state==='skip')currentVoice='kiki';
  shadow.getElementById('av-close').addEventListener('click',closePanel);
  function update(){
   proposalModified=false;
   const selectedTopic=classify(box.value);
-  if(lastTopicKey!==norm(box.value)&&selectedTopic.state==='reviewed')currentVoice=recommendVoice(box.value,selectedTopic.id);
+  if(lastTopicKey!==norm(box.value)){
+   optedIn=false;
+   if(selectedTopic.state==='reviewed')currentVoice=recommendVoice(box.value,selectedTopic.id);
+   if(selectedTopic.state==='skip')currentVoice='kiki';
+  }
   lastTopicKey=norm(box.value);
   const result=suggest(box.value,currentVoice),pill=shadow.getElementById('av-status-pill'),src=shadow.getElementById('av-sources');
   src.replaceChildren();feedback.textContent='';
   shadow.querySelectorAll('[data-av-voice]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.avVoice===currentVoice)));
   const descriptions={momo:'Momo · Fakten & Klarheit',kiki:'Kiki · Warm & zugewandt',bao:'Bao · Locker & sympathisch',curious:'Neugier · Eine offene Frage'};
   shadow.getElementById('av-voice-hint').textContent=descriptions[currentVoice]+' · 4 unterschiedliche Antworten';
-  if(result.state==='reviewed'){
-   pill.textContent=result.evidenceStatus==='editorial'?'Redaktioneller Gesprächsentwurf':'✓ Faktenbasis vorab geprüft';
-   pill.className=result.evidenceStatus==='editorial'?'pill unverified':'pill';
-   shadow.getElementById('av-topic').textContent=result.topic+' · '+(result.evidenceStatus==='editorial'?'ethische / praktische Einordnung':'Quellenstand '+result.reviewedAt)+' · kein Live-Check';
+  const canDraft=result.state==='reviewed'||(result.state==='skip'&&optedIn);
+  shadow.getElementById('av-optin').hidden=result.state!=='skip'||optedIn;
+  if(canDraft){
+   pill.textContent=result.state==='skip'?'Einmalige Antwort · freiwillig':(result.evidenceStatus==='editorial'?'Redaktioneller Gesprächsentwurf':'✓ Faktenbasis vorab geprüft');
+   pill.className=result.state==='skip'||result.evidenceStatus==='editorial'?'pill unverified':'pill';
+   shadow.getElementById('av-topic').textContent=result.topic+' · '+(result.state==='skip'?'Nur für Mitlesende, höchstens eine Antwort':result.evidenceStatus==='editorial'?'ethische / praktische Einordnung':'Quellenstand '+result.reviewedAt)+' · kein Live-Check';
    proposal.value=result.text;proposal.readOnly=false;
    const p=make('p',{},result.summary);p.className='micro';src.append(p);
    for(const ref of result.sources){const a=make('a',{},ref.name+' ↗');a.href=ref.url;a.target='_blank';a.rel='noopener noreferrer';a.className='source';src.append(a,make('div'))}
@@ -520,10 +569,14 @@ function showPanel(){
    const p=make('p',{},result.state==='skip'?'Reine Provokation. Lieber nicht antworten und keine zusätzliche Aufmerksamkeit geben.':'Zu diesem konkreten Kommentar liegt noch keine verlässlich belegte Antwortvorlage vor. Nicht raten – Kontext und Quellen müssen zuerst geprüft werden.');p.className='micro alert';src.append(p);
    shadow.getElementById('av-evidence').open=true;
   }
-  shadow.getElementById('av-copy').disabled=result.state!=='reviewed';
-  shadow.getElementById('av-insert').disabled=result.state!=='reviewed';
+  shadow.getElementById('av-copy').disabled=!canDraft;
+  shadow.getElementById('av-insert').disabled=!canDraft;
   selected.suggestion=result;
  }
+ shadow.getElementById('av-optin').addEventListener('click',()=>{
+  if(classify(box.value).state!=='skip')return;
+  optedIn=true;update();
+ });
  box.addEventListener('input',update);
  shadow.querySelectorAll('[data-av-voice]').forEach(button=>button.addEventListener('click',()=>{
   if(currentVoice===button.dataset.avVoice)return;
@@ -534,15 +587,18 @@ function showPanel(){
   currentVoice=ids[(ids.indexOf(currentVoice)+1)%ids.length];update();
  });
  proposal.addEventListener('input',()=>{
-  if(selected?.suggestion?.state!=='reviewed')return;
+  if(!canPublishDraft())return;
   proposalModified=true;
   const pill=shadow.getElementById('av-status-pill');
   pill.textContent='Entwurf verändert · nicht vorab geprüft';pill.className='pill unverified';
   feedback.textContent='Du hast die geprüfte Vorlage verändert. Bitte neue Tatsachenbehauptungen selbst belegen. Veröffentlicht wird nichts automatisch.';
  });
  update();
+ function canPublishDraft(){
+  return selected?.suggestion?.state==='reviewed'||(selected?.suggestion?.state==='skip'&&optedIn);
+ }
  async function copy(){
-  if(selected?.suggestion?.state!=='reviewed')return false;
+  if(!canPublishDraft())return false;
   const text=norm(proposal.value);
   if(!text){feedback.textContent='Bitte zuerst einen Antworttext eintragen.';return false;}
   try{await root.navigator.clipboard.writeText(text);closePanel();toast('Antwort kopiert. Jetzt direkt in Instagram einfügen und selbst senden.');return true}
@@ -550,7 +606,7 @@ function showPanel(){
  }
  shadow.getElementById('av-copy').addEventListener('click',copy);
  shadow.getElementById('av-insert').addEventListener('click',async()=>{
-  if(selected?.suggestion?.state!=='reviewed')return;
+  if(!canPublishDraft())return;
   const text=norm(proposal.value),origin=selected.root,trigger=replyTrigger,comment=box.value;
   if(!text)return;
   // Request clipboard write during the user's tap before any timers or focus changes.
