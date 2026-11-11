@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Animal Voices · Instagram Companion
 // @namespace    https://animal-voices-os.vercel.app/
-// @version      0.3.0
+// @version      0.3.1
 // @description  Einen Instagram-Kommentar auswählen, vorab geprüften Antwortvorschlag ansehen und selbst freigeben. Keine Veröffentlichung durch das Skript.
 // @match        https://www.instagram.com/*
 // @match        https://instagram.com/*
@@ -16,7 +16,7 @@
  */
 (function(root){
 'use strict';
-const VERSION='0.3.0';
+const VERSION='0.3.1';
 const REVIEWED_AT='2026-11-10';
 const OWID='https://ourworldindata.org/land-use-diets';
 const DGE='https://www.dge.de/gesunde-ernaehrung/faq/faqs-vegane-ernaehrung';
@@ -167,6 +167,18 @@ TOPICS.ethical_choice={
  limitation:'Aus dem EU-Recht folgt nicht automatisch eine bestimmte Ernährungsentscheidung. Die Gewichtung moralischer Interessen ist eine ethische Diskussion.',
  evidenceStatus:'editorial'
 };
+TOPICS.life_ethics={
+ name:'Zählt das Leben des Tiers?',
+ patterns:[/wenn tiere.{0,50}fühl.{0,55}(?:leben|zählt|wert)|zählt.{0,50}(?:leben|lebens).{0,40}(?:tier|tieren)|life of an animal.{0,30}matter|does an animal.s life matter/i],
+ answer:{
+  de:'Ja, das ist eine wichtige Frage. Wenn Tiere fühlen können, zählt für viele nicht nur, ob sie leiden, sondern auch, dass sie weiterleben möchten oder könnten. Wie wir dieses Interesse gewichten, ist eine ethische Diskussion.',
+  en:'Yes, that matters. For many people, animal ethics is not only about preventing pain but also about whether animals have an interest in continuing to live. How we weigh that interest is an ethical question.'
+ },
+ summary:'Ethische Einordnung, nicht direkte empirische Messung. Der EU-Vertrag erkennt Tiere als fühlende Wesen an, beantwortet aber nicht abschließend die Frage nach dem Lebensinteresse.',
+ sources:[{name:'EUR-Lex · Tiere als fühlende Wesen',url:EU}],
+ limitation:'Nicht behaupten, dass alle Tierarten identische Todeskonzepte oder Zukunftspräferenzen haben. Ethische Abwägungen bleiben umstritten.',
+ evidenceStatus:'editorial'
+};
 TOPICS.painless_killing={
  name:'Töten ohne Schmerzen',
  patterns:[/töt.{0,55}ohne.{0,30}schmerz|töten.{0,70}schmerz|ohne.{0,30}schmerz.{0,60}(?:tier|töt|ethisch)|painlessly.{0,25}kill|painless.{0,25}kill|kill.{0,60}without pain|slaughter.{0,50}without pain/i],
@@ -201,9 +213,16 @@ const MORE_VARIANTS={
   curious:{de:'Geht es für dich beim Töten nur um Schmerzen – oder zählt auch die Möglichkeit, weiterzuleben? Daran hängt oft, wie wir eine vermeintlich schmerzlose Tötung ethisch einordnen.',en:'Is the only ethical issue pain during death, or does the chance to keep living count too? That distinction often shapes how people think about painless killing.'}
  }
 };
+
+MORE_VARIANTS.life_ethics={
+ kiki:{de:'Gute Frage. Wenn wir Tiere als fühlende Wesen ernst nehmen, sollten wir vielleicht nicht nur Schmerzen vermeiden, sondern auch fragen, ob ihnen ihr weiteres Leben etwas bedeutet. Darauf gibt es keine einfache moralische Formel.',en:'That is a meaningful question. If we take animal sentience seriously, perhaps we should consider not only pain but also their continued lives. There is no simple formula for weighing that.'},
+ bao:{de:'Tierwohl endet vielleicht nicht schon bei „möglichst wenig Schmerz“. Die größere Frage ist, ob ihr Leben selbst zählt. Darüber können wir respektvoll diskutieren, ohne die Antwort als naturwissenschaftliche Tatsache auszugeben.',en:'Animal welfare might be about more than minimising pain. There is also the question of whether an animal’s life itself matters. We can discuss that without pretending science settles morality.'},
+ curious:{de:'Würdest du sagen, wir sollten bei Tieren nur Schmerz berücksichtigen – oder auch die Möglichkeit, weiterzuleben? Genau diese Unterscheidung macht die ethische Frage so spannend.',en:'Should we consider only animal pain, or also their opportunity to go on living? That distinction seems central to the ethical question.'}
+};
+
 for(const [topic,variants] of Object.entries(MORE_VARIANTS))VARIANTS[topic]=variants;
 const REPLIES=['antworten','reply','respond','répondre','responder','rispondi'];
-const SENSITIVE=/\b(schwanger|schwangerschaft|stillend|baby|babys|kind|kinder|kid|kids|children|minor|minderjaehr|minderjähr|pregnan|child|infant|stillen|medikament|diagnose|eating disorder|essst[oö]rung|suizid|suicide|kill yourself|t[oö]ten|threat|drohung)\b/i;
+const SENSITIVE=/\b(schwanger|schwangerschaft|stillend|baby|babys|kind|kinder|kid|kids|children|minor|minderjaehr|minderjähr|pregnan|child|infant|stillen|medikament|diagnose|eating disorder|essst[oö]rung|suizid|suicide|kill yourself|töte dich|bring dich um|ich bringe dich um|i will kill|i'm going to kill|threat|drohung)\b/i;
 const PRIVATE=/(?:@[a-z0-9_.]{3,}|[\w.+-]+@[\w.-]+\.[a-z]{2,}|\+?\d[\d()\s-]{8,}\d)/i;
 const norm=s=>String(s||'').replace(/\s+/g,' ').trim();
 function classify(text){
@@ -215,6 +234,7 @@ function classify(text){
  if(variants.length===0)return {state:'unknown',reason:'Dazu haben wir noch keinen redaktionell geprüften Gesprächsentwurf.'};
  // Only known supersets/semantic overlaps are resolved. Unrelated topics hold.
  if(variants.some(([id])=>id==='b12dose')&&variants.every(([id])=>['b12dose','b12'].includes(id)))return {state:'reviewed',id:'b12dose'};
+ if(variants.some(([id])=>id==='life_ethics')&&variants.every(([id])=>['life_ethics','ethical_choice','sentience'].includes(id)))return {state:'reviewed',id:'life_ethics'};
  if(variants.some(([id])=>id==='ethical_choice')&&variants.every(([id])=>['ethical_choice','sentience'].includes(id)))return {state:'reviewed',id:'ethical_choice'};
  if(variants.some(([id])=>id==='painless_killing')&&variants.every(([id])=>['painless_killing','sentience'].includes(id)))return {state:'reviewed',id:'painless_killing'};
  if(variants.length>1)return {state:'unknown',reason:'Mehrere unterschiedliche Themen erkannt. Bitte den Kommentar präzisieren.'};
@@ -257,7 +277,7 @@ const DEFAULT_REASON={
 function recommendVoice(text,topicId){
  const s=norm(text).toLowerCase();
  // No hidden moral persuasion optimisation: prefer clear, civil engagement.
- if(['taste','cost','ethical_choice','painless_killing'].includes(topicId))return 'kiki';
+ if(['taste','cost','ethical_choice','painless_killing','life_ethics'].includes(topicId))return 'kiki';
  if(topicId==='crop'||topicId==='sentience')return 'kiki';
  if(topicId==='forest'&&/(aber|doch|but|really|fake|lüg|gefälscht)/i.test(s))return 'kiki';
  if(topicId==='protein'&&/(kann ich|could i|i want|möchte|wie schaffe)/i.test(s))return 'kiki';
@@ -448,7 +468,7 @@ function showPanel(){
  </div>
  <div class="row"><span class="voice-hint" id="av-voice-hint">Momo · Klar und faktenorientiert</span><button type="button" id="av-next-voice" class="alt">Andere Antwort ↻</button></div>
  <textarea id="av-proposal" rows="3" maxlength="1200" placeholder="Für diese Frage liegt noch keine vorab geprüfte Antwort vor."></textarea>
- <details id="av-evidence" open><summary>Vorab geprüfte Aussage & Quellen ansehen</summary><div id="av-sources"></div></details>
+ <details id="av-evidence" open><summary>Belege, Grenzen & Einordnung ansehen</summary><div id="av-sources"></div></details>
  <p class="micro" id="av-hint">Keine automatische Veröffentlichung. Deine Übernahme ist immer freiwillig.</p>
  <div class="actions"><button class="secondary" id="av-copy">Kopieren</button><button class="primary" id="av-insert">Antwort übernehmen ↗</button></div>
  <p class="status" role="status" aria-live="polite" id="av-feedback"></p>
@@ -456,19 +476,25 @@ function showPanel(){
  doc.body.append(host);
  sheet=host;overlayRoot=shadow;
  const box=shadow.getElementById('av-comment'),proposal=shadow.getElementById('av-proposal'),feedback=shadow.getElementById('av-feedback');
- let proposalModified=false,currentVoice='momo';
+ let proposalModified=false,currentVoice='momo',lastTopicKey=null;
  box.value=selected.text;
+ const initial=classify(box.value);
+ if(initial.state==='reviewed')currentVoice=recommendVoice(box.value,initial.id);
  shadow.getElementById('av-close').addEventListener('click',closePanel);
  function update(){
   proposalModified=false;
+  const selectedTopic=classify(box.value);
+  if(lastTopicKey!==norm(box.value)&&selectedTopic.state==='reviewed')currentVoice=recommendVoice(box.value,selectedTopic.id);
+  lastTopicKey=norm(box.value);
   const result=suggest(box.value,currentVoice),pill=shadow.getElementById('av-status-pill'),src=shadow.getElementById('av-sources');
   src.replaceChildren();feedback.textContent='';
   shadow.querySelectorAll('[data-av-voice]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.avVoice===currentVoice)));
   const descriptions={momo:'Momo · Fakten & Klarheit',kiki:'Kiki · Warm & zugewandt',bao:'Bao · Locker & sympathisch',curious:'Neugier · Eine offene Frage'};
   shadow.getElementById('av-voice-hint').textContent=descriptions[currentVoice]+' · 4 unterschiedliche Antworten';
   if(result.state==='reviewed'){
-   pill.textContent='✓ Aussage vorab geprüft';pill.className='pill';
-   shadow.getElementById('av-topic').textContent=result.topic+' · Quellenstand '+result.reviewedAt+' · kein Live-Check des Kommentars';
+   pill.textContent=result.evidenceStatus==='editorial'?'Redaktioneller Gesprächsentwurf':'✓ Faktenbasis vorab geprüft';
+   pill.className=result.evidenceStatus==='editorial'?'pill unverified':'pill';
+   shadow.getElementById('av-topic').textContent=result.topic+' · '+(result.evidenceStatus==='editorial'?'ethische / praktische Einordnung':'Quellenstand '+result.reviewedAt)+' · kein Live-Check';
    proposal.value=result.text;proposal.readOnly=false;
    const p=make('p',{},result.summary);p.className='micro';src.append(p);
    for(const ref of result.sources){const a=make('a',{},ref.name+' ↗');a.href=ref.url;a.target='_blank';a.rel='noopener noreferrer';a.className='source';src.append(a,make('div'))}
