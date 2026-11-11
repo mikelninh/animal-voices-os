@@ -33,12 +33,12 @@ footer{color:#82938b;font-size:11px;padding:23px 17px}
 </head>
 <body>
 <main>
-<div class="notice"><strong>✳ Dies ist eine Testseite – NICHT Instagram.</strong> Sie zeigt 22 frei formulierte Beispielkommentare und ein Antwortfeld, damit du den Direkt-im-Kommentar-Ablauf sicher ausprobieren kannst. Keine echten Accounts und keine Veröffentlichung. <a href="/install.html">Installation</a></div>
+<div class="notice"><strong>✳ Dies ist eine Testseite – NICHT Instagram.</strong> Sie zeigt 42 redaktionelle Beispielkommentare und ein Antwortfeld, damit du den Direkt-im-Kommentar-Ablauf sicher ausprobieren kannst. Keine echten Accounts und keine Veröffentlichung. <a href="/install.html">Installation</a></div>
 <header class="top"><div class="brand">insta<span>gram · Demo</span></div><div class="headtools">♡　⊕　☷</div></header>
 <div class="post-author"><span class="avatar"></span> better.food.stories · Demo</div>
 <div class="post-photo"><span>Food can be<br>kind.</span></div>
 <div class="post-desc"><strong>better.food.stories</strong> Ein freundliches Gespräch über unser Essen. Welche Frage beschäftigt euch?</div>
-<div class="sample-tags"><strong>22 Beispiel-Kommentare · 4 verschiedene Antwortstimmen</strong><div class="filters" role="group" aria-label="Kommentarbeispiele filtern"><button type="button" data-filter="all" aria-pressed="true">Alle</button><button type="button" data-filter="facts" aria-pressed="false">Fakten</button><button type="button" data-filter="ethics" aria-pressed="false">Tierethik</button><button type="button" data-filter="unknown" aria-pressed="false">Unbekannt</button></div></div>
+<div class="sample-tags"><strong>42 Kommentar-Beispiele · 4 Antwortstimmen</strong><div class="filters" role="group" aria-label="Kommentarbeispiele filtern"><button type="button" data-filter="all" aria-pressed="true">Alle</button><button type="button" data-filter="facts" aria-pressed="false">Fakten</button><button type="button" data-filter="ethics" aria-pressed="false">Tierethik</button><button type="button" data-filter="unknown" aria-pressed="false">Alltag & Grenzen</button><button type="button" data-filter="rage" aria-pressed="false">🔥 Ragebait</button></div></div>
 <p class="case-note">Redaktionell formulierte Beispiele, teilweise an öffentliche Diskussionen angelehnt · fiktive Nutzernamen · keine echten Instagram-Kommentare.</p>
 <h2>Kommentare</h2>
 <ul id="demo-comments">
@@ -68,7 +68,27 @@ const demoExamples=[
  ['english1','Why are crop deaths ignored in veganism?','ethics'],
  ['english2','Can I get enough protein from plant foods?','facts'],
  ['english3','But is soy causing rainforest deforestation?','facts'],
- ['english4','Why should animal suffering matter for our food choices?','ethics']
+ ['english4','Why should animal suffering matter for our food choices?','ethics'],
+ ["plants1","Pflanzen haben doch auch Gefühle!!!","rage"],
+ ["steaktroll","Ich esse jetzt zwei Steaks extra für euch 😂","rage"],
+ ["annoyed","Ihr Veganer nervt so! Muss das dauernd sein?","rage"],
+ ["banfear","Wollt ihr uns Fleisch verbieten?","rage"],
+ ["tofuchem","Tofu ist doch reine Chemie!","rage"],
+ ["natural","Vegane Ernährung ist doch völlig unnatürlich!","rage"],
+ ["oldschool","Menschen haben schon immer Fleisch gegessen!","rage"],
+ ["lion","Löwen essen Fleisch, sollen die jetzt auch vegan werden?","rage"],
+ ["meme","Ihr esst dem Essen das Essen weg 😂","rage"],
+ ["trend","Vegan ist doch nur ein Trend.","rage"],
+ ["dichotomy","Warum sind Tiere wichtiger als Menschen?","rage"],
+ ["mockprotein","Ohne Fleisch keine Muskeln, ihr Lauchs!","rage"],
+ ["b12check","B12-Supplemente! Schachmatt, Veganer 😂","rage"],
+ ["stakagain","Wegen euch esse ich heute zwei extra Steaks!","rage"],
+ ["misinformation","Soja macht Männer weiblich!","rage"],
+ ["englishannoyed","Why are vegans so annoying?","rage"],
+ ["englishplants","Plants feel pain too!","rage"],
+ ["englishsteaks","I will eat two more steaks to annoy vegans","rage"],
+ ["englishtofu","Tofu is just chemicals, bro.","rage"],
+ ["englishancestors","My ancestors ate meat, so why should I change?","rage"]
 ];
 const list=document.getElementById('demo-comments');
 function addDemo({name,comment,type}){
@@ -101,7 +121,7 @@ document.querySelectorAll('[data-filter]').forEach(button=>button.addEventListen
  });
 }));
 </script>
-<script src="/animal-voices.user.js?v=0.3.1"></script>
+<script src="/animal-voices.user.js?v=0.4.0"></script>
 <script>
 if(new URLSearchParams(location.search).has('selftest')){
  const report=document.createElement('output');report.id='av-e2e-report';report.dataset.status='running';report.textContent='Running in-page integration test';document.body.append(report);
