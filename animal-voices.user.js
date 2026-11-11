@@ -556,6 +556,16 @@ function showPanel(){
  .status{margin:9px 0 0;font-size:12px;color:#406f4b;font-weight:650}
  .alert{color:#995b32;background:#fff4e3;padding:11px;border-radius:9px}
  .small{font-size:10px}
+ .mod{border:1px solid #d9e5d5;border-radius:12px;background:#f7faf3;padding:12px;margin:13px 0 10px}
+ .mod-title{display:flex;align-items:center;justify-content:space-between;gap:7px;font-size:13px;color:#355e44;font-weight:800}
+ .mod-title span:last-child{font-weight:600;color:#7b977e;font-size:10px}
+ .mod-reason{color:#687f6d;font-size:12px;line-height:1.5;margin:6px 0}
+ .mod-context{border-top:1px solid #e0eadb;padding:7px 0 0;margin:8px 0 0}
+ .mod-context summary{font-size:11px}
+ .mod-context label{display:flex;gap:9px;align-items:flex-start;color:#54745c;font-size:11px;padding:8px 0;cursor:pointer}
+ .mod-context input{width:17px;height:17px;flex:none;accent-color:#286344}
+ .mod-more{font-size:11px;color:#698873;line-height:1.5;margin:7px 0}
+ .mod-code{font-size:11px;font-weight:800;color:#42714f}
  .voices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:10px 0 7px}
  .voices button{min-width:0;min-height:45px;padding:8px 2px;color:#477258;background:#eaf4e8;border:1px solid #d6e6d3;border-radius:11px;font-weight:780;font-size:11px;line-height:1.3}
  .voices button[aria-pressed="true"]{color:white;background:#286244;border-color:#286244}
@@ -568,6 +578,16 @@ function showPanel(){
  <header><div><div class="title">✳ Animal Voices</div><div class="desc">Direkt auf Instagram · du entscheidest</div></div><button class="x" id="av-close" aria-label="Schließen">×</button></header>
  <label class="label" for="av-comment">Ausgewählter Kommentar · bitte bestätigen</label>
  <textarea id="av-comment" rows="2" maxlength="1400"></textarea>
+ <section class="mod" aria-label="Animal Voices Moderationsempfehlung">
+  <div class="mod-title"><span id="av-mod-label">Gespräch einschätzen</span><span>Empfehlung · kein Automatismus</span></div>
+  <p class="mod-reason" id="av-mod-reason"></p>
+  <details class="mod-context" id="av-mod-context"><summary>Kontext & Grenzen prüfen</summary>
+   <label><input type="checkbox" id="av-repeat">Dieser Account greift wiederholt an / trollt</label>
+   <label><input type="checkbox" id="av-own">Der Kommentar steht auf meinem eigenen Beitrag</label>
+   <p id="av-mod-guide" class="mod-more"></p>
+   <a class="mod-code" href="https://animal-voices-os.vercel.app/community-code.html" target="_blank" rel="noopener noreferrer">Unser Community Code ↗</a>
+  </details>
+ </section>
  <div class="row" style="margin-top:11px"><strong style="font-size:12px">Antwortvorschlag</strong><span class="pill" id="av-status-pill">Wird geprüft</span></div>
  <p class="micro" id="av-topic"></p>
  <div class="voices" role="group" aria-label="Antwortstimme wählen">
@@ -587,6 +607,7 @@ function showPanel(){
  doc.body.append(host);
  sheet=host;overlayRoot=shadow;
  const box=shadow.getElementById('av-comment'),proposal=shadow.getElementById('av-proposal'),feedback=shadow.getElementById('av-feedback');
+ const repeated=shadow.getElementById('av-repeat'),ownPost=shadow.getElementById('av-own');
  let proposalModified=false,currentVoice='momo',lastTopicKey=null,optedIn=false;
  box.value=selected.text;
  const initial=classify(box.value);
@@ -602,27 +623,32 @@ function showPanel(){
    if(selectedTopic.state==='skip')currentVoice='kiki';
   }
   lastTopicKey=norm(box.value);
-  const result=suggest(box.value,currentVoice),pill=shadow.getElementById('av-status-pill'),src=shadow.getElementById('av-sources');
+  const result=suggest(box.value,currentVoice,{repeated:repeated.checked,ownPost:ownPost.checked}),pill=shadow.getElementById('av-status-pill'),src=shadow.getElementById('av-sources');
+  const mod=result.moderation||moderate(box.value,{repeated:repeated.checked,ownPost:ownPost.checked});
+  shadow.getElementById('av-mod-label').textContent=(result.state==='unknown'||result.state==='unsafe')?'Manuell prüfen':mod.label;
+  shadow.getElementById('av-mod-reason').textContent=result.state==='unknown'?'Noch kein passender belegter Antwortentwurf. Nicht raten.':mod.reason;
+  shadow.getElementById('av-mod-guide').textContent=mod.guidance;
   src.replaceChildren();feedback.textContent='';
   shadow.querySelectorAll('[data-av-voice]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.avVoice===currentVoice)));
   const descriptions={momo:'Momo · Fakten & Klarheit',kiki:'Kiki · Warm & zugewandt',bao:'Bao · Locker & sympathisch',curious:'Neugier · Eine offene Frage'};
   shadow.getElementById('av-voice-hint').textContent=descriptions[currentVoice]+' · 4 unterschiedliche Antworten';
-  const canDraft=result.state==='reviewed'||(result.state==='skip'&&optedIn);
+  const canDraft=result.state==='reviewed'||result.state==='boundary'||(result.state==='skip'&&optedIn);
   shadow.getElementById('av-optin').hidden=result.state!=='skip'||optedIn;
   if(canDraft){
-   pill.textContent=result.state==='skip'?'Einmalige Antwort · freiwillig':(result.evidenceStatus==='editorial'?'Redaktioneller Gesprächsentwurf':'✓ Faktenbasis vorab geprüft');
-   pill.className=result.state==='skip'||result.evidenceStatus==='editorial'?'pill unverified':'pill';
-   shadow.getElementById('av-topic').textContent=result.topic+' · '+(result.state==='skip'?'Nur für Mitlesende, höchstens eine Antwort':result.evidenceStatus==='editorial'?'ethische / praktische Einordnung':'Quellenstand '+result.reviewedAt)+' · kein Live-Check';
+   pill.textContent=result.state==='boundary'?'Grenze setzen · optional':result.state==='skip'?'Einmalige Antwort · freiwillig':(result.evidenceStatus==='editorial'?'Redaktioneller Gesprächsentwurf':'✓ Faktenbasis vorab geprüft');
+   pill.className=result.state==='skip'||result.state==='boundary'||result.evidenceStatus==='editorial'?'pill unverified':'pill';
+   shadow.getElementById('av-topic').textContent=result.topic+' · '+(result.state==='skip'||result.state==='boundary'?'Höchstens eine ruhige Antwort':result.evidenceStatus==='editorial'?'ethische / praktische Einordnung':'Quellenstand '+result.reviewedAt)+' · kein Live-Check';
    proposal.value=result.text;proposal.readOnly=false;
    const p=make('p',{},result.summary);p.className='micro';src.append(p);
    for(const ref of result.sources){const a=make('a',{},ref.name+' ↗');a.href=ref.url;a.target='_blank';a.rel='noopener noreferrer';a.className='source';src.append(a,make('div'))}
    const lim=make('p',{},'Grenze: '+result.limitation);lim.className='micro';src.append(lim);
    shadow.getElementById('av-evidence').open=false;
   }else{
-   pill.textContent=result.state==='skip'?'Lieber nicht antworten':'Nicht vorab geprüft';pill.className='pill unverified';
+   pill.textContent=result.state==='report'?'Schützen & melden':result.state==='end'?'Gespräch beenden':result.state==='review'?'Private Angaben schützen':result.state==='skip'?'Lieber nicht antworten':'Nicht vorab geprüft';pill.className='pill unverified';
    shadow.getElementById('av-topic').textContent=result.reason;
    proposal.value='';proposal.readOnly=true;
-   const p=make('p',{},result.state==='skip'?'Reine Provokation. Lieber nicht antworten und keine zusätzliche Aufmerksamkeit geben.':'Zu diesem konkreten Kommentar liegt noch keine verlässlich belegte Antwortvorlage vor. Nicht raten – Kontext und Quellen müssen zuerst geprüft werden.');p.className='micro alert';src.append(p);
+   const message=result.state==='skip'?'Reine Provokation. Höchstens eine freundliche Antwort für Mitlesende – oder einfach weitergehen.':result.state==='report'?'Nicht antworten. Hinweise sichern, über Instagram melden und Betroffene schützen.':result.state==='end'?'Keine weitere öffentliche Runde. Bei Belästigung einschränken oder blockieren.':result.state==='review'?'Private Angaben nicht verbreiten. Kommentar vor einer Antwort anonymisieren.':'Kein belegter Entwurf. Bitte den konkreten Kontext manuell prüfen.';
+   const p=make('p',{},message);p.className='micro alert';src.append(p);
    shadow.getElementById('av-evidence').open=true;
   }
   shadow.getElementById('av-copy').disabled=!canDraft;
@@ -634,6 +660,8 @@ function showPanel(){
   optedIn=true;update();
  });
  box.addEventListener('input',update);
+ repeated.addEventListener('change',update);
+ ownPost.addEventListener('change',update);
  shadow.querySelectorAll('[data-av-voice]').forEach(button=>button.addEventListener('click',()=>{
   if(currentVoice===button.dataset.avVoice)return;
   currentVoice=button.dataset.avVoice;update();
@@ -651,7 +679,7 @@ function showPanel(){
  });
  update();
  function canPublishDraft(){
-  return selected?.suggestion?.state==='reviewed'||(selected?.suggestion?.state==='skip'&&optedIn);
+  return selected?.suggestion?.state==='reviewed'||selected?.suggestion?.state==='boundary'||(selected?.suggestion?.state==='skip'&&optedIn);
  }
  async function copy(){
   if(!canPublishDraft())return false;
