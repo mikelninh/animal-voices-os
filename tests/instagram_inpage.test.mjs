@@ -214,3 +214,39 @@ test('Ethical dilemmas are not mistakenly blocked as threats or certified as sci
  assert.equal(av.suggest('Ich bin schwanger: Welche B12-Dosis sollte ich nehmen?').state,'unsafe');
  assert.equal(av.suggest('Ich werde dich töten, du Idiot!').state,'unsafe');
 });
+
+test('Ragebait: 20 additional cases have intended routes, bilingual voice options or deliberate abstention',()=>{
+ const raw=demo.slice(demo.indexOf('const demoExamples=['),demo.indexOf('];\nconst list='));
+ const cases=[...raw.matchAll(/\[\s*["'][^"']+["']\s*,\s*["']([^"']+)["']\s*,\s*["']rage["']\s*\]/g)].map(m=>m[1]);
+ assert.equal(cases.length,20);
+ const expected=[
+  ['plants','de','momo'],['skip','de',null],['pushy','de','kiki'],['ban','de','kiki'],
+  ['tofu','de','momo'],['natural','de','momo'],['tradition','de','kiki'],['lions','de','bao'],
+  ['meme','de','bao'],['trend','de','curious'],['both','de','kiki'],['protein','de','momo'],
+  ['b12','de','momo'],['skip','de',null],['unknown','de',null],['pushy','en','kiki'],
+  ['plants','en','momo'],['skip','en',null],['tofu','en','momo'],['tradition','en','kiki']
+ ];
+ for(let i=0;i<cases.length;i++){
+  const [topic,lang,voice]=expected[i],comment=cases[i],r=av.suggest(comment);
+  assert.equal(av.language(comment),lang,'Language #'+(i+23)+': '+comment);
+  assert.equal(r.id||r.state,topic,'Wrong topic #'+(i+23)+': '+comment);
+  if(!voice){assert.notEqual(r.state,'reviewed',comment);continue}
+  assert.equal(av.recommendVoice(comment,topic),voice,'Wrong default voice '+comment);
+  const replies=Object.keys(av.VOICES).map(v=>av.suggest(comment,v));
+  assert.equal(new Set(replies.map(x=>x.text)).size,4,'Repeated drafts for '+comment);
+  assert.ok(replies.every(x=>x.language===lang),'Wrong language within options '+comment);
+  if(['plants','pushy','ban','tofu','natural','tradition','lions','meme','trend','both'].includes(topic))
+   assert.equal(r.evidenceStatus,'editorial','No fake fact-check badge for '+comment);
+ }
+});
+test('Deliberate no-reply is a valid recommendation for pure antagonism',()=>{
+ for(const comment of [
+  'Ich esse jetzt zwei Steaks extra für euch 😂',
+  'Wegen euch esse ich heute zwei extra Steaks!',
+  'I will eat two more steaks to annoy vegans'
+ ]){
+  const r=av.suggest(comment);
+  assert.equal(r.state,'skip',comment);
+  assert.match(r.reason,/Provokation/);
+ }
+});
