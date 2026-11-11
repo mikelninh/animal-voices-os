@@ -42,6 +42,6 @@ test('Headless mobile browser: in-page comment selection, reviewed draft, manual
   const report=dom.match(/<output[^>]*id="av-e2e-report"[^>]*>[\s\S]{0,450}?<\/output>/)?.[0]||dom.slice(-900);
   assert.equal(result.status,0,'Headless browser could not launch. '+(result.stderr||'').slice(-1200));
   assert.match(dom,/data-status="pass"/,'Integration browser test failed: '+report+' \n'+(result.stderr||'').slice(-500));
-  assert.match(dom,/PASS: real DOM comments selected/,'No successful browser assertion: '+report);
+  assert.match(dom,/PASS: four distinct voices, no blocking overlay/,'No successful browser assertion: '+report);
  }finally{server.kill('SIGTERM')}
 });
