@@ -33,7 +33,7 @@ footer{color:#82938b;font-size:11px;padding:23px 17px}
 </head>
 <body>
 <main>
-<div class="notice"><strong>✳ Dies ist eine Testseite – NICHT Instagram.</strong> Sie zeigt 42 redaktionelle Beispielkommentare und ein Antwortfeld, damit du den Direkt-im-Kommentar-Ablauf sicher ausprobieren kannst. Keine echten Accounts und keine Veröffentlichung. <a href="/install.html">Installation</a></div>
+<div class="notice"><strong>✳ Dies ist eine Testseite – NICHT Instagram.</strong> Sie zeigt 42 redaktionelle Beispielkommentare und ein Antwortfeld, damit du den Direkt-im-Kommentar-Ablauf sicher ausprobieren kannst. Keine echten Accounts und keine Veröffentlichung. <a href="/install.html">Installation</a> · <a href="/community-code.html">Unser Community Code</a></div>
 <header class="top"><div class="brand">insta<span>gram · Demo</span></div><div class="headtools">♡　⊕　☷</div></header>
 <div class="post-author"><span class="avatar"></span> better.food.stories · Demo</div>
 <div class="post-photo"><span>Food can be<br>kind.</span></div>
@@ -121,7 +121,7 @@ document.querySelectorAll('[data-filter]').forEach(button=>button.addEventListen
  });
 }));
 </script>
-<script src="/animal-voices.user.js?v=0.4.0"></script>
+<script src="/animal-voices.user.js?v=0.5.0"></script>
 <script>
 if(new URLSearchParams(location.search).has('selftest')){
  const report=document.createElement('output');report.id='av-e2e-report';report.dataset.status='running';report.textContent='Running in-page integration test';document.body.append(report);
@@ -175,6 +175,33 @@ if(new URLSearchParams(location.search).has('selftest')){
    if(shadow.getElementById('av-status-pill').textContent.includes('✓'))throw Error('UNKNOWN_WRONGLY_VERIFIED');
    if(!shadow.getElementById('av-insert').disabled)throw Error('UNKNOWN_CAN_INSERT');
    if(!shadow.getElementById('av-copy').disabled)throw Error('UNKNOWN_CAN_COPY');
+   // Moderation policy end-to-end in the SAME real mobile browser surface.
+   shadow.getElementById('av-close').click();
+   const second=comments[1],secondButton=second.querySelector('[aria-label="Mit Animal Voices auf diesen Kommentar antworten"]');
+   if(!secondButton)throw Error('MODERATION_BUTTON_MISSING');
+   secondButton.click();await delay(60);
+   host=document.querySelector('.av-panel');shadow=host?.shadowRoot;
+   if(!shadow)throw Error('MODERATION_PANEL_MISSING');
+   const editable=shadow.getElementById('av-comment');
+   editable.value='Ihr seid doch alle Idioten, haltet einfach den Mund!';
+   editable.dispatchEvent(new Event('input',{bubbles:true}));await delay(40);
+   if(!shadow.getElementById('av-mod-label').textContent.includes('Grenze'))throw Error('INSULT_BOUNDARY_NOT_SHOWN');
+   if(shadow.getElementById('av-insert').disabled)throw Error('BOUNDARY_DRAFT_UNAVAILABLE');
+   if(!shadow.getElementById('av-proposal').value.includes('respektvoll'))throw Error('BOUNDARY_NOT_RESPECTFUL');
+   const repeat=shadow.getElementById('av-repeat');
+   repeat.checked=true;repeat.dispatchEvent(new Event('change',{bubbles:true}));await delay(30);
+   if(!shadow.getElementById('av-mod-label').textContent.includes('beenden'))throw Error('REPEAT_NOT_ENDED');
+   if(!shadow.getElementById('av-insert').disabled)throw Error('REPEAT_REPLIED_AUTOMATICALLY');
+   repeat.checked=false;repeat.dispatchEvent(new Event('change',{bubbles:true}));
+   editable.value='Ich werde dich töten, wenn du antwortest!';
+   editable.dispatchEvent(new Event('input',{bubbles:true}));await delay(40);
+   if(!shadow.getElementById('av-mod-label').textContent.includes('melden'))throw Error('THREAT_NOT_REPORTED');
+   if(!shadow.getElementById('av-copy').disabled||!shadow.getElementById('av-insert').disabled)throw Error('THREAT_CAN_GENERATE_REPLY');
+   const own=shadow.getElementById('av-own');
+   own.checked=true;own.dispatchEvent(new Event('change',{bubbles:true}));await delay(25);
+   if(!shadow.getElementById('av-mod-guide').textContent.includes('verbergen'))throw Error('OWN_POST_CONTEXT_IGNORED');
+   shadow.getElementById('av-close').click();
+   if(document.querySelector('.av-panel')||document.querySelector('.av-shade'))throw Error('MODERATION_OVERLAY_STUCK');
    report.dataset.status='pass';
    report.textContent='PASS: four distinct voices, no blocking overlay, handoff closes popup and focuses Instagram reply; unknown claim held, no publishing';
   }catch(err){report.dataset.status='fail';report.textContent='FAIL: '+(err?.message||err);}
