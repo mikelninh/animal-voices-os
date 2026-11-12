@@ -1,12 +1,14 @@
 // ==UserScript==
 // @name         Animal Voices · Instagram Companion
 // @namespace    https://animal-voices-os.vercel.app/
-// @version      0.4.1
+// @version      0.6.0
 // @description  Einen Instagram-Kommentar auswählen, vorab geprüften Antwortvorschlag ansehen und selbst freigeben. Keine Veröffentlichung durch das Skript.
 // @match        https://www.instagram.com/*
 // @match        https://instagram.com/*
 // @run-at       document-idle
-// @grant        none
+// @grant        GM.xmlHttpRequest
+// @grant        GM_xmlhttpRequest
+// @connect      animal-voices-os.vercel.app
 // @downloadURL  https://animal-voices-os.vercel.app/animal-voices.user.js
 // @updateURL    https://animal-voices-os.vercel.app/animal-voices.user.js
 // ==/UserScript==
@@ -444,7 +446,7 @@ if(!demo&&!/^\/?(?:www\.)?instagram\.com$/i.test(root.location.hostname))return;
 if(root.__AV_INSTAGRAM_ACTIVE__)return;
 root.__AV_INSTAGRAM_ACTIVE__=true;
 const doc=root.document,seen=new WeakSet();
-let selected=null,replyTrigger=null,sheet=null,overlayRoot=null,pickMode=false,observer=null,scanTimer=0;
+let selected=null,replyTrigger=null,sheet=null,overlayRoot=null,pickMode=false,observer=null,scanTimer=0,aiEditorCode=null;
 const make=(tag,props={},txt)=>{
  const el=doc.createElement(tag);
  for(const [k,v] of Object.entries(props)){
@@ -524,6 +526,30 @@ function toast(message){
  doc.body.append(el);
  root.setTimeout(()=>{if(el.isConnected)el.remove()},4500);
 }
+function aiTransport(payload,editorCode){
+ const options={method:'POST',url:'https://animal-voices-os.vercel.app/api/coach',timeout:47000,
+  headers:{'Content-Type':'application/json','x-avos-editor':editorCode},data:JSON.stringify(payload),
+  responseType:'text'};
+ return new Promise((resolve,reject)=>{
+  let settled=false;
+  const success=result=>{
+   if(settled)return;settled=true;
+   let body;
+   try{body=JSON.parse(result.responseText||result.response||'{}')}catch{return reject(Error('KI-Antwort konnte nicht gelesen werden.'))}
+   if(Number(result.status)!==200||body.ok!==true)return reject(Error(body.error||'Die KI konnte den Kommentar nicht sicher bearbeiten.'));
+   resolve(body);
+  };
+  const fail=()=>{if(settled)return;settled=true;reject(Error('Keine Verbindung zur KI. Die lokalen Antworten bleiben verfügbar.'))};
+  try{
+   const request=typeof GM!=='undefined'&&typeof GM.xmlHttpRequest==='function'?GM.xmlHttpRequest:
+    typeof GM_xmlhttpRequest==='function'?GM_xmlhttpRequest:null;
+   if(!request){reject(Error('Dein Userscript-Manager unterstützt den privaten KI-Zugriff noch nicht.'));return}
+   const output=request({...options,onload:success,onerror:fail,ontimeout:fail,onabort:fail});
+   if(output?.then)output.then(success,fail);
+  }catch{fail()}
+ });
+}
+
 function showPanel(){
  if(!selected)return;
  const host=make('section',{class:'av-panel','data-av-control':''});host.setAttribute('data-av-control','1');host.setAttribute('role','dialog');host.setAttribute('aria-modal','false');host.setAttribute('aria-label','Animal Voices Antwortvorschlag');
@@ -557,6 +583,13 @@ function showPanel(){
  .status{margin:9px 0 0;font-size:12px;color:#406f4b;font-weight:650}
  .alert{color:#995b32;background:#fff4e3;padding:11px;border-radius:9px}
  .small{font-size:10px}
+ .ai-controls{border:1px solid #d8e7d6;background:#f1f7ee;border-radius:12px;margin:11px 0;padding:12px}
+ .ai-controls .ai-consent{display:flex;align-items:flex-start;gap:8px;font-size:11px;color:#5a765d;line-height:1.5;margin:9px 0}
+ .ai-consent input{margin-top:2px;width:17px;height:17px;flex:none;accent-color:#347c55}
+ .ai-trigger{width:100%;padding:11px;background:#e0ede2;color:#27593a;font-weight:800;border:1px solid #cae0d0;min-height:44px}
+ .ai-note{font-size:10px;color:#79947d;line-height:1.5;margin:7px 0 0}
+ .ai-progress{font-size:11px;color:#35664c;font-weight:700;margin:8px 0 0}
+ .ai-state{font-size:11px;color:#81662c;margin:6px 0 0}
  .mod{border:1px solid #d9e5d5;border-radius:12px;background:#f7faf3;padding:12px;margin:13px 0 10px}
  .mod-title{display:flex;align-items:center;justify-content:space-between;gap:7px;font-size:13px;color:#355e44;font-weight:800}
  .mod-title span:last-child{font-weight:600;color:#7b977e;font-size:10px}
@@ -599,6 +632,12 @@ function showPanel(){
  </div>
  <div class="row"><span class="voice-hint" id="av-voice-hint">Momo · Klar und faktenorientiert</span><button type="button" id="av-next-voice" class="alt">Andere Antwort ↻</button></div>
  <button type="button" id="av-optin" class="secondary" hidden style="width:100%;margin:7px 0">Optional: einmal respektvoll antworten ↗</button>
+ <section class="ai-controls" id="av-ai-controls" aria-label="Privater KI-Coach">
+  <button type="button" class="ai-trigger" id="av-ai-run">✦ Mit KI den Kontext verstehen · Beta</button>
+  <label class="ai-consent"><input type="checkbox" id="av-ai-consent">Ich stimme zu, dass <strong>nur dieser bereinigte Kommentar</strong> an Animal Voices und den KI-Anbieter übermittelt wird. Keine automatische Veröffentlichung.</label>
+  <p class="ai-note">Privater Testzugang · Editor-Code wird nur im Browserdialog abgefragt und nicht gespeichert. Modellcheck prüft Quellenkarten, keine Originalstudien live.</p>
+  <p class="ai-progress" role="status" aria-live="polite" id="av-ai-progress"></p>
+ </section>
  <textarea id="av-proposal" rows="3" maxlength="1200" placeholder="Für diese Frage liegt noch keine vorab geprüfte Antwort vor."></textarea>
  <details id="av-evidence" open><summary>Belege, Grenzen & Einordnung ansehen</summary><div id="av-sources"></div></details>
  <p class="micro" id="av-hint">Keine automatische Veröffentlichung. Deine Übernahme ist immer freiwillig.</p>
@@ -609,7 +648,7 @@ function showPanel(){
  sheet=host;overlayRoot=shadow;
  const box=shadow.getElementById('av-comment'),proposal=shadow.getElementById('av-proposal'),feedback=shadow.getElementById('av-feedback');
  const repeated=shadow.getElementById('av-repeat'),ownPost=shadow.getElementById('av-own');
- let proposalModified=false,currentVoice='momo',lastTopicKey=null,optedIn=false;
+ let proposalModified=false,currentVoice='momo',lastTopicKey=null,optedIn=false,aiDraft=null,aiBusy=false;
  box.value=selected.text;
  const initial=classify(box.value);
  if(initial.state==='reviewed')currentVoice=recommendVoice(box.value,initial.id);
@@ -619,12 +658,19 @@ function showPanel(){
   proposalModified=false;
   const selectedTopic=classify(box.value);
   if(lastTopicKey!==norm(box.value)){
-   optedIn=false;
+   optedIn=false;aiDraft=null;
+   shadow.getElementById('av-ai-progress').textContent='';
    if(selectedTopic.state==='reviewed')currentVoice=recommendVoice(box.value,selectedTopic.id);
    if(selectedTopic.state==='skip')currentVoice='kiki';
   }
   lastTopicKey=norm(box.value);
-  const result=suggest(box.value,currentVoice,{repeated:repeated.checked,ownPost:ownPost.checked}),pill=shadow.getElementById('av-status-pill'),src=shadow.getElementById('av-sources');
+  const baseline=suggest(box.value,currentVoice,{repeated:repeated.checked,ownPost:ownPost.checked});
+  const canUseAI=aiDraft&&aiDraft.comment===norm(box.value)&&
+    !['report','review','end','boundary','skip','unsafe'].includes(baseline.state);
+  const result=canUseAI?{...baseline,state:'reviewed',id:aiDraft.topic_id,topic:aiDraft.topic,
+    text:aiDraft.variants[currentVoice],sources:aiDraft.sources,summary:aiDraft.source_summary,
+    limitation:aiDraft.limitations,evidenceStatus:'model_reviewed',reviewedAt:REVIEWED_AT}:baseline;
+  const pill=shadow.getElementById('av-status-pill'),src=shadow.getElementById('av-sources');
   const mod=result.moderation||moderate(box.value,{repeated:repeated.checked,ownPost:ownPost.checked});
   shadow.getElementById('av-mod-label').textContent=(result.state==='unknown'||result.state==='unsafe')?'Manuell prüfen':mod.label;
   shadow.getElementById('av-mod-reason').textContent=result.state==='unknown'?'Noch kein passender belegter Antwortentwurf. Nicht raten.':mod.reason;
@@ -636,9 +682,9 @@ function showPanel(){
   const canDraft=result.state==='reviewed'||result.state==='boundary'||(result.state==='skip'&&optedIn);
   shadow.getElementById('av-optin').hidden=result.state!=='skip'||optedIn;
   if(canDraft){
-   pill.textContent=result.state==='boundary'?'Grenze setzen · optional':result.state==='skip'?'Einmalige Antwort · freiwillig':(result.evidenceStatus==='editorial'?'Redaktioneller Gesprächsentwurf':'✓ Faktenbasis vorab geprüft');
-   pill.className=result.state==='skip'||result.state==='boundary'||result.evidenceStatus==='editorial'?'pill unverified':'pill';
-   shadow.getElementById('av-topic').textContent=result.topic+' · '+(result.state==='skip'||result.state==='boundary'?'Höchstens eine ruhige Antwort':result.evidenceStatus==='editorial'?'ethische / praktische Einordnung':'Quellenstand '+result.reviewedAt)+' · kein Live-Check';
+   pill.textContent=result.evidenceStatus==='model_reviewed'?'KI · Modellcheck bestanden':result.state==='boundary'?'Grenze setzen · optional':result.state==='skip'?'Einmalige Antwort · freiwillig':(result.evidenceStatus==='editorial'?'Redaktioneller Gesprächsentwurf':'✓ Faktenbasis vorab geprüft');
+   pill.className=result.state==='skip'||result.state==='boundary'||['editorial','model_reviewed'].includes(result.evidenceStatus)?'pill unverified':'pill';
+   shadow.getElementById('av-topic').textContent=result.topic+' · '+(result.evidenceStatus==='model_reviewed'?'KI-Entwurf · Quellenkarten geprüft · Originalquellen bitte selbst kontrollieren':result.state==='skip'||result.state==='boundary'?'Höchstens eine ruhige Antwort':result.evidenceStatus==='editorial'?'ethische / praktische Einordnung':'Quellenstand '+result.reviewedAt)+' · kein Live-Check';
    proposal.value=result.text;proposal.readOnly=false;
    const p=make('p',{},result.summary);p.className='micro';src.append(p);
    for(const ref of result.sources){const a=make('a',{},ref.name+' ↗');a.href=ref.url;a.target='_blank';a.rel='noopener noreferrer';a.className='source';src.append(a,make('div'))}
@@ -659,6 +705,42 @@ function showPanel(){
  shadow.getElementById('av-optin').addEventListener('click',()=>{
   if(classify(box.value).state!=='skip')return;
   optedIn=true;update();
+ });
+ shadow.getElementById('av-ai-run').addEventListener('click',async()=>{
+  const progress=shadow.getElementById('av-ai-progress');
+  if(aiBusy)return;
+  if(!shadow.getElementById('av-ai-consent').checked){
+   progress.textContent='Bitte zuerst ausdrücklich der Übermittlung dieses Kommentars zustimmen.';return;
+  }
+  const value=norm(box.value),m=moderate(value,{repeated:repeated.checked,ownPost:ownPost.checked});
+  if(m.action!=='answer'){
+   progress.textContent='Hier empfehlen wir zuerst die Moderationsentscheidung, keine KI-Generierung.';return;
+  }
+  if(value.length<10||value.length>900||PRIVATE.test(value)||/https?:\/\//i.test(value)){
+   progress.textContent='Kommentar bitte auf 10–900 Zeichen begrenzen und Handles, Links sowie Kontaktdaten entfernen.';return;
+  }
+  if(!aiEditorCode){
+   const entered=root.prompt?.('Privater Animal Voices Editor-Code (nur für diesen Browser-Tab, nicht gespeichert):');
+   if(!entered)return;
+   if(entered.length<16){progress.textContent='Ein gültiger privater Editor-Code ist erforderlich.';return}
+   aiEditorCode=entered;
+  }
+  aiBusy=true;
+  const button=shadow.getElementById('av-ai-run');button.disabled=true;
+  progress.textContent='KI versteht Anliegen und Kontext; formuliert vier Stimmen; zweite Modellprüfung läuft …';
+  try{
+   const answer=await aiTransport({comment:value,consent:true},aiEditorCode);
+   if(!sheet||!sheet.isConnected||norm(box.value)!==value)return;
+   aiDraft={...answer,comment:value};
+   currentVoice=VOICES[answer.recommended_voice]?answer.recommended_voice:'kiki';
+   update();
+   progress.textContent='✓ Vier neue KI-Entwürfe. Quellen- und Kontextgrenzen bitte vor Freigabe prüfen.';
+  }catch(err){
+   if(!sheet||!sheet.isConnected)return;
+   const message=String(err?.message||'KI nicht verfügbar');
+   if(/Editor-Zugang|privat|401|Zugang/i.test(message))aiEditorCode=null;
+   progress.textContent=message+' · Die lokalen Antworten bleiben erhalten.';
+  }finally{aiBusy=false;if(button?.isConnected)button.disabled=false}
  });
  box.addEventListener('input',update);
  repeated.addEventListener('change',update);
