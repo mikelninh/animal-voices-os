@@ -18,10 +18,10 @@ test('Live UI includes real user consent, private editor code, model status, sou
  assert.match(html,/src="\/animal-voices\.user\.js\?v=0\.6\.0"/);
  assert.match(html,/src="\/live\.js\?v=0\.6\.0"/);
  assert.match(code,/AV_LIVE_CORE=API/);
- assert.match(css,/\\.layout\\{display:grid/);
+ assert.ok(css.includes('.layout{display:grid'));
  assert.match(js,/fetch\('\/api\/coach'/);
  assert.match(js,/if\(!\$\(\'consent\'\)\.checked\)/);
- assert.match(js,/scienti[f]?ically_verified!==false/);
+ assert.ok(js.includes('data.scientifically_verified!==false'));
  assert.match(js,/const STORAGE='avos-live-feedback-v1'/);
 });
 test('Live UI does not store access tokens, raw comments, screenshots or auto-publish',()=>{
@@ -33,7 +33,7 @@ test('Live UI does not store access tokens, raw comments, screenshots or auto-pu
  assert.match(js,/new Blob\(\[JSON\.stringify\(data,null,2\)\]/);
 });
 test('Live AI request checks consent and comment with safe fallback to curated data',()=>{
- assert.match(js,/const m=core\.moderate\(comment,flag\)/);
+ assert.ok(js.includes('m=core.moderate(comment,flag)'));
  assert.match(js,/if\(m\.action!==['"]answer['"]\)/);
  assert.match(js,/credentials:'same-origin'/);
  assert.match(js,/method:'POST'/);
