@@ -121,7 +121,33 @@ document.querySelectorAll('[data-filter]').forEach(button=>button.addEventListen
  });
 }));
 </script>
-<script src="/animal-voices.user.js?v=0.5.0"></script>
+<script>
+if(new URLSearchParams(location.search).has('selftestAi')){
+ window.__aiDemoCalls=[];
+ window.prompt=()=> 'mock-private-code-for-demo-only';
+ window.GM={xmlHttpRequest(opts){
+  window.__aiDemoCalls.push({method:opts.method,url:opts.url,body:JSON.parse(opts.data),editor:opts.headers['x-avos-editor']});
+  const mock={
+   ok:true,version:'live-0.6',topic_id:'forest',topic:'Soja & Regenwald',
+   language:'de',recommended_voice:'kiki',
+   variants:{
+    momo:'Ein großer Teil des Sojas wird für Tierfutter eingesetzt. Deshalb sollten wir diese Anbauflächen mitdenken, wenn wir über Regenwaldabholzung sprechen.',
+    kiki:'Ich verstehe die Sorge um den Regenwald. Auch das Soja, das als Tierfutter angebaut wird, gehört unbedingt in einen fairen Vergleich.',
+    bao:'Der Tofu ist nicht der einzige Soja-Kunde. 😄 Auch das Tierfutter gehört in die Regenwald-Rechnung, wenn wir die Folgen vergleichen möchten.',
+    curious:'Wäre es für dich fair, das Soja mitzuzählen, das als Tierfutter angebaut wird? Auch diese Pflanzen und Flächen gehören in den Vergleich.'
+   },
+   sources:[{id:'s1',name:'Our World in Data · Flächenbedarf',url:'https://ourworldindata.org/land-use-diets'}],
+   evidence_status:'source_capsules',source_summary:'Ergebnis aus redaktionellen Zusammenfassungen, keine Live-Studienprüfung.',
+   limitations:'Historische Durchschnittswerte und konkrete Lieferketten unterscheiden sich.',
+   review_status:'two_model_passes_against_curated_capsules',
+   model_reviewed:true,scientifically_verified:false,requires_human_review:true
+  };
+  setTimeout(()=>opts.onload({status:200,responseText:JSON.stringify(mock)}),35);
+  return {abort(){}};
+ }};
+}
+</script>
+<script src="/animal-voices.user.js?v=0.6.0"></script>
 <script>
 if(new URLSearchParams(location.search).has('selftest')){
  const report=document.createElement('output');report.id='av-e2e-report';report.dataset.status='running';report.textContent='Running in-page integration test';document.body.append(report);
@@ -205,6 +231,48 @@ if(new URLSearchParams(location.search).has('selftest')){
    report.dataset.status='pass';
    report.textContent='PASS: four distinct voices, no blocking overlay, handoff closes popup and focuses Instagram reply; unknown claim held, no publishing';
   }catch(err){report.dataset.status='fail';report.textContent='FAIL: '+(err?.message||err);}
+ })();
+}
+</script>
+<script>
+if(new URLSearchParams(location.search).has('selftestAi')){
+ const report=document.createElement('output');report.id='av-ai-e2e-report';report.dataset.status='running';
+ document.body.append(report);
+ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+ (async()=>{
+  try{
+   await sleep(400);
+   const first=document.querySelector('[data-av-demo-comment]');
+   const button=first.querySelector('[aria-label="Mit Animal Voices auf diesen Kommentar antworten"]');
+   if(!button)throw Error('NO_AI_TEST_BUTTON');
+   button.click();await sleep(40);
+   let panel=document.querySelector('.av-panel'),shadow=panel?.shadowRoot;
+   if(!shadow)throw Error('AI_PANEL_MISSING');
+   if(window.__aiDemoCalls.length!==0)throw Error('AI_SENT_BEFORE_CONSENT');
+   shadow.getElementById('av-ai-run').click();await sleep(10);
+   if(window.__aiDemoCalls.length!==0)throw Error('AI_SENT_WITHOUT_CONSENT');
+   const consent=shadow.getElementById('av-ai-consent');
+   consent.checked=true;consent.dispatchEvent(new Event('change',{bubbles:true}));
+   shadow.getElementById('av-ai-run').click();
+   await sleep(220);
+   if(window.__aiDemoCalls.length!==1)throw Error('AI_CALL_NOT_EXPLICIT');
+   const call=window.__aiDemoCalls[0];
+   if(call.method!=='POST'||!call.url.endsWith('/api/coach'))throw Error('WRONG_AI_TRANSPORT');
+   if(call.body.consent!==true||!call.body.comment.includes('Regenwald'))throw Error('WRONG_AI_PAYLOAD');
+   if(call.editor!=='mock-private-code-for-demo-only')throw Error('NO_EPHEMERAL_EDITOR_CODE');
+   if(!shadow.getElementById('av-status-pill').textContent.includes('Modellcheck'))throw Error('AI_RESULT_NOT_SHOWN');
+   if(shadow.getElementById('av-status-pill').textContent.includes('✓ Faktenbasis'))throw Error('AI_CLAIMED_SCIENCE_VERIFICATION');
+   if(!shadow.getElementById('av-proposal').value.includes('verstehe'))throw Error('AI_DEFAULT_VOICE_NOT_WARM');
+   shadow.querySelector('[data-av-voice="bao"]').click();
+   if(!shadow.getElementById('av-proposal').value.includes('Soja-Kunde'))throw Error('AI_VOICE_SWITCH_BROKEN');
+   if(!shadow.getElementById('av-sources').querySelector('a[href^="https://"]'))throw Error('AI_SOURCES_NOT_VISIBLE');
+   shadow.getElementById('av-insert').click();await sleep(980);
+   const reply=first.querySelector('.compose textarea');
+   if(!reply?.value.includes('Soja-Kunde'))throw Error('AI_REPLY_NOT_INSERTED');
+   if(document.querySelector('.av-panel')||document.querySelector('.av-shade'))throw Error('AI_POPUP_BLOCKS_PAGE');
+   report.dataset.status='pass';
+   report.textContent='PASS: consent required, one mock AI request, four model drafts, source disclaimer, switch and human reply handoff';
+  }catch(e){report.dataset.status='fail';report.textContent='FAIL: '+(e?.message||e)}
  })();
 }
 </script>
