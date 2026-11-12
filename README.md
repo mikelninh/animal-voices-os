@@ -1,3 +1,13 @@
+# Animal Voices · Public Community Beta v0.9
+
+**[Open the shareable community invitation](https://animal-voices-os.vercel.app/community.html)** · [Go directly to the realistic Instagram-style simulator](https://animal-voices-os.vercel.app/instagram-demo.html?scene=taste&c=0) · [Try ragebait](https://animal-voices-os.vercel.app/instagram-demo.html?scene=rage&c=0)
+
+**No account or installation is required** for the public, curated free test. The bilingual DE/EN invitation has a native share-sheet option, a WhatsApp group share action, copy link and deep links to individual fictional posts/comments. Visitors may submit one self-written example locally to the simulated feed (contact details and handles rejected), compare four editorial response voices, insert an approved draft into a reply field and preview how it would appear. Optional ratings remain **local-only** until the participant explicitly shares a short non-identifying summary. No real Instagram user account, scraping, comment posting or automatic community analytics are involved. Private AI-beta credentials are **not required** for the free experience.
+
+The web domain root now sends ordinary visitors to this community invitation. Existing install page `/install.html`, native browser companion, studio route `/?studio=1` and PWA share-target routes remain available. GitHub CI runs separate mobile Chromium tests of the public landing and shared scenario/own-comment flow.
+
+---
+
 # Animal Voices · Instagram Simulator v0.8
 
 **[Try the in-context Instagram-style simulator](https://animal-voices-os.vercel.app/instagram-demo.html)** · [Conversation Lab](https://animal-voices-os.vercel.app/challenge.html) · [Mobile browser installation](https://animal-voices-os.vercel.app/install.html)
