@@ -10,6 +10,7 @@ const req=(comment,extra={})=>({method:'POST',headers:{host:'animal-voices-os.ve
 async function setup(fn){
  const previous={code:process.env.AVOS_EDITOR_CODE,key:process.env.OPENAI_API_KEY,fetch:global.fetch};
  process.env.AVOS_EDITOR_CODE=key;process.env.OPENAI_API_KEY='mock-provider-test-not-real';
+ coach._internals.resetRateLimitForTests();
  try{return await fn()}finally{
   if(previous.code===undefined)delete process.env.AVOS_EDITOR_CODE;else process.env.AVOS_EDITOR_CODE=previous.code;
   if(previous.key===undefined)delete process.env.OPENAI_API_KEY;else process.env.OPENAI_API_KEY=previous.key;
