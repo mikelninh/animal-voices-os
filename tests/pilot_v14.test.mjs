@@ -24,7 +24,7 @@ test('Pilot is one complete no-login experience: comment, choice, preview and vo
  assert.match(page,/source-links/);
  assert.match(page,/community-code\.html/);
  assert.match(page,/src="\/animal-voices\.user\.js\?v=1\.4\.0"/);
- assert.match(page,/src="\/try\.js\?v=1\.0\.0"/);
+ assert.match(page,/src="\/try\.js\?v=1\.1\.0"/);
  assert.match(userscript,/AV_PILOT_CORE=API/);
  assert.match(stylesheet,/@media\(max-width:640px\)/);
 });
@@ -82,7 +82,7 @@ async function e2e(t,suffix,requiresNvsino){
   const report=dom.match(/<output[^>]*id="av-pilot-selftest"[^>]*>[\s\S]{0,700}?<\/output>/)?.[0]||dom.slice(-1100);
   assert.match(dom,/data-pilot-ready="true"/,'Pilot scripts failed to start: '+report);
   assert.match(dom,/id="av-pilot-selftest"[^>]*data-status="pass"/,'Pilot first-user E2E failed: '+report);
-  assert.match(dom,/PASS: first action, four voices, preview/);
+  assert.match(dom,/PASS: first action, direct feedback, voice reset, four voices, preview/);
   if(requiresNvsino)assert.match(dom,/UNABHÄNGIGER TEST FÜR MENSCHEN AUS DER NVSINO-COMMUNITY/);
  }finally{server.kill('SIGTERM')}
 }
