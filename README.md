@@ -1,3 +1,11 @@
+# Animal Voices · ONE-LINK COMMUNITY FIELD PILOT 1.4
+
+**[One-page public test](https://animal-voices-os.vercel.app/try.html)** · **[Independent NVSINO community test](https://animal-voices-os.vercel.app/try.html?from=nvsino)** · [Research & safety protocol](docs/PILOT_V14.md)
+
+**Ready to share for a small first-time user pilot.** The primary homepage now opens one flow: choose an example or anonymised custom comment → see an editorial moderation recommendation → compare four different answer voices (when a reply is appropriate) → preview in a fictional Instagram-style thread → voluntary yes/maybe/no review and feedback sharing. Ragebait is held by default and threats yield no reply. No account, installation, AI credential or real Instagram posting is involved. No hidden feedback collection: sharing opens a WhatsApp draft or copies a summary **only after user action**, without the original comment. The next release depends on independently evaluated first-time users, not merely passing scripted tests. Source cards are editorial, not live primary-study verification.
+
+---
+
 # Animal Voices · First-Time Experience v1.0
 
 **[Open the simpler public community experience](https://animal-voices-os.vercel.app/community.html)** · [Try the guided Instagram-style simulator directly](https://animal-voices-os.vercel.app/instagram-demo.html?scene=taste&c=0)
