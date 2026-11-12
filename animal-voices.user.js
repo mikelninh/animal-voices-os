@@ -665,6 +665,11 @@ function showPanel(){
  .voices button{min-width:0;min-height:45px;padding:8px 2px;color:#477258;background:#eaf4e8;border:1px solid #d6e6d3;border-radius:11px;font-weight:780;font-size:11px;line-height:1.3}
  .voices button[aria-pressed="true"]{color:white;background:#286244;border-color:#286244}
  .voice-hint{font-size:11px;color:#819887;margin:2px 0 8px}
+ .ai-details{margin:7px 0 10px}.ai-details summary{color:#6c846f;font-size:11px}.ai-details .ai-controls{margin:10px 0 0}
+ #av-evidence{margin:11px 0 5px}
+ .mod{margin:10px 0 7px;padding:10px}
+ .sheet{padding:15px}
+ #av-proposal{min-height:106px}
  .alt{border:0;background:none;color:#477455;font-size:11px;font-weight:800;text-decoration:underline;text-underline-offset:3px;padding:7px 0}
  button:disabled{opacity:.45;cursor:not-allowed}
  .x{min-width:44px;min-height:44px}
@@ -693,14 +698,16 @@ function showPanel(){
  </div>
  <div class="row"><span class="voice-hint" id="av-voice-hint">Momo · Klar und faktenorientiert</span><button type="button" id="av-next-voice" class="alt">Andere Antwort ↻</button></div>
  <button type="button" id="av-optin" class="secondary" hidden style="width:100%;margin:7px 0">Optional: einmal respektvoll antworten ↗</button>
- <section class="ai-controls" id="av-ai-controls" aria-label="Privater KI-Coach">
-  <button type="button" class="ai-trigger" id="av-ai-run">✦ Mit KI den Kontext verstehen · Beta</button>
-  <label class="ai-consent"><input type="checkbox" id="av-ai-consent">Ich stimme zu, dass <strong>nur dieser bereinigte Kommentar</strong> an Animal Voices und den KI-Anbieter übermittelt wird. Keine automatische Veröffentlichung.</label>
-  <p class="ai-note">Privater Testzugang · Editor-Code wird nur im Browserdialog abgefragt und nicht gespeichert. Modellcheck prüft Quellenkarten, keine Originalstudien live.</p>
-  <p class="ai-progress" role="status" aria-live="polite" id="av-ai-progress"></p>
- </section>
  <textarea id="av-proposal" rows="3" maxlength="1200" placeholder="Für diese Frage liegt noch keine vorab geprüfte Antwort vor."></textarea>
- <details id="av-evidence" open><summary>Belege, Grenzen & Einordnung ansehen</summary><div id="av-sources"></div></details>
+ <details id="av-evidence"><summary>Quellen & Grenzen prüfen ↗</summary><div id="av-sources"></div></details>
+ <details class="ai-details" id="av-ai-details"><summary>✦ Private KI-Beta · optional</summary>
+  <section class="ai-controls" id="av-ai-controls" aria-label="Privater KI-Coach">
+   <button type="button" class="ai-trigger" id="av-ai-run">✦ Mit KI den Kontext verstehen · Beta</button>
+   <label class="ai-consent"><input type="checkbox" id="av-ai-consent">Ich stimme zu, dass <strong>nur dieser bereinigte Kommentar</strong> an Animal Voices und den KI-Anbieter übermittelt wird. Keine automatische Veröffentlichung.</label>
+   <p class="ai-note">Privater Testzugang · Editor-Code wird nur im Browserdialog abgefragt und nicht gespeichert. Modellcheck prüft Quellenkarten, keine Originalstudien live.</p>
+   <p class="ai-progress" role="status" aria-live="polite" id="av-ai-progress"></p>
+  </section>
+ </details>
  <p class="micro" id="av-hint">Keine automatische Veröffentlichung. Deine Übernahme ist immer freiwillig.</p>
  <div class="actions"><button class="secondary" id="av-copy">Kopieren</button><button class="primary" id="av-insert">Antwort übernehmen ↗</button></div>
  <p class="status" role="status" aria-live="polite" id="av-feedback"></p>
