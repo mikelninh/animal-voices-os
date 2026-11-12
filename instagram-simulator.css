@@ -147,3 +147,6 @@ main{max-width:500px;box-shadow:0 19px 72px #23362e1d}
 .sim-archive-title h2{font-size:15px}
 .sim-archive-title p{font-size:10px}
 @media(max-width:420px){.sim-guide{margin:12px 12px 17px;padding:16px}.sim-guide blockquote{font-size:19px}.sim-intro h1,.sim-intro h1 em{font-size:27px}}
+
+#sim-nvsino-back:not([hidden]){display:inline-flex;align-items:center;justify-content:center;min-height:40px;border-radius:10px;padding:9px 12px;background:#275f42;color:#fff;text-decoration:none;font-size:11px;font-weight:850;flex:1 1 100%}
+#sim-nvsino-back:focus-visible{outline:3px solid #8cb981;outline-offset:2px}
