@@ -30,11 +30,50 @@ li{padding:13px 0;border-bottom:1px solid #efefef}
 footer{color:#82938b;font-size:11px;padding:23px 17px}
 .sample-tags{padding:13px 16px 8px;border-bottom:1px solid #ebf0e9}.sample-tags strong{font-size:12px;display:block;margin-bottom:8px}.filters{display:flex;gap:6px;overflow:auto;padding-bottom:6px}.filters button{white-space:nowrap;border:1px solid #d8e8d7;background:#f3f8f0;border-radius:30px;padding:7px 11px;color:#4b7655;font-size:11px;font-weight:750}.filters button[aria-pressed="true"]{background:#245a3c;color:white}.case-note{font-size:10px;color:#91a19a;padding:3px 16px 9px}.example-number{font-size:10px;color:#688b70;margin:4px 16px 0}.demo-added{scroll-margin-top:10px}.demo-added[hidden]{display:none!important}
 </style>
+<link rel="stylesheet" href="/instagram-simulator.css?v=0.8.0">
 </head>
 <body>
 <main>
-<div class="notice"><strong>✳ Dies ist eine Testseite – NICHT Instagram.</strong> Sie zeigt 42 redaktionelle Beispielkommentare und ein Antwortfeld, damit du den Direkt-im-Kommentar-Ablauf sicher ausprobieren kannst. Keine echten Accounts und keine Veröffentlichung. <a href="/install.html">Installation</a> · <a href="/community-code.html">Unser Community Code</a> · <a href="/challenge.html">Conversation Lab</a></div>
+<div class="notice"><strong>✳ Dies ist eine Testseite – NICHT Instagram.</strong> Teste 8 fiktive Social-Media-Posts mit Gesprächskontext und 42 weitere Einzelkommentare. Kein echtes Instagram-Konto und keine Veröffentlichung. Keine echten Accounts und keine Veröffentlichung. <a href="/install.html">Installation</a> · <a href="/community-code.html">Unser Community Code</a> · <a href="/challenge.html">Conversation Lab</a></div>
 <header class="top"><div class="brand">insta<span>gram · Demo</span></div><div class="headtools">♡　⊕　☷</div></header>
+
+<section class="sim-experience" id="sim-experience" aria-label="Interaktiver Social-Media-Simulator">
+ <div class="sim-intro">
+  <div class="sim-intro-top"><span class="sim-kicker">✳ ANIMAL VOICES · REAL-LIFE SIMULATOR</span><span class="sim-beta">V0.8 · SICHERE DEMO</span></div>
+  <h1>Echte Situationen.<br><em>Bessere Gespräche.</em></h1>
+  <p>Statt isolierter Fragen: Wähle einen Post, lies die Kommentare und antworte so, wie du es später wirklich tun würdest.</p>
+  <div class="sim-journey" aria-label="Testablauf">
+   <span><b>1</b> Situation</span><span aria-hidden="true">›</span><span><b>2</b> Animal Voices</span><span aria-hidden="true">›</span><span><b>3</b> Übernehmen</span><span aria-hidden="true">›</span><span><b>4</b> Vorschau</span>
+  </div>
+ </div>
+ <div class="sim-chooser">
+  <div class="sim-chooser-head"><strong>Wähle eine Situation</strong><span id="sim-count">8 Szenarien</span></div>
+  <div id="sim-stories" class="sim-stories" role="group" aria-label="Beispiel-Situationen">
+   <span class="sim-loading">Szenarien laden …</span>
+  </div>
+ </div>
+ <article class="sim-post" id="sim-post">
+  <div class="sim-post-head"><span id="sim-author-avatar" class="sim-avatar sim-avatar-lg">✳</span>
+   <div class="sim-post-ident"><strong id="sim-author">animal.voices.demo</strong><span id="sim-author-sub">Fiktiver Beispielpost</span></div>
+   <span class="sim-post-menu" aria-hidden="true">•••</span>
+  </div>
+  <div class="sim-photo sim-photo-coral" id="sim-photo" role="img" aria-label="Stilisierte Illustration eines Social-Media-Posts">
+   <div class="sim-photo-orb sim-photo-orb-a"></div><div class="sim-photo-orb sim-photo-orb-b"></div>
+   <span class="sim-photo-emoji" id="sim-photo-emoji" aria-hidden="true">🍔</span>
+   <div class="sim-photo-words"><span>GOOD FOOD</span><strong>GOOD CONVERSATIONS.</strong></div>
+   <span class="sim-photo-corner">ANIMAL VOICES · FICTIONAL POST</span>
+  </div>
+  <div class="sim-engagement"><div class="sim-engagement-left"><button type="button" id="sim-like-post" aria-pressed="false" aria-label="Beitrag gefällt mir">♡</button><button type="button" id="sim-show-comments" aria-label="Zu den Kommentaren">♧</button><button type="button" id="sim-share-post" aria-label="Beitrag teilen (Demo)">⌁</button></div><button type="button" id="sim-save-post" aria-pressed="false" aria-label="Beitrag speichern (Demo)">▢</button></div>
+  <p class="sim-likes" id="sim-likes">Gefällt 2.814 Mal</p>
+  <p class="sim-caption"><strong id="sim-caption-author">plantplate.berlin</strong> <span id="sim-caption">Ein guter Post für bessere Diskussionen.</span></p>
+  <p class="sim-view-replies" id="sim-comments-count">3 Kommentare · Beispieldaten</p>
+  <ul id="sim-comments" class="sim-comments" aria-label="Kommentare des ausgewählten Posts"></ul>
+  <div class="sim-safeguard" id="sim-safeguard"><span>🔒</span><p><strong>Nur eine Simulation.</strong> Antworten werden hier nicht veröffentlicht. Namen, Posts und Kommentare sind fiktiv.</p></div>
+  <div id="sim-feedback" class="sim-feedback" role="status" aria-live="polite"></div>
+ </article>
+ <div class="sim-footer-links"><a href="/challenge.html">140 weitere Qualitätsfälle prüfen ↗</a><span id="sim-progress">Wähle einen Kommentar und tippe ✳ Animal Voices.</span></div>
+</section>
+<div class="sim-archive-title"><span>WEITERE TESTFÄLLE</span><h2>Die ursprünglichen 42 Kommentare</h2><p>Wie bisher einzeln testen – mit genau derselben Animal-Voices-Erweiterung.</p></div>
 <div class="post-author"><span class="avatar"></span> better.food.stories · Demo</div>
 <div class="post-photo"><span>Food can be<br>kind.</span></div>
 <div class="post-desc"><strong>better.food.stories</strong> Ein freundliches Gespräch über unser Essen. Welche Frage beschäftigt euch?</div>
@@ -148,6 +187,7 @@ if(new URLSearchParams(location.search).has('selftestAi')){
 }
 </script>
 <script src="/animal-voices.user.js?v=0.7.0"></script>
+<script src="/instagram-simulator.js?v=0.8.0"></script>
 <script>
 if(new URLSearchParams(location.search).has('selftest')){
  const report=document.createElement('output');report.id='av-e2e-report';report.dataset.status='running';report.textContent='Running in-page integration test';document.body.append(report);
