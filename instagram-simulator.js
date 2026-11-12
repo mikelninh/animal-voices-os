@@ -104,8 +104,8 @@ function wireGuide(){
    return;
   }
   let button=target.querySelector('[aria-label="Mit Animal Voices auf diesen Kommentar antworten"]');
-  if(!button){
-   await new Promise(resolve=>setTimeout(resolve,280));
+  for(let tries=0;!button&&tries<10;tries++){
+   await new Promise(resolve=>setTimeout(resolve,110));
    button=target.querySelector('[aria-label="Mit Animal Voices auf diesen Kommentar antworten"]');
   }
   if(button){
@@ -275,7 +275,7 @@ function selftestFirstRun(){
    if(!$('sim-guide-step').textContent.includes('SCHRITT 1'))throw Error('NO_STEP_ONE');
    if(!$('sim-guide-comment').textContent.includes('Fleisch schmeckt'))throw Error('NO_CONTEXT');
    $('sim-guided-start').click();
-   await sleep(210);
+   await sleep(1180);
    const shadow=document.querySelector('.av-panel')?.shadowRoot;
    if(!shadow)throw Error('GUIDE_BUTTON_DID_NOT_OPEN_PANEL');
    if(!$('sim-guide-step').textContent.includes('SCHRITT 2'))throw Error('NO_STEP_TWO');
