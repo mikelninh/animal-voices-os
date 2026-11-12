@@ -27,7 +27,7 @@ test('Live UI includes real user consent, private editor code, model status, sou
 test('Live UI does not store access tokens, raw comments, screenshots or auto-publish',()=>{
  assert.doesNotMatch(js,/localStorage\.setItem\([^)]*(?:access|comment|editor)/i);
  assert.doesNotMatch(js,/(?:store|save|persist)[A-Za-z]*\(.*(?:editorCode|accessCode|access\\.value)/);
- assert.doesNotMatch(js,/instagram\.com\/api\/v1\/|graph\.facebook\.com|\\/media_publish/);
+ assert.ok(!js.includes('instagram.com/api/v1/')&&!js.includes('graph.facebook.com')&&!js.includes('/media_publish'));
  assert.doesNotMatch(html,/form action="https?:\/\/www\.instagram\.com/);
  assert.match(js,/localStorage\.setItem\(STORAGE,JSON\.stringify\(feedback\)\)/);
  assert.match(js,/new Blob\(\[JSON\.stringify\(data,null,2\)\]/);
