@@ -15,8 +15,8 @@ test('Live UI includes real user consent, private editor code, model status, sou
   'sources','limitations','verification','helpful','needs-work','export','feedback-count'])
   assert.ok(html.includes('id="'+id+'"'),'Missing '+id);
  for(const voice of ['momo','kiki','bao','curious'])assert.match(html,new RegExp('data-voice="'+voice+'"'));
- assert.match(html,/src="\/animal-voices\.user\.js\?v=0\.6\.0"/);
- assert.match(html,/src="\/live\.js\?v=0\.6\.0"/);
+ assert.match(html,/src="\/animal-voices\.user\.js\?v=0\.7\.0"/);
+ assert.match(html,/src="\/live\.js\?v=0\.7\.0"/);
  assert.match(code,/AV_LIVE_CORE=API/);
  assert.ok(css.includes('.layout{display:grid'));
  assert.match(js,/fetch\('\/api\/coach'/);
