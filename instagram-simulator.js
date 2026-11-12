@@ -50,6 +50,73 @@ function displayStories(){
  }
  $('sim-count').textContent=scenarios.length+' Szenarien · '+scenarios.reduce((n,s)=>n+s.comments.length,0)+' Kommentare';
 }
+function setGuide(sc,index=0){
+ const item=sc.comments[Math.min(Math.max(index,0),sc.comments.length-1)];
+ const quote=item?.text||'';
+ $('sim-guide-step').textContent='DEIN ERSTER TEST · SCHRITT 1 VON 3';
+ $('sim-guide-question').textContent='Was würdest du darauf antworten?';
+ $('sim-guide-comment').textContent='„'+quote+'“';
+ $('sim-guided-start').disabled=false;
+ $('sim-guided-start').textContent='✳ Antwortvorschlag ansehen ↗';
+ $('sim-guide-help').textContent='Kostenlos · ohne Anmeldung · nichts wird veröffentlicht';
+ $('sim-guide').dataset.commentIndex=String(index);
+}
+function advanceGuide(stage){
+ const stageEl=$('sim-guide-step'),helper=$('sim-guide-help');
+ if(stage===2){
+  stageEl.textContent='DEIN ERSTER TEST · SCHRITT 2 VON 3';
+  $('sim-guide-question').textContent='Welche Antwort passt zu dir?';
+  helper.textContent='Wähle eine der vier Stimmen und tippe auf „Antwort übernehmen“.';
+  $('sim-guided-start').textContent='↗ Zum Kommentar';
+ }else if(stage===3){
+  stageEl.textContent='DEIN ERSTER TEST · SCHRITT 3 VON 3';
+  $('sim-guide-question').textContent='Fast geschafft!';
+  helper.textContent='Dein Text steht im Antwortfeld. Tippe „Antwort im Feed ansehen“, um die Wirkung zu prüfen.';
+  $('sim-guided-start').textContent='↗ Antwortvorschau ansehen';
+ }else if(stage===4){
+  stageEl.textContent='✓ DU HAST ANIMAL VOICES AUSPROBIERT';
+  $('sim-guide-question').textContent='Wie hat sich das angefühlt? ♡';
+  helper.textContent='Bewerte deinen Entwurf, teste eine andere Situation oder teile die Demo.';
+  $('sim-guided-start').textContent='↗ Nächste Situation testen';
+ }
+ $('sim-guide').dataset.stage=String(stage);
+}
+function wireGuide(){
+ $('sim-guided-start').addEventListener('click',async()=>{
+  const stage=Number($('sim-guide').dataset.stage||'1');
+  if(stage===4){
+   const index=Math.max(0,scenarios.findIndex(s=>s.id===active));
+   choose(scenarios[(index+1)%scenarios.length].id);
+   $('sim-guide').scrollIntoView({behavior:'smooth',block:'center'});
+   return;
+  }
+  const selector='[data-comment-index="'+$('sim-guide').dataset.commentIndex+'"]';
+  const target=$('sim-comments').querySelector(selector)||$('sim-comments').querySelector('li[data-av-sim-comment]');
+  if(!target)return;
+  if(stage===3){
+   const preview=target.querySelector('.sim-preview-btn');
+   if(preview&&!preview.disabled){preview.click();return}
+   target.scrollIntoView({behavior:'smooth',block:'center'});
+   return;
+  }
+  if(stage===2&&document.querySelector('.av-panel')){
+   $('sim-guide-help').textContent='Das Antwortfenster ist bereits geöffnet. Wähle eine Stimme und übernimm den Text.';
+   return;
+  }
+  let button=target.querySelector('[aria-label="Mit Animal Voices auf diesen Kommentar antworten"]');
+  if(!button){
+   await new Promise(resolve=>setTimeout(resolve,280));
+   button=target.querySelector('[aria-label="Mit Animal Voices auf diesen Kommentar antworten"]');
+  }
+  if(button){
+   target.scrollIntoView({behavior:'smooth',block:'center'});
+   button.click();advanceGuide(2);
+  }else{
+   $('sim-guide-help').textContent='Animal Voices lädt noch. Versuch es erneut oder wähle den Kommentar unten.';
+  }
+ });
+}
+
 function makeComment(sc,item,index){
  const li=create('li','sim-comment');li.dataset.avSimComment='';li.dataset.scenario=sc.id;li.dataset.commentIndex=String(index);
  const row=create('div','sim-comment-line');
@@ -81,7 +148,10 @@ function makeComment(sc,item,index){
  area.addEventListener('input',()=>{
   const ready=area.value.trim().length>0;
   preview.disabled=!ready;
-  if(ready)markProgress('Antwort übernommen. Jetzt die Vorschau im Feed ausprobieren.');
+  if(ready){
+   markProgress('Antwort übernommen. Jetzt die Vorschau im Feed ausprobieren.');
+   if(sc.id===active&&Number($('sim-guide').dataset.commentIndex)===index)advanceGuide(3);
+  }
  });
  preview.addEventListener('click',()=>{
   const value=area.value.trim();if(!value)return;
@@ -114,6 +184,7 @@ function makeComment(sc,item,index){
     markProgress(reviewed+' freiwillige Vorschau-Bewertung(en) in dieser Sitzung – nur lokal.');
    },{once:true});
   }
+  if(sc.id===active&&Number($('sim-guide').dataset.commentIndex)===index)advanceGuide(4);
   announce('Antwort als lokale Vorschau hinzugefügt – nichts wurde veröffentlicht.');
   markProgress('Vorschau erstellt. Entscheide, ob du das so schreiben würdest.');
  });
@@ -124,7 +195,7 @@ function choose(id){
  const link=new URL(location.href);
  link.searchParams.set('scene',id);link.searchParams.delete('c');
  history.replaceState(null,'',link.pathname+link.search+link.hash);
- active=id;displayStories();
+ active=id;displayStories();setGuide(sc,0);$('sim-guide').dataset.stage='1';
  $('sim-author-avatar').textContent=sc.emoji;
  $('sim-author').textContent=sc.author;
  $('sim-author-sub').textContent=sc.tagline+' · '+sc.postTime;
@@ -286,6 +357,7 @@ function selftest(){
 }
 wirePostActions();
 wireCommunity();
+wireGuide();
 fetch('/simulator-scenarios.json',{cache:'no-store'}).then(async response=>{
  if(!response.ok)throw Error('Szenarien-Datei nicht gefunden');
  const data=await response.json();
@@ -299,7 +371,7 @@ fetch('/simulator-scenarios.json',{cache:'no-store'}).then(async response=>{
  if(selectedIndex!==null){
   const u=new URL(location.href);u.searchParams.set('c',String(selectedIndex));history.replaceState(null,'',u.pathname+u.search+u.hash);
   const target=$('sim-comments').querySelector('[data-comment-index="'+selectedIndex+'"]');
-  if(target){target.classList.add('sim-linked-comment');target.setAttribute('data-linked-comment','true');markProgress('Hier startet dein geteilter Test: Tippe auf ✳ Animal Voices beim hervorgehobenen Kommentar.');}
+  if(target){target.classList.add('sim-linked-comment');target.setAttribute('data-linked-comment','true');setGuide(linked,selectedIndex);markProgress('Hier startet dein geteilter Test: Tippe auf ✳ Animal Voices beim hervorgehobenen Kommentar.');}
  }
  root.dataset.simulatorReady='true';
  if(new URLSearchParams(location.search).has('selftestSimulator'))selftest();
