@@ -4,7 +4,7 @@
  * No autonomous posting, live web search, scientific verification, or user tracking.
  */
 const {timingSafeEqual}=require('node:crypto');
-const {TOPICS,VOICES,moderate,language,recommendVoice}=require('../animal-voices.user.js');
+const {TOPICS,VOICES,classify,moderate,language,recommendVoice}=require('../animal-voices.user.js');
 const error=(res,status,message)=>res.status(status).json({ok:false,error:message});
 const nameByCode={momo:'Klar · precise and direct',kiki:'Warm · empathetic without fake agreement',bao:'Locker · witty, never mocking people',curious:'Neugierig · genuinely open question'};
 const topicIds=Object.keys(TOPICS);
@@ -88,6 +88,9 @@ async function handler(req,res){
  if(consent!==true||typeof comment!=='string'||comment.trim().length<10||comment.length>MAX_COMMENT)
   return error(res,400,'Bitte einen Kommentar und ausdrückliche Einwilligung übermitteln.');
  if(privateDetails(comment))return error(res,400,'Bitte Handles, Links und persönliche Kontaktdaten vor einer KI-Anfrage entfernen.');
+ const baseline=classify(comment);
+ if(baseline.state==='unsafe'||/(?:ignore.{0,35}(?:previous|instructions)|ignoriere.{0,35}(?:anweisung|instruktion)|system prompt|developer message|poste hunderte)/i.test(comment))
+  return error(res,422,'Sensibler Kontext oder Bot-Anweisungen: bitte menschlich prüfen, nicht an die KI senden.');
  const local=moderate(comment);
  if(['report','review','end','boundary','optional_one'].includes(local.action))
   return error(res,422,'Zu diesem Fall empfiehlt Animal Voices zuerst Moderation statt KI-Generierung.');
