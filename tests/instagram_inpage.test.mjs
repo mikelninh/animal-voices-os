@@ -14,7 +14,8 @@ const av=module.exports;
 test('Userscript intentionally runs only on instagram.com, not in native Instagram',()=>{
  assert.match(code,/@match\s+https:\/\/www\.instagram\.com\/\*/);
  assert.match(code,/@match\s+https:\/\/instagram\.com\/\*/);
- assert.match(code,/@grant\s+none/);
+ assert.match(code,/@grant\s+GM\.xmlHttpRequest/);
+ assert.match(code,/@connect\s+animal-voices-os\.vercel\.app/);
  assert.match(code,/instagram-demo/);
  assert.match(code,/__AV_INSTAGRAM_ACTIVE__/);
  assert.match(install,/instagram\.com im Handybrowser/);
