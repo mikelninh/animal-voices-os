@@ -26,8 +26,8 @@ test('Public beta landing offers no-login onboarding, 3 deep-linked situations a
  assert.match(page,/property="og:title"/);
  assert.match(page,/property="og:description"/);
  assert.match(page,/property="og:image"/);
- assert.match(page,/community-beta\.css\?v=0\.9\.0/);
- assert.match(page,/community-beta\.js\?v=0\.9\.0/);
+ assert.match(page,/community-beta\.css\?v=1\.0\.0/);
+ assert.match(page,/community-beta\.js\?v=1\.0\.0/);
  assert.match(css,/@media\(max-width:650px\)/);
 });
 test('Share links are deliberately user-triggered and never publish or transmit private comment text',()=>{
