@@ -6,18 +6,18 @@
  const words={
  de:{
  eyebrow:'EIN KLEINES EXPERIMENT FÜR BESSERE GESPRÄCHE',
- headline1:'Weniger Streit.',headline2:'Mehr Verständnis.',
- intro:'Was antwortest du, wenn ein Kommentar provoziert, zweifelt oder eine echte Frage stellt? Animal Voices hilft dir, freundlich, klug und mit guten Quellen zu reagieren.',
- start:'Kostenlos ausprobieren',share:'Mit Freunden teilen',trust1:'Kein Login',trust2:'Keine Installation',trust3:'Keine echten Posts',
+ headline1:'Gute Antworten.',headline2:'Bessere Gespräche.',
+ intro:'Probiere es selbst: Wähle einen Kommentar, entdecke passende Antworten und schau, wie sie im Feed wirken. Ohne Login, ohne echtes Posten.',
+ start:'Jetzt eine Antwort ausprobieren',share:'Mit Freunden teilen',trust1:'Kein Login',trust2:'Keine Installation',trust3:'Keine echten Posts',
  reply:'Verstehe ich. Geschmack ist wichtig! Für mich zählt aber auch, was mit Tieren passiert. Vielleicht entdecken wir ein Gericht, das dir ebenso gut schmeckt.',
  howLabel:"SO FUNKTIONIERT'S",howTitle:'Ein Kommentar. Vier Möglichkeiten.',
  step1title:'Situation auswählen',step1:'Ein Post und seine Kommentare – so wie in einer Social-Media-Diskussion.',
  step2title:'Animal Voices öffnen',step2:'Die App empfiehlt Antworten, Grenzen oder bewusstes Nichtantworten.',
  step3title:'Antwort im Feed ansehen',step3:'Wähle deine Stimme und schau dir die Antwort vor dem Absenden an – ohne echte Veröffentlichung.',
  openDemo:'Jetzt den Simulator öffnen ↗',
- chooseKicker:'DEIN START',chooseTitle:'Womit würdest du antworten?',chooseSub:'Such dir eine Situation aus. Das dauert nur ein paar Klicks.',
+ chooseKicker:'DEIN ERSTER TEST',chooseTitle:'Wähle einen Kommentar.',chooseSub:'Ein Klick öffnet den Simulator direkt bei diesem Kommentar.',
  card1label:'Ehrliche Skepsis',card1title:'„Fleisch schmeckt mir einfach besser.“',card2label:'Ragebait',card2title:'„Wegen euch esse ich zwei extra Steaks!“',
- card3label:'Tierethik',card3title:'“Why should animal suffering matter?”',cardAction:'Antwort ausprobieren ↗',
+ card3label:'Tierethik',card3title:'“Why should animal suffering matter?”',cardAction:'Diesen Kommentar testen ↗',
  communityKicker:'COMMUNITY EXPERIMENT',communityTitle:'Teste es. Hinterfrage es. Teil es.',
  communityBody:'Welche Stimme klingt wirklich menschlich? Wo fehlt Kontext oder ein guter Beleg? Wir möchten nicht nur schöne Antworten – sondern eine Community, die sie ehrlich besser macht.',
  whatsapp:'In WhatsApp teilen',copy:'Link kopieren',inviteQuote:'„Wir müssen nicht jede Diskussion gewinnen. Vielleicht können wir einfach lernen, besser miteinander zu reden.“',
@@ -28,18 +28,18 @@
  },
  en:{
  eyebrow:'A SMALL EXPERIMENT IN BETTER CONVERSATIONS',
- headline1:'Less arguing.',headline2:'More understanding.',
- intro:'What would you say when a comment provokes, questions or asks something genuine? Animal Voices helps you respond kindly, clearly and with grounded sources.',
- start:'Try it for free',share:'Share with friends',trust1:'No login',trust2:'No installation',trust3:'No real posts',
+ headline1:'Kind replies.',headline2:'Better conversations.',
+ intro:'Try it yourself: choose a comment, discover different replies, and see how they look in the feed. No account, no actual posting.',
+ start:'Try it for free · no login',share:'Share with friends',trust1:'No login',trust2:'No installation',trust3:'No real posts',
  reply:'I get it. Taste matters! But what happens to animals matters to me, too. Maybe we can find a plant-based dish you genuinely enjoy.',
  howLabel:'HOW IT WORKS',howTitle:'One comment. Four choices.',
  step1title:'Choose a situation',step1:'A post and its comments, just like a real social-media conversation.',
  step2title:'Open Animal Voices',step2:'The assistant suggests replying, setting a boundary, or choosing not to engage.',
  step3title:'Preview in the feed',step3:'Pick your voice and see how the reply looks. Nothing is actually published.',
  openDemo:'Open the simulator ↗',
- chooseKicker:'PICK YOUR START',chooseTitle:'What would you say?',chooseSub:'Pick a situation. Just a few clicks to try.',
+ chooseKicker:'YOUR FIRST TRY',chooseTitle:'Choose a comment.',chooseSub:'One click takes you straight to that comment in the simulator.',
  card1label:'Genuine doubt',card1title:'“Meat simply tastes better to me.”',card2label:'Ragebait',card2title:'“I’ll eat two extra steaks because of you!”',
- card3label:'Animal ethics',card3title:'“Why should animal suffering matter?”',cardAction:'Try a response ↗',
+ card3label:'Animal ethics',card3title:'“Why should animal suffering matter?”',cardAction:'Try this comment ↗',
  communityKicker:'COMMUNITY EXPERIMENT',communityTitle:'Test it. Question it. Share it.',
  communityBody:'Which voice sounds most human? Where does context or a good source go missing? We want a community that helps make the answers better, not just prettier.',
  whatsapp:'Share on WhatsApp',copy:'Copy link',inviteQuote:'“We don’t have to win every argument. Perhaps we can learn to talk to each other better.”',
@@ -51,6 +51,26 @@
  };
  const params=new URLSearchParams(location.search);
  let lang=params.get('lang')==='en'?'en':'de';
+ let voice='kiki';
+ const sampleComments={
+  de:'Fleisch schmeckt mir einfach besser. Warum sollte ich wechseln?',
+  en:'I enjoy the taste of meat; why would I give it up?'
+ };
+ function renderPreview(){
+  const comment=sampleComments[lang];
+  $('landing-sample-comment').textContent=comment;
+  const core=window.AV_COMMUNITY_PREVIEW_CORE;
+  const result=core?.suggest(comment,voice);
+  $('landing-voice-reply').textContent=result?.text||words[lang].reply;
+  $('landing-voice-hint').textContent=lang==='de'
+   ?'Redaktioneller Entwurf · Stimme wechseln, bevor du ihn ausprobierst.'
+   :'Editorial draft · switch voices before trying it.';
+  document.querySelectorAll('[data-landing-voice]').forEach(button=>{
+   const selected=button.dataset.landingVoice===voice;
+   button.setAttribute('aria-pressed',String(selected));
+  });
+ }
+
  function translate(){
   document.documentElement.lang=lang;$('lang').textContent=lang==='en'?'DE':'EN';
   const dictionary=words[lang];
@@ -64,8 +84,10 @@
    node.href=u.pathname+u.search;
   });
   const u=new URL(location.href);if(lang==='en')u.searchParams.set('lang','en');else u.searchParams.delete('lang');history.replaceState(null,'',u.pathname+u.search+u.hash);
+  renderPreview();
  }
  $('lang').addEventListener('click',()=>{lang=lang==='de'?'en':'de';translate()});
+ document.querySelectorAll('[data-landing-voice]').forEach(button=>button.addEventListener('click',()=>{voice=button.dataset.landingVoice;renderPreview()}));
  function openWhatsApp(){
   const text=words[lang].msg;
   const shareUrl='https://wa.me/?text='+encodeURIComponent(text);
