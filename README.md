@@ -1,3 +1,11 @@
+# Animal Voices · Instagram Simulator v0.8
+
+**[Try the in-context Instagram-style simulator](https://animal-voices-os.vercel.app/instagram-demo.html)** · [Conversation Lab](https://animal-voices-os.vercel.app/challenge.html) · [Mobile browser installation](https://animal-voices-os.vercel.app/install.html)
+
+Eight fictional social-media posts, twenty-four contextual comments, and the original forty-two standalone cases. Pick a post, select a comment, tap **✳ Animal Voices**, choose a reply voice, insert it into the correct comment composer, then **preview it in the simulated feed**. The preview is local-only: **nothing is posted to Instagram**. The mock feed also supports optional local feedback without capturing handles or comment content. The same browser companion and editorial moderation logic are exercised, including rejection of threats, privacy issues, and unreviewed topics. Chromium mobile end-to-end tests cover real DOM events and the handoff, not actual logged-in Instagram accounts.
+
+---
+
 # Animal Voices · Conversation Lab v0.7
 
 **[Inspect 140 labeled quality checks](https://animal-voices-os.vercel.app/challenge.html)** · [Use the Live Coach](https://animal-voices-os.vercel.app/live.html) · [Mobile Instagram companion](https://animal-voices-os.vercel.app/install.html)
