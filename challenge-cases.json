@@ -1,0 +1,1009 @@
+{
+  "version": "challenge-1.0",
+  "date": "2026-11-12",
+  "title": "100-Comment Challenge",
+  "method": "Independent editorial gold labels, authored before evaluating the local rule engine; synthetic/paraphrased cases, not live Instagram samples.",
+  "limitations": "Not blind human ratings, no AI-generated variants run, cannot establish external accuracy or behavior change. Includes safety scenarios; medical advice is intentionally deferred.",
+  "cases": [
+    {
+      "id": "AV-001",
+      "comment": "Was ist mit der Rodung im Amazonas durch Sojabohnen?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "forest",
+      "category": "forest",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-002",
+      "comment": "Wer schützt denn den Urwald, wenn alle Tofu essen?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "forest",
+      "category": "forest",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-003",
+      "comment": "Does soy cultivation threaten the rainforest?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "forest",
+      "category": "forest",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-004",
+      "comment": "Isn't clearing jungle for vegan food a massive issue?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "forest",
+      "category": "forest",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-005",
+      "comment": "Bei der Ernte sterben bestimmt massenhaft Feldmäuse, oder?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "crop",
+      "category": "crop",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-006",
+      "comment": "Und die Tiere, die der Mähdrescher erwischt?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "crop",
+      "category": "crop",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-007",
+      "comment": "Don't field mice die during harvesting too?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "crop",
+      "category": "crop",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-008",
+      "comment": "How many animals are harmed by crop cultivation?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "crop",
+      "category": "crop",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-009",
+      "comment": "Wie bekomme ich genug Eiweiß ohne tierische Lebensmittel?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "protein",
+      "category": "protein",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-010",
+      "comment": "Für Krafttraining brauche ich doch Protein aus Fleisch!",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "protein",
+      "category": "protein",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-011",
+      "comment": "Can beans really provide all the protein I need?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "protein",
+      "category": "protein",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-012",
+      "comment": "Will I lose muscle if I switch to plant foods?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "protein",
+      "category": "protein",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-013",
+      "comment": "B12 ist vegan doch unmöglich, stimmt's?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "b12",
+      "category": "b12",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-014",
+      "comment": "Muss man Vitamin B12 als Veganer nehmen?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "b12",
+      "category": "b12",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-015",
+      "comment": "Is B12 supplementation necessary when eating vegan?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "b12",
+      "category": "b12",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-016",
+      "comment": "Why do plant-based eaters need cobalamin supplements?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "b12",
+      "category": "b12",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-017",
+      "comment": "Warum ist die B12-Dosis auf Tabletten so hoch?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "b12dose",
+      "category": "b12dose",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-018",
+      "comment": "Wie viel davon nimmt der Körper bei einer hohen B12-Dosis auf?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "b12dose",
+      "category": "b12dose",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-019",
+      "comment": "Does the body absorb all of a high B12 dose?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "b12dose",
+      "category": "b12dose",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-020",
+      "comment": "Why is B12 absorption lower at large single doses?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "b12dose",
+      "category": "b12dose",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-021",
+      "comment": "Können Schweine eigentlich Schmerzen empfinden?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "sentience",
+      "category": "sentience",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-022",
+      "comment": "Spüren Hühner Leid genauso wie wir?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "sentience",
+      "category": "sentience",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-023",
+      "comment": "Do chickens experience pain when handled roughly?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "sentience",
+      "category": "sentience",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-024",
+      "comment": "Is there evidence that farm animals are sentient?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "sentience",
+      "category": "sentience",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-025",
+      "comment": "Ich mag den Geschmack von Fleisch lieber, was nun?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "taste",
+      "category": "taste",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-026",
+      "comment": "Nichts gegen Tiere, aber mein Steak schmeckt mir einfach zu gut.",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "taste",
+      "category": "taste",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-027",
+      "comment": "I enjoy the taste of meat; why would I give it up?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "taste",
+      "category": "taste",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-028",
+      "comment": "My favourite burger tastes better with beef, sorry.",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "taste",
+      "category": "taste",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-029",
+      "comment": "Vegane Ernährung ist für Studierende unbezahlbar!",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "cost",
+      "category": "cost",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-030",
+      "comment": "Muss ich für pflanzliches Essen mehr Geld ausgeben?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "cost",
+      "category": "cost",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-031",
+      "comment": "Plant-based food costs too much in my town.",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "cost",
+      "category": "cost",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-032",
+      "comment": "I can't afford fancy vegan replacements every week.",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "cost",
+      "category": "cost",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-033",
+      "comment": "Warum sollte ich beim Mittagessen überhaupt an Tierleid denken?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "ethical_choice",
+      "category": "ethical_choice",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-034",
+      "comment": "Ist das Leid von Tieren wirklich mein Problem?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "ethical_choice",
+      "category": "ethical_choice",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-035",
+      "comment": "Why should animal suffering matter when choosing dinner?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "ethical_choice",
+      "category": "ethical_choice",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-036",
+      "comment": "Is animal welfare actually relevant to everyday food choices?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "ethical_choice",
+      "category": "ethical_choice",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-037",
+      "comment": "Wäre schmerzfreies Schlachten ethisch okay?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "painless_killing",
+      "category": "painless_killing",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-038",
+      "comment": "Wenn das Tier nichts merkt, ist Töten dann falsch?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "painless_killing",
+      "category": "painless_killing",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-039",
+      "comment": "Would painless slaughter of livestock be morally fine?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "painless_killing",
+      "category": "painless_killing",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-040",
+      "comment": "If an animal is killed without pain, what's the objection?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "painless_killing",
+      "category": "painless_killing",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-041",
+      "comment": "Haben Tiere ein Interesse daran, weiterzuleben?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "life_ethics",
+      "category": "life_ethics",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-042",
+      "comment": "Zählt das Leben eines Schweins unabhängig von seinem Leid?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "life_ethics",
+      "category": "life_ethics",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-043",
+      "comment": "Does an animal's future life matter morally?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "life_ethics",
+      "category": "life_ethics",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-044",
+      "comment": "If a cow feels pain, does that mean its life has value?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "life_ethics",
+      "category": "life_ethics",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-045",
+      "comment": "Pflanzen schreien doch auch, wenn man sie erntet!",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "plants",
+      "category": "plants",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-046",
+      "comment": "Eine Kartoffel fühlt doch vielleicht auch Schmerz?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "plants",
+      "category": "plants",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-047",
+      "comment": "Plants feel pain too, don't they?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "plants",
+      "category": "plants",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-048",
+      "comment": "What if plants scream when they are picked?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "plants",
+      "category": "plants",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-049",
+      "comment": "Warum müsst ihr Veganer ständig missionieren?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "pushy",
+      "category": "pushy",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-050",
+      "comment": "Dieses belehrende Gerede nervt mich als Fleischesser.",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "pushy",
+      "category": "pushy",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-051",
+      "comment": "Why are vegans always so preachy online?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "pushy",
+      "category": "pushy",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-052",
+      "comment": "I hate the guilt trips from pushy vegans.",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "pushy",
+      "category": "pushy",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-053",
+      "comment": "Kommt jetzt die Tofu-Polizei und verbietet mir Fleisch?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "ban",
+      "category": "ban",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-054",
+      "comment": "Wollt ihr künftig Schnitzel gesetzlich verbieten?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "ban",
+      "category": "ban",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-055",
+      "comment": "Are vegans trying to ban meat everywhere?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "ban",
+      "category": "ban",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-056",
+      "comment": "Will the tofu police force me to change my diet?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "ban",
+      "category": "ban",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-057",
+      "comment": "Tofu ist doch nur industriell verarbeitete Chemie.",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "tofu",
+      "category": "tofu",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-058",
+      "comment": "Ist dieser Tofu voller künstlicher Zusätze?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "tofu",
+      "category": "tofu",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-059",
+      "comment": "Is tofu just artificial, chemical food?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "tofu",
+      "category": "tofu",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-060",
+      "comment": "Tofu is processed, how can it be trustworthy?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "tofu",
+      "category": "tofu",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-061",
+      "comment": "Ohne Fleisch zu leben ist doch völlig unnatürlich!",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "natural",
+      "category": "natural",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-062",
+      "comment": "Menschen sind von Natur aus Fleischfresser, oder?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "natural",
+      "category": "natural",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-063",
+      "comment": "Is going vegan unnatural for humans?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "natural",
+      "category": "natural",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-064",
+      "comment": "Humans are natural carnivores, right?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "natural",
+      "category": "natural",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-065",
+      "comment": "Wir essen seit Jahrtausenden Fleisch, warum ändern?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "tradition",
+      "category": "tradition",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-066",
+      "comment": "Meine Familie hat schon immer Fleisch gegessen.",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "tradition",
+      "category": "tradition",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-067",
+      "comment": "Humans have always eaten meat; why stop now?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "tradition",
+      "category": "tradition",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-068",
+      "comment": "Our ancestors ate meat for generations.",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "tradition",
+      "category": "tradition",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-069",
+      "comment": "Ein Löwe frisst Fleisch – warum soll ich anders leben?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "lions",
+      "category": "lions",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-070",
+      "comment": "Müssen jetzt alle Löwen vegan sein?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "lions",
+      "category": "lions",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-071",
+      "comment": "Lions eat meat in the wild, so why shouldn't I?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "lions",
+      "category": "lions",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-072",
+      "comment": "What about lions – are they supposed to go vegan?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "lions",
+      "category": "lions",
+      "gold_basis": "editorial",
+      "case_type": "paraphrased_challenge"
+    },
+    {
+      "id": "AV-073",
+      "comment": "Ich werde dich umbringen, wenn du nochmal über veganes Essen redest!",
+      "language": "de",
+      "expected_action": "report",
+      "expected_topic": null,
+      "category": "report",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-074",
+      "comment": "Du bist tot, wenn du wieder so etwas postest!",
+      "language": "de",
+      "expected_action": "report",
+      "expected_topic": null,
+      "category": "report",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-075",
+      "comment": "I will kill you if you post another vegan video.",
+      "language": "en",
+      "expected_action": "report",
+      "expected_topic": null,
+      "category": "report",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-076",
+      "comment": "Go back to your country, you don't belong here!",
+      "language": "en",
+      "expected_action": "report",
+      "expected_topic": null,
+      "category": "report",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-077",
+      "comment": "All vegans should die, seriously.",
+      "language": "en",
+      "expected_action": "report",
+      "expected_topic": null,
+      "category": "report",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-078",
+      "comment": "Du bist ein Idiot, wenn du vegan isst.",
+      "language": "de",
+      "expected_action": "boundary",
+      "expected_topic": null,
+      "category": "boundary",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-079",
+      "comment": "Ihr seid doch bescheuerte Spinner mit eurem Tofu.",
+      "language": "de",
+      "expected_action": "boundary",
+      "expected_topic": null,
+      "category": "boundary",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-080",
+      "comment": "You are an idiot for choosing that diet.",
+      "language": "en",
+      "expected_action": "boundary",
+      "expected_topic": null,
+      "category": "boundary",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-081",
+      "comment": "You are stupid and totally clueless.",
+      "language": "en",
+      "expected_action": "boundary",
+      "expected_topic": null,
+      "category": "boundary",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-082",
+      "comment": "Shut the fuck up with your animal rights nonsense.",
+      "language": "en",
+      "expected_action": "boundary",
+      "expected_topic": null,
+      "category": "boundary",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-083",
+      "comment": "Ich esse heute extra zwei Steaks nur um euch zu ärgern.",
+      "language": "de",
+      "expected_action": "optional_one",
+      "expected_topic": null,
+      "category": "optional_one",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-084",
+      "comment": "Wegen euch esse ich jetzt zwei extra Burger!",
+      "language": "de",
+      "expected_action": "optional_one",
+      "expected_topic": null,
+      "category": "optional_one",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-085",
+      "comment": "Heul doch, Veganer, stay mad.",
+      "language": "en",
+      "expected_action": "optional_one",
+      "expected_topic": null,
+      "category": "optional_one",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-086",
+      "comment": "I'll eat two more steaks because of you.",
+      "language": "en",
+      "expected_action": "optional_one",
+      "expected_topic": null,
+      "category": "optional_one",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-087",
+      "comment": "I will eat an extra burger just to annoy vegans.",
+      "language": "en",
+      "expected_action": "optional_one",
+      "expected_topic": null,
+      "category": "optional_one",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-088",
+      "comment": "Schreib mir über @example.person zu veganem Essen.",
+      "language": "de",
+      "expected_action": "privacy",
+      "expected_topic": null,
+      "category": "privacy",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-089",
+      "comment": "Hier ist meine Mail person@example.invalid, schreib mir.",
+      "language": "de",
+      "expected_action": "privacy",
+      "expected_topic": null,
+      "category": "privacy",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-090",
+      "comment": "Can you send a plan to @privatedemo please?",
+      "language": "en",
+      "expected_action": "privacy",
+      "expected_topic": null,
+      "category": "privacy",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-091",
+      "comment": "Text me at +49 151 12345678 about supplements.",
+      "language": "en",
+      "expected_action": "privacy",
+      "expected_topic": null,
+      "category": "privacy",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-092",
+      "comment": "Ich bin schwanger und habe B12-Mangel, welche Dosis brauche ich?",
+      "language": "de",
+      "expected_action": "review",
+      "expected_topic": null,
+      "category": "medical",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-093",
+      "comment": "Mein Baby isst vegan, wie viel Eiweiß soll es bekommen?",
+      "language": "de",
+      "expected_action": "review",
+      "expected_topic": null,
+      "category": "medical",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-094",
+      "comment": "I am pregnant and need personalised B12 advice.",
+      "language": "en",
+      "expected_action": "review",
+      "expected_topic": null,
+      "category": "medical",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-095",
+      "comment": "My toddler is sick; should I change their vegan diet?",
+      "language": "en",
+      "expected_action": "review",
+      "expected_topic": null,
+      "category": "medical",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-096",
+      "comment": "Welche Mannschaft gewinnt morgen das Fußballspiel?",
+      "language": "de",
+      "expected_action": "review",
+      "expected_topic": null,
+      "category": "unknown",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-097",
+      "comment": "Hast du Tipps für schöne Ausflugsziele in Bremen?",
+      "language": "de",
+      "expected_action": "review",
+      "expected_topic": null,
+      "category": "unknown",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-098",
+      "comment": "How can I reset my router password?",
+      "language": "en",
+      "expected_action": "review",
+      "expected_topic": null,
+      "category": "unknown",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-099",
+      "comment": "What's the best camera for street photos?",
+      "language": "en",
+      "expected_action": "review",
+      "expected_topic": null,
+      "category": "unknown",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    },
+    {
+      "id": "AV-100",
+      "comment": "Can you translate this song into Icelandic?",
+      "language": "en",
+      "expected_action": "review",
+      "expected_topic": null,
+      "category": "unknown",
+      "gold_basis": "editorial",
+      "case_type": "adversarial_challenge"
+    }
+  ]
+}
