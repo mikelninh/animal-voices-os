@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f3f7ed">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Animal Voices Community-Test: Wie reagieren wir auf Ragebait, Tierethik und ehrliche Fragen? Drei realistische Kommentare testen, vier Antwortstimmen vergleichen und ehrliches Feedback geben. Ohne Login.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Animal Voices · Kleine Challenge für die NVSINO-Community 🌱">
+<meta property="og:description" content="Würdest du diese Antwort posten? 3 Kommentare, 4 Stimmen, 2 Minuten. Unabhängiges, kostenloses Community-Experiment.">
+<meta property="og:url" content="https://animal-voices-os.vercel.app/nvsino.html">
+<meta property="og:image" content="https://animal-voices-os.vercel.app/icons/icon-512.png">
+<meta name="twitter:card" content="summary">
+<title>Animal Voices × Community-Test · NVSINO-Mitglieder</title>
+<link rel="stylesheet" href="/nvsino.css?v=1.0.0">
+</head>
+<body>
+<div class="shell">
+<header class="top">
+ <a href="/community.html" class="brand" aria-label="Animal Voices Hauptseite"><span class="mark">✳</span> animal <em>voices</em></a>
+ <span class="edition">UNABHÄNGIGER COMMUNITY-TEST · BETA</span>
+</header>
+<main>
+ <section class="hero">
+  <div class="eyebrow"><span class="pulse"></span> EINE FRAGE AN DIE NVSINO-COMMUNITY</div>
+  <h1>Würdest du das<br><i>wirklich posten?</i></h1>
+  <p class="lead">Ich teste gerade <strong>Animal Voices</strong>: einen kleinen Gesprächshelfer für Tierethik, ehrliche Fragen und den ganz normalen Social-Media-Wahnsinn. Klar in der Haltung. Respektvoll im Ton. Und nicht jede Provokation braucht eine Antwort.</p>
+  <div class="hero-actions">
+    <a href="/instagram-demo.html?scene=rage&amp;c=0&amp;source=nvsino" class="primary" id="start-challenge">🔥 Challenge starten <span aria-hidden="true">↗</span></a>
+    <span class="time"><span aria-hidden="true">◷</span> Ca. 2 Minuten · ohne Anmeldung</span>
+  </div>
+  <p class="underhero">3 Kommentare ausprobieren · 4 Antwortstimmen · nichts wird wirklich gepostet</p>
+ </section>
+ <section class="examples" id="examples" aria-label="Drei Testkommentare">
+   <div class="sectionhead"><span class="eyebrow">DEIN MINI-TEST</span><h2>Such dir einen Kommentar aus.</h2></div>
+   <div class="example-grid">
+     <a class="example rage" href="/instagram-demo.html?scene=rage&amp;c=0&amp;source=nvsino">
+      <span class="emoj">🔥</span><span class="mini">01 · PROVOKATION</span>
+      <strong>„Wegen euch esse ich zwei extra Steaks!“</strong>
+      <span class="hint">Antworten oder ignorieren? <span aria-hidden="true">↗</span></span>
+     </a>
+     <a class="example taste" href="/instagram-demo.html?scene=taste&amp;c=0&amp;source=nvsino">
+      <span class="emoj">🍔</span><span class="mini">02 · ECHTER EINWAND</span>
+      <strong>„Fleisch schmeckt mir einfach besser.“</strong>
+      <span class="hint">Wie würdest du reagieren? <span aria-hidden="true">↗</span></span>
+     </a>
+     <a class="example ethics" href="/instagram-demo.html?scene=ethics&amp;c=0&amp;source=nvsino">
+      <span class="emoj">🐷</span><span class="mini">03 · TIERETHIK</span>
+      <strong>“Why should animal suffering matter?”</strong>
+      <span class="hint">Welches Argument hilft? <span aria-hidden="true">↗</span></span>
+     </a>
+   </div>
+ </section>
+ <section class="feedback" id="feedback">
+  <div class="feedback-copy">
+   <div class="eyebrow">GEMEINSAM BESSER MACHEN</div>
+   <h2>Dein kritischer Blick<br><i>ist willkommen.</i></h2>
+   <p>Das ist ein früher Prototyp. Mich interessiert besonders, ob die Antworten zugleich <strong>klar, fachlich sauber und menschlich</strong> sind – oder ob wir unnötig weich, belehrend oder ungenau werden.</p>
+   <p>Du musst nichts gut finden. Gerade die Kritik hilft. ♡</p>
+  </div>
+  <div class="feedback-form" aria-label="Freiwilliges Testfeedback">
+   <div class="feedback-title"><span class="feedback-asterisk">✳</span><div><strong>60-Sekunden-Feedback</strong><small>Nach dem Test · freiwillig</small></div></div>
+   <fieldset>
+     <legend>Welchen Kommentar hast du getestet?</legend>
+     <div class="choices" id="scene-choices">
+       <label><input type="radio" name="scene" value="rage" checked><span>🔥 Ragebait</span></label>
+       <label><input type="radio" name="scene" value="taste"><span>🍔 Geschmack</span></label>
+       <label><input type="radio" name="scene" value="ethics"><span>🐷 Tierethik</span></label>
+     </div>
+   </fieldset>
+   <fieldset>
+     <legend>Würdest du die vorgeschlagene Antwort so posten?</legend>
+     <div class="choices rating">
+       <label><input type="radio" name="rating" value="yes"><span>Ja 👍</span></label>
+       <label><input type="radio" name="rating" value="maybe"><span>Mit Änderungen 🤔</span></label>
+       <label><input type="radio" name="rating" value="no"><span>Eher nicht 👎</span></label>
+     </div>
+   </fieldset>
+   <label class="note-label" for="note">Was sollte besser werden? <small>(optional)</small></label>
+   <textarea id="note" maxlength="350" rows="3" placeholder="z. B. klarer, kürzer, weniger belehrend, bessere Quellen ..."></textarea>
+   <button type="button" class="submit" id="copy-feedback">Feedback zum Teilen kopieren <span aria-hidden="true">↗</span></button>
+   <p id="feedback-status" class="status" role="status" aria-live="polite"></p>
+   <p class="privacy">🔒 Keine Anmeldung, keine versteckte Einsendung. Dein Feedback bleibt hier, bis du es selbst kopierst und in der Community postest.</p>
+  </div>
+ </section>
+ <section class="closing">
+   <span class="heart">♡</span><p>Für die Tiere konsequent sein. Für die Menschen ansprechbar bleiben.</p>
+   <div class="closelinks"><a href="/community.html">Alle Animal-Voices-Funktionen ansehen ↗</a><a href="/community-code.html">Unsere Gesprächsprinzipien ↗</a></div>
+ </section>
+</main>
+<footer><span>Animal Voices · unabhängiger Test eines Community-Mitglieds</span><span>Keine offizielle NVSINO-Seite oder Kooperation. Alle Posts im Simulator sind fiktiv.</span></footer>
+</div>
+<script src="/nvsino.js?v=1.0.0"></script>
+</body>
+</html>
