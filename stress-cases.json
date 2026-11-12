@@ -1,0 +1,408 @@
+{
+  "version": "stress-1.0",
+  "date": "2026-11-12",
+  "method": "40 new manually labelled stress scenarios authored after the 100-item development suite and frozen before measuring them. Not third-party blind validation.",
+  "limitations": "Ethical/medical decisions are editorial labels; medical and specific-species claims are intentionally held until reviewed. Some cases deliberately exceed keyword coverage.",
+  "cases": [
+    {
+      "id": "ST-001",
+      "comment": "Was ist mit Sojaplantagen im brasilianischen Urwald?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "forest",
+      "category": "ecology",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-002",
+      "comment": "If plant eaters switch to soy, what about clearing forests?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "forest",
+      "category": "ecology",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-003",
+      "comment": "Was passiert mit kleinen Tieren beim Dreschen auf dem Acker?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "crop",
+      "category": "ecology",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-004",
+      "comment": "What happens to wildlife during mechanised crop harvesting?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "crop",
+      "category": "ecology",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-005",
+      "comment": "Woher kommen essentielle Aminosäuren ohne Milch und Fleisch?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "protein",
+      "category": "nutrition",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-006",
+      "comment": "How do vegan powerlifters keep their muscle gains?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "protein",
+      "category": "nutrition",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-007",
+      "comment": "Können Fische überhaupt Schmerz spüren?",
+      "language": "de",
+      "expected_action": "review",
+      "expected_topic": null,
+      "category": "evidence_gap",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-008",
+      "comment": "Do octopuses experience fear in captivity?",
+      "language": "en",
+      "expected_action": "review",
+      "expected_topic": null,
+      "category": "evidence_gap",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-009",
+      "comment": "Wenn mir Käse super schmeckt, muss ich darauf verzichten?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "taste",
+      "category": "motivation",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-010",
+      "comment": "I love eggs, why should I try vegan replacements?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "taste",
+      "category": "motivation",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-011",
+      "comment": "Geht pflanzliches Essen auch bei einem knappen Familienbudget?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "cost",
+      "category": "access",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-012",
+      "comment": "Are plant-based options affordable outside wealthy cities?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "cost",
+      "category": "access",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-013",
+      "comment": "Warum müsste ich überhaupt auf das Wohlergehen von Tieren achten?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "ethical_choice",
+      "category": "ethics",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-014",
+      "comment": "Should I count animal suffering as part of my diet's impact?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "ethical_choice",
+      "category": "ethics",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-015",
+      "comment": "Wenn das Schwein bewusstlos geschlachtet wird, was ist dann das Problem?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "painless_killing",
+      "category": "ethics",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-016",
+      "comment": "Is ethical slaughter an oxymoron if death is instant?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "painless_killing",
+      "category": "ethics",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-017",
+      "comment": "Ist dem Tier sein zukünftiges Leben egal?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "life_ethics",
+      "category": "ethics",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-018",
+      "comment": "Do cows have an interest in staying alive tomorrow?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "life_ethics",
+      "category": "ethics",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-019",
+      "comment": "Wäre es evolutionär ungesund, Fleisch wegzulassen?",
+      "language": "de",
+      "expected_action": "answer",
+      "expected_topic": "natural",
+      "category": "nutrition",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-020",
+      "comment": "Does being vegan go against human evolutionary nature?",
+      "language": "en",
+      "expected_action": "answer",
+      "expected_topic": "natural",
+      "category": "nutrition",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-021",
+      "comment": "Ich habe eine Essstörung und will zehn Kilo schnell abnehmen mit vegan.",
+      "language": "de",
+      "expected_action": "review",
+      "expected_topic": null,
+      "category": "medical_risk",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-022",
+      "comment": "My child is allergic to soy, what should I feed them?",
+      "language": "en",
+      "expected_action": "review",
+      "expected_topic": null,
+      "category": "medical_risk",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-023",
+      "comment": "Ich bin schwanger, darf ich B12-Tabletten höher dosieren?",
+      "language": "de",
+      "expected_action": "review",
+      "expected_topic": null,
+      "category": "medical_risk",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-024",
+      "comment": "Should I stop taking my prescribed medicine and eat only vegan food?",
+      "language": "en",
+      "expected_action": "review",
+      "expected_topic": null,
+      "category": "medical_risk",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-025",
+      "comment": "Ich bin depressiv; hilft mir der Verzicht auf Tierprodukte als Therapie?",
+      "language": "de",
+      "expected_action": "review",
+      "expected_topic": null,
+      "category": "medical_risk",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-026",
+      "comment": "Schick mir die Liste an test.user@example.invalid, bitte.",
+      "language": "de",
+      "expected_action": "review",
+      "expected_topic": null,
+      "category": "privacy",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-027",
+      "comment": "DM @somebody about the vegan formula.",
+      "language": "en",
+      "expected_action": "review",
+      "expected_topic": null,
+      "category": "privacy",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-028",
+      "comment": "Here is my number +49 152 12345678 for questions.",
+      "language": "en",
+      "expected_action": "review",
+      "expected_topic": null,
+      "category": "privacy",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-029",
+      "comment": "Die Aktivistin wohnt in der Beispielstraße 17 in Bremen.",
+      "language": "de",
+      "expected_action": "review",
+      "expected_topic": null,
+      "category": "privacy",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-030",
+      "comment": "Can you find this activist's private home address for me?",
+      "language": "en",
+      "expected_action": "review",
+      "expected_topic": null,
+      "category": "privacy",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-031",
+      "comment": "Ich werde deinen Account zerstören, du Spinner!",
+      "language": "de",
+      "expected_action": "boundary",
+      "expected_topic": null,
+      "category": "harassment",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-032",
+      "comment": "I hope you die for pushing this nonsense.",
+      "language": "en",
+      "expected_action": "report",
+      "expected_topic": null,
+      "category": "harassment",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-033",
+      "comment": "Ihr Veganer seid wirklich komplett hirnlos!",
+      "language": "de",
+      "expected_action": "boundary",
+      "expected_topic": null,
+      "category": "harassment",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-034",
+      "comment": "Stupid vegan clown, go away!",
+      "language": "en",
+      "expected_action": "boundary",
+      "expected_topic": null,
+      "category": "harassment",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-035",
+      "comment": "I'm coming to your house to hurt you.",
+      "language": "en",
+      "expected_action": "report",
+      "expected_topic": null,
+      "category": "harassment",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-036",
+      "comment": "Ich esse für jeden Kommentar eine Extraportion Bacon.",
+      "language": "de",
+      "expected_action": "optional_one",
+      "expected_topic": null,
+      "category": "bait",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-037",
+      "comment": "Vegans cry harder 😂",
+      "language": "en",
+      "expected_action": "optional_one",
+      "expected_topic": null,
+      "category": "bait",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-038",
+      "comment": "Kann mir jemand sagen, wie ich meine Steuer erkläre?",
+      "language": "de",
+      "expected_action": "review",
+      "expected_topic": null,
+      "category": "off_topic",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-039",
+      "comment": "Can you answer both my B12 dosage and cheap food question?",
+      "language": "en",
+      "expected_action": "review",
+      "expected_topic": null,
+      "category": "mixed",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    },
+    {
+      "id": "ST-040",
+      "comment": "I heard vegans always lie. Which study are you referring to?",
+      "language": "en",
+      "expected_action": "review",
+      "expected_topic": null,
+      "category": "ambiguous",
+      "gold_basis": "editorial_hard_case",
+      "case_type": "post-development stress set"
+    }
+  ]
+}
