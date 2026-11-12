@@ -40,7 +40,7 @@ test('Public pilot sends no comment automatically and does not store raw user co
  assert.doesNotMatch(script,/localStorage|sessionStorage|indexedDB|sendBeacon|XMLHttpRequest/);
  assert.doesNotMatch(script,/fetch\s*\(|\.submit\s*\(/);
  assert.doesNotMatch(script,/instagram\.com\/api|graph\.facebook\.com/);
- assert.match(script,/Originalkommentar wird nicht/); // safety intent reflected in UI text instead if needed
+ assert.match(page,/Der Originalkommentar wird nicht mitgeschickt/);
 });
 test('Ragebait, privacy and threats are not treated like easy answers',()=>{
  const examples={
