@@ -99,7 +99,7 @@ test('Demo contains twenty-two selectable sample comments and native reply input
  assert.match(demo,/42 Kommentar-Beispiele/);
  assert.match(demo,/class="native-reply"/);
  assert.match(demo,/class="compose" hidden/);
- assert.match(demo,/src="\/animal-voices\.user\.js\?v=0\.5\.0"/);
+ assert.match(demo,/src="\/animal-voices\.user\.js\?v=0\.6\.0"/);
  assert.match(demo,/NICHT Instagram/);
  assert.match(demo,/wird grundsätzlich nichts veröffentlicht/);
 });
