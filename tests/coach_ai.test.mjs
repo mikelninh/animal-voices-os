@@ -132,3 +132,12 @@ test('Catalog contains all curated topics but does not include user handles or s
  assert.equal(coach._internals.privateDetails('@hello how are you'),true);
  assert.equal(moderate('Why do animals suffer?').action,'answer');
 });
+
+test('Privileged userscript origins are supported, ordinary hostile web origins are rejected',()=>{
+ const origin=coach._internals.safeOrigin;
+ for(const s of [undefined,'null','moz-extension://abc','chrome-extension://example','safari-web-extension://abc','https://www.instagram.com']){
+  assert.equal(origin({headers:{origin:s,host:'animal-voices-os.vercel.app'}}),true,String(s));
+ }
+ for(const s of ['https://evil.site','http://www.instagram.com','javascript:alert(1)'])
+  assert.equal(origin({headers:{origin:s,host:'animal-voices-os.vercel.app'}}),false,s);
+});
