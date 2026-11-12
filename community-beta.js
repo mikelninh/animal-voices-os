@@ -112,4 +112,26 @@
  });
  translate();
  document.body.dataset.betaReady='true';
+ if(new URLSearchParams(location.search).has('selftestLanding')){
+  const report=document.createElement('output');report.id='av-landing-selftest';report.dataset.status='running';document.body.append(report);
+  try{
+   const buttons=[...document.querySelectorAll('[data-landing-voice]')];
+   if(buttons.length!==4)throw Error('FOUR_VOICES_NOT_RENDERED');
+   const first=$('landing-voice-reply').textContent;
+   if(first.length<25)throw Error('NO_FIRST_REPLY');
+   const clear=buttons.find(b=>b.dataset.landingVoice==='momo');
+   clear.click();
+   const second=$('landing-voice-reply').textContent;
+   if(first===second)throw Error('VOICE_SWITCH_NO_CHANGE');
+   const english=lang==='en'||$('lang').textContent==='EN';
+   if(lang!=='en')$('lang').click();
+   if(document.documentElement.lang!=='en')throw Error('LANG_SWITCH_FAILED');
+   if(!$('landing-sample-comment').textContent.startsWith('I enjoy'))throw Error('EN_COMMENT_MISMATCH');
+   if($('landing-voice-reply').textContent.length<25)throw Error('NO_EN_REPLY');
+   if(!buttons.find(b=>b.dataset.landingVoice==='curious').textContent.includes('Curious'))throw Error('VOICE_LABEL_NOT_TRANSLATED');
+   if(!document.querySelector('a[href*="scene=taste"][href*="lang=en"]'))throw Error('EN_LINK_LOST');
+   report.dataset.status='pass';
+   report.textContent='PASS: first-run landing, four genuinely distinct voices, language consistency and direct scenario links';
+  }catch(e){report.dataset.status='fail';report.textContent='FAIL: '+e.message}
+ }
 })();
