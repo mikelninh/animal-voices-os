@@ -34,12 +34,12 @@ footer{color:#82938b;font-size:11px;padding:23px 17px}
 </head>
 <body>
 <main>
-<div class="notice"><strong>✳ Dies ist eine Testseite – NICHT Instagram.</strong> Teste 8 fiktive Social-Media-Posts mit Gesprächskontext und 42 weitere Einzelkommentare. Alle Posts und Konten sind fiktiv. Es wird nichts veröffentlicht. <a href="/install.html">Installation</a> · <a href="/community-code.html">Unser Community Code</a> · <a href="/challenge.html">Conversation Lab</a></div>
+<div class="notice"><strong>✳ Dies ist eine Testseite – NICHT Instagram.</strong> Teste 8 fiktive Social-Media-Posts mit Gesprächskontext und 42 weitere Einzelkommentare. Alle Posts und Konten sind fiktiv. Es wird nichts veröffentlicht. <a href="/community.html">Community-Beta</a> · <a href="/install.html">Installation</a> · <a href="/community-code.html">Unser Community Code</a> · <a href="/challenge.html">Conversation Lab</a></div>
 <header class="top"><div class="brand">insta<span>gram · Demo</span></div><div class="headtools">♡　⊕　☷</div></header>
 
 <section class="sim-experience" id="sim-experience" aria-label="Interaktiver Social-Media-Simulator">
  <div class="sim-intro">
-  <div class="sim-intro-top"><span class="sim-kicker">✳ ANIMAL VOICES · REAL-LIFE SIMULATOR</span><span class="sim-beta">V0.8 · SICHERE DEMO</span></div>
+  <div class="sim-intro-top"><span class="sim-kicker">✳ ANIMAL VOICES · REAL-LIFE SIMULATOR</span><span class="sim-beta">V0.9 · COMMUNITY BETA</span></div>
   <h1>Echte Situationen.<br><em>Bessere Gespräche.</em></h1>
   <p>Statt isolierter Fragen: Wähle einen Post, lies die Kommentare und antworte so, wie du es später wirklich tun würdest.</p>
   <div class="sim-journey" aria-label="Testablauf">
@@ -68,10 +68,28 @@ footer{color:#82938b;font-size:11px;padding:23px 17px}
   <p class="sim-caption"><strong id="sim-caption-author">plantplate.berlin</strong> <span id="sim-caption">Ein guter Post für bessere Diskussionen.</span></p>
   <p class="sim-view-replies" id="sim-comments-count">3 Kommentare · Beispieldaten</p>
   <ul id="sim-comments" class="sim-comments" aria-label="Kommentare des ausgewählten Posts"></ul>
+  <div class="sim-own-comment" id="sim-own-comment">
+   <div class="sim-own-head"><strong>✳ Deinen eigenen Kommentar testen</strong><span>LOKAL · OHNE LOGIN</span></div>
+   <p>Was würdest du in einer echten Diskussion lesen? Schreib eine Frage oder einen Einwand – bitte ohne Namen oder private Daten.</p>
+   <label class="sim-own-label" for="sim-custom-input">Dein Beispielkommentar</label>
+   <textarea id="sim-custom-input" maxlength="700" rows="3" placeholder="Zum Beispiel: Warum sollte ich beim Essen auf Tiere achten?"></textarea>
+   <button type="button" id="sim-add-comment" class="sim-add-comment">Im Feed testen ↗</button>
+   <p id="sim-own-status" class="sim-own-status" role="status" aria-live="polite"></p>
+  </div>
   <div class="sim-safeguard" id="sim-safeguard"><span>🔒</span><p><strong>Nur eine Simulation.</strong> Antworten werden hier nicht veröffentlicht. Namen, Posts und Kommentare sind fiktiv.</p></div>
   <div id="sim-feedback" class="sim-feedback" role="status" aria-live="polite"></div>
  </article>
- <div class="sim-footer-links"><a href="/challenge.html">140 weitere Qualitätsfälle prüfen ↗</a><span id="sim-progress">Wähle einen Kommentar und tippe ✳ Animal Voices.</span></div>
+ <div class="sim-community-share">
+ <strong>Hat dir der Test gefallen?</strong>
+ <p>Zeig deiner Community diese Situation oder schick ihr deine Einschätzung. Keine automatischen Posts, keine gespeicherten Namen.</p>
+ <div class="sim-share-actions">
+  <button type="button" id="sim-share-scenario">↗ Situation teilen</button>
+  <button type="button" id="sim-share-feedback">♡ Mein Feedback teilen</button>
+  <button type="button" id="sim-copy-link">⧉ Link kopieren</button>
+ </div>
+ <p class="sim-share-status" id="sim-share-status" role="status" aria-live="polite"></p>
+</div>
+<div class="sim-footer-links"><a href="/community.html">♡ Community-Beta teilen ↗</a><span id="sim-progress">Wähle einen Kommentar und tippe ✳ Animal Voices.</span></div>
 </section>
 <div class="sim-archive-title"><span>WEITERE TESTFÄLLE</span><h2>Die ursprünglichen 42 Kommentare</h2><p>Wie bisher einzeln testen – mit genau derselben Animal-Voices-Erweiterung.</p></div>
 <div class="post-author"><span class="avatar"></span> better.food.stories · Demo</div>
