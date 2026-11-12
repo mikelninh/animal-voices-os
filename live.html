@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="de"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f4f7f0"><meta name="referrer" content="no-referrer">
+<meta name="description" content="Animal Voices LIVE: Echte Kommentare verstehen, vier passende Antworten vergleichen, Quellenlage prüfen und freundlich kommunizieren.">
+<title>Animal Voices LIVE · Der KI-Gesprächscoach</title>
+<link rel="stylesheet" href="/live.css">
+</head><body>
+<main class="page">
+<header class="nav"><a href="/install.html" class="brand"><span class="mark">✳</span>animal <em>voices</em></a><div class="navlinks"><a href="/community-code.html">Unser Code</a><a href="/install.html">Instagram-Integration ↗</a></div></header>
+<section class="intro">
+ <div class="eyebrow"><span class="pulse"></span> PRIVATE AI BETA · V0.6</div>
+ <h1>Eine bessere Antwort<br><em>beginnt mit Zuhören.</em></h1>
+ <p>Wähle einen Kommentar. Animal Voices erkennt das Anliegen, empfiehlt die richtige Reaktion und zeigt vier Antworten. Eine echte KI kann nach deiner Einwilligung zusätzliche Vorschläge erstellen.</p>
+</section>
+<div class="layout">
+<section class="panel input-panel" aria-label="Kommentar analysieren">
+ <div class="section-head"><span class="eyebrow">01 · VERSTEHEN</span><span class="caption">DE / EN</span></div>
+ <label class="field-title" for="comment">Was wurde kommentiert?</label>
+ <textarea id="comment" rows="5" maxlength="900" spellcheck="true">Fleisch schmeckt mir einfach besser. Warum sollte ich wechseln?</textarea>
+ <div class="section-sub">Beispiele zum Ausprobieren</div>
+ <div class="chips" role="group" aria-label="Beispielkommentare">
+  <button type="button" data-example="taste">🍔 Geschmack</button>
+  <button type="button" data-example="animals">🐷 Tierleid</button>
+  <button type="button" data-example="forest">🌳 Regenwald</button>
+  <button type="button" data-example="rage">🔥 Ragebait</button>
+  <button type="button" data-example="boundary">🛡️ Beleidigung</button>
+  <button type="button" data-example="english">🇬🇧 English</button>
+ </div>
+ <div class="options">
+  <label><input type="checkbox" id="repeat"> Wiederholte Angriffe / Trolling</label>
+  <label><input type="checkbox" id="own"> Auf meinem eigenen Beitrag</label>
+ </div>
+ <div class="actions"><button class="button primary" id="analyse" type="button"><span>✳</span> Kommentar verstehen</button></div>
+ <details class="ai-settings" id="ai-settings">
+  <summary><span>✦</span> Echte KI aktivieren <span class="right-note">Privater Zugang</span></summary>
+  <div class="settings-body">
+   <p><strong>Live-Modus:</strong> drei Schritte – semantische Themenwahl, vier Entwürfe, unabhängige Modell-Gegenprüfung. Die Belege stammen aus kuratierten Quellenkarten, nicht aus einem Live-Webcheck.</p>
+   <label class="field-title" for="access">Privater Editor-Code</label>
+   <input id="access" type="password" autocomplete="off" autocapitalize="off" placeholder="Privater Testzugang" minlength="16">
+   <label class="privacy-consent"><input type="checkbox" id="consent"> Ich willige ein, dass dieser bereinigte Kommentar für die KI-Prüfung an Animal Voices und den KI-Anbieter übertragen wird.</label>
+   <button id="run-ai" class="button ai-button" type="button">✦ Vier KI-Antworten erzeugen</button>
+   <p id="ai-state" class="state" role="status" aria-live="polite">Keine KI-Anfrage gesendet.</p>
+   <p class="micro">Nur nach Klick · kein Instagram-Login · Zugangscode bleibt im Eingabefeld dieses Tabs, nicht in einem Speicher · kein automatisches Posten.</p>
+  </div>
+ </details>
+</section>
+<section class="panel output-panel" aria-label="Antwortvorschläge">
+ <div class="section-head"><span class="eyebrow">02 · KLAR ENTSCHEIDEN</span><span id="mode" class="mode-pill">Redaktionell</span></div>
+ <div class="decision">
+  <span class="label">EMPFOHLENE HANDLUNG</span>
+  <h2 id="decision-title">Kommentar verstehen</h2>
+  <p id="decision-why">Die Empfehlung berücksichtigt den erkannten Kommentar und deine Kontextangaben.</p>
+  <div id="decision-action" class="decision-action">Du entscheidest selbst.</div>
+ </div>
+ <div id="reply-area">
+  <div class="reply-head"><span class="label">03 · DEINE ANTWORT</span><span class="caption" id="reply-language">Deutsch</span></div>
+  <div class="voices" role="group" aria-label="Antwortstimme wählen">
+   <button data-voice="momo" type="button">✦ Klar</button>
+   <button data-voice="kiki" type="button">♡ Warm</button>
+   <button data-voice="bao" type="button">☀ Locker</button>
+   <button data-voice="curious" type="button">? Neugierig</button>
+  </div>
+  <div id="reply" class="answer" aria-live="polite"></div>
+  <div class="actions"><button id="copy" type="button" class="button primary">Antwort kopieren</button><button id="next" type="button" class="button pale">Andere Stimme ↻</button></div>
+  <p id="copy-state" class="state" role="status"></p>
+ </div>
+ <div id="empty" class="empty" hidden>Für diese Situation zeigen wir bewusst keinen Antworttext. Das ist eine Entscheidung für Qualität und Schutz, kein technischer Fehler.</div>
+ <details class="evidence" id="evidence">
+  <summary>Quellen, Grenzen & Prüfstatus ansehen</summary>
+  <div class="evidence-body">
+   <p id="source-summary"></p>
+   <div id="sources"></div>
+   <p id="limitations"></p>
+   <p id="verification" class="micro"></p>
+  </div>
+ </details>
+ <div class="feedback-block">
+  <div><span class="eyebrow">04 · LERNEN</span><p>Wäre diese Antwort für dich wirklich hilfreich?</p></div>
+  <div class="feedback-buttons">
+   <button id="helpful" type="button">♡ Hilfreich</button>
+   <button id="needs-work" type="button">✎ Verbessern</button>
+  </div>
+  <p id="feedback-note" class="micro">Freiwillig. Gespeichert wird lokal nur Thema, Stimme, Modus und Bewertung – kein Kommentartext.</p>
+  <div class="feedback-footer"><span id="feedback-count">0 lokale Bewertungen</span><button type="button" id="export">Anonymes Feedback exportieren ↗</button></div>
+ </div>
+</section>
+</div>
+<footer><span>Für Tiere. Mit Menschen. ♡</span><span><a href="/community-code.html">Unser Community Code</a> · <a href="/instagram-demo.html">Instagram-Demo</a></span></footer>
+</main>
+<script src="/animal-voices.user.js?v=0.6.0"></script><script src="/live.js?v=0.6.0"></script>
+</body></html>
