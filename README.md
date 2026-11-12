@@ -1,3 +1,13 @@
+# Animal Voices LIVE v0.6 · private semantic conversation coach
+
+**[Try the LIVE conversation lab](https://animal-voices-os.vercel.app/live.html)** · [Instagram browser integration](https://animal-voices-os.vercel.app/install.html) · [Version design, privacy and tests](docs/LIVE_06.md)
+
+The next release goes beyond keyword routing: a **private, opt-in AI endpoint** performs semantic classification over the curated Animal Voices topic inventory, generates four distinct voices, and runs a separate model critique against editorial source-card summaries. Both the trusted-origin LIVE lab and the mobile userscript offer this workflow. **No unapproved text transfer, no automatic social posting, and no scientific/live-study verification is claimed.** Private `AVOS_EDITOR_CODE` and `OPENAI_API_KEY` must already be configured. Without them the local curated suggestions keep working. Offline-only/installed app flows are unchanged.
+
+**Evidence so far:** CI tests validate input safety, private access, bilingual/voice contracts and a Chromium mobile browser with mocked AI output; this is not a claim of live production model calls or successful logged-in Instagram compatibility. Results are opt-in and explicitly require human source review.
+
+---
+
 # Animal Voices · Directly in Instagram (mobile browser beta)
 
 **[Animal Voices Community Code](https://animal-voices-os.vercel.app/community-code.html)** · [Moderation policy and evaluation framework](docs/COMMUNITY_CODE.md) · **[Install on iPhone or Android](https://animal-voices-os.vercel.app/install.html)** · **[Try the in-Instagram demo](https://animal-voices-os.vercel.app/instagram-demo.html)** · [Read the release gates & source audit](docs/INSTAGRAM_COMPANION.md) · [Previous web companion](https://animal-voices-os.vercel.app/phone.html)
