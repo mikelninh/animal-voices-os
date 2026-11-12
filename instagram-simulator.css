@@ -119,3 +119,31 @@ main{max-width:500px;box-shadow:0 19px 72px #23362e1d}
 .sim-share-actions button:focus-visible,.sim-add-comment:focus-visible,#sim-custom-input:focus-visible{outline:3px solid #8fc28b;outline-offset:2px}
 .sim-linked-comment{border-radius:12px;background:#f0f8e9;border:1px solid #bad4b5!important;padding:12px!important;scroll-margin:100px}
 .sim-linked-comment:before{content:'↳ GETEILTER TESTKOMMENTAR';display:block;color:#4f8757;font-size:9px;font-weight:900;letter-spacing:1px;margin:0 0 8px}
+
+/* First-time simplicity: one guided action instead of a wall of instructions */
+.sim-guide{background:linear-gradient(138deg,#254f3a,#2f6948 72%,#457956);border-radius:18px;margin:14px 15px 18px;padding:18px 18px 16px;color:#f9fff2;box-shadow:0 13px 28px #204d2b2b;scroll-margin-top:18px}
+.sim-guide-top{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.sim-guide-top>span{font-size:9px;color:#c2e2bd;font-weight:850;letter-spacing:.9px}
+.sim-guide-top>a{font-size:10px;color:#d4e9d0;text-decoration:underline;text-underline-offset:2px}
+.sim-guide-question{font-size:13px!important;color:#f6fff1!important;font-weight:820;margin:13px 0 8px!important}
+.sim-guide blockquote{font:italic 20px/1.35 Georgia,serif;margin:9px 0 14px;letter-spacing:-.2px}
+.sim-guide-cta{background:#e4f3d6;border:0;color:#25573b;min-height:48px;width:100%;font-size:13px;font-weight:850;border-radius:11px;padding:12px 15px;display:flex;align-items:center;justify-content:center;gap:8px}
+.sim-guide-cta:hover{background:#f5ffed}
+.sim-guide-help{font-size:10px!important;color:#d2e6cf!important;margin:10px 0 0!important;line-height:1.55}
+.sim-guide[data-stage="4"]{background:linear-gradient(128deg,#234c37,#558b5b)}
+.sim-intro{padding:20px 18px 12px;background:#f7faf5}
+.sim-intro h1{font-size:29px;letter-spacing:-1.15px;margin:9px 0}
+.sim-intro h1 em{font-size:29px}
+.sim-intro p{font-size:11px}
+.sim-journey{margin-top:10px}
+.sim-chooser{padding:12px 14px 7px}
+.sim-stories{gap:12px}
+.sim-experience{border-bottom:5px solid #eef1ed}
+.sim-post-head{border-top:1px solid #ecf0e9}
+.sim-comment-meta button[aria-label^="Mit Animal"]{min-height:35px!important;font-weight:800!important;font-size:11px!important;padding:8px 11px!important;box-shadow:0 1px 0 #d0e7ce}
+.sim-comment .compose textarea{font-size:16px;min-height:90px;padding:12px;background:#fff}
+.sim-preview-btn{font-size:12px!important;min-height:45px!important}
+.sim-archive-title{background:#fafbf7;border-top:1px solid #e2eae0;margin-top:8px}
+.sim-archive-title h2{font-size:15px}
+.sim-archive-title p{font-size:10px}
+@media(max-width:420px){.sim-guide{margin:12px 12px 17px;padding:16px}.sim-guide blockquote{font-size:19px}.sim-intro h1,.sim-intro h1 em{font-size:27px}}
