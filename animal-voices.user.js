@@ -13,7 +13,8 @@
 // @updateURL    https://animal-voices-os.vercel.app/animal-voices.user.js
 // ==/UserScript==
 /* © 2026 Animal Voices. Works on Instagram's browser website, NOT in the native Instagram app.
- * No request, tracking, tokens, screenshots, account scraping, or automatic post.
+ * No automatic request, tracking, screenshots, account scraping, or automatic post.
+ * Optional private AI request ONLY after explicit user consent; code stays in tab memory.
  * The verified source capsules below were manually checked against primary sites on 2026-11-10.
  */
 (function(root){
