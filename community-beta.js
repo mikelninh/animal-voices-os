@@ -65,9 +65,13 @@
   $('landing-voice-hint').textContent=lang==='de'
    ?'Redaktioneller Entwurf · Stimme wechseln, bevor du ihn ausprobierst.'
    :'Editorial draft · switch voices before trying it.';
+  const names=lang==='en'
+   ?{kiki:'♡ Warm',momo:'✦ Clear',bao:'☀ Playful',curious:'? Curious'}
+   :{kiki:'♡ Warm',momo:'✦ Klar',bao:'☀ Humor',curious:'? Neugierig'};
   document.querySelectorAll('[data-landing-voice]').forEach(button=>{
    const selected=button.dataset.landingVoice===voice;
    button.setAttribute('aria-pressed',String(selected));
+   button.textContent=names[button.dataset.landingVoice];
   });
  }
 
