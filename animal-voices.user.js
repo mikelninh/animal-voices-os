@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Animal Voices · Instagram Companion
 // @namespace    https://animal-voices-os.vercel.app/
-// @version      0.6.0
+// @version      0.7.0
 // @description  Einen Instagram-Kommentar auswählen, vorab geprüften Antwortvorschlag ansehen und selbst freigeben. Keine Veröffentlichung durch das Skript.
 // @match        https://www.instagram.com/*
 // @match        https://instagram.com/*
@@ -19,7 +19,7 @@
  */
 (function(root){
 'use strict';
-const VERSION='0.3.1';
+const VERSION='0.7.0';
 const REVIEWED_AT='2026-11-11';
 const OWID='https://ourworldindata.org/land-use-diets';
 const DGE='https://www.dge.de/gesunde-ernaehrung/faq/faqs-vegane-ernaehrung';
@@ -311,13 +311,16 @@ function moderate(text,flags={}){
  if(DIRECT_THREAT.test(s)||EXTRA_DIRECT_THREAT.test(s)||HATE_OR_TARGETED.test(s))
   return result('report','high',de?'Schützen & melden':'Protect & report',de?'Mögliche Drohung oder Hassrede.':'Possible threat or hateful attack.',
    de?'Nicht öffentlich diskutieren. Belege sichern, über Instagram melden, Betroffene schützen; bei akuter Gefahr Behörden kontaktieren.':'Do not argue. Preserve evidence, report through Instagram, protect people affected; contact authorities in immediate danger.',false);
+ if(SENSITIVE.test(s))
+  return result('review','sensitive',de?'Sensiblen Kontext prüfen':'Review sensitive context',de?'Möglicherweise medizinische Frage oder besondere Schutzbedürftigkeit.':'Possible medical question or vulnerable person.',
+   de?'Keine individuelle Dosierung, Diagnose oder riskante Ernährungsanweisung. Fachlich prüfen.':'Do not provide personalised dosing or diagnosis. Review with a qualified professional.',false);
  if(PRIVATE.test(s))
   return result('review','privacy',de?'Private Angaben prüfen':'Review private information',de?'Mögliche private Daten oder @Handles.':'Potential private data or handles.',
    de?'Nicht weiterverbreiten; persönliche Angaben vor jeder Bearbeitung entfernen.':'Do not repeat private details; remove them before drafting.',false);
  if(flags.repeated===true)
   return result('end','medium',de?'Gespräch beenden':'End the exchange',de?'Wiederholte Angriffe wurden von dir markiert.':'You marked this as repeated attacks.',
    de?'Nicht weiter antworten. Bei Belästigung einschränken oder blockieren, bei Verstößen melden.':'Stop replying. Restrict or block harassment; report violations.',false);
- if(PERSONAL_ATTACK.test(s)||EXTRA_PERSONAL_ATTACK.test(s)||/(?:du\s+(?:spinner|vollidiot)|(?:ihr|du).{0,22}komplett\s+hirnlos|stupid\s+(?:vegan|animal rights)|vegan\s+clown)/i.test(s))
+ if(PERSONAL_ATTACK.test(s)||EXTRA_PERSONAL_ATTACK.test(s)||/(?:du\s+(?:spinner|vollidiot)|(?:ihr|du).{0,55}komplett\s+hirnlos|stupid\s+(?:vegan|animal rights)|vegan\s+clown)/i.test(s))
   return result('boundary','medium',de?'Einmal Grenze setzen':'Set one boundary',de?'Direkte persönliche Beleidigung.':'Direct personal insult.',
    de?'Höchstens einmal ruhig reagieren, dann aufhören.':'Reply calmly at most once, then disengage.',true);
  if(RAGE_SKIP.some(p=>p.test(s)))
@@ -389,7 +392,7 @@ function classify(text){
 }
 const LANGUAGE_WORDS={
  de:new Set('aber warum wieso wie doch und nicht kein keine einer einem einen eine ein der die das den dem des beim bei mit für zum zur von vom ich du mir dir ihr wir man wenn obwohl dass weil sondern sollte sollten können kann müsste müssen musst muss schmeckt schmecken fleisch tier tiere tierleid essen einfach besser teurer teuer ist sind sind es gibt schon mal auch ob ohne oder welche welcher woher bekommst bekommen überhaupt genügend genug werden wird ja was halten hältst hören schmerz fühlen'.split(' ')),
- en:new Set('why what how where when who whose should would could does do did the and but from with our your you we they them their that this these those can enough get getting animal animals suffering suffer pain feel matter choices choice food foods meat taste tastes better because if whether veganism isnt there are is have has why would compared rather still care shouldnt dont should just chemicals bro vegans vegan i will eat two more steaks steak to annoy too for only even now really here why does this field mice during harvesting chicken chickens octopuses octopus fear captivity experiences experience cows cow livestock animals humans carnivores slaughter harmed species farmed ought favourite tomorrow care us plant based diet expensive price town costs afford natural processed veganism morally does matter moral relevant welfare future life value suffering tough just want my food choices text me at supplements personal privacy please send contact'.split(' '))
+ en:new Set('why what how where when who whose should would could does do did the and but from with our your you we they them their that this these those can enough get getting animal animals suffering suffer pain feel matter choices choice food foods meat taste tastes better because if whether veganism isnt there are is have has why would compared rather still care shouldnt dont should just chemicals bro vegans vegan i will eat two more steaks steak to annoy too for only even now really here why does this field mice during harvesting chicken chickens octopuses octopus fear captivity experiences experience stupid clown away cry harder vegans cows cow livestock animals humans carnivores slaughter harmed species farmed ought favourite tomorrow care us plant based diet expensive price town costs afford natural processed veganism morally does matter moral relevant welfare future life value suffering tough just want my food choices text me at supplements personal privacy please send contact'.split(' '))
 };
 function language(text){
  const words=(norm(text).toLowerCase().match(/[\p{L}]+/gu)||[]);
@@ -496,6 +499,7 @@ if(typeof module==='object'&&module.exports)module.exports=API;
 if(root?.document&&root.location?.pathname==='/quality-review.html'){root.AV_QUALITY_CORE=API;return;}
 if(root?.document&&root.location?.pathname==='/community-code.html'){root.AV_COMMUNITY_CORE=API;return;}
 if(root?.document&&root.location?.pathname==='/live.html'){root.AV_LIVE_CORE=API;return;}
+if(root?.document&&root.location?.pathname==='/challenge.html'){root.AV_CHALLENGE_CORE=API;return;}
 if(!root?.document||!root?.location)return;
 const demo=root.location.pathname.startsWith('/instagram-demo');
 if(!demo&&!/^\/?(?:www\.)?instagram\.com$/i.test(root.location.hostname))return;
