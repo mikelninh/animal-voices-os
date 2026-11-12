@@ -1,0 +1,263 @@
+{
+  "version": "sim-0.8",
+  "source": "Entirely fictional posts, handles and comments for safe interface testing; not scraped from Instagram.",
+  "privacy": "All interaction and previews stay inside this simulator; no real posts or network submissions.",
+  "scenarios": [
+    {
+      "id": "taste",
+      "title": "Geschmack",
+      "emoji": "🍔",
+      "type": "conversation",
+      "author": "plantplate.berlin",
+      "tagline": "Community Dinner",
+      "color": "coral",
+      "caption": "Ein Burger kann grossartig schmecken und trotzdem Fragen aufwerfen. Was zählt für euch beim Essen?",
+      "likes": 2814,
+      "postTime": "vor 3 Stunden",
+      "comments": [
+        {
+          "by": "foodfirst.berlin",
+          "text": "Fleisch schmeckt mir einfach besser. Warum sollte ich wechseln?",
+          "time": "12 Min.",
+          "likes": 33
+        },
+        {
+          "by": "budgetbites",
+          "text": "Veganes Essen ist mir oft zu teuer. Hast du einen einfachen Tipp?",
+          "time": "20 Min.",
+          "likes": 17
+        },
+        {
+          "by": "tabletalks",
+          "text": "Menschen haben schon immer Fleisch gegessen! Wieso jetzt ändern?",
+          "time": "38 Min.",
+          "likes": 8
+        }
+      ]
+    },
+    {
+      "id": "ethics",
+      "title": "Tierethik",
+      "emoji": "🐷",
+      "type": "conversation",
+      "author": "animal.kindness",
+      "tagline": "Thoughtful Conversations",
+      "color": "sage",
+      "caption": "We can care about what happens beyond the plate without judging people at the table. What do you think?",
+      "likes": 4632,
+      "postTime": "vor 5 Stunden",
+      "comments": [
+        {
+          "by": "questioning.everything",
+          "text": "Why should animal suffering matter for our food choices?",
+          "time": "22 Min.",
+          "likes": 73
+        },
+        {
+          "by": "open.heart",
+          "text": "Wenn Tiere fühlen können, zählt dann ihr Leben nicht auch?",
+          "time": "34 Min.",
+          "likes": 22
+        },
+        {
+          "by": "ethics.101",
+          "text": "Wäre das Töten eines Tieres ohne Schmerzen ethisch in Ordnung?",
+          "time": "1 Std.",
+          "likes": 14
+        }
+      ]
+    },
+    {
+      "id": "rage",
+      "title": "Ragebait",
+      "emoji": "🔥",
+      "type": "provocation",
+      "author": "food.and.freedom",
+      "tagline": "Open Debates",
+      "color": "amber",
+      "caption": "Different opinions welcome. Personal attacks, not so much. 🌱 Let's talk.",
+      "likes": 1209,
+      "postTime": "vor 1 Stunde",
+      "comments": [
+        {
+          "by": "extra.steak",
+          "text": "Wegen euch esse ich heute zwei extra Steaks!",
+          "time": "2 Min.",
+          "likes": 94
+        },
+        {
+          "by": "no.preaching",
+          "text": "Ihr Veganer nervt so! Muss das dauernd sein?",
+          "time": "5 Min.",
+          "likes": 37
+        },
+        {
+          "by": "respect.please",
+          "text": "Du bist ein Idiot, wenn du vegan isst.",
+          "time": "9 Min.",
+          "likes": 4
+        }
+      ]
+    },
+    {
+      "id": "protein",
+      "title": "Protein",
+      "emoji": "💪",
+      "type": "nutrition",
+      "author": "plantpowered.training",
+      "tagline": "Fuel Better",
+      "color": "blue",
+      "caption": "Training, protein, performance. Ask what you really want to know.",
+      "likes": 1934,
+      "postTime": "vor 7 Stunden",
+      "comments": [
+        {
+          "by": "fit.and.curious",
+          "text": "Can I get enough protein from plant foods?",
+          "time": "31 Min.",
+          "likes": 62
+        },
+        {
+          "by": "supplement.sceptic",
+          "text": "Muss man Vitamin B12 als Veganer nehmen?",
+          "time": "1 Std.",
+          "likes": 20
+        },
+        {
+          "by": "health.question",
+          "text": "Ich bin schwanger: Welche B12-Dosis sollte ich nehmen?",
+          "time": "2 Std.",
+          "likes": 2
+        }
+      ]
+    },
+    {
+      "id": "rainforest",
+      "title": "Regenwald",
+      "emoji": "🌳",
+      "type": "facts",
+      "author": "beyond.the.plate",
+      "tagline": "Food & Planet",
+      "color": "forest",
+      "caption": "Soja, Regenwald und Ernährung: Schauen wir genau hin, welche Aussage welche Quelle stützt.",
+      "likes": 3981,
+      "postTime": "vor 2 Tagen",
+      "comments": [
+        {
+          "by": "forest.keeper",
+          "text": "Aber für Soja wird doch der Regenwald abgeholzt?",
+          "time": "1 Std.",
+          "likes": 121
+        },
+        {
+          "by": "field.questions",
+          "text": "Und die Tiere, die der Mähdrescher erwischt?",
+          "time": "2 Std.",
+          "likes": 41
+        },
+        {
+          "by": "plant.lobby",
+          "text": "Pflanzen haben doch auch Gefühle!!!",
+          "time": "3 Std.",
+          "likes": 16
+        }
+      ]
+    },
+    {
+      "id": "humour",
+      "title": "Humor",
+      "emoji": "🦁",
+      "type": "humour",
+      "author": "meme.beans",
+      "tagline": "Memes for Change",
+      "color": "violet",
+      "caption": "A little humour. A lot of kindness. Who said food debates can't be fun? 😄",
+      "likes": 8870,
+      "postTime": "gestern",
+      "comments": [
+        {
+          "by": "king.of.jungle",
+          "text": "Löwen essen Fleisch, sollen die jetzt auch vegan werden?",
+          "time": "18 Min.",
+          "likes": 201
+        },
+        {
+          "by": "tofu.detective",
+          "text": "Tofu ist doch reine Chemie!",
+          "time": "25 Min.",
+          "likes": 54
+        },
+        {
+          "by": "food.food.food",
+          "text": "Ihr esst dem Essen das Essen weg 😂",
+          "time": "42 Min.",
+          "likes": 98
+        }
+      ]
+    },
+    {
+      "id": "rights",
+      "title": "Freiheit",
+      "emoji": "🕊️",
+      "type": "debate",
+      "author": "dinner.table.debate",
+      "tagline": "We Can Disagree",
+      "color": "sand",
+      "caption": "Kann ich meine Essensfreiheit behalten und trotzdem Rücksicht auf Tiere nehmen?",
+      "likes": 1752,
+      "postTime": "vor 6 Stunden",
+      "comments": [
+        {
+          "by": "free.choice",
+          "text": "Wollt ihr uns Fleisch verbieten?",
+          "time": "14 Min.",
+          "likes": 89
+        },
+        {
+          "by": "not.a.trend",
+          "text": "Vegan ist doch nur ein Trend.",
+          "time": "38 Min.",
+          "likes": 11
+        },
+        {
+          "by": "human.first",
+          "text": "Warum sind Tiere wichtiger als Menschen?",
+          "time": "1 Std.",
+          "likes": 28
+        }
+      ]
+    },
+    {
+      "id": "safety",
+      "title": "Grenzen",
+      "emoji": "🛡️",
+      "type": "safety",
+      "author": "community.first",
+      "tagline": "Safe Conversations",
+      "color": "slate",
+      "caption": "Kritik ist willkommen. Bei Übergriffen gilt: Schutz vor Schlagfertigkeit.",
+      "likes": 724,
+      "postTime": "vor 8 Stunden",
+      "comments": [
+        {
+          "by": "line.crossed",
+          "text": "Ich werde dich töten, wenn du antwortest!",
+          "time": "1 Min.",
+          "likes": 0
+        },
+        {
+          "by": "spam.account",
+          "text": "Schreib mir über @unknown.profile zu meinem Ernährungstipp.",
+          "time": "10 Min.",
+          "likes": 0
+        },
+        {
+          "by": "unrelated.user",
+          "text": "Was hältst du von meinem Urlaub in Berlin?",
+          "time": "19 Min.",
+          "likes": 1
+        }
+      ]
+    }
+  ]
+}
