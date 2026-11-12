@@ -265,6 +265,42 @@ function wireCommunity(){
  });
 }
 
+
+function selftestFirstRun(){
+ const output=create('output');output.id='av-first-run-selftest';output.dataset.status='running';document.body.append(output);
+ const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+ (async()=>{
+  try{
+   if(active!=='taste')throw Error('DEFAULT_SCENE');
+   if(!$('sim-guide-step').textContent.includes('SCHRITT 1'))throw Error('NO_STEP_ONE');
+   if(!$('sim-guide-comment').textContent.includes('Fleisch schmeckt'))throw Error('NO_CONTEXT');
+   $('sim-guided-start').click();
+   await sleep(210);
+   const shadow=document.querySelector('.av-panel')?.shadowRoot;
+   if(!shadow)throw Error('GUIDE_BUTTON_DID_NOT_OPEN_PANEL');
+   if(!$('sim-guide-step').textContent.includes('SCHRITT 2'))throw Error('NO_STEP_TWO');
+   shadow.querySelector('[data-av-voice="kiki"]').click();
+   const selected=shadow.getElementById('av-proposal').value;
+   if(!selected||selected.length<20)throw Error('NO_EDITORIAL_DRAFT');
+   shadow.getElementById('av-insert').click();
+   await sleep(1150);
+   const first=$('sim-comments').querySelector('li[data-av-sim-comment]');
+   const field=first?.querySelector('.compose textarea');
+   if(field?.value.trim()!==selected)throw Error('GUIDE_NOT_INSERTED');
+   if(!$('sim-guide-step').textContent.includes('SCHRITT 3'))throw Error('NO_STEP_THREE');
+   $('sim-guided-start').click();
+   await sleep(120);
+   if(!first.querySelector('.sim-rendered')?.textContent.includes(selected))throw Error('GUIDE_PREVIEW_MISSING');
+   if(!$('sim-guide-step').textContent.includes('AUSPROBIERT'))throw Error('GUIDE_NOT_COMPLETED');
+   if(document.querySelector('.av-panel,.av-shade'))throw Error('DARK_OVERLAY_REMAINS');
+   $('sim-guided-start').click();
+   if(active!=='ethics')throw Error('NEXT_SCENARIO_NOT_AVAILABLE');
+   output.dataset.status='pass';
+   output.textContent='PASS: one tap opens real reply panel, user chooses a voice, correct composer fills, preview appears, and next scenario starts';
+  }catch(e){output.dataset.status='fail';output.textContent='FAIL: '+(e?.message||e)}
+ })();
+}
+
 function selftestCommunity(){
  const report=create('output');report.id='av-community-selftest';report.dataset.status='running';document.body.append(report);
  const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
@@ -376,6 +412,7 @@ fetch('/simulator-scenarios.json',{cache:'no-store'}).then(async response=>{
  root.dataset.simulatorReady='true';
  if(new URLSearchParams(location.search).has('selftestSimulator'))selftest();
  if(new URLSearchParams(location.search).has('selftestCommunity'))selftestCommunity();
+ if(new URLSearchParams(location.search).has('selftestFirstRun'))selftestFirstRun();
 }).catch(e=>{
  $('sim-stories').replaceChildren(create('p','sim-loading','Die Situationen konnten leider nicht geladen werden.'));
  announce(String(e?.message||e));
