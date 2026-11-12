@@ -21,6 +21,7 @@ function sceneLink(id=active,commentIndex=null){
  const u=new URL('/instagram-demo.html',location.origin);
  if(chosen)u.searchParams.set('scene',chosen.id);
  if(chosen&&Number.isInteger(commentIndex)&&commentIndex>=0&&commentIndex<chosen.comments.length)u.searchParams.set('c',String(commentIndex));
+ if(new URLSearchParams(location.search).get('source')==='nvsino')u.searchParams.set('source','nvsino');
  return u.href;
 }
 const invitation='🌱 Ich teste gerade Animal Voices: Wie antwortest du freundlich auf schwierige Instagram-Kommentare? Probier die fiktive Demo ohne Login aus. 🐮';
@@ -196,6 +197,8 @@ function choose(id){
  link.searchParams.set('scene',id);link.searchParams.delete('c');
  history.replaceState(null,'',link.pathname+link.search+link.hash);
  active=id;displayStories();setGuide(sc,0);$('sim-guide').dataset.stage='1';
+ const nvsinoLink=$('sim-nvsino-back');
+ if(nvsinoLink&&!nvsinoLink.hidden)nvsinoLink.href='/nvsino.html?scene='+encodeURIComponent(id)+'#feedback';
  $('sim-author-avatar').textContent=sc.emoji;
  $('sim-author').textContent=sc.author;
  $('sim-author-sub').textContent=sc.tagline+' · '+sc.postTime;
@@ -394,6 +397,10 @@ function selftest(){
 wirePostActions();
 wireCommunity();
 wireGuide();
+if(new URLSearchParams(location.search).get('source')==='nvsino'){
+ const link=$('sim-nvsino-back');
+ if(link){link.hidden=false;link.href='/nvsino.html?scene='+(new URLSearchParams(location.search).get('scene')||'rage')+'#feedback';}
+}
 fetch('/simulator-scenarios.json',{cache:'no-store'}).then(async response=>{
  if(!response.ok)throw Error('Szenarien-Datei nicht gefunden');
  const data=await response.json();
