@@ -263,7 +263,7 @@ const RAGE_REPLY={
   }
  }
 };
-const RAGE_SKIP=[/\b(?:ich esse|ich fresse|wegen euch esse|i(?: will|'ll) eat)\b.{0,55}(?:zwei|2|extra|two|more|an extra|einen extra|eine extra)\b.{0,35}(?:steak|schnitzel|burger|meat).{0,60}(?:euch|vegan|annoy|ärgern|wegen|because|just to)?/i,/wegen euch.{0,25}esse ich.{0,45}(?:steaks?|schnitzel)/i,/ich esse.{0,50}(?:zwei|2|drei|3|extra|mehr).{0,30}(?:steak|schnitzel|burger).{0,40}(?:wegen euch|extra für euch|nur damit)/i,/(?:i'll eat|i will eat|i'm eating).{0,55}(?:extra|two more|2 more).{0,35}(?:steaks?|burgers?).{0,40}(?:because of you|to annoy)/i,/(?:heul doch|cry more|stay mad).{0,65}(?:vegan|pflanzen|tofu)/i];
+const RAGE_SKIP=[/(?:ich esse|ich fresse|esse für jeden).{0,55}(?:extra|extraportion|bacon).{0,40}(?:bacon|vegan|kommentar)/i,/(?:vegans?\s+cry|cry\s+harder|heul\s+doch)/i,/\b(?:ich esse|ich fresse|wegen euch esse|i(?: will|'ll) eat)\b.{0,55}(?:zwei|2|extra|two|more|an extra|einen extra|eine extra)\b.{0,35}(?:steak|schnitzel|burger|meat).{0,60}(?:euch|vegan|annoy|ärgern|wegen|because|just to)?/i,/wegen euch.{0,25}esse ich.{0,45}(?:steaks?|schnitzel)/i,/ich esse.{0,50}(?:zwei|2|drei|3|extra|mehr).{0,30}(?:steak|schnitzel|burger).{0,40}(?:wegen euch|extra für euch|nur damit)/i,/(?:i'll eat|i will eat|i'm eating).{0,55}(?:extra|two more|2 more).{0,35}(?:steaks?|burgers?).{0,40}(?:because of you|to annoy)/i,/(?:heul doch|cry more|stay mad).{0,65}(?:vegan|pflanzen|tofu)/i];
 const REPLIES=['antworten','reply','respond','répondre','responder','rispondi'];
 const SENSITIVE=/\b(schwanger|schwangerschaft|stillend|baby|babys|kind|kinder|kleinkind|toddler|kid|kids|children|minor|minderjaehr|minderjähr|pregnan\w*|child|infant|stillen|medikament|diagnose|eating disorder|essst[oö]rung|suizid|suicide|kill yourself|töte dich|bring dich um|ich bringe dich um|ich werde dich töten|ich töte dich|i will kill|i'm going to kill|threat|drohung)\b/i;
 const PRIVATE=/(?:@[a-z0-9_.]{3,}|[\w.+-]+@[\w.-]+\.[a-z]{2,}|\+?\d[\d()\s-]{8,}\d)/i;
@@ -289,12 +289,21 @@ kiki:'You do not have to agree with me. I would still like us to speak respectfu
 bao:'Disagreement is fine. 😊 The insult championship is cancelled today, though. Happy to discuss the actual issue.',
 curious:'What is your actual concern? Without personal attacks, we can discuss it calmly.'}
 };
-const DIRECT_THREAT=/(?:du bist tot|you're dead|you are dead|i know where you live|du wirst sterben)/i;
+const DIRECT_THREAT=/(?:du bist tot|you're dead|you are dead|i know where you live|du wirst sterben|i hope you die|i(?:'m| am) coming.{0,65}(?:hurt|kill) you|ich hoffe du stirbst)/i;
 const EXTRA_DIRECT_THREAT=/(?:ich\s+(?:werde|will)\s+dich\s+(?:töten|umbringen|verletzen)|ich\s+bringe\s+dich\s+um|ich\s+töte\s+dich|(?:i\s+(?:will|am going to)|i.?ll)\s+(?:kill|hurt)\s+you|kill\s+yourself|bring\s+dich\s+um|töte\s+dich)/i;
 const HATE_OR_TARGETED=/(?:go back to your country|geh zurück\s+(?:in dein land|wo du herkommst)|ihr gehört\s+(?:hier\s+)?nicht\s+her|(?:alle|die)\s+\S{3,25}\s+(?:sollen|sollten|müssen)\s+(?:sterben|verrecken)|all\s+\S{3,25}\s+(?:should|must)\s+die)/i;
 const EXTRA_PERSONAL_ATTACK=/(?:\b(?:du|ihr)\s+(?:bist|seid)\s+(?:doch\s+)?(?:bescheuerte?n?|dumme?n?|hirnlose?n?)\b|\b(?:idiot|idioten|moron|stupid)\b.{0,22}(?:du|ihr|you|vegan))/i;
 const PERSONAL_ATTACK=/(?:\b(?:du|ihr)\s+(?:bist|seid)\s+(?:doch\s+)?(?:alle\s+)?(?:dumm|bescheuert|idiot(?:en)?|hirnlos|abschaum)|\b(?:you|you.?re|you are)\s+(?:an?\s+)?(?:stupid|idiot|moron|trash)|halt\s+die\s+fresse|shut\s+the\s+fuck\s+up|fuck\s+you)/i;
 function moderate(text,flags={}){
+ // A request to locate or repeat someone's private address is a privacy hold.
+ if(/(?:private.{0,15}address|private home|wohnadresse|anschrift.{0,15}privat|privatadresse)/i.test(text||'')){
+  const en=language(text)==='en';
+  return {action:'review',severity:'privacy',language:en?'en':'de',
+   label:en?'Review private information':'Private Angaben prüfen',
+   reason:en?'A private home address may be exposed or requested.':'Möglicherweise private Wohnadresse genannt oder erfragt.',
+   guidance:en?'Do not identify or share private addresses.':'Private Wohnadressen weder veröffentlichen noch ermitteln.',
+   optionalReply:false};
+ }
  const s=norm(text),lang=language(s),de=lang==='de',own=flags.ownPost===true;
  const tip=own?(de?' Auf deinem Beitrag je nach Schwere verbergen/löschen; Verstöße melden.':' On your post consider hiding/deleting; report violations.'):
  (de?' Auf fremden Beiträgen kannst du nicht selbst löschen; bei Verstößen melden.':' On other posts you cannot delete; report violations.');
@@ -308,7 +317,7 @@ function moderate(text,flags={}){
  if(flags.repeated===true)
   return result('end','medium',de?'Gespräch beenden':'End the exchange',de?'Wiederholte Angriffe wurden von dir markiert.':'You marked this as repeated attacks.',
    de?'Nicht weiter antworten. Bei Belästigung einschränken oder blockieren, bei Verstößen melden.':'Stop replying. Restrict or block harassment; report violations.',false);
- if(PERSONAL_ATTACK.test(s)||EXTRA_PERSONAL_ATTACK.test(s))
+ if(PERSONAL_ATTACK.test(s)||EXTRA_PERSONAL_ATTACK.test(s)||/(?:du\s+(?:spinner|vollidiot)|(?:ihr|du).{0,22}komplett\s+hirnlos|stupid\s+(?:vegan|animal rights)|vegan\s+clown)/i.test(s))
   return result('boundary','medium',de?'Einmal Grenze setzen':'Set one boundary',de?'Direkte persönliche Beleidigung.':'Direct personal insult.',
    de?'Höchstens einmal ruhig reagieren, dann aufhören.':'Reply calmly at most once, then disengage.',true);
  if(RAGE_SKIP.some(p=>p.test(s)))
@@ -329,30 +338,30 @@ function semanticBackstop(text){
  const pain=/(?:leid|schmerz|sp[uü]r|f[uü]hl|empfind|suffer|pain|sentien|distress|feel|experienc)/i;
  const food=/(?:fleisch|steak|burger|beef|meat|food|vegan|pflanz|plant.based|mittagessen|dinner|diet)/i;
  if(has(/(?:lions?|l[oö]wen?)\b/i))return 'lions';
- if(has(/(?:schmerzfrei|ohne.{0,12}schmerz|painless|without.{0,12}pain|nichts.{0,12}merkt)/i)&&
+ if(has(/(?:schmerzfrei|ohne.{0,12}schmerz|painless|without.{0,12}pain|nichts.{0,12}merkt|bewusstlos.{0,20}schlacht|schlacht.{0,20}bewusstlos|ethical slaughter|death is instant)/i)&&
     has(/(?:schlacht|t[oö]t|kill|slaughter|animal|tier)/i))return 'painless_killing';
- if(has(/(?:future|weiterleben|weiterzuleben|lebensinteresse|interesse.{0,18}leben|(?:z[aä]hl|wert|bedeut).{0,24}leben|leben.{0,25}(?:wert|z[aä]hl|bedeut|interesse)|life.{0,25}(?:matter|value|moral)|life has value)/i)&&has(animal))return 'life_ethics';
+ if(has(/(?:future|weiterleben|weiterzuleben|lebensinteresse|interesse.{0,18}leben|zuk[uü]nftig.{0,20}leben|leben.{0,20}zuk[uü]nftig|leben.{0,20}egal|(?:z[aä]hl|wert|bedeut).{0,24}leben|leben.{0,25}(?:wert|z[aä]hl|bedeut|interesse)|life.{0,25}(?:matter|value|moral)|life has value|staying alive|alive tomorrow)/i)&&has(animal))return 'life_ethics';
  if(has(/(?:pflanzen|pflanze|kartoffel|gras|grass|potato|plants?)/i)&&
     has(/(?:schrei|f[uü]hl|schmerz|leiden|scream|pain|feel|suffer)/i))return 'plants';
- if(has(/(?:tierleid|animal suffering|animal welfare|animal harm|tierwohl|leid.{0,18}(?:tier|tieren)|animals?.{0,25}welfare)/i)&&
+ if(has(/(?:tierleid|animal suffering|animal welfare|animal harm|tierwohl|woh(?:lergehen|lfahrt).{0,20}(?:tier|tieren)|leid.{0,18}(?:tier|tieren)|animals?.{0,25}welfare)/i)&&
     has(/(?:warum|wieso|why|relevant|matter|wichtig|problem|sollte|should|decision|choice|essen|food|dinner|mittagessen|our|mein)/i))return 'ethical_choice';
  if(has(/(?:tiere?|schweine?|h[uü]hner?|chickens?|pigs?|farmed animals?|farm animals?|livestock)/i)&&has(pain))return 'sentience';
  if(has(/(?:dosis|dosen|dosier|aufnahme|absorb|high.{0,12}dose|large.{0,12}dose)/i)&&has(/(?:\bb12\b|cobalamin)/i))return 'b12dose';
  if(has(/(?:\bb12\b|cobalamin|vitamin b.?12|supplement)/i))return 'b12';
  if(has(/(?:urwald|jungle|rainforest|regenwald|amazonas|entwald|abholz|rodung|clearing.{0,12}(?:forest|jungle)|forest destruction)/i)&&has(/(?:soja|soy|tofu|vegan|plant.based|food|rainforest|regenwald|jungle|amazonas|rodung|abholz)/i))return 'forest';
- if(has(/(?:m[aä]hdrescher|feldm[aä]us|feldtier|ernt|harvest|field mice|crop cultivat|crop deaths|agricultural fields)/i)&&
+ if(has(/(?:m[aä]hdrescher|feldm[aä]us|feldtier|ernt|harvest|field mice|crop cultivat|crop deaths|agricultural fields|dresch|acker.{0,24}(?:tier|klein))/i)&&
     has(/(?:tier|animal|mice|feldm[aä]us|feldtier|t[oö]t|sterb|die|kill|harm|death|ernt|harvest)/i))return 'crop';
- if(has(/(?:protein|eiwei[sß]|amino|muskel|muscle|strength|krafttraining|gains)/i))return 'protein';
+ if(has(/(?:protein|eiwei[sß]|amino|muskel|muscle|strength|krafttraining|\bgains\b)/i))return 'protein';
  if(has(/(?:vegan|pflanz|plant.based|meat.free)/i)&&
-    has(/(?:teuer|unbezahlbar|kostet|kosten|preis|budget|leiste|geld|afford|expensiv|cost too much|costs too much|spending|replacement|ersatzprodukt)/i))return 'cost';
- if(has(/(?:fleisch|steak|burger|beef|meat)/i)&&
-    has(/(?:schmeck|geschmack|lecker|lieber|mag|enjoy|taste|tastes|better|favo[u]?rite|prefer)/i))return 'taste';
+    has(/(?:teuer|unbezahlbar|kostet|kosten|preis|budget|leiste|geld|afford|expensiv|cost too much|costs too much|spending|\bcheap\b|g[uü]nstig)/i))return 'cost';
+ if(has(/(?:fleisch|steak|burger|beef|meat|k[aä]se|cheese|eggs?|eier)/i)&&
+    has(/(?:schmeck|geschmack|lecker|lieber|mag|enjoy|love|taste|tastes|better|favo[u]?rite|prefer)/i))return 'taste';
  if(has(/(?:missionier|belehr|nerv|anstrengend|preach|pushy|annoy|guilt trip|guilt.trips)/i)&&
     has(/(?:vegan|fleischesser|plant.based|belehr)/i))return 'pushy';
  if(has(/(?:verbiet|verbot|gesetzlich|polizei|ban|force|police|outlaw)/i)&&
     has(/(?:vegan|fleisch|schnitzel|meat|tofu|diet)/i))return 'ban';
  if(has(/(?:tofu)/i)&&has(/(?:chemie|chemisch|k[uü]nstlich|industriell|zus[aä]tz|processed|artificial|chemical|trustworthy)/i))return 'tofu';
- if(has(/(?:unnat[uü]r|nat[uü]rlich|natural|carnivor|fleischfresser)/i)&&
+ if(has(/(?:unnat[uü]r|nat[uü]rlich|natural|carnivor|fleischfresser|evolution[aä]r|evolutionary|evolution)/i)&&
     has(/(?:vegan|pflanz|plant.based|menschen|humans?|fleisch|meat)/i))return 'natural';
  if(has(/(?:schon immer|jahrtausend|generation|tradition|familie.{0,30}immer|ancestors|for generations|have always|always eaten|ate meat)/i)&&
     has(/(?:fleisch|meat|essen|eat|ate)/i))return 'tradition';
@@ -364,6 +373,8 @@ function classify(text){
  if(s.length<9)return {state:'unknown',reason:'Kommentar zu kurz oder nicht erkennbar.'};
  if(s.length>1400)return {state:'unknown',reason:'Mehrere Kommentare oder zu viel Kontext – bitte den genauen Kommentar wählen.'};
  if(SENSITIVE.test(s)||PRIVATE.test(s))return {state:'unsafe',reason:'Sensible oder private Angaben: kein automatischer Antwortvorschlag.'};
+ if(/(?:both|sowohl).{0,80}(?:\bb12\b|dosage|dose|dosis).{0,70}(?:cost|cheap|g[uü]nstig|teuer|food|essen|recipe|rezept)|(?:\bb12\b|dosis|dosage).{0,50}(?:and|und).{0,50}(?:cost|cheap|g[uü]nstig|teuer)/i.test(s))
+  return {state:'unknown',reason:'Mehrere unterschiedliche Fragen (Nährstoffdosierung und Alltag). Bitte einzeln prüfen.'};
  if(RAGE_SKIP.some(p=>p.test(s)))return {state:'skip',reason:'Reine Provokation ohne überprüfbare Frage. Empfehlung: keine Antwort; nicht jede Eskalation braucht Aufmerksamkeit.'};
  const variants=Object.entries(TOPICS).filter(([id,v])=>v.patterns.some(p=>p.test(s)));
  if(variants.length===0){const backstop=semanticBackstop(s);return backstop?{state:'reviewed',id:backstop,router:'semantic_backstop'}:{state:'unknown',reason:'Dazu haben wir noch keinen redaktionell geprüften Gesprächsentwurf.'}};
@@ -378,7 +389,7 @@ function classify(text){
 }
 const LANGUAGE_WORDS={
  de:new Set('aber warum wieso wie doch und nicht kein keine einer einem einen eine ein der die das den dem des beim bei mit für zum zur von vom ich du mir dir ihr wir man wenn obwohl dass weil sondern sollte sollten können kann müsste müssen musst muss schmeckt schmecken fleisch tier tiere tierleid essen einfach besser teurer teuer ist sind sind es gibt schon mal auch ob ohne oder welche welcher woher bekommst bekommen überhaupt genügend genug werden wird ja was halten hältst hören schmerz fühlen'.split(' ')),
- en:new Set('why what how where when who whose should would could does do did the and but from with our your you we they them their that this these those can enough get getting animal animals suffering suffer pain feel matter choices choice food foods meat taste tastes better because if whether veganism isnt there are is have has why would compared rather still care shouldnt dont should just chemicals bro vegans vegan i will eat two more steaks steak to annoy too for only even now really here why does this field mice during harvesting chicken chickens cow cows livestock animals humans carnivores slaughter harmed species farmed ought favourite tomorrow care us plant based diet expensive price town costs afford natural processed veganism morally does matter moral relevant welfare future life value suffering tough just want my food choices text me at supplements personal privacy please send contact'.split(' '))
+ en:new Set('why what how where when who whose should would could does do did the and but from with our your you we they them their that this these those can enough get getting animal animals suffering suffer pain feel matter choices choice food foods meat taste tastes better because if whether veganism isnt there are is have has why would compared rather still care shouldnt dont should just chemicals bro vegans vegan i will eat two more steaks steak to annoy too for only even now really here why does this field mice during harvesting chicken chickens octopuses octopus fear captivity experiences experience cows cow livestock animals humans carnivores slaughter harmed species farmed ought favourite tomorrow care us plant based diet expensive price town costs afford natural processed veganism morally does matter moral relevant welfare future life value suffering tough just want my food choices text me at supplements personal privacy please send contact'.split(' '))
 };
 function language(text){
  const words=(norm(text).toLowerCase().match(/[\p{L}]+/gu)||[]);
