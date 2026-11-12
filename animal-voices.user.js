@@ -519,6 +519,7 @@ if(typeof module==='object'&&module.exports)module.exports=API;
 if(root?.document&&root.location?.pathname==='/quality-review.html'){root.AV_QUALITY_CORE=API;return;}
 if(root?.document&&root.location?.pathname==='/community-code.html'){root.AV_COMMUNITY_CORE=API;return;}
 if(root?.document&&root.location?.pathname==='/community.html'){root.AV_COMMUNITY_PREVIEW_CORE=API;return;}
+if(root?.document&&root.location?.pathname==='/try.html'){root.AV_PILOT_CORE=API;return;}
 if(root?.document&&root.location?.pathname==='/live.html'){root.AV_LIVE_CORE=API;return;}
 if(root?.document&&root.location?.pathname==='/challenge.html'){root.AV_CHALLENGE_CORE=API;return;}
 if(!root?.document||!root?.location)return;
