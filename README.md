@@ -1,3 +1,13 @@
+# Animal Voices · First-Time Experience v1.0
+
+**[Open the simpler public community experience](https://animal-voices-os.vercel.app/community.html)** · [Try the guided Instagram-style simulator directly](https://animal-voices-os.vercel.app/instagram-demo.html?scene=taste&c=0)
+
+Redesigned for **one clear first action**: choose one of three comments, tap the guided **✳ Antwortvorschlag ansehen** button, compare four editorial reply voices, insert the selected draft into the simulated composer, preview it in the feed, then give optional local feedback or share the experience. The public landing now brings example cards ahead of secondary explanations, moves share actions out of the primary decision path, and offers a genuinely functional DE/EN four-voice preview using the same curated response core as the real simulator. In the reply sheet, evidence and private AI controls are available on demand rather than competing with the core task.
+
+Privacy and limitations unchanged: no registration or installation for the free simulator; all posts and handles are fictional; no actual Instagram publishing or automated commenting; the private AI beta requires separate consent and credentials; assessments are editorial, not live scientific source verification. Mobile Chromium regressions exercise the whole first-run journey from guide through manual composer and feed preview, and validate bilingual voice consistency. This is **not yet independent user-experience research with first-time participants**.
+
+---
+
 # Animal Voices · Public Community Beta v0.9
 
 **[Open the shareable community invitation](https://animal-voices-os.vercel.app/community.html)** · [Go directly to the realistic Instagram-style simulator](https://animal-voices-os.vercel.app/instagram-demo.html?scene=taste&c=0) · [Try ragebait](https://animal-voices-os.vercel.app/instagram-demo.html?scene=rage&c=0)
