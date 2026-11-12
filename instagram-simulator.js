@@ -193,6 +193,43 @@ function wireCommunity(){
   catch{$('sim-share-status').textContent='Kopieren fehlgeschlagen. Du kannst die Browseradresse markieren.'}
  });
 }
+
+function selftestCommunity(){
+ const report=create('output');report.id='av-community-selftest';report.dataset.status='running';document.body.append(report);
+ const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+ (async()=>{
+  try{
+   if(active!=='rage')throw Error('SHARED_SCENE_NOT_OPENED');
+   const target=$('sim-comments').querySelector('[data-comment-index="0"]');
+   if(!target?.hasAttribute('data-linked-comment'))throw Error('SHARED_COMMENT_NOT_HIGHLIGHTED');
+   if(!location.search.includes('scene=rage')||!location.search.includes('c=0'))throw Error('LINK_PARAMS_LOST');
+   $('sim-share-feedback').click();
+   if(!$('sim-share-status').textContent.includes('Teste erst'))throw Error('FEEDBACK_SHARED_WITHOUT_VOTE');
+   choose('taste');
+   $('sim-custom-input').value='@private.friend Welche B12 Tabletten soll ich kaufen?';
+   $('sim-add-comment').click();
+   if($('sim-comments').querySelector('[data-custom-comment="1"]'))throw Error('PRIVATE_HANDLE_ACCEPTED');
+   $('sim-custom-input').value='Warum sollte ich bei meinem Burger auf die Tiere achten?';
+   $('sim-add-comment').click();
+   const own=$('sim-comments').querySelector('[data-custom-comment="1"]');
+   if(!own)throw Error('OWN_COMMENT_NOT_CREATED');
+   if(!own.querySelector('[data-comment-text]')?.textContent.includes('Burger'))throw Error('OWN_COMMENT_INCORRECT');
+   let control;
+   for(let i=0;i<20;i++){control=own.querySelector('[aria-label="Mit Animal Voices auf diesen Kommentar antworten"]');if(control)break;await sleep(110);}
+   if(!control)throw Error('NO_AV_ON_CUSTOM_COMMENT');
+   control.click();await sleep(55);
+   const sheet=document.querySelector('.av-panel')?.shadowRoot;
+   if(!sheet)throw Error('OWN_COMMENT_COACH_NOT_OPENED');
+   if(!sheet.getElementById('av-comment').value.includes('Burger'))throw Error('WRONG_OWN_COMMENT_SELECTED');
+   sheet.getElementById('av-close').click();
+   if(!sceneLink('rage',0).includes('scene=rage&c=0'))throw Error('SHARE_LINK_NOT_DEEP_LINKED');
+   if(document.querySelector('.av-panel,.av-shade'))throw Error('OVERLAY_NOT_CLOSED');
+   report.dataset.status='pass';
+   report.textContent='PASS: shareable deep link, highlighted comment, own-comment sandbox, private handle rejection, coach selection and no unwanted feedback transfer';
+  }catch(e){report.dataset.status='fail';report.textContent='FAIL: '+(e?.message||e)}
+ })();
+}
+
 function selftest(){
  const report=create('output');report.id='av-simulator-selftest';report.dataset.status='running';document.body.append(report);
  const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
@@ -266,6 +303,7 @@ fetch('/simulator-scenarios.json',{cache:'no-store'}).then(async response=>{
  }
  root.dataset.simulatorReady='true';
  if(new URLSearchParams(location.search).has('selftestSimulator'))selftest();
+ if(new URLSearchParams(location.search).has('selftestCommunity'))selftestCommunity();
 }).catch(e=>{
  $('sim-stories').replaceChildren(create('p','sim-loading','Die Situationen konnten leider nicht geladen werden.'));
  announce(String(e?.message||e));
