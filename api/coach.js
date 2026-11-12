@@ -26,7 +26,8 @@ function privateDetails(text){
 }
 function safeOrigin(req){
  const origin=req.headers?.origin;
- if(!origin)return true; // Privileged userscript request may not include Origin.
+ if(!origin||origin==='null')return true; // Privileged userscript requests can have null or absent Origin.
+ if(/^(?:moz-extension|chrome-extension|safari-web-extension):\/\//i.test(origin))return true; // The private Editor secret remains mandatory.
  try{
   const u=new URL(origin);
   return u.protocol==='https:'&&['www.instagram.com','instagram.com',req.headers?.host].includes(u.host);
