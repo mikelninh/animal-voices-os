@@ -139,4 +139,4 @@ async function handler(req,res){
  }
 }
 module.exports=handler;
-module.exports._internals={catalogue,references,enabled,privateDetails,safeOrigin,model};
+module.exports._internals={catalogue,references,enabled,privateDetails,safeOrigin,model,resetRateLimitForTests:()=>{attempts.length=0}};
