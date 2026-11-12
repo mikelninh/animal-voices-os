@@ -1,3 +1,11 @@
+# Animal Voices · Conversation Lab v0.7
+
+**[Inspect 140 labeled quality checks](https://animal-voices-os.vercel.app/challenge.html)** · [Use the Live Coach](https://animal-voices-os.vercel.app/live.html) · [Mobile Instagram companion](https://animal-voices-os.vercel.app/install.html)
+
+The new public Conversation Lab *computes* all results from the same local routing code, shows both editorial expected labels and actual outputs, and lets anyone inspect mistakes and compare voices blind. We authored 100 synthetic development cases and an additional 40 difficult cases; both are now used as regression checks following repairs. **140/140 is an internal regression result, not a claim of real-world accuracy or effectiveness.** A separate, prospectively collected and independently reviewed evaluation remains necessary. Optional private one-case AI comparisons require a code and consent; otherwise no AI call, no third-party posting and no comment text in local feedback records.
+
+---
+
 # Animal Voices LIVE v0.6 · private semantic conversation coach
 
 **[Try the LIVE conversation lab](https://animal-voices-os.vercel.app/live.html)** · [Instagram browser integration](https://animal-voices-os.vercel.app/install.html) · [Version design, privacy and tests](docs/LIVE_06.md)
