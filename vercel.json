@@ -25,6 +25,9 @@
   "functions": {
     "api/assist.js": {
       "maxDuration": 45
+    },
+    "api/coach.js": {
+      "maxDuration": 60
     }
   }
 }
