@@ -441,6 +441,7 @@ if(typeof module==='object'&&module.exports)module.exports=API;
 // Dedicated quality lab may inspect pure decision functions, but no Instagram UI is mounted.
 if(root?.document&&root.location?.pathname==='/quality-review.html'){root.AV_QUALITY_CORE=API;return;}
 if(root?.document&&root.location?.pathname==='/community-code.html'){root.AV_COMMUNITY_CORE=API;return;}
+if(root?.document&&root.location?.pathname==='/live.html'){root.AV_LIVE_CORE=API;return;}
 if(!root?.document||!root?.location)return;
 const demo=root.location.pathname.startsWith('/instagram-demo');
 if(!demo&&!/^\/?(?:www\.)?instagram\.com$/i.test(root.location.hostname))return;
