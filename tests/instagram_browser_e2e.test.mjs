@@ -45,3 +45,29 @@ test('Headless mobile browser: in-page comment selection, reviewed draft, manual
   assert.match(dom,/PASS: four distinct voices, no blocking overlay/,'No successful browser assertion: '+report);
  }finally{server.kill('SIGTERM')}
 });
+
+test('Mobile browser: opt-in AI never sends before consent, four drafts can be switched and inserted', {timeout:32000},async t=>{
+ const chrome=browserPath();
+ if(!chrome){t.skip('Chrome/Chromium is not installed on this runner');return}
+ const port=await unusedPort(),url='http://127.0.0.1:'+port+'/instagram-demo.html?selftestAi=1';
+ const server=spawn(process.execPath,['server.cjs'],{cwd:root,env:{...process.env,PORT:String(port)},stdio:'ignore'});
+ try{
+  let ready=false;
+  for(let i=0;i<75;i++){
+   try{const res=await fetch(url);if(res.ok){ready=true;break}}catch{}
+   await sleep(80);
+  }
+  assert.equal(ready,true,'Demo server did not respond');
+  const result=spawnSync(chrome,[
+   '--headless=new','--no-sandbox','--disable-dev-shm-usage','--disable-gpu',
+   '--no-first-run','--no-default-browser-check','--hide-scrollbars',
+   '--window-size=390,844','--virtual-time-budget=6800','--dump-dom',url
+  ],{encoding:'utf8',timeout:24000,maxBuffer:3_500_000});
+  if(result.error)throw result.error;
+  const dom=result.stdout||'';
+  const report=dom.match(/<output[^>]*id="av-ai-e2e-report"[^>]*>[\s\S]{0,550}?<\/output>/)?.[0]||dom.slice(-900);
+  assert.equal(result.status,0,'Chromium failed: '+(result.stderr||'').slice(-900));
+  assert.match(dom,/id="av-ai-e2e-report"[^>]*data-status="pass"/,'AI E2E failed: '+report);
+  assert.match(dom,/PASS: consent required, one mock AI request/,'AI success missing: '+report);
+ }finally{server.kill('SIGTERM')}
+});
