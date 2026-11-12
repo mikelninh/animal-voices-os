@@ -1,4 +1,4 @@
-/* Animal Voices community landing v0.9 — no analytics, no accounts, human sharing only */
+/* Animal Voices community landing v1.0 — no analytics, no accounts, human sharing only */
 (()=>{
  'use strict';
  const $=id=>document.getElementById(id);
