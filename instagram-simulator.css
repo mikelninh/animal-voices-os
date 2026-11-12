@@ -100,3 +100,22 @@ main{max-width:500px;box-shadow:0 19px 72px #23362e1d}
 .sim-preview-btn:disabled{opacity:.46;cursor:not-allowed}
 .sim-comment:focus-within{background:linear-gradient(90deg,#f8fcf6,transparent)}
 .sim-compose-tip{display:block;font-size:10px;color:#96a999;margin-top:7px}
+
+/* Public community-beta affordances */
+.sim-own-comment{margin:10px 15px 14px;padding:17px;background:#f4f9f1;border:1px solid #dbead5;border-radius:15px}
+.sim-own-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sim-own-head strong{color:#2b5c3f;font-size:12px}.sim-own-head span{font-size:9px;color:#87a08b;font-weight:850;letter-spacing:.8px}
+.sim-own-comment>p{color:#799282;font-size:11px;line-height:1.55;margin:7px 0}
+.sim-own-label{display:block;font-size:10px;color:#5c8065;font-weight:800;margin:13px 0 6px}
+#sim-custom-input{width:100%;padding:12px;border:1px solid #cfded0;border-radius:11px;resize:vertical;min-height:78px;font:13px/1.55 system-ui;background:#fff;color:#2a4934}
+.sim-add-comment{border:0;background:#2b6345;color:#fff;border-radius:10px;min-height:42px;padding:10px 16px;font-size:12px;font-weight:850;margin-top:9px;cursor:pointer}
+.sim-own-status,.sim-share-status{font-size:11px;color:#467d55;line-height:1.55;min-height:11px}
+.sim-community-share{padding:21px 17px 19px;background:#eaf3e6;border-top:1px solid #d5e7d0}
+.sim-community-share>strong{font-size:15px;color:#315d40}
+.sim-community-share>p{font-size:11px;color:#789080;line-height:1.58;margin:7px 0 14px}
+.sim-share-actions{display:flex;flex-wrap:wrap;gap:7px}
+.sim-share-actions button{font-size:11px;font-weight:820;border:1px solid #cfdfcc;background:white;color:#477750;border-radius:10px;min-height:40px;padding:9px 11px}
+.sim-share-actions button:first-child{background:#2b6145;color:#fff;border-color:#2b6145}
+.sim-share-actions button:focus-visible,.sim-add-comment:focus-visible,#sim-custom-input:focus-visible{outline:3px solid #8fc28b;outline-offset:2px}
+.sim-linked-comment{border-radius:12px;background:#f0f8e9;border:1px solid #bad4b5!important;padding:12px!important;scroll-margin:100px}
+.sim-linked-comment:before{content:'↳ GETEILTER TESTKOMMENTAR';display:block;color:#4f8757;font-size:9px;font-weight:900;letter-spacing:1px;margin:0 0 8px}
