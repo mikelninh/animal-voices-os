@@ -283,7 +283,15 @@ function selftestFirstRun(){
    if(!shadow)throw Error('GUIDE_BUTTON_DID_NOT_OPEN_PANEL');
    if(!$('sim-guide-step').textContent.includes('SCHRITT 2'))throw Error('NO_STEP_TWO');
    shadow.querySelector('[data-av-voice="kiki"]').click();
+   const emojiSwitch=shadow.getElementById('av-emojis');
+   if(!emojiSwitch?.checked)throw Error('EMOJI_TOGGLE_MISSING_OR_OFF');
+   if(!shadow.getElementById('av-proposal').value.includes('🍽️'))throw Error('CONTEXT_EMOJI_NOT_SHOWN');
+   emojiSwitch.click();
+   const plain=shadow.getElementById('av-proposal').value;
+   if(/\p{Extended_Pictographic}/u.test(plain))throw Error('EMOJI_TOGGLE_DID_NOT_DISABLE');
+   emojiSwitch.click();
    const selected=shadow.getElementById('av-proposal').value;
+   if(!selected.includes('🍽️'))throw Error('EMOJI_TOGGLE_DID_NOT_REENABLE');
    if(!selected||selected.length<20)throw Error('NO_EDITORIAL_DRAFT');
    shadow.getElementById('av-insert').click();
    await sleep(1150);
