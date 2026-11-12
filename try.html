@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#eef4e9">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Animal Voices testen: ein echter Gesprächsanlass, vier unterschiedliche Antworten, eine Vorschau und ehrliches Community-Feedback. Kostenlos, ohne Anmeldung.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Animal Voices · Was würdest du antworten? 🌱">
+<meta property="og:description" content="Eine Frage. Vier Stimmen. Würdest du diese Antwort posten? Probiere den Community-Test kostenlos aus – ohne Login oder echtes Instagram-Posting.">
+<meta property="og:url" content="https://animal-voices-os.vercel.app/try.html">
+<meta property="og:image" content="https://animal-voices-os.vercel.app/icons/icon-512.png">
+<meta name="twitter:card" content="summary">
+<title>Animal Voices · Dein erster Community-Test</title>
+<link rel="icon" href="/icons/icon-192.png">
+<link rel="stylesheet" href="/try.css?v=1.0.0">
+</head>
+<body>
+<a class="skip" href="#challenge">Zum Test springen</a>
+<div class="app">
+<header class="top">
+  <a href="/try.html" class="logo" aria-label="Animal Voices Start"><span class="symbol">✳</span><span>animal <em>voices</em></span></a>
+  <span class="trust"><span class="trust-dot"></span> Kostenloser Community-Test</span>
+</header>
+<main>
+<section class="intro">
+  <div class="eyebrow" id="intro-tag">FÜR ALLE, DIE BESSERE GESPRÄCHE FÜHREN WOLLEN</div>
+  <h1>Was würdest du<br><em>antworten?</em></h1>
+  <p>Ein Kommentar, vier mögliche Antworten. Finde heraus, ob Animal Voices wirklich helfen kann – und sag uns, was noch fehlt.</p>
+  <div class="trust-list"><span><icon aria-hidden="true">✓</icon> Ohne Anmeldung</span><span><icon aria-hidden="true">✓</icon> Etwa 2 Minuten</span><span><icon aria-hidden="true">✓</icon> Keine echten Posts</span></div>
+</section>
+<section id="challenge" class="challenge" aria-label="Animal Voices Testablauf">
+  <div class="progress" aria-label="Dein Fortschritt">
+    <div class="progress-item current" data-progress="1"><b>1</b><span>Kommentar</span></div>
+    <div class="progress-line"></div>
+    <div class="progress-item" data-progress="2"><b>2</b><span>Antwort</span></div>
+    <div class="progress-line"></div>
+    <div class="progress-item" data-progress="3"><b>3</b><span>Feedback</span></div>
+  </div>
+  <div class="section-label"><span>01 · WÄHLE EINE SITUATION</span><span id="selection-hint">3 Beispiele + dein eigener Kommentar</span></div>
+  <div class="scenario-row" id="scenario-row" role="group" aria-label="Situation auswählen">
+    <button type="button" data-scene="taste" aria-pressed="true"><span>🍔</span> Echte Frage</button>
+    <button type="button" data-scene="rage" aria-pressed="false"><span>🔥</span> Ragebait</button>
+    <button type="button" data-scene="ethics" aria-pressed="false"><span>🐷</span> Tierethik</button>
+    <button type="button" data-scene="own" aria-pressed="false"><span>✍</span> Eigener Kommentar</button>
+  </div>
+  <div class="thread" id="thread">
+    <div class="thread-head"><div class="avatar" id="post-avatar" aria-hidden="true">🌱</div><div class="identity"><strong id="post-user">plantplate.berlin</strong><span>Fiktiver Beispielpost · kein Instagram-Konto</span></div><span class="dots" aria-hidden="true">•••</span></div>
+    <div class="post-art" id="post-art"><div class="art-orb orb-one"></div><div class="art-orb orb-two"></div><span id="post-emoji" aria-hidden="true">🍔</span><span id="post-art-title">GOOD FOOD.<br>GOOD CONVERSATIONS.</span></div>
+    <div class="post-caption" id="post-caption">Wir mögen gutes Essen – und gute Gespräche. Was denkst du?</div>
+    <div class="comment-box">
+      <div class="comment-avatar" aria-hidden="true">◉</div>
+      <div class="comment-body"><span class="comment-name" id="comment-author">foodfirst.berlin</span><blockquote id="comment-text">Fleisch schmeckt mir einfach besser. Warum sollte ich wechseln?</blockquote><span class="comment-time">Gerade kommentiert · fiktiver Testfall</span></div>
+    </div>
+    <div id="own-editor" class="own-editor" hidden>
+      <label for="own-comment">Welchen Kommentar willst du testen?</label>
+      <textarea id="own-comment" rows="3" maxlength="700" placeholder="Zum Beispiel: Und was ist mit den Tieren bei der Ernte?" spellcheck="true"></textarea>
+      <p>Bitte keine Namen, @Handles, Telefonnummern oder privaten Angaben. Der Text bleibt in deinem Browser.</p>
+    </div>
+  </div>
+  <div class="next-action" id="first-action">
+    <button type="button" class="primary" id="analyze">✳ Antwortvorschlag ansehen <span aria-hidden="true">↗</span></button>
+    <p id="input-status" class="status" role="status" aria-live="polite"></p>
+  </div>
+  <section class="result" id="result" hidden aria-label="Animal Voices Empfehlung">
+    <div class="section-label"><span>02 · UNSERE EMPFEHLUNG</span><span class="pill">Redaktionell · ohne KI</span></div>
+    <div class="recommendation">
+      <div class="recommend-icon" id="recommend-icon" aria-hidden="true">✳</div>
+      <div><h2 id="recommend-title">Die Frage ernst nehmen</h2><p id="recommend-reason"></p></div>
+    </div>
+    <div id="reply-options">
+      <p class="micro-heading">WELCHE STIMME PASST ZU DIR?</p>
+      <div class="voices" role="group" aria-label="Antwortstimme">
+        <button type="button" data-voice="kiki" aria-pressed="true">♡ Warm</button>
+        <button type="button" data-voice="momo" aria-pressed="false">✦ Klar</button>
+        <button type="button" data-voice="bao" aria-pressed="false">☀ Humor</button>
+        <button type="button" data-voice="curious" aria-pressed="false">? Neugierig</button>
+      </div>
+      <div class="draft"><span class="draft-top">DEIN ENTWURF</span><p id="reply-text"></p></div>
+      <div class="draft-actions"><button type="button" class="primary" id="preview">So würde es im Feed aussehen <span aria-hidden="true">↗</span></button><button type="button" class="quiet" id="copy-reply">Text kopieren</button></div>
+      <p class="small-note">Du entscheidest selbst, ob und wo du antwortest. Nichts wird veröffentlicht.</p>
+    </div>
+    <div id="no-reply" class="no-reply" hidden><p id="no-reply-text"></p><button type="button" class="secondary" id="skip-to-feedback">Diese Empfehlung bewerten ↗</button></div>
+    <div id="optional-reply" class="optional-reply" hidden><button type="button" id="show-optional" class="quiet">Trotzdem eine kurze Antwort ansehen</button></div>
+    <details class="evidence" id="evidence"><summary>Warum diese Antwort? Quellen & Grenzen <span aria-hidden="true">⌄</span></summary><p id="source-summary"></p><div id="source-links"></div><p id="source-limit"></p></details>
+  </section>
+  <section id="preview-section" class="preview-section" hidden aria-label="Antwortvorschau">
+    <div class="section-label"><span>DEINE ANTWORT IM GESPRÄCH</span><span class="pill">Nur Vorschau</span></div>
+    <div class="preview-thread"><div class="mini-comment"><strong id="preview-original-author">foodfirst.berlin</strong><p id="preview-original"></p></div><div class="reply-bubble"><span class="reply-mark" aria-hidden="true">✳</span><div><strong>Du · Entwurf</strong><p id="preview-reply"></p></div></div></div>
+    <p class="small-note">Das ist eine lokale Vorschau, kein Instagram-Posting.</p>
+    <button type="button" class="quiet" id="change-reply">Andere Antwort wählen ↗</button>
+  </section>
+  <section id="feedback" class="feedback" hidden aria-label="Freiwilliges Community-Feedback">
+    <div class="section-label"><span>03 · DEINE EHRLICHE MEINUNG</span><span class="pill">30 Sekunden</span></div>
+    <h2 id="feedback-title">Würdest du diese Antwort posten?</h2>
+    <p class="feedback-sub">Kritik ist ausdrücklich erwünscht. Wir wollen hilfreiche Antworten bauen, nicht nur hübsche.</p>
+    <div class="vote-options" role="group" aria-label="Antwort bewerten">
+      <button type="button" data-vote="yes" aria-pressed="false">👍 Ja, passt</button>
+      <button type="button" data-vote="maybe" aria-pressed="false">🤔 Mit Änderungen</button>
+      <button type="button" data-vote="no" aria-pressed="false">👎 Eher nicht</button>
+    </div>
+    <div id="reason-wrap" class="reason-wrap" hidden><p>Was fehlt am meisten? <span>(optional)</span></p><div class="reason-options" role="group" aria-label="Verbesserungsvorschlag"><button type="button" data-reason="Zu belehrend" aria-pressed="false">Zu belehrend</button><button type="button" data-reason="Zu lang" aria-pressed="false">Zu lang</button><button type="button" data-reason="Frage verfehlt" aria-pressed="false">Frage verfehlt</button><button type="button" data-reason="Quellen fehlen" aria-pressed="false">Quellen fehlen</button><button type="button" data-reason="Unnatürlich" aria-pressed="false">Unnatürlich</button></div></div>
+    <label class="note-label" for="feedback-note">Noch ein Gedanke? <span>Freiwillig · keine privaten Daten</span></label>
+    <textarea id="feedback-note" rows="2" maxlength="280" placeholder="Was müsste besser werden?"></textarea>
+    <div class="feedback-actions"><button type="button" class="primary" id="share-feedback">Feedback via WhatsApp teilen <span aria-hidden="true">↗</span></button><button type="button" class="secondary" id="copy-feedback">Feedback kopieren</button></div>
+    <p class="privacy-note">🔒 Kein Account, keine versteckte Datensammlung. Dein Feedback wird nur geteilt, wenn du es selbst sendest. Der Originalkommentar wird nicht mitgeschickt.</p>
+    <p id="feedback-status" class="status" role="status" aria-live="polite"></p>
+    <div class="next-test"><button type="button" id="next-case" class="quiet">Noch einen Kommentar testen ↗</button><button type="button" id="share-test" class="quiet">Testlink mit Freunden teilen ↗</button></div>
+  </section>
+</section>
+</main>
+<footer class="footer"><span>Für Tiere. Mit Menschen. ♡</span><div><a href="/community-code.html">Unsere Prinzipien</a><a href="/challenge.html">Qualität & Grenzen</a></div><p>Unabhängige Community-Beta · keine offizielle Partnerschaft mit Instagram oder NVSINO</p></footer>
+</div>
+<script src="/animal-voices.user.js?v=1.4.0"></script>
+<script src="/try.js?v=1.0.0"></script>
+</body>
+</html>
