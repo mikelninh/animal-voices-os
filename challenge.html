@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#122f23"><meta name="description" content="Animal Voices Conversation Lab: 100 echte Qualitätstests als nachvollziehbarer Prüfkatalog, vier Antwortstimmen, Moderationsregeln und freiwillige Blindbewertungen.">
+<meta name="referrer" content="no-referrer">
+<title>Conversation Lab · Animal Voices</title>
+<link rel="stylesheet" href="/challenge.css">
+</head>
+<body>
+<div class="shell">
+<header class="top">
+ <a href="/live.html" class="brand"><span class="sigil">✳</span> animal <i>voices</i></a>
+ <nav aria-label="Hauptnavigation"><a href="/live.html">Live Coach</a><a href="/community-code.html">Unser Code</a><a href="/install.html">Instagram ↗</a></nav>
+</header>
+<section class="hero">
+ <div class="eyebrow"><span class="pulse"></span> THE CONVERSATION LAB <span class="version">VERSION 0.7 · OPEN TEST</span></div>
+ <h1>100 questions.<br><em>Zero excuses.</em></h1>
+ <p>Keine Marketingzahlen. Wir prüfen, wo Animal Voices richtig liegt, was es falsch versteht und ob Antworten Menschen wirklich weiterhelfen. Jede Fallentscheidung lässt sich nachvollziehen.</p>
+ <a class="subtle-anchor" href="#testbench">Zur Qualitätsprüfung <span aria-hidden="true">↓</span></a>
+</section>
+<section class="scorebar" aria-label="Aktueller Teststand">
+ <div class="score" aria-live="polite"><span class="score-label">ALLE KRITERIEN</span><strong id="score-overall">—</strong><span class="score-note">vollständig korrekt / Fälle</span></div>
+ <div class="score"><span class="score-label">SPRACHE</span><strong id="score-language">—</strong><span class="score-note">DE/EN korrekt</span></div>
+ <div class="score"><span class="score-label">MODERATION</span><strong id="score-action">—</strong><span class="score-note">Antworten, Grenzen, Schutz</span></div>
+ <div class="score"><span class="score-label">THEMEN</span><strong id="score-topic">—</strong><span class="score-note">bei erwarteter Antwort</span></div>
+</section>
+<p class="method-note" id="method-note">Messung startet …</p>
+<section id="testbench" class="testbench">
+ <div class="section-top"><div><div class="eyebrow">01 / QUALITY ENGINE</div><h2>Jeder Fehler ist sichtbar.</h2><p>Wähle einen Kommentar und prüfe Entscheidung, Antwort und Beleggrenzen.</p></div><span class="build-tag">LIVE BERECHNET · KEINE HARDCODED SCORE</span></div>
+ <div class="toolbar">
+  <div class="datasets" role="group" aria-label="Testdatensatz">
+   <button type="button" class="selected" data-dataset="core" aria-pressed="true">100er Entwicklungssatz</button>
+   <button type="button" data-dataset="stress" aria-pressed="false">Neue Stress-Gegenprobe</button>
+  </div>
+  <div class="filters">
+   <label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Kommentar oder Thema suchen…" autocomplete="off" aria-label="Kommentare suchen"></label>
+   <select id="filter" aria-label="Ergebnisse filtern">
+    <option value="all">Alle Fälle</option><option value="misses">Nur Fehler</option><option value="safety">Schutz & Grenzen</option><option value="de">Deutsch</option><option value="en">English</option>
+   </select>
+   <span id="visible-count" class="visible-count">—</span>
+  </div>
+ </div>
+ <div class="workspace">
+  <aside class="case-list" aria-label="Testkommentare" id="case-list">
+   <p class="loading">Testfälle werden geladen …</p>
+  </aside>
+  <article class="detail" aria-label="Fallprüfung">
+   <div class="case-top"><span class="eyebrow" id="case-id">CASE —</span><span id="case-result" class="status-badge">—</span></div>
+   <div class="comment-box"><span class="comment-overline">KOMMENTAR · FIKTIVER TESTFALL</span><blockquote id="case-comment">Wähle einen Testfall.</blockquote></div>
+   <div class="decision-grid">
+    <div class="decision-cell"><span>ERWARTET · REDAKTION</span><strong id="case-expected">—</strong></div>
+    <div class="decision-cell"><span>ERGEBNIS · LOKALE ENGINE</span><strong id="case-actual">—</strong></div>
+   </div>
+   <div class="interpretation"><div class="eyebrow">UNSERE EINORDNUNG</div><p id="case-reason">—</p><p id="case-caveat"></p></div>
+   <section id="voice-section" class="response-section">
+    <div class="response-header"><div><span class="eyebrow">02 / DIE ANTWORT</span><h3 id="voice-title">Vier Stimmen. Ein Anliegen.</h3></div><span id="response-type" class="response-label">—</span></div>
+    <div class="voices" role="group" aria-label="Antwortstimme"><button type="button" data-voice="momo">✦ Klar</button><button type="button" data-voice="kiki">♡ Warm</button><button type="button" data-voice="bao">☀ Locker</button><button type="button" data-voice="curious">? Neugierig</button></div>
+    <div class="response-text" id="response-text"></div>
+    <div class="response-foot"><span>Vorschlag, keine automatische Veröffentlichung</span><button id="copy-reply" type="button">Kopieren <span aria-hidden="true">↗</span></button></div>
+    <details class="sources" id="sources-detail"><summary>Quellen, Unsicherheiten & Faktenbasis</summary><p id="source-summary"></p><div id="source-links"></div><p id="source-limits"></p></details>
+   </section>
+   <section class="blind" id="blind-section" aria-label="Blindvergleich">
+    <div class="blind-top"><div><div class="eyebrow">03 / BLIND COMPARISON</div><h3>Welche Antwort ist wirklich besser?</h3></div><span class="human-mark">HUMAN IN THE LOOP</span></div>
+    <p>Vergleiche zwei Varianten, ohne ihre Herkunft zu kennen. Bewerte nach Fairness, Verständlichkeit und hilfreichem Kontext – nicht danach, welche schlagfertiger klingt.</p>
+    <div class="comparison">
+     <div class="compare-card"><div class="letter">A</div><p id="compare-a">—</p></div>
+     <div class="compare-card"><div class="letter">B</div><p id="compare-b">—</p></div>
+    </div>
+    <div class="vote-buttons" role="group" aria-label="Blindvergleich bewerten">
+     <button type="button" data-vote="A">A ist besser</button><button type="button" data-vote="B">B ist besser</button><button type="button" data-vote="tie">Gleich gut</button><button type="button" data-vote="neither">Beide nicht gut</button>
+    </div>
+    <p id="blind-result" class="blind-result" role="status" aria-live="polite">Noch keine Bewertung. Die Herkunft bleibt bis zur Auswahl verborgen.</p>
+    <details class="ai-box" id="ai-box">
+     <summary>✦ KI als Vergleichspartner testen (privat, optional)</summary>
+     <p>Mit deinem privaten Zugang kann die KI für <strong>diesen einen fiktiven Kommentar</strong> vier Antworten erzeugen und gegen kuratierte Quellenkarten prüfen. Erst nach ausdrücklicher Zustimmung. Kein Massentest im Hintergrund.</p>
+     <label class="field"><span>Privater Editor-Code</span><input type="password" id="editor-code" autocomplete="off" placeholder="Nur in diesem Tab"></label>
+     <label class="consent"><input type="checkbox" id="ai-consent"> Ich erlaube die Übertragung dieses Testkommentars an den KI-Dienst.</label>
+     <button id="ai-compare" type="button" class="ai-trigger">KI-Vorschlag einmalig laden ↗</button><p id="ai-state" role="status" class="ai-state"></p>
+    </details>
+   </section>
+  </article>
+ </div>
+</section>
+<section class="ethos">
+ <div><span class="eyebrow">04 / MEASUREMENT NOT MYTHOLOGY</span><h2>Wir messen Vertrauen.<br><em>Nicht Empörung.</em></h2></div>
+ <div class="ethos-copy"><p>Diese Ergebnisse vergleichen ein regelbasiertes System mit redaktionellen Sollentscheidungen. Sie beweisen noch **keine** Wirkung auf echte Instagram-Gespräche und **keine** wissenschaftliche Quellenprüfung durch ein Modell.</p><p>Blindbewertungen werden nur auf diesem Gerät gespeichert. Kein Kommentartext, keine Handles, keine versteckte Telemetrie. Das Modell darf nur nach deinem Klick und deiner Zustimmung antworten.</p><div class="data-actions"><span id="review-count">0 lokale Bewertungen</span><button id="export-reviews" type="button">Anonymisierte Bewertungen exportieren ↗</button><button id="clear-reviews" type="button">Bewertungen zurücksetzen</button></div></div>
+</section>
+<footer><a class="brand" href="/live.html"><span class="sigil">✳</span> animal <i>voices</i></a><span>For animals. With people. ♡</span><span><a href="/community-code.html">Community Code</a> · <a href="/install.html">Instagram-Companion</a></span></footer>
+</div>
+<script src="/animal-voices.user.js?v=0.7.0"></script>
+<script src="/challenge.js?v=0.7.0"></script>
+</body></html>
