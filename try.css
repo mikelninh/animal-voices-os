@@ -24,3 +24,51 @@
 @media(max-width:640px){.app{padding:0 13px}.top{height:65px}.logo{font-size:19px}.logo em{font-size:19px}.symbol{width:32px;height:32px;font-size:21px}.trust{font-size:9px}.intro{padding:32px 0 24px}.intro h1{font-size:clamp(48px,10vw,70px);letter-spacing:-2.4px;margin:12px 0 16px}.intro>p{font-size:14px}.trust-list{gap:10px;font-size:10px;margin-top:13px}.challenge{padding:15px;border-radius:17px}.progress{margin:0 0 24px;gap:7px}.progress-item{font-size:10px;gap:4px}.progress-item b{width:23px;height:23px}.progress-line{width:17px}.section-label{font-size:9px;letter-spacing:.9px}.section-label span:last-child{font-size:9px}.scenario-row{gap:5px}.scenario-row button{min-height:53px;flex-direction:column;font-size:9px;gap:3px;padding:6px 2px}.scenario-row button span{font-size:19px}.post-art{height:143px}.post-art>#post-emoji{font-size:73px}.post-art>#post-art-title{font-size:12px}.comment-body blockquote{font-size:19px}.draft-actions,.feedback-actions{flex-wrap:wrap}.draft-actions .primary,.feedback-actions .primary{flex-basis:100%}.draft-actions .quiet,.feedback-actions .secondary{flex:1}.draft p{font-size:15px}.voices{gap:5px}.voices button{font-size:10px;padding:8px 2px}.vote-options{gap:5px}.vote-options button{font-size:10px;padding:9px 3px}.footer{padding-bottom:29px}}
 @media(max-width:360px){.scenario-row button{font-size:8px}.comment-box{padding:12px}.trust-list{gap:7px}.trust{display:none}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+
+/* Community Pilot 1.1: one clear action, optional preview, immediate feedback. */
+.draft{position:relative;background:linear-gradient(135deg,#f6fbf3 0%,#f0f7ed 100%);border-color:#cfe4c9;box-shadow:0 8px 25px #24593b09}
+.draft p{font-size:clamp(16px,2.5vw,18px);line-height:1.62;letter-spacing:-.14px}
+.draft-top{letter-spacing:1.05px;color:#5f8a69}
+.draft-actions{gap:10px}
+.draft-actions .primary{font-size:14px;min-height:51px}
+.draft-actions .secondary{min-height:51px;background:white}
+.copy-status{margin:8px 0 0;color:#32744b;font-weight:700}
+.copy-status:empty{display:none}
+.feedback-shortcut{display:flex;width:100%;justify-content:space-between;align-items:center;gap:12px;margin-top:13px;border:1px solid #c7dfc5;background:#eaf4e6;color:#2a6343;padding:15px 16px;border-radius:13px;text-align:left;font-size:13px;line-height:1.45;cursor:pointer;transition:background .15s ease,transform .15s ease}
+.feedback-shortcut span{font-weight:760}.feedback-shortcut strong{white-space:nowrap;font-size:12px;color:#275e42}
+.feedback-shortcut:hover{background:#dfeeda;transform:translateY(-1px)}
+.feedback-shortcut:focus-visible{outline:3px solid #86bc86;outline-offset:3px}
+.result .recommendation{margin-bottom:18px}
+.comment-body blockquote{color:#253f31}
+.preview-thread{box-shadow:0 8px 30px #234b3210}
+.reply-bubble{background:#f7faf5;border-radius:0 0 12px 12px}
+.vote-options button:hover,.voices button:hover,.scenario-row button:hover{border-color:#8fbb92}
+@media(max-width:640px){
+ .intro{padding:23px 0 18px}
+ .intro h1{font-size:clamp(43px,9vw,58px);margin:9px 0 12px;letter-spacing:-2.1px}
+ .intro>p{font-size:13px;line-height:1.53}
+ .trust-list{margin-top:11px}
+ .challenge{padding:13px}
+ .progress{margin-bottom:16px}
+ .section-label{margin-bottom:11px}
+ .scenario-row{margin-bottom:12px}
+ .post-art{height:110px}
+ .post-art>#post-emoji{font-size:61px}
+ .post-art>#post-art-title{font-size:10px}
+ .thread-head{padding:10px 13px}
+ .comment-box{padding:12px}
+ .comment-body blockquote{font-size:18px;line-height:1.4}
+ .draft-actions{flex-direction:column;align-items:stretch}
+ .draft-actions .primary,.draft-actions .secondary{width:100%;flex:initial}
+ .feedback-shortcut{padding:13px 12px;font-size:12px}
+ .feedback-shortcut strong{font-size:11px}
+}
+@media(max-width:375px){
+ .feedback-shortcut{align-items:flex-start;flex-direction:column;gap:2px}
+}
+@media(prefers-reduced-motion:no-preference){
+ .result:not([hidden]),.feedback:not([hidden]){animation:pilot-appear .26s ease-out both}
+ @keyframes pilot-appear{from{opacity:.5;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+}
+@media(prefers-reduced-motion:reduce){.feedback-shortcut{transition:none}.feedback-shortcut:hover{transform:none}}

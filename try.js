@@ -1,4 +1,4 @@
-/* Animal Voices · Community Pilot 1.0
+/* Animal Voices · Community Pilot 1.1
    Single public journey. No AI calls, account access, automatic posting or analytics. */
 (()=>{
  'use strict';
@@ -52,7 +52,7 @@
   $('feedback-note').value='';
   document.querySelectorAll('[data-vote],[data-reason]').forEach(b=>b.setAttribute('aria-pressed','false'));
   $('share-feedback').disabled=true;$('copy-feedback').disabled=true;
-  setStatus('input-status','');setStatus('feedback-status','');
+  setStatus('input-status','');setStatus('copy-status','');setStatus('feedback-status','');
   changePhase(1);
  }
  function chooseScene(scene){
@@ -115,6 +115,12 @@
   if(a.draft)renderVoice();
  }
  function renderVoice(){
+  // A different voice is a different draft. Never carry over an earlier vote.
+  state.vote=null;state.reason=null;
+  $('reason-wrap').hidden=true;$('feedback-note').value='';
+  document.querySelectorAll('[data-vote],[data-reason]').forEach(b=>b.setAttribute('aria-pressed','false'));
+  $('share-feedback').disabled=true;$('copy-feedback').disabled=true;
+  setStatus('feedback-status','');setStatus('copy-status','');
   const r=core.suggest(state.input,state.voice);
   state.result=r;
   $('reply-text').textContent=r.text||'';
@@ -129,7 +135,7 @@
    const a=document.createElement('a');a.href=href;a.target='_blank';a.rel='noopener noreferrer';
    a.textContent=source.name+' ↗';list.append(a);
   }
-  if(!$('preview-section').hidden){$('preview-section').hidden=true;$('feedback').hidden=true;changePhase(2)}
+  if(!$('preview-section').hidden||!$('feedback').hidden){$('preview-section').hidden=true;$('feedback').hidden=true;changePhase(2)}
  }
  function showPreview(){
   if(!state.result?.text)return;
@@ -137,15 +143,14 @@
   $('preview-original').textContent=state.input;
   $('preview-reply').textContent=state.result.text;
   $('preview-section').hidden=false;
-  showFeedback(false);
+  showFeedback(false,false);
   scrollTo($('preview-section'));
  }
- function showFeedback(noReply){
+ function showFeedback(noReply,focusFeedback=true){
   $('feedback').hidden=false;
   $('feedback-title').textContent=noReply?'Würdest du dieser Empfehlung folgen?':'Würdest du diese Antwort posten?';
   changePhase(3);
-  $('vote-options');
-  scrollTo(noReply?$('feedback'):$('preview-section'));
+  if(focusFeedback)scrollTo($('feedback'));
  }
  function setVote(v){
   if(!['yes','maybe','no'].includes(v))return;
@@ -213,13 +218,24 @@
   $('own-comment').addEventListener('input',()=>{setStatus('input-status','');resetAfterChange()});
   $('own-comment').addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='Enter')evaluate()});
   $('preview').addEventListener('click',showPreview);
+  $('open-feedback').addEventListener('click',()=>showFeedback(false));
   $('show-optional').addEventListener('click',()=>{state.optional=true;renderRecommendation()});
   $('skip-to-feedback').addEventListener('click',()=>showFeedback(true));
   $('change-reply').addEventListener('click',()=>{$('preview-section').hidden=true;$('feedback').hidden=true;changePhase(2);scrollTo($('result'))});
   $('copy-reply').addEventListener('click',async()=>{
    const txt=state.result?.text;if(!txt)return;
-   try{await navigator.clipboard.writeText(txt);setStatus('input-status','Text kopiert. Belege bitte selbst prüfen, bevor du veröffentlichst.')}
-   catch{setStatus('input-status','Kopieren war nicht möglich. Du kannst den Entwurf markieren und selbst kopieren.')}
+   try{
+    await navigator.clipboard.writeText(txt);
+    setStatus('copy-status','✓ Kopiert! Prüfe Fakten und Kontext vor dem Posten. 🌱');
+   }catch{
+    // In privacy-focused browsers, select the visible draft for manual copying.
+    const textNode=$('reply-text');
+    try{
+     const range=document.createRange();range.selectNodeContents(textNode);
+     const selection=window.getSelection();selection.removeAllRanges();selection.addRange(range);
+     setStatus('copy-status','Text markiert – bitte über dein Browsermenü kopieren.');
+    }catch{setStatus('copy-status','Kopieren ist blockiert. Bitte den Entwurf manuell markieren.');}
+   }
   });
   $('share-feedback').addEventListener('click',shareFeedback);
   $('copy-feedback').addEventListener('click',copyFeedback);
@@ -240,7 +256,10 @@
    if($('result').hidden||!$('recommend-title').textContent.includes('Frage'))throw Error('RECOMMENDATION');
    if($('reply-text').textContent.length<65)throw Error('EMPTY_DRAFT');
    const a=$('reply-text').textContent;
+   $('open-feedback').click();
+   if($('feedback').hidden||!$('preview-section').hidden)throw Error('DIRECT_FEEDBACK');
    document.querySelector('[data-voice="bao"]').click();
+   if(!$('feedback').hidden||state.vote!==null)throw Error('VOICE_RESETS_FEEDBACK');
    const b=$('reply-text').textContent;
    if(a===b||!b.includes('😄'))throw Error('DISTINCT_VOICES');
    $('preview').click();
@@ -262,7 +281,7 @@
    if(state.result.language!=='en'||!$('reply-text').textContent)throw Error('BILINGUAL');
    if(!fromNvsino&&postLink('rage')!==shareBase+'?scene=rage')throw Error('DEEPLINK');
    output.dataset.status='pass';
-   output.textContent='PASS: first action, four voices, preview, no-feedback-before-vote, safe sharing, ragebait abstention, opt-in, private-data hold and bilingual reply';
+   output.textContent='PASS: first action, direct feedback, voice reset, four voices, preview, no-feedback-before-vote, safe sharing, ragebait abstention, opt-in, private-data hold and bilingual reply';
   }catch(e){output.dataset.status='fail';output.textContent='FAIL: '+(e?.message||e)}
  }
  init();
