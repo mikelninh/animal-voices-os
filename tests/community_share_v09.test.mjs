@@ -52,7 +52,8 @@ test('Visitor can create one safe comment locally, share a scenario and return t
  assert.match(sim,/history\.replaceState/);
  assert.match(sim,/sceneLink\(id=active,commentIndex=null\)/);
  assert.match(sim,/scene=rage/);
- assert.match(sim,/Keine echten/); // ensure no automatic posting and missing copyright?
+ assert.match(simHtml,/Alle Posts und Konten sind fiktiv/);
+ assert.match(sim,/nothing published or sent to Instagram/);
 });
 function browserPath(){
  for(const p of [process.env.CHROME_BIN,'google-chrome-stable','google-chrome','chromium','chromium-browser'].filter(Boolean)){
