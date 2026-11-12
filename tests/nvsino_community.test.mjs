@@ -15,7 +15,7 @@ test('Independent NVSINO test is transparent, no registration, 3 interactive dee
  assert.match(page,/Keine offizielle NVSINO-Seite oder Kooperation/);
  assert.match(page,/NVSINO-COMMUNITY/);
  assert.match(page,/ohne Anmeldung/);
- for(const scene of ['rage','taste','ethics'])assert.ok(page.includes('scene='+scene+'&amp;c=0&amp;source=nvsino'),scene);
+ for(const scene of ['rage','taste','ethics'])assert.ok(page.includes('scene='+scene+'&amp;from=nvsino'),scene);
  for(const id of ['start-challenge','copy-feedback','feedback-status','note'])assert.ok(page.includes('id="'+id+'"'),id);
  assert.match(page,/property="og:title"/);
  assert.match(page,/property="og:description"/);
