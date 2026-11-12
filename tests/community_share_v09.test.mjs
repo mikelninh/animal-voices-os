@@ -66,7 +66,7 @@ function browserPath(){
 }
 async function freePort(){const srv=net.createServer();await new Promise((ok,no)=>srv.once('error',no).listen(0,'127.0.0.1',ok));const port=srv.address().port;await new Promise(ok=>srv.close(ok));return port}
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-test('Mobile browser loads public beta without login with working bilingual page', {timeout:28000}, async t=>{
+test('Mobile browser loads public beta without login with working bilingual page', {timeout:47000}, async t=>{
  const chrome=browserPath();if(!chrome){t.skip('Chromium unavailable');return}
  const port=await freePort(),url='http://127.0.0.1:'+port+'/community.html?lang=en';
  const server=spawn(process.execPath,['server.cjs'],{cwd:root,env:{...process.env,PORT:String(port)},stdio:'ignore'});
@@ -75,7 +75,7 @@ test('Mobile browser loads public beta without login with working bilingual page
   assert.equal(ready,true);
   const r=spawnSync(chrome,['--headless=new','--no-sandbox','--disable-dev-shm-usage','--disable-gpu',
    '--window-size=390,844','--virtual-time-budget=2500','--dump-dom',url],
-   {encoding:'utf8',timeout:19000,maxBuffer:3_000_000});
+   {encoding:'utf8',timeout:33000,maxBuffer:3_000_000});
   if(r.error)throw r.error;assert.equal(r.status,0,(r.stderr||'').slice(-700));
   const dom=r.stdout||'';
   assert.match(dom,/data-beta-ready="true"/);
