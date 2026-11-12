@@ -92,3 +92,11 @@ main{max-width:500px;box-shadow:0 19px 72px #23362e1d}
 .sim-archive-title p{font-size:11px;color:#869789;margin:0 0 8px}
 .sim-loading{font-size:11px;color:#8a9c8e;padding:10px}
 @media(max-width:380px){.sim-intro h1{font-size:31px}.sim-intro h1 em{font-size:31px}.sim-journey{gap:4px}.sim-journey span{font-size:8px}.sim-photo{height:246px}.sim-stories{gap:10px}.sim-story{min-width:58px}}
+
+.sim-rated{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:11px 0 0;padding:10px 0;border-top:1px solid #e5eee2}
+.sim-rated span{font-size:10px;color:#6b866e;font-weight:750}
+.sim-rated button{background:#e4f2df;border:1px solid #cee4c8;border-radius:9px;padding:8px 10px;color:#3d7651;font-size:10px;font-weight:800;min-height:35px}
+.sim-rated button:focus-visible,.sim-story:focus-visible,.sim-comment button:focus-visible{outline:3px solid #80b781;outline-offset:2px}
+.sim-preview-btn:disabled{opacity:.46;cursor:not-allowed}
+.sim-comment:focus-within{background:linear-gradient(90deg,#f8fcf6,transparent)}
+.sim-compose-tip{display:block;font-size:10px;color:#96a999;margin-top:7px}
