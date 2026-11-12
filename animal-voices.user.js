@@ -685,6 +685,8 @@ function showPanel(){
  .voices button{min-width:0;min-height:45px;padding:8px 2px;color:#477258;background:#eaf4e8;border:1px solid #d6e6d3;border-radius:11px;font-weight:780;font-size:11px;line-height:1.3}
  .voices button[aria-pressed="true"]{color:white;background:#286244;border-color:#286244}
  .voice-hint{font-size:11px;color:#819887;margin:2px 0 8px}
+ .emoji-toggle{display:inline-flex;align-items:center;gap:7px;color:#577f63;font-size:11px;font-weight:720;cursor:pointer;margin:1px 0 10px}
+ .emoji-toggle input{width:17px;height:17px;accent-color:#2b7650;cursor:pointer}
  .ai-details{margin:7px 0 10px}.ai-details summary{color:#6c846f;font-size:11px}.ai-details .ai-controls{margin:10px 0 0}
  #av-evidence{margin:11px 0 5px}
  .mod{margin:10px 0 7px;padding:10px}
@@ -717,6 +719,7 @@ function showPanel(){
   <button type="button" data-av-voice="curious" aria-pressed="false">? Neugierig</button>
  </div>
  <div class="row"><span class="voice-hint" id="av-voice-hint">Momo · Klar und faktenorientiert</span><button type="button" id="av-next-voice" class="alt">Andere Antwort ↻</button></div>
+ <label class="emoji-toggle" for="av-emojis"><input type="checkbox" id="av-emojis" checked> ✨ Passende Emojis <span class="micro">· optional</span></label>
  <button type="button" id="av-optin" class="secondary" hidden style="width:100%;margin:7px 0">Optional: einmal respektvoll antworten ↗</button>
  <textarea id="av-proposal" rows="3" maxlength="1200" placeholder="Für diese Frage liegt noch keine vorab geprüfte Antwort vor."></textarea>
  <details id="av-evidence"><summary>Quellen & Grenzen prüfen ↗</summary><div id="av-sources"></div></details>
@@ -752,7 +755,7 @@ function showPanel(){
    if(selectedTopic.state==='skip')currentVoice='kiki';
   }
   lastTopicKey=norm(box.value);
-  const baseline=suggest(box.value,currentVoice,{repeated:repeated.checked,ownPost:ownPost.checked});
+  const baseline=suggest(box.value,currentVoice,{repeated:repeated.checked,ownPost:ownPost.checked,emojis:shadow.getElementById('av-emojis').checked});
   const canUseAI=aiDraft&&aiDraft.comment===norm(box.value)&&
     !['report','review','end','boundary','skip','unsafe'].includes(baseline.state);
   const result=canUseAI?{...baseline,state:'reviewed',id:aiDraft.topic_id,topic:aiDraft.topic,
@@ -830,6 +833,7 @@ function showPanel(){
    progress.textContent=message+' · Die lokalen Antworten bleiben erhalten.';
   }finally{aiBusy=false;if(button?.isConnected)button.disabled=false}
  });
+ shadow.getElementById('av-emojis').addEventListener('change',update);
  box.addEventListener('input',update);
  repeated.addEventListener('change',update);
  ownPost.addEventListener('change',update);
