@@ -265,7 +265,7 @@ const RAGE_REPLY={
 };
 const RAGE_SKIP=[/\b(?:ich esse|ich fresse|wegen euch esse|i(?: will|'ll) eat)\b.{0,55}(?:zwei|2|extra|two|more|an extra|einen extra|eine extra)\b.{0,35}(?:steak|schnitzel|burger|meat).{0,60}(?:euch|vegan|annoy|ärgern|wegen|because|just to)?/i,/wegen euch.{0,25}esse ich.{0,45}(?:steaks?|schnitzel)/i,/ich esse.{0,50}(?:zwei|2|drei|3|extra|mehr).{0,30}(?:steak|schnitzel|burger).{0,40}(?:wegen euch|extra für euch|nur damit)/i,/(?:i'll eat|i will eat|i'm eating).{0,55}(?:extra|two more|2 more).{0,35}(?:steaks?|burgers?).{0,40}(?:because of you|to annoy)/i,/(?:heul doch|cry more|stay mad).{0,65}(?:vegan|pflanzen|tofu)/i];
 const REPLIES=['antworten','reply','respond','répondre','responder','rispondi'];
-const SENSITIVE=/\b(schwanger|schwangerschaft|stillend|baby|babys|kind|kinder|kleinkind|toddler|kid|kids|children|minor|minderjaehr|minderjähr|pregnan|child|infant|stillen|medikament|diagnose|eating disorder|essst[oö]rung|suizid|suicide|kill yourself|töte dich|bring dich um|ich bringe dich um|ich werde dich töten|ich töte dich|i will kill|i'm going to kill|threat|drohung)\b/i;
+const SENSITIVE=/\b(schwanger|schwangerschaft|stillend|baby|babys|kind|kinder|kleinkind|toddler|kid|kids|children|minor|minderjaehr|minderjähr|pregnan\w*|child|infant|stillen|medikament|diagnose|eating disorder|essst[oö]rung|suizid|suicide|kill yourself|töte dich|bring dich um|ich bringe dich um|ich werde dich töten|ich töte dich|i will kill|i'm going to kill|threat|drohung)\b/i;
 const PRIVATE=/(?:@[a-z0-9_.]{3,}|[\w.+-]+@[\w.-]+\.[a-z]{2,}|\+?\d[\d()\s-]{8,}\d)/i;
 const norm=s=>String(s||'').replace(/\s+/g,' ').trim();
 
@@ -331,7 +331,7 @@ function semanticBackstop(text){
  if(has(/(?:lions?|l[oö]wen?)\b/i))return 'lions';
  if(has(/(?:schmerzfrei|ohne.{0,12}schmerz|painless|without.{0,12}pain|nichts.{0,12}merkt)/i)&&
     has(/(?:schlacht|t[oö]t|kill|slaughter|animal|tier)/i))return 'painless_killing';
- if(has(/(?:future|weiterleben|weiterzuleben|lebensinteresse|interesse.{0,18}leben|leben.{0,25}(?:wert|z[aä]hl|bedeut|interesse)|life.{0,25}(?:matter|value|moral)|life has value)/i)&&has(animal))return 'life_ethics';
+ if(has(/(?:future|weiterleben|weiterzuleben|lebensinteresse|interesse.{0,18}leben|(?:z[aä]hl|wert|bedeut).{0,24}leben|leben.{0,25}(?:wert|z[aä]hl|bedeut|interesse)|life.{0,25}(?:matter|value|moral)|life has value)/i)&&has(animal))return 'life_ethics';
  if(has(/(?:pflanzen|pflanze|kartoffel|gras|grass|potato|plants?)/i)&&
     has(/(?:schrei|f[uü]hl|schmerz|leiden|scream|pain|feel|suffer)/i))return 'plants';
  if(has(/(?:tierleid|animal suffering|animal welfare|animal harm|tierwohl|leid.{0,18}(?:tier|tieren)|animals?.{0,25}welfare)/i)&&
@@ -378,7 +378,7 @@ function classify(text){
 }
 const LANGUAGE_WORDS={
  de:new Set('aber warum wieso wie doch und nicht kein keine einer einem einen eine ein der die das den dem des beim bei mit für zum zur von vom ich du mir dir ihr wir man wenn obwohl dass weil sondern sollte sollten können kann müsste müssen musst muss schmeckt schmecken fleisch tier tiere tierleid essen einfach besser teurer teuer ist sind sind es gibt schon mal auch ob ohne oder welche welcher woher bekommst bekommen überhaupt genügend genug werden wird ja was halten hältst hören schmerz fühlen'.split(' ')),
- en:new Set('why what how where when who whose should would could does do did the and but from with our your you we they them their that this these those can enough get getting animal animals suffering suffer pain feel matter choices choice food foods meat taste tastes better because if whether veganism isnt there are is have has why would compared rather still care shouldnt dont should just chemicals bro vegans vegan i will eat two more steaks steak to annoy too for only even now really here why does this field mice during harvesting chicken chickens cow cows livestock animals humans carnivores slaughter harmed species farmed ought favourite tomorrow care us plant based diet expensive price town costs afford natural processed veganism morally does matter moral relevant welfare future life value suffering tough just want my food choices'.split(' '))
+ en:new Set('why what how where when who whose should would could does do did the and but from with our your you we they them their that this these those can enough get getting animal animals suffering suffer pain feel matter choices choice food foods meat taste tastes better because if whether veganism isnt there are is have has why would compared rather still care shouldnt dont should just chemicals bro vegans vegan i will eat two more steaks steak to annoy too for only even now really here why does this field mice during harvesting chicken chickens cow cows livestock animals humans carnivores slaughter harmed species farmed ought favourite tomorrow care us plant based diet expensive price town costs afford natural processed veganism morally does matter moral relevant welfare future life value suffering tough just want my food choices text me at supplements personal privacy please send contact'.split(' '))
 };
 function language(text){
  const words=(norm(text).toLowerCase().match(/[\p{L}]+/gu)||[]);
