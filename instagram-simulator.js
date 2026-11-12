@@ -5,7 +5,7 @@
 const $=id=>document.getElementById(id);
 const root=$('sim-experience');
 if(!root)return;
-let scenarios=[],active=null,reviewed=0;
+let scenarios=[],active=null,reviewed=0,lastFeedback=null;
 const storageKey='animal-voices-simulator-feedback-v1';
 const create=(tag,cls,txt)=>{
  const el=document.createElement(tag);
@@ -16,6 +16,26 @@ const create=(tag,cls,txt)=>{
 const number=(n)=>new Intl.NumberFormat('de-DE').format(n);
 function announce(s){$('sim-feedback').textContent=s;}
 function markProgress(s){$('sim-progress').textContent=s;}
+function sceneLink(id=active,commentIndex=null){
+ const chosen=scenarios.find(sc=>sc.id===id);
+ const u=new URL('/instagram-demo.html',location.origin);
+ if(chosen)u.searchParams.set('scene',chosen.id);
+ if(chosen&&Number.isInteger(commentIndex)&&commentIndex>=0&&commentIndex<chosen.comments.length)u.searchParams.set('c',String(commentIndex));
+ return u.href;
+}
+const invitation='🌱 Ich teste gerade Animal Voices: Wie antwortest du freundlich auf schwierige Instagram-Kommentare? Probier die fiktive Demo ohne Login aus. 🐮';
+function offerShare(text,url){
+ const u=url||sceneLink();
+ const message=text+'\n\n'+u;
+ if(navigator.share){
+  return navigator.share({title:'Animal Voices · Community-Test',text,url:u})
+   .then(()=>{$('sim-share-status').textContent='Danke fürs Teilen! ♡'})
+   .catch(e=>{if(e?.name!=='AbortError')$('sim-share-status').textContent='Teilen fehlgeschlagen. Du kannst den Link kopieren.'});
+ }
+ window.open('https://wa.me/?text='+encodeURIComponent(message),'_blank','noopener,noreferrer');
+ $('sim-share-status').textContent='Wähle deine WhatsApp-Gruppe, um die Einladung zu teilen.';
+ return Promise.resolve();
+}
 function displayStories(){
  const host=$('sim-stories');host.replaceChildren();
  for(const sc of scenarios){
@@ -88,7 +108,9 @@ function makeComment(sc,item,index){
      localStorage.setItem(storageKey,JSON.stringify(arr));
     }catch{}
     rate.replaceChildren(create('span','',vote==='ready'?'✓ Danke! Du kannst den nächsten Kommentar testen.':'Danke! Du kannst den Text ändern und eine neue Vorschau erstellen.'));
+    lastFeedback={scenario:sc.id,position:index,vote};
     reviewed++;
+    $('sim-share-feedback').textContent='♡ Feedback jetzt teilen';
     markProgress(reviewed+' freiwillige Vorschau-Bewertung(en) in dieser Sitzung – nur lokal.');
    },{once:true});
   }
@@ -99,6 +121,9 @@ function makeComment(sc,item,index){
 }
 function choose(id){
  const sc=scenarios.find(x=>x.id===id);if(!sc)return;
+ const link=new URL(location.href);
+ link.searchParams.set('scene',id);link.searchParams.delete('c');
+ history.replaceState(null,'',link.pathname+link.search+link.hash);
  active=id;displayStories();
  $('sim-author-avatar').textContent=sc.emoji;
  $('sim-author').textContent=sc.author;
@@ -114,6 +139,9 @@ function choose(id){
  const comments=$('sim-comments');comments.replaceChildren();
  for(let i=0;i<sc.comments.length;i++)comments.append(makeComment(sc,sc.comments[i],i));
  announce('');
+ $('sim-own-status').textContent='';
+ $('sim-custom-input').value='';
+ $('sim-share-status').textContent='';
  markProgress('Tippe bei einem Kommentar auf „✳ Animal Voices“ und probiere den Ablauf.');
 }
 function wirePostActions(){
@@ -128,6 +156,42 @@ function wirePostActions(){
  });
  $('sim-show-comments').addEventListener('click',()=>$('sim-comments').scrollIntoView({behavior:'smooth',block:'start'}));
  $('sim-share-post').addEventListener('click',()=>announce('Diese Posts sind fiktiv. Kein echter Instagram-Share.'));
+}
+function wireCommunity(){
+ $('sim-add-comment').addEventListener('click',()=>{
+  const text=$('sim-custom-input').value.trim(),status=$('sim-own-status');
+  if(text.length<12){status.textContent='Schreib bitte mindestens 12 Zeichen – eine echte Frage oder einen Einwand.';return}
+  if(text.length>700){status.textContent='Bitte auf maximal 700 Zeichen kürzen.';return}
+  if(/@[a-z0-9_.]{2,}|[\w.+-]+@[\w.-]+\.[a-z]{2,}|https?:\/\/|\+?\d[\d ()-]{7,}\d/i.test(text)){
+   status.textContent='Bitte keine Handles, Links oder Kontaktdaten verwenden. Die Demo soll privat bleiben.';return;
+  }
+  const sc=scenarios.find(x=>x.id===active);if(!sc)return;
+  const list=$('sim-comments'),previous=list.querySelector('[data-custom-comment="1"]');
+  if(previous)previous.remove();
+  const li=makeComment(sc,{by:'community.test',text,time:'gerade eben · lokaler Test',likes:0},sc.comments.length);
+  li.setAttribute('data-custom-comment','1');
+  list.append(li);
+  $('sim-comments-count').textContent=(sc.comments.length+1)+' Kommentare · inklusive deiner lokalen Frage';
+  status.textContent='Dein Kommentar steht im Feed. Nutze jetzt ✳ Animal Voices direkt daneben.';
+  markProgress('Eigenen Kommentar testen: Tippe auf den neuen ✳ Animal Voices-Knopf.');
+  li.scrollIntoView({behavior:'smooth',block:'center'});
+ });
+ $('sim-share-scenario').addEventListener('click',()=>offerShare(invitation,sceneLink(active)));
+ $('sim-share-feedback').addEventListener('click',()=>{
+  if(!lastFeedback){
+   $('sim-share-status').textContent='Teste erst eine Antwort im Feed und wähle „Ja, passt“ oder „Noch nicht“. Dann kannst du deine Einschätzung teilen.';
+   return;
+  }
+  const sc=scenarios.find(x=>x.id===lastFeedback.scenario);
+  const rating=lastFeedback.vote==='ready'?'Ich würde die Antwort so posten ✅':'Die Antwort braucht noch Arbeit ✍️';
+  const message='♡ Mein Animal Voices Community-Test: '+(sc?.title||'Situation')+' · '+rating+'.\nWelche Antwort würdest du wählen?';
+  offerShare(message,sceneLink(lastFeedback.scenario,lastFeedback.position<3?lastFeedback.position:null));
+ });
+ $('sim-copy-link').addEventListener('click',async()=>{
+  const url=sceneLink(active);
+  try{await navigator.clipboard.writeText(url);$('sim-share-status').textContent='✓ Szenario-Link kopiert. Jetzt an Freunde und Community schicken.'}
+  catch{$('sim-share-status').textContent='Kopieren fehlgeschlagen. Du kannst die Browseradresse markieren.'}
+ });
 }
 function selftest(){
  const report=create('output');report.id='av-simulator-selftest';report.dataset.status='running';document.body.append(report);
@@ -184,13 +248,22 @@ function selftest(){
  })();
 }
 wirePostActions();
+wireCommunity();
 fetch('/simulator-scenarios.json',{cache:'no-store'}).then(async response=>{
  if(!response.ok)throw Error('Szenarien-Datei nicht gefunden');
  const data=await response.json();
  if(!Array.isArray(data.scenarios)||data.scenarios.length!==8||data.scenarios.some(x=>!Array.isArray(x.comments)||x.comments.length!==3))
   throw Error('Szenarien-Daten sind unvollständig');
  scenarios=data.scenarios;
- choose(scenarios[0].id);
+ const q=new URLSearchParams(location.search),linked=scenarios.find(s=>s.id===q.get('scene'));
+ const id=linked?linked.id:scenarios[0].id;
+ const selectedIndex=linked&&/^[0-2]$/.test(q.get('c')||'')?Number(q.get('c')):null;
+ choose(id);
+ if(selectedIndex!==null){
+  const u=new URL(location.href);u.searchParams.set('c',String(selectedIndex));history.replaceState(null,'',u.pathname+u.search+u.hash);
+  const target=$('sim-comments').querySelector('[data-comment-index="'+selectedIndex+'"]');
+  if(target){target.classList.add('sim-linked-comment');target.setAttribute('data-linked-comment','true');markProgress('Hier startet dein geteilter Test: Tippe auf ✳ Animal Voices beim hervorgehobenen Kommentar.');}
+ }
  root.dataset.simulatorReady='true';
  if(new URLSearchParams(location.search).has('selftestSimulator'))selftest();
 }).catch(e=>{
