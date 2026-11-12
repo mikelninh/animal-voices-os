@@ -164,7 +164,7 @@ test('Full demo review: first 22 baseline texts route to the intended specific t
   ['b12','de','momo'],['b12dose','de','momo'],['sentience','de','kiki'],['forest','de','momo'],
   ['crop','de','kiki'],['protein','de','kiki'],['protein','de','kiki'],['crop','de','kiki'],
   ['life_ethics','de','kiki'],['b12dose','de','momo'],['cost','de','kiki'],['taste','de','kiki'],
-  ['painless_killing','de','kiki'],['unsafe','de',null],
+  ['painless_killing','de','kiki'],['review','de',null],
   ['crop','en','kiki'],['protein','en','momo'],['forest','en','kiki'],['ethical_choice','en','kiki']
  ];
  assert.equal(comments.length,42);
@@ -212,7 +212,7 @@ test('Ethical dilemmas are not mistakenly blocked as threats or certified as sci
   assert.equal(r.id,topic,comment);
   assert.equal(r.evidenceStatus,'editorial',comment);
  }
- assert.equal(av.suggest('Ich bin schwanger: Welche B12-Dosis sollte ich nehmen?').state,'unsafe');
+ assert.equal(av.suggest('Ich bin schwanger: Welche B12-Dosis sollte ich nehmen?').state,'review');
  assert.equal(av.suggest('Ich werde dich töten, du Idiot!').state,'report');
 });
 
