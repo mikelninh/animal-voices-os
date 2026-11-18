@@ -293,7 +293,7 @@ const DIRECT_THREAT=/(?:du bist tot|you're dead|you are dead|i know where you li
 const EXTRA_DIRECT_THREAT=/(?:ich\s+(?:werde|will)\s+dich\s+(?:töten|umbringen|verletzen)|ich\s+bringe\s+dich\s+um|ich\s+töte\s+dich|(?:i\s+(?:will|am going to)|i.?ll)\s+(?:kill|hurt)\s+you|kill\s+yourself|bring\s+dich\s+um|töte\s+dich)/i;
 const HATE_OR_TARGETED=/(?:go back to your country|geh zurück\s+(?:in dein land|wo du herkommst)|ihr gehört\s+(?:hier\s+)?nicht\s+her|(?:alle|die)\s+\S{3,25}\s+(?:sollen|sollten|müssen)\s+(?:sterben|verrecken)|all\s+\S{3,25}\s+(?:should|must)\s+die)/i;
 const EXTRA_PERSONAL_ATTACK=/(?:\b(?:du|ihr)\s+(?:bist|seid)\s+(?:doch\s+)?(?:bescheuerte?n?|dumme?n?|hirnlose?n?)\b|\b(?:idiot|idioten|moron|stupid)\b.{0,22}(?:du|ihr|you|vegan))/i;
-const PERSONAL_ATTACK=/(?:\b(?:du|ihr)\s+(?:bist|seid)\s+(?:doch\s+)?(?:alle\s+)?(?:dumm|bescheuert|idiot(?:en)?|hirnlos|abschaum)|\b(?:you|you.?re|you are)\s+(?:an?\s+)?(?:stupid|idiot|moron|trash)|halt\s+die\s+fresse|shut\s+the\s+fuck\s+up|fuck\s+you)/i;
+const PERSONAL_ATTACK=/(?:\b(?:du|ihr)\s+(?:bist|seid)\s+(?:doch\s+)?(?:alle\s+)?(?:ein(?:e|en|em|er)?\s+)?(?:dumm|bescheuert|idiot(?:en|in|innen)?|hirnlos|abschaum)|\b(?:you|you.?re|you are)\s+(?:an?\s+)?(?:stupid|idiot|moron|trash)|halt\s+die\s+fresse|shut\s+the\s+fuck\s+up|fuck\s+you)/i;
 function moderate(text,flags={}){
  // A request to locate or repeat someone's private address is a privacy hold.
  if(/(?:private.{0,15}address|private home|wohnadresse|anschrift.{0,15}privat|privatadresse)/i.test(text||'')){
