@@ -1,0 +1,80 @@
+{
+  "captured_from": "GitHub Actions run 44359317914",
+  "source_sha": "9d9bf942584254150b864c97bf9c6dc749c52f81",
+  "dataset": "synthetic-12-v1",
+  "note": "Unchanged pre-fix baseline: observed decision fields recorded before modifying user-script moderation",
+  "cases": {
+    "AV-S01": {
+      "action": "report",
+      "state": "report",
+      "topic_id": null,
+      "has_draft": false
+    },
+    "AV-S02": {
+      "action": "report",
+      "state": "report",
+      "topic_id": null,
+      "has_draft": false
+    },
+    "AV-S03": {
+      "action": "review",
+      "state": "review",
+      "topic_id": null,
+      "has_draft": false
+    },
+    "AV-S04": {
+      "action": "review",
+      "state": "review",
+      "topic_id": null,
+      "has_draft": false
+    },
+    "AV-S05": {
+      "action": "answer",
+      "state": "unknown",
+      "topic_id": null,
+      "has_draft": false
+    },
+    "AV-S06": {
+      "action": "end",
+      "state": "end",
+      "topic_id": null,
+      "has_draft": false
+    },
+    "AV-C01": {
+      "action": "optional_one",
+      "state": "skip",
+      "topic_id": null,
+      "has_draft": true
+    },
+    "AV-C02": {
+      "action": "answer",
+      "state": "reviewed",
+      "topic_id": "b12",
+      "has_draft": true
+    },
+    "AV-C03": {
+      "action": "answer",
+      "state": "reviewed",
+      "topic_id": "crop",
+      "has_draft": true
+    },
+    "AV-C04": {
+      "action": "answer",
+      "state": "reviewed",
+      "topic_id": "protein",
+      "has_draft": true
+    },
+    "AV-C05": {
+      "action": "answer",
+      "state": "reviewed",
+      "topic_id": "taste",
+      "has_draft": true
+    },
+    "AV-C06": {
+      "action": "answer",
+      "state": "unknown",
+      "topic_id": null,
+      "has_draft": false
+    }
+  }
+}
