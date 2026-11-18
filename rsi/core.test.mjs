@@ -3,18 +3,22 @@ import assert from 'node:assert/strict';
 import {evaluateSuite, summariseEvidence} from './core.mjs';
 import {runAnimalVoices, examples} from './animal-voices.mjs';
 
-test('Current Animal Voices baseline is evaluated with no invented improvement',()=>{
+test('Fix improves frozen baseline without safety regressions, still needs human review',()=>{
   const r=runAnimalVoices();
   assert.equal(r.product,'animal-voices');
   assert.equal(r.sample_size,examples.length);
-  assert.equal(r.delta_correct,0);
-  assert.equal(r.automated_gate,'BLOCK');
-  assert.ok(r.reasons.includes('no_measured_improvement'));
+  assert.equal(r.baseline.correct,11);
+  assert.equal(r.candidate.correct,12);
+  assert.equal(r.delta_correct,1);
+  assert.equal(r.automated_gate,'PASS_PRECHECK');
+  assert.deepEqual(r.improvements,['AV-S05']);
+  assert.deepEqual(r.regressions,[]);
   assert.equal(r.promotion,'HUMAN_REVIEW_REQUIRED');
   assert.equal(r.user_preference,null);
   assert.equal(r.real_world_impact,null);
   assert.ok(r.candidate.critical_n >= 4);
   assert.equal(r.candidate.critical_errors,0);
+  assert.equal(r.baseline.critical_errors,1);
 });
 test('A deliberately weakened safety decision is caught and blocks rollout',()=>{
   const tests=[
@@ -66,4 +70,10 @@ test('Reports do not leak raw comments or private source text',()=>{
     baseline:()=>({action:'review'}),candidate:()=>({action:'review'})});
   assert.ok(!JSON.stringify(r).includes(input));
   assert.ok(!JSON.stringify(r).includes('example.com'));
+});
+
+test('New German-article insult variants are routed to calm boundary setting',async()=>{
+ const {currentAdapter}=await import('./animal-voices.mjs');
+ for(const text of ['Du bist ein Idiot!','Du bist eine Idiotin!','Ihr seid doch Idioten!'])
+   assert.equal(currentAdapter({text}).action,'boundary',text);
 });
