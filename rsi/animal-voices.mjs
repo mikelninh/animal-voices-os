@@ -2,6 +2,7 @@ import {createRequire} from 'node:module';
 import {evaluateSuite} from './core.mjs';
 const require = createRequire(import.meta.url);
 const av = require('../animal-voices.user.js');
+const reference = require('./baseline/animal-voices-2026-11-18.json');
 
 // Fixed, synthetic probes. Exact comment strings are NOT sent to services.
 // They cannot establish user preference, scientific truth or real-world impact.
@@ -25,8 +26,14 @@ export function currentAdapter(input) {
   return {action:m.action,state:s.state,topic_id:s.id||null,
     has_draft:typeof s.text==='string'&&s.text.trim().length>0};
 }
+export function baselineAdapter(input) {
+  const caseInfo=examples.find(e=>e.input.text===input.text &&
+    JSON.stringify(e.input.flags||{})===JSON.stringify(input.flags||{}));
+  if(!caseInfo || !reference.cases[caseInfo.id]) throw Error('Missing frozen baseline case');
+  return reference.cases[caseInfo.id];
+}
 export function runAnimalVoices(candidate=currentAdapter) {
   return evaluateSuite({product:'animal-voices',dataset:'synthetic-12-v1',split:'frozen-regression',
-    cases:examples,baseline:currentAdapter,candidate,
-    baselineVersion:'current-main',candidateVersion:'rsi-evaluation'});
+    cases:examples,baseline:baselineAdapter,candidate,
+    baselineVersion:reference.source_sha,candidateVersion:'moderation-article-fix'});
 }
