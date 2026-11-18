@@ -1,0 +1,27 @@
+name: Taste OS — mission and research choice
+on:
+  push:
+    branches: [feature/taste-os-goal-alignment]
+  pull_request:
+  workflow_dispatch:
+jobs:
+  taste-preflight:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test research-taste hard gates and calibration
+        run: node --test rsi/taste/core.test.mjs
+      - name: Report research candidates by product
+        run: node rsi/taste/run.mjs
+      - name: Archive anonymised research decision record
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: taste-research-portfolio
+          path: rsi/taste/out/latest.json
+          if-no-files-found: warn
