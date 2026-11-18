@@ -15,7 +15,9 @@ jobs:
         with:
           node-version: '22'
       - name: Test research-taste hard gates and calibration
-        run: node --test rsi/taste/core.test.mjs
+        run: |
+          node --test rsi/taste/core.test.mjs rsi/taste/web.test.mjs
+          node --check taste.js
       - name: Report research candidates by product
         run: node rsi/taste/run.mjs
       - name: Archive anonymised research decision record
