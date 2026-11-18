@@ -1,0 +1,27 @@
+name: RSI 2.0 product evaluation
+on:
+  push:
+    branches: [main, feature/rsi-2-product-evaluation]
+  pull_request:
+  workflow_dispatch:
+jobs:
+  regression-gate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test reusable gates and fault injection
+        run: node --test rsi/core.test.mjs
+      - name: Measure Animal Voices baseline against candidate
+        run: node rsi/run.mjs
+      - name: Preserve inspectable anonymised run
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rsi-evaluation
+          path: rsi/out/latest.json
+          if-no-files-found: warn
