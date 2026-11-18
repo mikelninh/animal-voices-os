@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {runAnimalVoices, examples, currentAdapter} from './animal-voices.mjs';
+import {runAnimalVoices} from './animal-voices.mjs';
 const root=path.dirname(fileURLToPath(import.meta.url));
 const report=runAnimalVoices();
 const output=path.join(root,'out','latest.json');
@@ -25,7 +25,6 @@ const summary=[
   ''
 ].join('\n');
 console.log(summary);
-console.log('FROZEN_BASELINE_OBSERVATIONS='+JSON.stringify(examples.map(e=>({id:e.id,observed:currentAdapter(e.input)}))));
 for(const row of report.rows.filter(r=>!r.candidate.pass)) console.log('FAILED CASE:',row.id,row.group,'critical=',row.critical,'adapter_error=',row.candidate.error);
 if(process.env.GITHUB_STEP_SUMMARY)fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,summary+'\n');
 // CI fails on a safety regression, not simply because no improvement was proposed.
