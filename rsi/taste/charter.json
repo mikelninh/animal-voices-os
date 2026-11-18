@@ -1,0 +1,110 @@
+{
+  "schema": "taste-charter-v0.1",
+  "status": "DRAFT — human-owned values, not a learned reward function",
+  "mission": "Create useful, truthful, accessible products that reduce avoidable harm, strengthen communities, and are economically sustainable without manipulation.",
+  "principles": [
+    {
+      "id": "truth",
+      "rule": "Never trade factual accuracy or honest uncertainty for engagement, conversions or a higher score."
+    },
+    {
+      "id": "dignity",
+      "rule": "Protect human and animal welfare; respect individual dignity, agency and informed choice."
+    },
+    {
+      "id": "consent",
+      "rule": "Do not collect personal feedback or data without explicit informed consent; minimise what is retained."
+    },
+    {
+      "id": "sustainability",
+      "rule": "Aim for practical affordability and a sustainable model, but never manufacture impact claims."
+    },
+    {
+      "id": "humility",
+      "rule": "Treat simulated success, AI judgments, expert preference and observed real-world change as distinct evidence."
+    }
+  ],
+  "vetoes": [
+    "unsafe_publication",
+    "unconsented_data",
+    "deceptive_claims",
+    "manipulative_engagement",
+    "privacy_exposure"
+  ],
+  "products": {
+    "animal-voices": {
+      "north_star": "More truthful and kind conversations about animal lives and avoidable suffering.",
+      "first_success": "Independent participants can safely choose a response or justified no-response.",
+      "measure": "Opt-in publish-worthiness among first-time users, with independent source review and explicit no-reply success.",
+      "outcome": "Prospective, consented follow-through on animal-friendly choices; no causal claims without comparison.",
+      "guardrails": [
+        "critical_unsupported_claim_rate",
+        "harassment_risk",
+        "privacy_incidents"
+      ],
+      "vanity_metrics": [
+        "page_views",
+        "comment_volume"
+      ]
+    },
+    "inca-demo": {
+      "north_star": "Safer, faster, more accountable evidence-based claims operations.",
+      "first_success": "Correct evidence span, page citation and human escalation on independently labelled cases.",
+      "measure": "Verified claims / eligible reviewed claims, with citation precision and critical errors.",
+      "outcome": "Less staff review time at equal or better correctness in a properly designed pilot.",
+      "guardrails": [
+        "unsafe_auto_decisions",
+        "incorrect_citations",
+        "missing_escalations"
+      ],
+      "vanity_metrics": [
+        "number_of_agents",
+        "total_ai_calls"
+      ]
+    },
+    "return-loop": {
+      "north_star": "Help teams handle complaints fairly and resolve the underlying cause.",
+      "first_success": "Correct triage and useful next action on unseen complaints.",
+      "measure": "Macro-F1 by complaint type, serious false approvals, and human correction time.",
+      "outcome": "Fewer repeat complaints and faster fair resolution in a user-reviewed deployment.",
+      "guardrails": [
+        "false_promises",
+        "privacy_leaks",
+        "harmful_routing"
+      ],
+      "vanity_metrics": [
+        "drafts_generated"
+      ]
+    },
+    "vietkieu-community": {
+      "north_star": "Make meaningful friendships, shared resources and inclusive community participation easier.",
+      "first_success": "People organise or join a real activity and would recommend it to a friend.",
+      "measure": "Consented successful first participation / invited eligible people, by cohort.",
+      "outcome": "Repeated voluntary connections, participation quality and affordable events.",
+      "guardrails": [
+        "exclusion",
+        "inaccessible_pricing",
+        "privacy_leaks"
+      ],
+      "vanity_metrics": [
+        "group_size",
+        "impressions"
+      ]
+    },
+    "food-lab": {
+      "north_star": "Make delicious, accessible plant-based Vietnamese food easy to discover and choose.",
+      "first_success": "People can place and receive a satisfying order at a viable unit cost.",
+      "measure": "Successful fulfilled orders / genuine order attempts, customer satisfaction and contribution margin.",
+      "outcome": "Repeat voluntary plant-based meals, customer value and financial sustainability.",
+      "guardrails": [
+        "food_safety",
+        "allergen_errors",
+        "unfulfilled_orders"
+      ],
+      "vanity_metrics": [
+        "menu_views",
+        "social_followers"
+      ]
+    }
+  }
+}
