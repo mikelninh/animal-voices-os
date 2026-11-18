@@ -25,6 +25,7 @@ const summary=[
   ''
 ].join('\n');
 console.log(summary);
+for(const row of report.rows.filter(r=>!r.candidate.pass)) console.log('FAILED CASE:',row.id,row.group,'critical=',row.critical,'adapter_error=',row.candidate.error);
 if(process.env.GITHUB_STEP_SUMMARY)fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,summary+'\n');
 // CI fails on a safety regression, not simply because no improvement was proposed.
 if(report.candidate.critical_errors>0||report.regressions.length>0)
