@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#112b27">
+<meta name="description" content="Taste OS: mission-led research direction, transparent evidence and human choice.">
+<title>TASTE — Build what matters</title>
+<link rel="stylesheet" href="/taste.css">
+<script type="module" src="/taste.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <a class="wordmark" href="/taste.html" aria-label="Taste OS Home"><span class="wordmark-symbol">✳</span><span>TASTE<span class="wordmark-dot">.</span></span></a>
+  <div class="topbar-right"><span class="edition">RESEARCH COMPASS / 001</span><span class="live"><i aria-hidden="true"></i> Human-led · transparent</span></div>
+</header>
+<main id="main">
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-content">
+    <div class="eyebrow"><span class="line"></span> GOAL ALIGNMENT BEFORE OPTIMISATION</div>
+    <h1 id="hero-title">We can build anything.<br><em>What should we build?</em></h1>
+    <p class="hero-summary">A system for choosing valuable questions, running honest experiments and learning from reality—not merely making a scoreboard go up.</p>
+    <div class="hero-actions"><a class="action primary" href="#research-lab">Explore research directions <span aria-hidden="true">↗</span></a><a class="action ghost" href="#method">Our method <span aria-hidden="true">↓</span></a></div>
+  </div>
+  <aside class="hero-aside" aria-label="Our principle">
+    <div class="big-asterisk" aria-hidden="true">✳</div>
+    <p>“The highest-leverage optimisation is choosing the right objective.”</p>
+    <span>OUR WORKING HYPOTHESIS</span>
+  </aside>
+</section>
+<section class="stats-section" aria-label="Research portfolio status">
+ <div class="stat"><strong id="count-missions">—</strong><span>Product missions</span></div>
+ <div class="stat"><strong id="count-proposals">—</strong><span>Research hypotheses</span></div>
+ <div class="stat"><strong id="count-vetoes">—</strong><span>Mission vetoes</span></div>
+ <div class="stat"><strong>Unknown</strong><span>Measured impact so far</span></div>
+</section>
+<section class="content-section" id="missions">
+ <div class="section-heading"><div><div class="eyebrow">01 / OUR NORTH STARS</div><h2>What good looks like.</h2></div><p>Each product has a beneficiary, a real-world outcome and outcomes we refuse to counterfeit.</p></div>
+ <div id="mission-grid" class="mission-grid"><p class="loading">Loading our mission charter…</p></div>
+</section>
+<section class="content-section lab-section" id="research-lab">
+ <div class="section-heading"><div><div class="eyebrow">02 / RESEARCH TASTE LAB</div><h2>Choose the next question.</h2></div><p>Proposals are hypotheses, not results. Every candidate can be challenged, vetoed or revised.</p></div>
+ <div class="lab-wrap">
+  <div class="experiment-list">
+   <label class="filter-label" for="product-filter">FOCUS PRODUCT</label>
+   <select id="product-filter"><option value="all">All products</option></select>
+   <div id="experiment-cards" class="experiment-cards"><p class="loading">Loading proposals…</p></div>
+  </div>
+  <aside class="inspector" id="inspector" aria-live="polite">
+   <div class="eyebrow">EXPERIMENT BRIEF</div>
+   <div id="experiment-details"><p>Select a research question to explore its evidence, guardrails and expected learning.</p></div>
+   <div class="forecast-box">
+    <label for="forecast"><strong>Your prior forecast</strong><span>Optional. Record before any experiment. This does not submit data.</span></label>
+    <div class="forecast-row"><input id="forecast" type="number" min="0" max="100" step="1" inputmode="numeric" placeholder="—" aria-describedby="forecast-note"><span>% chance of meeting stated success criterion</span></div>
+    <p class="micro" id="forecast-note">Only independently observed outcomes can later calibrate this prediction.</p>
+   </div>
+   <button type="button" id="download-brief" class="action primary full" disabled>Export experiment brief <span aria-hidden="true">↗</span></button>
+   <p class="micro" id="export-status" role="status">Private local export · No account, no uploads.</p>
+  </aside>
+ </div>
+</section>
+<section class="content-section method-section" id="method">
+ <div class="section-heading"><div><div class="eyebrow">03 / THE METHOD</div><h2>Taste makes the loop meaningful.</h2></div></div>
+ <ol class="method-grid">
+  <li><span>01</span><strong>Choose a real problem</strong><p>Who benefits? What changes for them, and how would we know?</p></li>
+  <li><span>02</span><strong>Challenge the objective</strong><p>Would chasing this metric violate truth, dignity, consent or access?</p></li>
+  <li><span>03</span><strong>Make a falsifiable forecast</strong><p>Compare alternatives, expected learning, assumptions and cost.</p></li>
+  <li><span>04</span><strong>Run the smallest honest test</strong><p>Measure real outcomes, including failures, abstentions and disagreements.</p></li>
+  <li><span>05</span><strong>Improve our judgment</strong><p>Calibrate forecasts and learn which problems truly deserved our effort.</p></li>
+ </ol>
+ <div class="footnote"><span>✳</span><p>We keep **software correctness**, **research judgement** and **real-world impact** on separate scorecards. Passing a simulation isn't helping a person. The work continues until reality tells us more.</p></div>
+</section>
+</main>
+<footer><div><span class="wordmark-symbol">✳</span><strong>TASTE.</strong> Built for the common good.</div><small>Human-owned values. Open questions. No automated publishing. © 2026</small></footer>
+</body>
+</html>
