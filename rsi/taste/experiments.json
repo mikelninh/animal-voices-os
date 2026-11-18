@@ -1,0 +1,132 @@
+{
+  "schema": "taste-proposals-v0.1",
+  "status": "ILLUSTRATIVE untested prioritisation candidates — NOT observed experiment results",
+  "proposals": [
+    {
+      "id": "AV-SOURCE",
+      "product": "animal-voices",
+      "name": "Independent claim-to-primary-source review",
+      "question": "Are claims and limitations actually supported by the cited passage?",
+      "beneficiary": "first-time advocates and readers",
+      "metric": "share_of_claims_verified_by_independent_review",
+      "target": "Every central factual claim checked; zero critical fabricated citations",
+      "success_criterion": "Two independent reviews with page/quote provenance and zero critical unsupported claims",
+      "method": "Source audit of 20 unfamiliar responses with reviewer disagreement preserved",
+      "assumptions": [
+        "Reviewer availability",
+        "Access to primary passages"
+      ],
+      "impact": 5,
+      "learning": 5,
+      "tractability": 4,
+      "effort": 3,
+      "forecast_success": null,
+      "claims_about_outcome": []
+    },
+    {
+      "id": "AV-PILOT",
+      "product": "animal-voices",
+      "name": "Blind first-use preference and no-reply test",
+      "question": "Would diverse first-time users genuinely use this recommendation?",
+      "beneficiary": "first-time users, including nonvegans",
+      "metric": "independent_first_use_would_use_rate",
+      "target": "At least 7/10 volunteers choose yes or with minor changes, including justified no-reply",
+      "success_criterion": "10 independent consented tasks, feedback segmented by first-use and stance, no serious safety misses",
+      "method": "One comment; one recommendation; volunteer blind ratings and observed task completion",
+      "assumptions": [
+        "Recruit diverse volunteers",
+        "Small cohort is not representative"
+      ],
+      "impact": 5,
+      "learning": 5,
+      "tractability": 5,
+      "effort": 3,
+      "forecast_success": null,
+      "claims_about_outcome": []
+    },
+    {
+      "id": "AV-VIRAL",
+      "product": "animal-voices",
+      "name": "Maximise provocative engagement",
+      "question": "Can we increase comment volume?",
+      "beneficiary": "platform engagement",
+      "metric": "comment_volume",
+      "target": "30% more replies",
+      "success_criterion": "More comments",
+      "method": "Provocative prompts and covert targeted nudges",
+      "assumptions": [
+        "More replies mean greater impact"
+      ],
+      "impact": 2,
+      "learning": 1,
+      "tractability": 4,
+      "effort": 2,
+      "forecast_success": null,
+      "vetoes": [
+        "manipulative_engagement"
+      ],
+      "claims_about_outcome": []
+    },
+    {
+      "id": "INCA-CITE",
+      "product": "inca-demo",
+      "name": "Blind citation and escalation trial",
+      "question": "Can a reviewer verify each evidence span and abstention?",
+      "beneficiary": "claims operators and affected customers",
+      "metric": "verified_claims_per_review",
+      "target": "Zero critical unsafe handoffs, high citation precision",
+      "success_criterion": "Two human reviewers check a newly assembled holdout and log all critical misses",
+      "method": "Anonymised public documents; source-level annotation; baseline versus candidate",
+      "assumptions": [
+        "Public legal materials are representative only of a limited domain"
+      ],
+      "impact": 5,
+      "learning": 5,
+      "tractability": 4,
+      "effort": 4,
+      "forecast_success": null,
+      "claims_about_outcome": []
+    },
+    {
+      "id": "COMMUNITY-RSVP",
+      "product": "vietkieu-community",
+      "name": "One real shared cooking event",
+      "question": "Can people join, show up and make a real connection?",
+      "beneficiary": "community participants",
+      "metric": "attended_first_event_per_eligible_invite",
+      "target": "At least 8 attendees and meaningful post-event feedback",
+      "success_criterion": "Document actual attendance and consented usefulness; identify blockers",
+      "method": "Small voluntary Roll Together event with accessible RSVP and post-event interviews",
+      "assumptions": [
+        "A small cohort is possible without a permanent venue"
+      ],
+      "impact": 5,
+      "learning": 5,
+      "tractability": 4,
+      "effort": 4,
+      "forecast_success": null,
+      "claims_about_outcome": []
+    },
+    {
+      "id": "FOOD-ORDER",
+      "product": "food-lab",
+      "name": "One order-to-fulfilment trial",
+      "question": "Will customers order again and can we fulfil sustainably?",
+      "beneficiary": "diners, cooks and animals",
+      "metric": "fulfilled_orders_per_real_order_attempt",
+      "target": "No allergen incidents; positive contribution margin",
+      "success_criterion": "Record real attempts, fulfilment, customer review and costs",
+      "method": "Small opt-in plant-based menu pilot; costs tracked per fulfilled meal",
+      "assumptions": [
+        "Supplier pricing and permissions must be verified"
+      ],
+      "impact": 5,
+      "learning": 5,
+      "tractability": 3,
+      "effort": 4,
+      "forecast_success": null,
+      "claims_about_outcome": []
+    }
+  ],
+  "provenance": "Authored as hypotheses, not collected user data. Ordinal estimates are proposal-maker judgments and must be challenged by users."
+}
