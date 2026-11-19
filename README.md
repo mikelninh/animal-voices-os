@@ -266,3 +266,10 @@ Collect 100 anonymized *real* comments with consent and two independent reviewer
 **Measurement discipline:** Number of generated replies, page visits or upvotes are activity metrics, not proof of animal-welfare impact. Track adoption, factual verification, changes in conversational tone, and unintended hostility. Do not claim persuasion or behavioural change without observation. No real posts are sent automatically by the current public tryout.
 
 **Guiding line:** Love is our intention. Action is our expression. Impact is our evidence.
+
+## Visual preview · 2026-11-19
+
+[![Animal Voices character artwork with the companion characters](characters/trio.webp)](https://animal-voices-os.vercel.app/try.html)
+
+*Original character illustration, **not** a screenshot of the working app. [Open the actual public pilot](https://animal-voices-os.vercel.app/try.html) to inspect its interface.*
+
