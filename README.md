@@ -273,3 +273,9 @@ Collect 100 anonymized *real* comments with consent and two independent reviewer
 
 *Original character illustration, **not** a screenshot of the working app. [Open the actual public pilot](https://animal-voices-os.vercel.app/try.html) to inspect its interface.*
 
+## Real public pilot screenshot · 19 November 2026
+
+[![Actual public Animal Voices reply-pilot screenshot](https://mikelninh.github.io/assets/project-shots/animal-voices.png)](https://animal-voices-os.vercel.app/try.html)
+
+*Captured in a real browser from the public pilot. The character artwork shown elsewhere is illustrative; this is the actual interface screenshot. It is not evidence of live advocacy impact.*
+
