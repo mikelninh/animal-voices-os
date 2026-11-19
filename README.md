@@ -254,3 +254,15 @@ Collect 100 anonymized *real* comments with consent and two independent reviewer
 - [OpenAI Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs)
 - [DGE vegan nutrition 2024](https://www.dge.de/wissenschaft/stellungnahmen-und-positionspapiere/positionen/neubewertung-der-position-zu-veganer-ernaehrung/)
 - [Hevia-Larraín et al. 2021](https://pubmed.ncbi.nlm.nih.gov/33599941/)
+
+## Impact experiment · 2026-11-19
+
+> We measure our success not by what we create, but by what changes because we created it.
+
+| Project | Now → Desired change | Next action and measurable success |
+| --- | --- | --- |
+| Animal Voices | Shareable comment-response pilot; real conversation outcomes unvalidated → More factually accurate, respectful exchanges about animals | Invite 20 independent testers for blinded comparisons. Target ≥70% ratings of 'useful', review serious factual or misleading errors (accept 0 serious failures for release), then observe opt-in use in real conversations. |
+
+**Measurement discipline:** Number of generated replies, page visits or upvotes are activity metrics, not proof of animal-welfare impact. Track adoption, factual verification, changes in conversational tone, and unintended hostility. Do not claim persuasion or behavioural change without observation. No real posts are sent automatically by the current public tryout.
+
+**Guiding line:** Love is our intention. Action is our expression. Impact is our evidence.
